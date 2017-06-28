@@ -1,0 +1,160 @@
+.contact {
+  justify-self: flex-start;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  margin-right: 1%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
+}
+.contact .contact-photo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding: 20px;
+  padding-bottom: 0px !important;
+  box-sizing: border-box;
+}
+.contact .contact-photo .favorites-icon {
+  width: 20px;
+}
+.contact .contact-photo .favorites-icon .fa {
+  font-size: 20px;
+  color: #EEEEEE;
+}
+.contact .contact-photo .more-icon {
+  width: 20px;
+}
+.contact .contact-photo .more-icon .fa {
+  font-size: 20px;
+  color: #EEEEEE;
+}
+.contact .contact-photo .photo {
+  align-self: center;
+  width: 120px;
+  height: 120px;
+  border: 1px solid lightgrey;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.contact .contact-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  padding-top: 0px !important;
+}
+.contact .contact-details .surname {
+  max-height: 15px;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 15px;
+  line-height: 15px;
+  color: black;
+}
+.contact .contact-details .name {
+  max-height: 15px;
+  margin-bottom: 7px;
+  font-family: 'Open Sans Regular';
+  font-size: 15px;
+  line-height: 15px;
+}
+.contact .contact-details .position {
+  max-height: 28px;
+  font-family: 'Open Sans Italic';
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center;
+  color: #D81B60;
+}
+.contact .contact-details .separator {
+  width: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid #ECEFF1;
+}
+.contact .contact-details .email {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-family: 'Open Sans Regular';
+  font-size: 14px;
+}
+.contact .contact-details .email a {
+  color: #039BE5;
+}
+.contact .contact-details .email a:hover {
+  color: #01579B;
+}
+.contact .contact-details .email .fa {
+  width: 23px;
+  height: 23px;
+  margin-right: 10px;
+  font-size: 15px;
+  line-height: 23px;
+  color: #004D40;
+  text-align: center;
+  background: #FFECB3;
+  border-radius: 50%;
+}
+.contact .contact-details .phones {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+}
+.contact .contact-details .phones .fa {
+  width: 23px;
+  height: 23px;
+  margin-right: 10px;
+  font-size: 15px;
+  line-height: 23px;
+  color: #004D40;
+  text-align: center;
+  background: #FFECB3;
+  border-radius: 50%;
+}
+.contact .contact-details .phones .phone-item {
+  margin-right: 5px;
+  font-family: 'Open Sans Regular';
+  font-size: 14px;
+}
+.contact .contact-details .mobile {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+  font-family: 'Open Sans Regular';
+  font-size: 14px;
+}
+.contact .contact-details .mobile .fa {
+  width: 23px;
+  height: 23px;
+  margin-right: 10px;
+  font-size: 16px;
+  line-height: 23px;
+  color: #004D40;
+  text-align: center;
+  background: #FFECB3;
+  border-radius: 50%;
+}
+/* Target landscape smartphones, portrait tablets, narrow desktops */
+@media screen and (min-width: 320px) and (max-width: 800px) {
+  .contact {
+    float: none;
+    width: 100%;
+  }
+}
+/* Target landscape tablets, desktops */
+/* Target landscape tablets, desktops */
+/* Target landscape tablets, desktops */
+/* Target landscape tablets, desktops */

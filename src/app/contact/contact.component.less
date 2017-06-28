@@ -1,0 +1,229 @@
+@contact-width: 280px;
+@contact-width-mobile: 100%;
+@contact-height: auto;
+@contact-background-color: white;
+
+@contact-photo-width: 120px;
+@contact-photo-image-width: 120px;
+@contacts-photo-image-border-color: lightgrey;
+
+.contact {
+  //display: flex;
+  //position: relative;
+  //flex-basis: 100%;
+  //align-self: flex-start;
+  //align-content: flex-start;
+  justify-self: flex-start;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  width: @contact-width;
+  //height: auto;
+  margin-right: 1%;
+  margin-bottom: 20px;
+  //padding: 20px;
+  box-sizing: border-box;
+  background: @contact-background-color;
+  border-radius: 3px;
+  box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
+
+  .contact-photo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    //height: @contact-photo-width;
+    margin-bottom: 10px;
+    padding: 20px;
+    padding-bottom: 0px !important;
+    box-sizing: border-box;
+
+    .favorites-icon {
+      width: 20px;
+      .fa {
+        font-size: 20px;
+        color: #EEEEEE;
+      }
+    }
+
+    .more-icon {
+      width: 20px;
+      .fa {
+        font-size: 20px;
+        color: #EEEEEE;
+      }
+    }
+
+    .photo {
+      align-self: center;
+      width: @contact-photo-image-width;
+      height: @contact-photo-image-width;
+      box-sizing: border-box;
+      border: 1px solid @contacts-photo-image-border-color;
+      border-radius: 50%;
+      box-sizing: border-box;
+    }
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    padding-top: 0px !important;
+
+    .surname {
+      max-height: 15px;
+      font-family: 'Open Sans Semi Bold';
+      font-size: 15px;
+      line-height: 15px;
+      color: black;
+    }
+
+    .name {
+      max-height: 15px;
+      margin-bottom: 7px;
+      font-family: 'Open Sans Regular';
+      font-size: 15px;
+      line-height: 15px;
+    }
+
+    .position {
+      max-height: 28px;
+      font-family: 'Open Sans Italic';
+      font-size: 14px;
+      line-height: 14px;
+      text-align: center;
+      color: #D81B60;
+    }
+
+    .separator {
+      width: 50%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-top: 1px solid #ECEFF1;
+    }
+
+    .email {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: flex-start;
+      font-family: 'Open Sans Regular';
+      font-size: 14px;
+
+      a {
+        color: #039BE5;
+        &:hover {
+          color: #01579B;
+        }
+      }
+
+      .fa {
+        width: 23px;
+        height: 23px;
+        margin-right: 10px;
+        font-size: 15px;
+        line-height: 23px;
+        color: #004D40;
+        text-align: center;
+        background: #FFECB3;
+        border-radius: 50%;
+      }
+    }
+
+    .phones {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin-bottom: 5px;
+
+      .fa {
+        width: 23px;
+        height: 23px;
+        margin-right: 10px;
+        font-size: 15px;
+        line-height: 23px;
+        color: #004D40;
+        text-align: center;
+        background: #FFECB3;
+        border-radius: 50%;
+      }
+
+      .phone-item {
+        margin-right: 5px;
+        font-family: 'Open Sans Regular';
+        font-size: 14px;
+      }
+    }
+
+    .mobile {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin-bottom: 5px;
+      font-family: 'Open Sans Regular';
+      font-size: 14px;
+
+      .fa {
+        width: 23px;
+        height: 23px;
+        margin-right: 10px;
+        font-size: 16px;
+        line-height: 23px;
+        color: #004D40;
+        text-align: center;
+        background: #FFECB3;
+        border-radius: 50%;
+      }
+
+    }
+  }
+}
+
+
+
+/* Target landscape smartphones, portrait tablets, narrow desktops */
+@media screen and (min-width: 320px) and (max-width: 800px) {
+  .contact {
+    float: none;
+    width: 100%;
+  }
+
+
+}
+
+
+/* Target landscape tablets, desktops */
+@media screen and (min-width: 800px) and (max-width: 1200px) {
+  .contact {
+    //width: 49%;
+  }
+}
+
+
+/* Target landscape tablets, desktops */
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+  .contact {
+    //width: 33%;
+  }
+}
+
+
+/* Target landscape tablets, desktops */
+@media screen and (min-width: 1400px) and (max-width: 1800px) {
+  .contact {
+    //width: 30%;
+  }
+}
+
+
+/* Target landscape tablets, desktops */
+@media screen and (min-width: 1800px) {
+  .contact {
+    //width: 23%;
+  }
+}

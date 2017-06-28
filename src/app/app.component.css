@@ -1,0 +1,148 @@
+#app-header {
+  position: absolute;
+  top: 0px;
+  left: 350px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 70px;
+  padding-left: 20px;
+  padding-right: 35px;
+  box-sizing: border-box;
+  background: white;
+  border-bottom: 1px solid #E9EBEC;
+  transition: left 0.2s linear 0s;
+}
+#app-header input[type='text'] {
+  flex: 1;
+  height: 40px;
+  margin-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: 'Open Sans Regular';
+  font-size: 15px;
+  background: #F5F5F5;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+}
+#app-header button {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  outline: none;
+  transition: background 0.3s linear 0s;
+}
+#app-header button:hover {
+  background: #ECEFF1;
+}
+#app-header button .fa {
+  font-size: 20px;
+  color: #80CBC4;
+}
+#app-header button.favorites {
+  margin-right: 10px;
+}
+#app-header button.favorites .fa {
+  font-size: 20px;
+  color: #FFC107;
+}
+#app-divisions {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: 350px;
+  box-sizing: border-box;
+  background: #ECEFF1;
+  transition: width 0.2s linear 0s;
+}
+#app-content-wrapper {
+  overflow: auto;
+  position: absolute;
+  top: 70px;
+  left: 350px;
+  right: 0px;
+  bottom: 0px;
+  transition: left 0.2s linear 0s;
+}
+#app-content-wrapper #app-contacts {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-flow: row wrap;
+  overflow: auto;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #FAFAFA;
+}
+/* Target landscape smartphones, portrait tablets, narrow desktops */
+@media screen and (min-width: 320px) and (max-width: 800px) {
+  #app-header {
+    left: 0px;
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  #app-header input[type='text'] {
+    height: 35px;
+  }
+  #app-content-wrapper {
+    top: 50px;
+    left: 0px;
+  }
+  #app-divisions {
+    width: 0px;
+  }
+  #app-contacts {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    margin-left: 0px !important;
+    padding: 10px !important;
+  }
+  #app-contacts .breadcrumb {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Open Sans Semi Bold';
+    font-size: 18px;
+  }
+}
+/*
+@media screen and (min-width: 500px) and (max-width: 900px) {
+  #app-divisions {
+    display: none;
+    float: none;
+  }
+
+  #app-contacts {
+    margin-left: 0px !important;
+  }
+}
+*/
+/* Target landscape tablets, desktops */
+@media screen and (min-width: 800px) and (max-width: 1400px) {
+  #app-contacts {
+    margin-left: 0px !important;
+  }
+  #app-contacts .contact:nth-of-type(3) {
+    margin-right: 0px !important;
+    background: red !important;
+  }
+}
+/* Target big displays */
+@media screen and (min-width: 1400px) {
+  #app-header {
+    height: 70px;
+  }
+  #app-content-wrapper {
+    top: 70px;
+  }
+}
+/* Target big displays */
