@@ -1,0 +1,40 @@
+.division-tree-item-component {
+  display: flex;
+  flex-direction: column;
+}
+.division-tree-item-component .item-details {
+  display: flex;
+  flex-direction: row;
+  min-height: 40px;
+  padding: 10px 0px;
+  box-sizing: border-box;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+.division-tree-item-component .item-details:hover {
+  background: #E7F2FA;
+}
+.division-tree-item-component .item-details.selected {
+  background: #D2E7F6;
+  border-left: 3px solid #8CAEC6;
+}
+.division-tree-item-component .item-details .arrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 25px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #8CAEC6;
+}
+.division-tree-item-component .item-details .title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Open Sans Regular';
+  font-size: 14px;
+  line-height: 14px;
+}

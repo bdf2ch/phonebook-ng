@@ -1,11 +1,11 @@
 var express = require('express');
 var parser = require('body-parser');
-const uploader = require('express-fileupload');
+//const uploader = require('express-fileupload');
 var pg = require('pg');
 var app = express();
-var users = require('./users');
-var phonebook = require('./phonebook');
-var db = require('./postgres');
+//var users = require('./users');
+var phoneBook = require('./phone-book');
+//var db = require('./postgres');
 
 
 var config = {
@@ -34,7 +34,7 @@ app
         res.header('Access-Control-Allow-Credentials', true);
         next();
     })
-    .use(uploader())
+    //.use(uploader())
     .use(parser.json())
     .post('/api', function (request, response, next) {
         console.dir(request.body);
@@ -46,15 +46,19 @@ app
 
             var query;
             switch (request.body.action) {
-                case 'getAllUsers': query = users.getAllUsers(); break;
-                case 'getUserById': query = users.getUserById(request.body.data); break;
-                case 'getPortionOfUsers': query = users.getPortionOfUsers(request.body.data); break;
-                case 'searchUsers': query = users.searchUsers(request.body.data); break;
-                case 'getAllPhoneBookDivisions': query = phonebook.getAllDivisions(); break;
-                case 'addPhoneBookDivision': query = phonebook.addDivision(request.body.data); break;
-                case 'editPhoneBookDivision': query = phonebook.editDivision(request.body.data); break;
-                case 'getAllAts': query = phonebook.getAllAts(); break;
+                //case 'getAllUsers': query = users.getAllUsers(); break;
+                //case 'getUserById': query = users.getUserById(request.body.data); break;
+                //case 'getPortionOfUsers': query = users.getPortionOfUsers(request.body.data); break;
+                //case 'searchUsers': query = users.searchUsers(request.body.data); break;
+                //case 'getAllPhoneBookDivisions': query = phonebook.getAllDivisions(); break;
+                //case 'addPhoneBookDivision': query = phonebook.addDivision(request.body.data); break;
+                //case 'editPhoneBookDivision': query = phonebook.editDivision(request.body.data); break;
+                //case 'getAllAts': query = phonebook.getAllAts(); break;
+                case 'getDivisionList': query = phoneBook.getDivisionList(); break;
+                case 'getContactsByDivisionId': query = phoneBook.getContactsByDivisionId(request.body.data); break;
             }
+
+
 
             client.query({text: query['text'], values: query['values'] ? query['values'] : []}, function(err, result) {
                 done(err);

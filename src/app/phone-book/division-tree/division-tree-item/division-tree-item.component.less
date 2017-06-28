@@ -1,0 +1,57 @@
+.division-tree-item-component {
+  display: flex;
+  flex-direction: column;
+  //margin-bottom: 10px;
+  //padding-top: 5px;
+  //padding-bottom: 5px;
+
+  .item-details {
+    display: flex;
+    flex-direction: row;
+    min-height: 40px;
+    padding: 10px 0px;
+    box-sizing: border-box;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+      background: #E7F2FA;
+    }
+
+    &.selected {
+      background: #D2E7F6;
+      border-left: 3px solid #8CAEC6;
+      .title {
+          //font-family: 'Open Sans Semi Bold';
+      }
+    }
+
+    .arrow {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      width: 25px;
+      //margin-right: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+      color: #8CAEC6;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      font-family: 'Open Sans Regular';
+      font-size: 14px;
+      line-height: 14px;
+    }
+  }
+
+  .item-children {
+    //padding-top: 10px;
+    //padding-bottom: 10px;
+  }
+}

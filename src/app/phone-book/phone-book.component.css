@@ -83,18 +83,24 @@
   width: 40px;
   height: 40px;
   margin-left: 10px;
-  border: 1px solid #EEEEEE;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 20px;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  background: #C5CAE9;
   border-radius: 50%;
   cursor: pointer;
 }
 #app-divisions {
+  overflow: auto;
   position: absolute;
   left: 0px;
   top: 0px;
   bottom: 0px;
   width: 350px;
   box-sizing: border-box;
-  background: #ECEFF1;
+  background: #EEF5FA;
   transition: width 0.2s linear 0s;
 }
 #app-content-wrapper {
@@ -151,17 +157,17 @@
   }
 }
 /*
-@media screen and (min-width: 500px) and (max-width: 900px) {
-  #app-divisions {
-    display: none;
-    float: none;
-  }
+ @media screen and (min-width: 500px) and (max-width: 900px) {
+ #app-divisions {
+ display: none;
+ float: none;
+ }
 
-  #app-contacts {
-    margin-left: 0px !important;
-  }
-}
-*/
+ #app-contacts {
+ margin-left: 0px !important;
+ }
+ }
+ */
 /* Target landscape tablets, desktops */
 @media screen and (min-width: 800px) and (max-width: 1400px) {
   #app-contacts {
