@@ -21,12 +21,17 @@
   margin-right: 10px;
   padding-left: 20px;
   padding-right: 20px;
+  box-sizing: border-box;
   font-family: 'Open Sans Regular';
   font-size: 15px;
   background: #F5F5F5;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 4px;
   outline: none;
+  transition: border 0.2s linear 0s;
+}
+#app-header input[type='text']:focus {
+  border: 1px solid #EEEEEE;
 }
 #app-header button {
   width: 40px;
@@ -35,12 +40,16 @@
   border: 1px solid #EEEEEE;
   border-radius: 4px;
   outline: none;
-  transition: background 0.3s linear 0s;
+  cursor: pointer;
+  transition: background 0.2s linear 0s;
 }
 #app-header button:hover {
-  background: #ECEFF1;
+  background: #FAFAFA;
+  border: 1px solid #E0E0E0;
 }
 #app-header button .fa {
+  margin-left: auto;
+  margin-right: auto;
   font-size: 20px;
   color: #80CBC4;
 }
@@ -50,6 +59,33 @@
 #app-header button.favorites .fa {
   font-size: 20px;
   color: #FFC107;
+}
+#app-header button .badge {
+  float: right;
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-top: -15px;
+  margin-right: -10px;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 10px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: 0.1px;
+  color: white;
+  background: #E91E63;
+  border-radius: 50%;
+}
+#app-header button.badged .fa {
+  margin-right: -7px;
+}
+#app-header .user-logged {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  border: 1px solid #EEEEEE;
+  border-radius: 50%;
+  cursor: pointer;
 }
 #app-divisions {
   position: absolute;
