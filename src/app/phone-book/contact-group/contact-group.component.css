@@ -1,0 +1,15 @@
+.contact-group-component {
+  display: flex;
+  flex-direction: column;
+}
+.contact-group-component .divisions {
+  display: flex;
+  flex-direction: row;
+}
+.contact-group-component .contacts {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+}

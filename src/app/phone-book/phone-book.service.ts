@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 //import { SessionService } from "./session.service";
 import { Division, IDivision } from "../models/Division.model";
+import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class PhoneBookService {
   private contacts: Division[] = [];
   private favorites: Contact[] = [];
   private divisions: Division[] = [];
+  private groups: ContactGroup[] = [];
   loading: boolean = false;
   searchMode: boolean = false;
   searchQuery: string = '';
@@ -50,35 +52,44 @@ export class PhoneBookService {
   };
 
 
+
+  fetchContactsByDivisionId(id: number): Observable<ContactGroup[]> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let parameters = { action: 'getContactGroupsByDivisionId', data: { divisionId: id }};
+
+    return this.http.post(this.apiUrl, parameters, options)
+      .map((res: Response) => {
+        this.clearContactGroups();
+        const body = res.json();
+        body.forEach((item: IContactGroup) => {
+            const contactGroup = new ContactGroup(item);
+            this.groups.push(contactGroup);
+        });
+        return this.groups;
+      })
+      .take(1)
+      .catch(this.handleError);
+  };
+
+
   getDivisionList(): Division[] {
     return this.divisions;
   };
 
+  getContactGroupList(): ContactGroup[] {
+    return this.groups;
+  };
 
-  fetchContactsByDivisionId(id: number): Observable<Contact[]> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    let parameters = { action: 'getContactsByDivisionId', data: { divisionId: id }};
 
-    return this.http.post(this.apiUrl, parameters, options)
-      .map((res: Response) => {
-        this.clear();
-        let body = res.json();
-        let length = body.length;
-        for (let i = 0; i < length; i++) {
-          let division = new Division(body[i].division);
-          let contactsLength = body[i].contacts.length;
-          for (let x = 0; x < contactsLength; x++) {
-            let contact = new Contact(body[i].contacts[x]);
-            //division.contacts.push(contact);
-          }
-          this.contacts.push(division);
-        }
-        console.log(this.contacts);
-        return this.contacts;
-      })
-      .take(1)
-      .catch(this.handleError);
+  getDivisionById(id: number): Division|undefined {
+    const divisionById = (item: Division, index: number, divisions: Division[]) => item.id === id;
+    return this.divisions.find(divisionById);
+  };
+
+
+  clearContactGroups(): void {
+    this.groups = [];
   };
 
 
@@ -99,7 +110,7 @@ export class PhoneBookService {
         let body = res.json();
         if (body !== null) {
           let length = body.length;
-          this.clear();
+          //this.clear();
           for (let i = 0; i < length; i++) {
             let division = new Division(body[i].division);
             let x = body[i].contacts.length;
@@ -174,14 +185,6 @@ export class PhoneBookService {
   };
 
 
-  /**
-   * Получение массива всех загруженных контактов
-   * @returns {Division[]}
-   */
-  getAll(): Division[] {
-    return this.contacts;
-  };
-
 
   /**
    * Возвращает массив избранных контактов
@@ -207,12 +210,6 @@ export class PhoneBookService {
   };
 
 
-  /**
-   * Очистка массива контактов
-   */
-  clear(): void {
-    this.contacts = [];
-  };
 
 
   /**

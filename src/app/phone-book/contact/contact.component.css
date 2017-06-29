@@ -1,5 +1,4 @@
 .contact {
-  justify-self: flex-start;
   float: left;
   display: flex;
   flex-direction: column;
@@ -51,7 +50,12 @@
   padding: 20px;
   padding-top: 0px !important;
 }
+.contact .contact-details .not-specified {
+  font-size: 14px;
+  color: #B0BEC5;
+}
 .contact .contact-details .surname {
+  height: 15px;
   max-height: 15px;
   font-family: 'Open Sans Semi Bold';
   font-size: 15px;
@@ -59,6 +63,7 @@
   color: black;
 }
 .contact .contact-details .name {
+  height: 15px;
   max-height: 15px;
   margin-bottom: 7px;
   font-family: 'Open Sans Regular';
@@ -66,6 +71,7 @@
   line-height: 15px;
 }
 .contact .contact-details .position {
+  height: 28px;
   max-height: 28px;
   font-family: 'Open Sans Italic';
   font-size: 14px;

@@ -1,7 +1,7 @@
 import { Model } from "./Model.class";
 import { Phone } from "./Phone.model";
 
-export class ContactConfig {
+export class IContact {
   id: number;
   user_id?: number;
   division_id: number;
@@ -30,7 +30,7 @@ export class Contact extends Model {
   fio: string = "";
   search: string = "";
 
-  constructor (config?: ContactConfig) {
+  constructor (config?: IContact) {
     super();
     if (config) {
       this.id = config.id;

@@ -9,7 +9,7 @@
         </div>
         <div class="title">{{ division.title }}</div>
     </div>
-    <div class="item-children" *ngIf="division.children.length > 0 && division.isOpened">
-        <division-tree-item *ngFor="let division of division.children" [division]="division" [tree]="this.tree" [level]="level + 1"></division-tree-item>
+    <div class="item-children" *ngIf="division.children.length > 0 && division.isOpened" [ngClass]="{ 'selected': division.isSelected === true }">
+        <division-tree-item *ngFor="let division of division.children | divisionOrder" [division]="division" [tree]="this.tree" [level]="level + 1"></division-tree-item>
     </div>
 </div>

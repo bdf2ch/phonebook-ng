@@ -9,9 +9,9 @@
         </div>
     </div>
     <div class="contact-details">
-        <div class="surname">Ворошилов</div>
-        <div class="name">Валентин Павлович</div>
-        <div class="position">Инженер-программист 159 категории 29 класса</div>
+        <div class="surname">{{ contact.surname }}</div>
+        <div class="name">{{ contact.name + ' ' + contact.fname }}</div>
+        <div class="position" [text-overflow]="50">{{ contact.position }}</div>
         <div class="separator"></div>
         <div class="phones">
             <i class="fa fa-phone"></i>
@@ -21,11 +21,13 @@
         </div>
         <div class="mobile">
             <i class="fa fa-mobile-phone"></i>
-            +7 (921) 555-47-99
+            {{ contact.mobile }}
+            <span class="not-specified" *ngIf="contact.mobile === ''">Моб. телефон не указан</span>
         </div>
         <div class="email">
             <i class="fa fa-at"></i>
-            <a href="mailto:ipvoroshilov@kolenergo.ru">ipvoroshilov@kolenergo.ru</a>
+            <a href="mailto:{{contact.email}}">{{ contact.email }}</a>
+            <span class="not-specified" *ngIf="contact.email === ''">E-mail не указан</span>
         </div>
     </div>
 </div>

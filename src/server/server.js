@@ -55,7 +55,7 @@ app
                 //case 'editPhoneBookDivision': query = phonebook.editDivision(request.body.data); break;
                 //case 'getAllAts': query = phonebook.getAllAts(); break;
                 case 'getDivisionList': query = phoneBook.getDivisionList(); break;
-                case 'getContactsByDivisionId': query = phoneBook.getContactsByDivisionId(request.body.data); break;
+                case 'getContactGroupsByDivisionId': query = phoneBook.getContactsByDivisionId(request.body.data); break;
             }
 
 

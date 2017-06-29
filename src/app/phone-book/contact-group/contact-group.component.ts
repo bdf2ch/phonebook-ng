@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Division } from '../../models/Division.model';
-import { Contact } from '../../models/Contact.model';
+import { ContactGroup } from "../../models/contact-group.model";
 
 
 @Component({
@@ -9,6 +8,6 @@ import { Contact } from '../../models/Contact.model';
     styleUrls: ['./contact-group.component.css']
 })
 export class ContactGroupComponent {
-    @Input() divisions: Division[] = [];
-    @Input() contacts: Contact[] = [];
+    @Input() group: ContactGroup;
+
 };

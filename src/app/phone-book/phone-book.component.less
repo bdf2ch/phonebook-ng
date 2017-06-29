@@ -3,7 +3,7 @@
 @app-header-background-color: white;
 
 @app-divisions-width: 350px;
-@app-divisions-background-color: #EEF5FA;
+@app-divisions-background-color: #F4F9FC;
 
 @app-contacts-background-color: #FAFAFA;
 
@@ -118,15 +118,120 @@
 
 
 #app-divisions {
+  overflow: auto;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  width: @app-divisions-width;
+  box-sizing: border-box;
+  background: @app-divisions-background-color;
+  transition: width 0.2s linear 0s;
+
+  #app-divisions-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    height: @app-header-height;
+    //padding: 20px;
+    padding-right: 0px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    background: white;
+    border-bottom: 1px solid #E9EBEC;
+
+    .app-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      flex-grow: 1;
+      height: @app-header-height - 30px;
+      padding-right: 20px;
+      font-family: 'Open Sans Semi Bold';
+      font-size: 20px;
+      color: #607D8B;
+      border-right: 1px solid #E9EBEC;
+
+      .fa {
+        color: #80CBC4;
+      }
+    }
+
+
+
+    button {
+      width: 40px;
+      height: @app-header-height - 30px;
+      background: transparent;
+      border: 1px solid #EEEEEE;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.2s linear 0s;
+
+      &:hover {
+        background: #FAFAFA;
+        border: 1px solid #E0E0E0;
+      }
+
+      .fa {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 20px;
+        color: #80CBC4;
+      }
+
+      &.favorites {
+        margin-right: 10px;
+        .fa {
+          font-size: 20px;
+          color: #FFC107;
+        }
+      }
+
+      .badge {
+        float: right;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        margin-top: -15px;
+        margin-right: -10px;
+        font-family: 'Open Sans Semi Bold';
+        font-size: 10px;
+        line-height: 17px;
+        text-align: center;
+        letter-spacing: 0.1px;
+        color: white;
+        background: #E91E63;
+        border-radius: 50%;
+      }
+
+      &.badged {
+        .fa {
+          margin-right: -7px;
+        }
+      }
+    }
+  }
+
+  #app-divisions-content {
     overflow: auto;
     position: absolute;
+    top: @app-header-height;
     left: 0px;
-    top: 0px;
+    right: 0px;
     bottom: 0px;
-    width: @app-divisions-width;
-    box-sizing: border-box;
-    background: @app-divisions-background-color;
-    transition: width 0.2s linear 0s;
+    display: flex;
+    border-right: 1px solid #E1ECF4;
+  }
 }
 
 #app-content-wrapper {
@@ -143,11 +248,11 @@
 
   #app-contacts {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-content: flex-start;
-        flex-flow: row wrap;
+        flex-direction: column;
+        //flex-wrap: wrap;
+        justify-content: flex-start;
+        //align-content: flex-start;
+        //flex-flow: row wrap;
         overflow: auto;
         height: 100%;
         padding: 20px;

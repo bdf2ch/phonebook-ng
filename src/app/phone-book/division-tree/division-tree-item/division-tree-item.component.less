@@ -8,19 +8,21 @@
   .item-details {
     display: flex;
     flex-direction: row;
-    min-height: 40px;
+    min-height: 35px;
     padding: 10px 0px;
     box-sizing: border-box;
-    border-left: 3px solid transparent;
+    border-left: 4px solid transparent;
+    //border-bottom: 2px solid transparent;
     cursor: pointer;
 
     &:hover {
-      background: #E7F2FA;
+      background: #E6EEF4;
     }
 
     &.selected {
-      background: #D2E7F6;
-      border-left: 3px solid #8CAEC6;
+      background: #DEEDF7;
+      //border-left: 4px solid #8CAEC6;
+      //border-bottom: 2px solid #CADFEE;
       .title {
           //font-family: 'Open Sans Semi Bold';
       }
@@ -53,5 +55,16 @@
   .item-children {
     //padding-top: 10px;
     //padding-bottom: 10px;
+    //border-left: 4px solid transparent;
+    //transition: max-height 0.3s linear 0s;
+    &.selected {
+      background: #EDF3F7;
+      //border-left: 4px solid #C7D2D8;
+      border-bottom: 1px solid #E1ECF4;
+      //border-top: 1px solid #E1ECF4;
+      -webkit-box-shadow: inset 0px 2px 7px 0px rgba(0,0,0,0.33);
+      -moz-box-shadow: inset 0px 2px 7px 0px rgba(0,0,0,0.33);
+      box-shadow: inset 0px 10px 4px -10px rgba(0, 0, 0, 0.25);
+    }
   }
 }

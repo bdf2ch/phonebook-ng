@@ -98,10 +98,99 @@
   left: 0px;
   top: 0px;
   bottom: 0px;
+  display: flex;
+  flex-direction: column;
   width: 350px;
   box-sizing: border-box;
-  background: #EEF5FA;
+  background: #F4F9FC;
   transition: width 0.2s linear 0s;
+}
+#app-divisions #app-divisions-header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 70px;
+  padding-right: 0px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  background: white;
+  border-bottom: 1px solid #E9EBEC;
+}
+#app-divisions #app-divisions-header .app-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  height: 40px;
+  padding-right: 20px;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 20px;
+  color: #607D8B;
+  border-right: 1px solid #E9EBEC;
+}
+#app-divisions #app-divisions-header .app-title .fa {
+  color: #80CBC4;
+}
+#app-divisions #app-divisions-header button {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s linear 0s;
+}
+#app-divisions #app-divisions-header button:hover {
+  background: #FAFAFA;
+  border: 1px solid #E0E0E0;
+}
+#app-divisions #app-divisions-header button .fa {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 20px;
+  color: #80CBC4;
+}
+#app-divisions #app-divisions-header button.favorites {
+  margin-right: 10px;
+}
+#app-divisions #app-divisions-header button.favorites .fa {
+  font-size: 20px;
+  color: #FFC107;
+}
+#app-divisions #app-divisions-header button .badge {
+  float: right;
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-top: -15px;
+  margin-right: -10px;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 10px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: 0.1px;
+  color: white;
+  background: #E91E63;
+  border-radius: 50%;
+}
+#app-divisions #app-divisions-header button.badged .fa {
+  margin-right: -7px;
+}
+#app-divisions #app-divisions-content {
+  overflow: auto;
+  position: absolute;
+  top: 70px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  border-right: 1px solid #E1ECF4;
 }
 #app-content-wrapper {
   overflow: auto;
@@ -114,11 +203,8 @@
 }
 #app-content-wrapper #app-contacts {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: flex-start;
-  flex-flow: row wrap;
+  flex-direction: column;
+  justify-content: flex-start;
   overflow: auto;
   height: 100%;
   padding: 20px;

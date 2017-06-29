@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { trigger, state, transition, style, animate } from '@angular/animations';
 import { Division } from "../../../models/Division.model";
 import {DivisionTreeComponent} from "../division-tree.component";
 
@@ -6,7 +7,19 @@ import {DivisionTreeComponent} from "../division-tree.component";
 @Component({
     selector: 'division-tree-item',
     templateUrl: './division-tree-item.component.html',
-    styleUrls: ['./division-tree-item.component.css']
+    styleUrls: ['./division-tree-item.component.css'],
+    animations: [
+        trigger("slide", [
+            state('true', style({
+                transform: 'scaleY(1)'
+            })),
+            state('false', style({
+                transform: 'scaleY(0)'
+            })),
+            transition('* => true', animate(100)),
+            transition('true => *', animate(100)),
+        ])
+    ]
 })
 export class DivisionTreeItemComponent {
     @Input() division: Division[] = [];

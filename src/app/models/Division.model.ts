@@ -6,6 +6,7 @@ export interface IDivision {
   parent_id: number;
   department_id: number;
   title: string;
+  order: number;
   is_department?: boolean;
 };
 
@@ -15,6 +16,7 @@ export class Division extends Model {
   parentId: number = 0;
   departmentId: number = 0;
   title: string = "";
+  order: number = 0;
   isDepartment: boolean = false;
   isSelected: boolean = false;
   isOpened: boolean = false;
@@ -27,6 +29,7 @@ export class Division extends Model {
       this.parentId = config.parent_id;
       this.departmentId = config.department_id !== undefined ? config.department_id : 0;
       this.title = config.title;
+      this.order = config.order ? config.order : 0;
       this.isDepartment = config.is_department !== undefined ? config.is_department : false;
     }
   };
