@@ -25,6 +25,7 @@ export class DivisionTreeItemComponent {
     @Input() division: Division[] = [];
     @Input() tree: DivisionTreeComponent;
     @Input() level: number = 0;
+    @Input() parent: DivisionTreeItemComponent;
     private isOpened: boolean = false;
     private isSelected: boolean = false;
 

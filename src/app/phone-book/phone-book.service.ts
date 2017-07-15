@@ -16,6 +16,7 @@ export class PhoneBookService {
   private favorites: Contact[] = [];
   private divisions: Division[] = [];
   private groups: ContactGroup[] = [];
+  private loadingInProgress: boolean = false;
   loading: boolean = false;
   searchMode: boolean = false;
   searchQuery: string = '';
@@ -58,9 +59,11 @@ export class PhoneBookService {
     let options = new RequestOptions({ headers: headers });
     let parameters = { action: 'getContactGroupsByDivisionId', data: { divisionId: id }};
 
+    this.loadingInProgress = true;
     return this.http.post(this.apiUrl, parameters, options)
       .map((res: Response) => {
         this.clearContactGroups();
+        this.loadingInProgress = false;
         const body = res.json();
         body.forEach((item: IContactGroup) => {
             const contactGroup = new ContactGroup(item);
@@ -79,6 +82,10 @@ export class PhoneBookService {
 
   getContactGroupList(): ContactGroup[] {
     return this.groups;
+  };
+
+  isLoadingInProgress(): boolean {
+    return this.loadingInProgress;
   };
 
 

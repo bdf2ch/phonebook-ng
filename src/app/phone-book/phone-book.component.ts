@@ -8,12 +8,28 @@ import { Division } from "../models/Division.model";
     styleUrls: ['./phone-book.component.css']
 })
 export class PhoneBookComponent {
+    private inAuthMode: boolean = true;
 
     constructor(private phoneBook: PhoneBookService) {};
 
+    openAuthModal(): void {
+        this.inAuthMode = true;
+    };
+
+    closeAuthModal(): void {
+        this.inAuthMode = false;
+    };
+
     selectDivision(division: Division): void {
         //console.log(division);
-        this.phoneBook.fetchContactsByDivisionId(division.id).subscribe();
+        if (division !== null) {
+            this.phoneBook.fetchContactsByDivisionId(division.id).subscribe(() => {
+                //document.getElementById('app-contacts').scrollTop = 0;
+            })
+        } else {
+            this.phoneBook.clearContactGroups();
+        }
+        ;
     };
 
 };

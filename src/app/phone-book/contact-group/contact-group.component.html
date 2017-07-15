@@ -1,6 +1,7 @@
 <div class="contact-group-component" *ngIf="group.contacts.length > 0">
-    group
-    <div class="divisions"></div>
+    <div class="divisions">
+        {{ group.divisions[0].title }}
+    </div>
     <div class="contacts">
         <contact [contact]="contact" *ngFor="let contact of group.contacts"></contact>
     </div>

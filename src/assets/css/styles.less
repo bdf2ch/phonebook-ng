@@ -1,0 +1,134 @@
+@import 'margins';
+@import (reference) 'paddings';
+
+@font-face {
+  font-family: "Open Sans Regular";
+  src: url("../fonts/OpenSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Open Sans Italic";
+  src: url("../fonts/OpenSans-Italic.ttf");
+}
+
+@font-face {
+  font-family: "Open Sans Semi Bold";
+  src: url("../fonts/OpenSans-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "Open Sans Bold";
+  src: url("../fonts/OpenSans-Bold.ttf");
+}
+
+
+
+
+button {
+  display: inline-block;
+  height: 40px;
+  background: transparent;
+  font-family: "Open Sans Regular";
+  font-size: 14px;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.15s linear 0s;
+
+  &:hover {
+    background: #FAFAFA;
+    border: 1px solid #E0E0E0;
+  }
+
+  &.small {
+    width: 40px;
+  }
+
+  &.red {
+    border: 1px solid #F44336;
+    color: #F44336;
+    &:hover {
+      color: white;
+      background: #F44336;
+    }
+  }
+
+  &.blue {
+    border: 1px solid #2196F3;
+    color: #2196F3;
+    &:hover {
+      background: #2196F3;
+      color: white;
+    }
+  }
+
+  .fa {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    color: #80CBC4;
+  }
+}
+
+.combined-input {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  input {
+    flex-grow: 1;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    font-family: 'Open Sans Regular';
+    font-size: 15px;
+    background: #F5F5F5;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: none;
+    transition: border 0.2s linear 0s;
+    &:focus {
+      //border: 1px solid #EEEEEE;
+    }
+    &:not(first-child) {
+      padding-left: 0px;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    &:not(last-child) {
+      padding-right: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+    &:last-child {
+      padding-right: 20px;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+
+  .fa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+    color: #546E7A;
+    background: #F5F5F5;
+
+    &:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+}

@@ -15,44 +15,6 @@
   border-bottom: 1px solid #E9EBEC;
   transition: left 0.2s linear 0s;
 }
-#app-header input[type='text'] {
-  flex: 1;
-  height: 40px;
-  margin-right: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  box-sizing: border-box;
-  font-family: 'Open Sans Regular';
-  font-size: 15px;
-  background: #F5F5F5;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  outline: none;
-  transition: border 0.2s linear 0s;
-}
-#app-header input[type='text']:focus {
-  border: 1px solid #EEEEEE;
-}
-#app-header button {
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: 1px solid #EEEEEE;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-  transition: background 0.2s linear 0s;
-}
-#app-header button:hover {
-  background: #FAFAFA;
-  border: 1px solid #E0E0E0;
-}
-#app-header button .fa {
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 20px;
-  color: #80CBC4;
-}
 #app-header button.favorites {
   margin-right: 10px;
 }
@@ -200,6 +162,7 @@
   right: 0px;
   bottom: 0px;
   transition: left 0.2s linear 0s;
+  background: #FAFAFA;
 }
 #app-content-wrapper #app-contacts {
   display: flex;
@@ -209,7 +172,6 @@
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
-  background: #FAFAFA;
 }
 /* Target landscape smartphones, portrait tablets, narrow desktops */
 @media screen and (min-width: 320px) and (max-width: 800px) {

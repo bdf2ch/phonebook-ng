@@ -1,11 +1,15 @@
 <div id="app-header">
-    <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail">
-    <button type="button" class="favorites badged">
+    <div class="combined-input margin-right-10">
+        <i class="fa fa-search"></i>
+        <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail">
+        <i class="fa fa-gear" *ngIf="phoneBook.getContactGroupList().length > 0"></i>
+    </div>
+    <button type="button" class="small favorites badged">
         <span class="badge">12</span>
         <i class="fa fa-star"></i>
     </button>
-    <button type="button">
-        <i class="fa fa-sign-in"></i>
+    <button type="button" class="small">
+        <i class="fa fa-sign-in" (click)="openAuthModal()"></i>
     </button>
     <div class="user-logged">
         СВ
@@ -25,8 +29,12 @@
     </div>
 </div>
 <div id="app-content-wrapper">
-
-    <div id="app-contacts">
+    <stub *ngIf="phoneBook.getContactGroupList().length === 0 && !phoneBook.isLoadingInProgress()" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
+    <stub *ngIf="phoneBook.isLoadingInProgress() === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
+    <div id="app-contacts" *ngIf="phoneBook.getContactGroupList().length > 0">
         <contact-group [group]="group" *ngFor="let group of phoneBook.getContactGroupList()"></contact-group>
     </div>
 </div>
+
+
+<auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>

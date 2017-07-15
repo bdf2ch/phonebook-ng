@@ -25,47 +25,7 @@
     transition: left 0.2s linear 0s;
 
 
-    input[type='text'] {
-        flex: 1;
-        height: @app-header-height - 30px;
-        margin-right: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
-        box-sizing: border-box;
-        font-family: 'Open Sans Regular';
-        font-size: 15px;
-        background: #F5F5F5;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        outline: none;
-        transition: border 0.2s linear 0s;
-
-    &:focus {
-            border: 1px solid #EEEEEE;
-        }
-    }
-
     button {
-        width: 40px;
-        height: @app-header-height - 30px;
-        background: transparent;
-        border: 1px solid #EEEEEE;
-        border-radius: 4px;
-        outline: none;
-        cursor: pointer;
-        transition: background 0.2s linear 0s;
-
-    &:hover {
-            background: #FAFAFA;
-            border: 1px solid #E0E0E0;
-        }
-
-    .fa {
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 20px;
-            color: #80CBC4;
-        }
 
     &.favorites {
             margin-right: 10px;
@@ -242,6 +202,7 @@
     right: 0px;
     bottom: 0px;
     transition: left 0.2s linear 0s;
+    background: @app-contacts-background-color;
 
 
 
@@ -257,7 +218,6 @@
         height: 100%;
         padding: 20px;
         box-sizing: border-box;
-        background: @app-contacts-background-color;
     }
 }
 

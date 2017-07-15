@@ -53,6 +53,7 @@ export class DivisionTreeComponent implements OnInit{
             } else {
                 div.isSelected = false;
                 div.isOpened = false;
+                this.onSelect.emit(null);
             }
         }
     };

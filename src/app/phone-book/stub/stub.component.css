@@ -1,0 +1,29 @@
+.stub-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+}
+.stub-component .stub {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  font-family: 'Open Sans Regular';
+  font-size: 17px;
+  line-height: 17px;
+  color: #455A64;
+  text-align: center;
+  background: #ECEFF1;
+  border-radius: 50%;
+}
+.stub-component .stub .fa {
+  margin-bottom: 15px;
+  font-size: 70px;
+  color: #B0BEC5;
+}

@@ -1,0 +1,19 @@
+<div class="auth-component" [@fog]="opened.toString()" *ngIf="opened"></div>
+
+<div class="auth-form" [@popup]="opened.toString()" *ngIf="opened">
+    <div class="form-icon">
+        <i class="fa fa-user"></i>
+    </div>
+    <form novalidate>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="login" id="user-login" placeholder="Введите учетную запись">
+        </div>
+        <div class="combined-input margin-bottom-20">
+            <i class="fa fa-key"></i>
+            <input type="password" name="password" id="user-password" placeholder="Введите пароль">
+        </div>
+        <button type="submit" class="blue margin-bottom-5">Войти</button>
+        <button type="button" class="red" (click)="close()">Отмена</button>
+    </form>
+</div>

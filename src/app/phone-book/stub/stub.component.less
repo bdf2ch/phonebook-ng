@@ -1,0 +1,41 @@
+@stub-component-width: 100%;
+@stub-component-height: 100%;
+@stub-width: 300px;
+@stub-height: 300px;
+@stub-font-size: 17px;
+@stub-font-color: #455A64;
+@stub-background-color: #ECEFF1;
+@stub-icon-font-size: 70px;
+@stub-icon-font-color: #B0BEC5;
+
+.stub-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+
+  .stub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: @stub-width;
+    height: @stub-height;
+    font-family: 'Open Sans Regular';
+    font-size: @stub-font-size;
+    line-height: @stub-font-size;
+    color: @stub-font-color;
+    text-align: center;
+    background: @stub-background-color;
+    border-radius: 50%;
+
+    .fa {
+      margin-bottom: 15px;
+      font-size: @stub-icon-font-size;
+      color: @stub-icon-font-color;
+    }
+  }
+}

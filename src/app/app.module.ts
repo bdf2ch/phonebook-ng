@@ -16,6 +16,8 @@ import { DivisionTreeComponent } from './phone-book/division-tree/division-tree.
 import { DivisionTreeItemComponent } from './phone-book/division-tree/division-tree-item/division-tree-item.component';
 import { DivisionTreeService } from './phone-book/division-tree/division-tree.service';
 import { DivisionOrderPipe } from './phone-book/division-tree/division-order.pipe';
+import { StubComponent } from './phone-book/stub/stub.component';
+import { AuthComponent } from './phone-book/auth/auth.component';
 
 const routes: Routes = [
   {
@@ -40,7 +42,9 @@ const routes: Routes = [
     TextOverflowDirective,
     DivisionTreeComponent,
     DivisionTreeItemComponent,
-    DivisionOrderPipe
+    DivisionOrderPipe,
+    StubComponent,
+    AuthComponent
   ],
   providers: [
     CanActivatePhoneBookGuard,
