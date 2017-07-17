@@ -1,4 +1,4 @@
-import { Model } from "./Model.class";
+import { Model } from "./model.model";
 
 
 export class PhoneConfig {

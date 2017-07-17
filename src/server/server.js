@@ -5,7 +5,11 @@ var pg = require('pg');
 var app = express();
 //var users = require('./users');
 var phoneBook = require('./phone-book');
+var ldap = require('./ldap');
 //var db = require('./postgres');
+
+//ldap.login('kolu0897', 'zx12!@#$');
+
 
 
 var config = {
@@ -44,7 +48,7 @@ app
                 return console.error('error fetching client from pool', err);
             }
 
-            var query;
+            var query = null;
             switch (request.body.action) {
                 //case 'getAllUsers': query = users.getAllUsers(); break;
                 //case 'getUserById': query = users.getUserById(request.body.data); break;
@@ -56,21 +60,24 @@ app
                 //case 'getAllAts': query = phonebook.getAllAts(); break;
                 case 'getDivisionList': query = phoneBook.getDivisionList(); break;
                 case 'getContactGroupsByDivisionId': query = phoneBook.getContactsByDivisionId(request.body.data); break;
+                case 'logIn': query = phoneBook.logIn(request.body.data); break;
             }
 
 
-
-            client.query({text: query['text'], values: query['values'] ? query['values'] : []}, function(err, result) {
-                done(err);
-                if(err) {
-                    console.error('error running query', err);
-                    return;
-                }
-                result = result.rows[0][query['func']];
-                response.statusCode = 200;
-                response.setHeader('Content-Type', 'application/json; charset=utf-8');
-                response.end(JSON.stringify(result));
-            });
+            if (query) {
+                console.log(query);
+                client.query({text: query['text'], values: query['values'] ? query['values'] : []}, function(err, result) {
+                    done(err);
+                    if(err) {
+                        console.error('error running query', err);
+                        return;
+                    }
+                    result = result.rows[0][query['func']];
+                    response.statusCode = 200;
+                    response.setHeader('Content-Type', 'application/json; charset=utf-8');
+                    response.end(JSON.stringify(result));
+                });
+            }
         });
     })
     .listen(4444, function () {

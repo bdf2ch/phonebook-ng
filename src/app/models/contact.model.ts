@@ -1,5 +1,5 @@
-import { Model } from "./Model.class";
-import { Phone } from "./Phone.model";
+import { Model } from "./model.model";
+import { Phone } from "./phone.model";
 
 export class IContact {
   id: number;
