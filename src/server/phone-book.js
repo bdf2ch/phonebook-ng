@@ -1,4 +1,6 @@
 var ldapjs = require('ldapjs');
+var async = require('async');
+
 
 module.exports = {
 
@@ -34,23 +36,29 @@ module.exports = {
             if (err) {
                 console.log(err);
             } else {
-                client.search('OU=02_USERS,OU=Kolenergo,DC=nw,DC=mrsksevzap,DC=ru', opts, function (err, search) {
-                    var result = null;
-                    search.on('searchEntry', function (entry) {
+                client.search('OU=02_USERS,OU=Kolenergo,DC=nw,DC=mrsksevzap,DC=ru', opts, function (err, result) {
+                    var user = null;
+
+                    result.on('searchEntry', function (entry) {
                         console.log(entry.object);
-                        result = entry.object;
+                        user = entry.object;
                     });
 
-                    search.on('end', function(res) {
-                        console.log('status: ' + result.status);
-                        if (result) {
-                            console.log(result);
-                            return {
-                                text: 'SELECT auth_user($1, $2)',
-                                values: [parameters.account, 20000],
-                                func: 'auth_user'
-                            };
-                        } else return null;
+                    result.on('end', function(res) {
+                        console.log('status: ' + res.status);
+                        if (res.status === 0) {
+                            return user;
+                        }
+
+                        //if (user) {
+                        //    console.log(user);
+                        //    return {
+                        //        text: 'SELECT auth_user($1, $2)',
+                        //        values: [parameters.account, 20000],
+                        //        func: 'auth_user'
+                        //    };
+                        //} else
+                        //    return null;
                     });
                 });
             }
