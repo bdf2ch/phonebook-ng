@@ -4,18 +4,22 @@
         <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail">
         <i class="fa fa-gear" *ngIf="phoneBook.getContactGroupList().length > 0"></i>
     </div>
+    <button type="button" class="small margin-right-10">
+        <i class="fa fa-question-circle"></i>
+    </button>
     <button type="button" class="small favorites badged">
         <span class="badge">12</span>
         <i class="fa fa-star"></i>
     </button>
-    <button type="button" class="small">
-        <i class="fa fa-sign-in" (click)="openAuthModal()"></i>
+    <button type="button" class="small" (click)="openAuthModal()" title="Войти">
+        <i class="fa fa-sign-in"></i>
     </button>
     <div class="user-logged">
         СВ
     </div>
 </div>
 <div id="app-divisions">
+    <!--
     <div id="app-divisions-header">
         <span class="app-title">
             Телефонный справочник
@@ -24,6 +28,7 @@
     </button>
         </span>
     </div>
+    -->
     <div id="app-divisions-content">
         <division-tree [divisions]="phoneBook.getDivisionList()" (onSelect)="selectDivision($event)"></division-tree>
     </div>

@@ -1,4 +1,4 @@
-import { Model } from "./Model.class";
+import { Model } from "./model.model";
 
 
 export interface IDivision {
@@ -20,6 +20,7 @@ export class Division extends Model {
   isDepartment: boolean = false;
   isSelected: boolean = false;
   isOpened: boolean = false;
+  //isLast: boolean = false;
   children: Division[] = [];
 
   constructor (config?: IDivision) {

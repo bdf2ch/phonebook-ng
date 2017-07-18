@@ -1,3 +1,7 @@
+var ldapjs = require('ldapjs');
+var async = require('async');
+
+
 module.exports = {
 
     getDivisionList: function () {
@@ -14,6 +18,51 @@ module.exports = {
             values: [parameters.divisionId],
             func: 'get_contacts_by_division_id'
         }
+    },
+
+    logIn: function (parameters) {
+        var client = ldapjs.createClient({
+            url: 'ldap://10.50.0.1/'
+        });
+
+        var opts = {
+            filter: '(&(objectCategory=person)(sAMAccountName=' + parameters.account + '))',
+            scope: 'sub',
+            attributes: ['objectGUID', 'name', 'cn', 'mail', 'samaccountname'],
+            sizeLimit: 1
+        };
+
+        client.bind('NW\\' + parameters.account, parameters.password, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                client.search('OU=02_USERS,OU=Kolenergo,DC=nw,DC=mrsksevzap,DC=ru', opts, function (err, result) {
+                    var user = null;
+
+                    result.on('searchEntry', function (entry) {
+                        console.log(entry.object);
+                        user = entry.object;
+                    });
+
+                    result.on('end', function(res) {
+                        console.log('status: ' + res.status);
+                        if (res.status === 0) {
+                            return user;
+                        }
+
+                        //if (user) {
+                        //    console.log(user);
+                        //    return {
+                        //        text: 'SELECT auth_user($1, $2)',
+                        //        values: [parameters.account, 20000],
+                        //        func: 'auth_user'
+                        //    };
+                        //} else
+                        //    return null;
+                    });
+                });
+            }
+        });
     }
 
 };

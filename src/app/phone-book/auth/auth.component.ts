@@ -1,5 +1,7 @@
 import {Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
+import { AuthService } from "./auth.service";
+import { SessionService } from "../../utilities/session/session.service";
 
 
 @Component({
@@ -30,8 +32,11 @@ export class AuthComponent implements OnChanges {
     @Input() isOpened: boolean;
     @Output() onClose: EventEmitter<any> = new EventEmitter();
     private opened: boolean = false;
+    private account: string = '';
+    private password: string = '';
 
-    constructor (private element: ElementRef) {};
+    constructor (private element: ElementRef,
+                 private session: SessionService) {};
 
 
     ngOnChanges (changes: SimpleChanges) {
@@ -54,6 +59,15 @@ export class AuthComponent implements OnChanges {
         }
     };
 
+
+    send(): void {
+        this.session.logIn(this.account, this.password).subscribe();
+    };
+
+
+    /**
+     * Закрывает окно аутентификации пользователя
+     */
     close(): void {
         this.opened = false;
         this.onClose.emit();

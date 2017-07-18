@@ -7,7 +7,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  height: 70px;
+  height: 60px;
   padding-left: 20px;
   padding-right: 35px;
   box-sizing: border-box;
@@ -75,7 +75,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 70px;
+  height: 60px;
   padding-right: 0px;
   padding-left: 20px;
   box-sizing: border-box;
@@ -88,7 +88,7 @@
   justify-content: space-between;
   align-items: center;
   flex-grow: 1;
-  height: 40px;
+  height: 30px;
   padding-right: 20px;
   font-family: 'Open Sans Semi Bold';
   font-size: 20px;
@@ -100,7 +100,7 @@
 }
 #app-divisions #app-divisions-header button {
   width: 40px;
-  height: 40px;
+  height: 30px;
   background: transparent;
   border: 1px solid #EEEEEE;
   border-radius: 4px;
@@ -147,7 +147,7 @@
 #app-divisions #app-divisions-content {
   overflow: auto;
   position: absolute;
-  top: 70px;
+  top: 0px;
   left: 0px;
   right: 0px;
   bottom: 0px;
@@ -157,7 +157,7 @@
 #app-content-wrapper {
   overflow: auto;
   position: absolute;
-  top: 70px;
+  top: 60px;
   left: 350px;
   right: 0px;
   bottom: 0px;
@@ -182,7 +182,7 @@
     padding-right: 10px;
   }
   #app-header input[type='text'] {
-    height: 35px;
+    height: 25px;
   }
   #app-content-wrapper {
     top: 50px;
@@ -229,10 +229,10 @@
 /* Target big displays */
 @media screen and (min-width: 1400px) {
   #app-header {
-    height: 70px;
+    height: 60px;
   }
   #app-content-wrapper {
-    top: 70px;
+    top: 60px;
   }
 }
 /* Target big displays */

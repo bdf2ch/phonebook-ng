@@ -45,3 +45,10 @@
   font-size: 70px;
   color: white;
 }
+.auth-form .form-title {
+  font-family: "Open Sans Regular";
+  font-size: 18px;
+  color: #4DB6AC;
+  text-transform: uppercase;
+  text-align: center;
+}

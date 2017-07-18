@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './phone-book/phone-book.component';
 import { ContactComponent } from './phone-book/contact/contact.component';
@@ -18,6 +17,8 @@ import { DivisionTreeService } from './phone-book/division-tree/division-tree.se
 import { DivisionOrderPipe } from './phone-book/division-tree/division-order.pipe';
 import { StubComponent } from './phone-book/stub/stub.component';
 import { AuthComponent } from './phone-book/auth/auth.component';
+import { AuthService } from './phone-book/auth/auth.service';
+import { SessionService} from './utilities/session/session.service';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+      FormsModule,
     HttpModule,
     RouterModule.forRoot(routes)
   ],
@@ -49,7 +51,9 @@ const routes: Routes = [
   providers: [
     CanActivatePhoneBookGuard,
     PhoneBookService,
-    DivisionTreeService
+    DivisionTreeService,
+    AuthService,
+    SessionService
   ],
   bootstrap: [ AppComponent ]
 })

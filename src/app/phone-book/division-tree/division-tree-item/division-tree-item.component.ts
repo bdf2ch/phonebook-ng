@@ -1,13 +1,14 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, ViewEncapsulation } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { Division } from "../../../models/Division.model";
-import {DivisionTreeComponent} from "../division-tree.component";
+import { DivisionTreeComponent } from "../division-tree.component";
 
 
 @Component({
     selector: 'division-tree-item',
     templateUrl: './division-tree-item.component.html',
     styleUrls: ['./division-tree-item.component.css'],
+    encapsulation: ViewEncapsulation.None,
     animations: [
         trigger("slide", [
             state('true', style({
@@ -25,7 +26,8 @@ export class DivisionTreeItemComponent {
     @Input() division: Division[] = [];
     @Input() tree: DivisionTreeComponent;
     @Input() level: number = 0;
-    @Input() parent: DivisionTreeItemComponent;
+    @Input() last: boolean = false;
+    //@Input() parent: DivisionTreeItemComponent;
     private isOpened: boolean = false;
     private isSelected: boolean = false;
 
