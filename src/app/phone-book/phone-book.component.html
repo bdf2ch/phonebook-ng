@@ -1,21 +1,28 @@
 <div id="app-header">
     <div class="combined-input margin-right-10">
         <i class="fa fa-search"></i>
-        <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail">
+        <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail" [(ngModel)]="phoneBook.searchQuery" (keyup)="searchContacts(phoneBook.searchQuery)">
         <i class="fa fa-gear" *ngIf="phoneBook.getContactGroupList().length > 0"></i>
     </div>
-    <button type="button" class="small margin-right-10">
+    <button type="button" class="btn small margin-right-10">
         <i class="fa fa-question-circle"></i>
     </button>
-    <button type="button" class="small favorites badged">
-        <span class="badge">12</span>
+
+    <!-- Избранный контакты -->
+    <button type="button" class="btn small favorites badged" routerLink="/favorites" *ngIf="session.user() !== null && session.user().favorites.contacts.length > 0">
+        <span class="badge">{{ session.user().favorites.contacts.length }}</span>
         <i class="fa fa-star"></i>
     </button>
-    <button type="button" class="small" (click)="openAuthModal()" title="Войти">
+
+    <!-- Авторизация пользователя -->
+    <button type="button" class="btn small" (click)="openAuthModal()" title="Войти" *ngIf="session.user() === null">
         <i class="fa fa-sign-in"></i>
     </button>
-    <div class="user-logged">
-        СВ
+
+    <!-- Меню пользователя -->
+    <div class="user-logged" *ngIf="session.user() !== null" (click)="openUserMenuModal()"
+         [ngStyle]="{ 'background': session.user().photo !== '' ? 'url(http://127.0.0.1:4444' + session.user().photo + ')' : ''}">
+        <span *ngIf="session.user().photo === ''">{{ session.user().name[0] + session.user().surname[0] }}</span>
     </div>
 </div>
 <div id="app-divisions">
@@ -34,12 +41,16 @@
     </div>
 </div>
 <div id="app-content-wrapper">
+    <!--
     <stub *ngIf="phoneBook.getContactGroupList().length === 0 && !phoneBook.isLoadingInProgress()" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
     <stub *ngIf="phoneBook.isLoadingInProgress() === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
     <div id="app-contacts" *ngIf="phoneBook.getContactGroupList().length > 0">
         <contact-group [group]="group" *ngFor="let group of phoneBook.getContactGroupList()"></contact-group>
     </div>
+    -->
+    <router-outlet></router-outlet>
 </div>
 
-
+<edit-contact [isOpened]="inEditContactMode" (onClose)="closeEditContactModal()"></edit-contact>
 <auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>
+<user-menu [isOpened]="inUserMenuMode" (onClose)="closeUserMenuModal()"></user-menu>

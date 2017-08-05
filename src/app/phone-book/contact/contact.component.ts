@@ -1,12 +1,123 @@
-import { Component, Input } from '@angular/core';
-import { Contact } from "../../models/Contact.model";
+import {
+    Component, Input, Host, ElementRef, OnInit, OnChanges, SimpleChanges, Renderer2, HostListener,
+    ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy
+} from '@angular/core';
+import { Contact } from "../../models/contact.model";
+import { PhoneBookService } from "../phone-book.service";
+import { ContactGroupComponent } from "../contact-group/contact-group.component";
+import {SessionService} from "../../utilities/session/session.service";
 
 
 @Component({
     selector: 'contact',
     templateUrl: './contact.component.html',
-    styleUrls: ['./contact.component.css']
+    styleUrls: ['./contact.component.css'],
+    encapsulation: ViewEncapsulation.None
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactComponent {
+export class ContactComponent implements  OnInit, OnChanges{
     @Input() private contact: Contact;
+    @Input() index: number;
+    @Input() marginRight: number;
+    @Input() row: number;
+    @Output() onChangeDivision: EventEmitter<number> = new EventEmitter();
+
+    constructor(private phoneBook: PhoneBookService,
+                public element: ElementRef,
+                private renderer: Renderer2,
+                private session: SessionService) {
+        this.renderer.listen(this.element.nativeElement, 'dragstart', (event: any) => {
+            console.log('drag started');
+            event.cancelBubble = true;
+            event.stopPropagation();
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('contactId', this.contact.id.toString());
+            console.log('data', event.dataTransfer.getData('contactId'));
+        });
+
+        this.renderer.listen(this.element.nativeElement, 'dragend', (event: any) => {
+            console.log('drag ended');
+            event.cancelBubble = true;
+            event.stopPropagation();
+        });
+    };
+
+
+
+    ngOnInit(): void {
+        //console.log('contact', this.element.nativeElement.children[0]);
+        //console.log('host', this.host.element.clientWidth);
+        if (this.session.user() && this.session.user().isAdministrator) {
+            this.renderer.setAttribute(this.element.nativeElement.children[0], 'draggable', 'true');
+        }
+    };
+
+    ngOnChanges(changes: SimpleChanges): void {
+        //console.log(changes['marginRight']['currentValue']);
+        //console.log(changes['row']['currentValue']);
+        this.renderer.setStyle(this.element.nativeElement.children[0], 'margin-right', this.marginRight + 'px');
+
+
+        if (changes['row'] !== undefined) {
+            switch (changes['row']['currentValue']) {
+                case 2:
+                    this.clearClasses();
+                    this.renderer.addClass(this.element.nativeElement.children[0], 'two-in-row');
+                    break;
+                case 3:
+                    this.clearClasses();
+                    this.renderer.addClass(this.element.nativeElement.children[0], 'three-in-row');
+                    break;
+                case 4:
+                    this.clearClasses();
+                    this.renderer.addClass(this.element.nativeElement.children[0], 'four-in-row');
+                    break;
+                case 5:
+                    this.clearClasses();
+                    this.renderer.addClass(this.element.nativeElement.children[0], 'five-in-row');
+                    break;
+                case 6:
+                    this.clearClasses();
+                    this.renderer.addClass(this.element.nativeElement.children[0], 'six-in-row');
+                    break;
+                default:
+                    this.clearClasses();
+                    break;
+            }
+        }
+    };
+
+
+    clearClasses(): void {
+        this.renderer.removeClass(this.element.nativeElement.children[0], 'two-in-row');
+        this.renderer.removeClass(this.element.nativeElement.children[0], 'three-in-row');
+        this.renderer.removeClass(this.element.nativeElement.children[0], 'four-in-row');
+        this.renderer.removeClass(this.element.nativeElement.children[0], 'five-in-row');
+        this.renderer.removeClass(this.element.nativeElement.children[0], 'six-in-row');
+    };
+
+
+    favorites(): void {
+        if (!this.phoneBook.isLoading()) {
+            if (!this.contact.isInFavorites) {
+                this.phoneBook.addContactToFavorites(this.contact.id).subscribe((res: any) => {
+                    this.contact.isInFavorites = true;
+                });
+            } else {
+                this.phoneBook.removeContactFromFavorites(this.contact.id).subscribe(() => {
+                    this.contact.isInFavorites = false;
+                });
+            }
+        }
+    };
+
+
+    uploadPhoto(event: any): void {
+        this.phoneBook.uploadUserPhoto(this.contact.userId, event.target.files[0])
+            .subscribe((url: string) => {
+                console.log('new photo url = ', url);
+                this.contact.photo = url;
+                console.log(this.contact);
+            });
+    };
 };

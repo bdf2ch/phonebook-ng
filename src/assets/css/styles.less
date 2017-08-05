@@ -24,7 +24,7 @@
 
 
 
-button {
+.btn {
   display: inline-block;
   height: 40px;
   background: transparent;
@@ -69,6 +69,34 @@ button {
     font-size: 20px;
     color: #80CBC4;
   }
+
+  &.upload {
+    text-align: center;
+    line-height: 40px;
+    input[type="file"] {
+      display: none;
+    }
+    &.round {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 35px;
+      height: 35px;
+      //margin-bottom: -3px;
+      margin-right: -3px;
+      border-radius: 50%;
+      background: #8BC34A;
+      border: none;
+      &:hover {
+        background: #558B2F;
+      }
+      .fa {
+        font-size: 15px;
+        color: white;
+      }
+    }
+  }
 }
 
 .combined-input {
@@ -85,7 +113,7 @@ button {
     box-sizing: border-box;
     font-family: 'Open Sans Regular';
     font-size: 15px;
-    background: #F5F5F5;
+    background: #F4F4F4;
     border: 1px solid transparent;
     border-radius: 4px;
     outline: none;
@@ -130,5 +158,84 @@ button {
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
     }
+  }
+
+}
+
+
+
+
+/* Target landscape tablets, desktops */
+@media screen and (min-width: 800px) and (max-width: 1400px) {
+}
+
+
+/* Target landscape smartphones, portrait tablets, narrow desktops */
+@media screen and (min-width: 320px) and (max-width: 800px) {
+  .combined-input {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    flex-grow: 1;
+
+    button {
+      height: 35px !important;
+    }
+
+    input {
+      flex-grow: 1;
+      height: 35px !important;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+      font-family: 'Open Sans Regular';
+      font-size: 15px;
+      background: #F5F5F5;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      outline: none;
+      transition: border 0.2s linear 0s;
+      &:focus {
+        //border: 1px solid #EEEEEE;
+      }
+      &:not(first-child) {
+        padding-left: 0px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+      &:not(last-child) {
+        padding-right: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+      &:last-child {
+        padding-right: 20px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+
+    .fa {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 35px;
+      height: 35px;
+      font-size: 17px;
+      color: #546E7A;
+      background: #F5F5F5;
+
+      &:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+
   }
 }

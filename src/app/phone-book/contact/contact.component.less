@@ -7,30 +7,81 @@
 @contact-photo-image-width: 120px;
 @contacts-photo-image-border-color: lightgrey;
 
+@favorite-icon-color-hover: #FFC107;
+
+@separator-color: #ECEFF1;
+
 .contact {
-  //display: flex;
-  //position: relative;
-  //flex-basis: 100%;
-  //align-self: flex-start;
-  //align-content: flex-start;
-  //justify-self: flex-start;
+  position: relative;
   float: left;
   display: flex;
   flex-direction: column;
   width: @contact-width;
-  //height: auto;
-  margin-right: 1%;
   margin-bottom: 20px;
-  //padding: 20px;
   box-sizing: border-box;
   background: @contact-background-color;
   border-radius: 3px;
   box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
+  //transition: margin-right 0.1s linear 0s;
 
 
-  .contact-photo {
+  &.two-in-row {
+    &.second {
+      margin-right: 0px !important;
+      //border: 1px solid red !important;
+    }
+  }
+
+  &.three-in-row {
+    &.third {
+      margin-right: 0px !important;
+      //border: 1px solid red !important;
+    }
+  }
+
+  &.four-in-row {
+    &.fourth {
+      margin-right: 0px !important;
+      //border: 1px solid red !important;
+    }
+  }
+
+  &.five-in-row {
+    &.fifth {
+      margin-right: 0px !important;
+      //border: 1px solid red !important;
+    }
+  }
+
+  &.six-in-row {
+    &.sixth {
+      margin-right: 0px !important;
+      //border: 1px solid red !important;
+    }
+  }
+
+  .contact-menu {
+    z-index: 5;
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    height: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid red;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .contact-info {
     display: flex;
-    flex-direction: row;
+    position: relative;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     //height: @contact-photo-width;
@@ -39,31 +90,116 @@
     padding-bottom: 0px !important;
     box-sizing: border-box;
 
-    .favorites-icon {
-      width: 20px;
+    /* Элементы управления контактом */
+    #contact-controls {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+
       .fa {
         font-size: 20px;
         color: #EEEEEE;
+        cursor: pointer;
+      }
+
+      .favorites {
+        &:hover {
+          color: @favorite-icon-color-hover;
+        }
+        &.in-favorites {
+            color: @favorite-icon-color-hover;
+        }
       }
     }
 
-    .more-icon {
-      width: 20px;
-      .fa {
-        font-size: 20px;
-        color: #EEEEEE;
+
+    /* Фото контакта */
+
+
+      #photo {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        align-self: center;
+        width: @contact-photo-image-width;
+        height: @contact-photo-image-width;
+        margin-top: -20px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        background-size: cover !important;
+        background-position: center top !important;
+        border-radius: 50%;
+
+        &.with-photo {
+          &:hover {
+            //position: absolute;
+            //top: 0px;
+            //left: 0px;
+            //right: 0px;
+            //bottom: 0px;
+            //width: 100%;
+            //height: 230px;
+            //margin-top: 0px;
+            //border-radius: 0px;
+            //#contact-upload-photo-button {
+              //display: none;
+            //}
+          }
+        }
+
+        &.no-photo {
+          background-position: center center !important;
+          border: 1px solid @separator-color;
+        }
+      }
+
+
+    /* Имя и должность */
+    #name-and-position {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+
+      .surname {
+        height: 15px;
+        max-height: 15px;
+        font-family: 'Open Sans Semi Bold';
+        font-size: 15px;
+        line-height: 15px;
+        color: black;
+      }
+
+      .name {
+        height: 15px;
+        max-height: 15px;
+        margin-bottom: 7px;
+        font-family: 'Open Sans Regular';
+        font-size: 15px;
+        line-height: 15px;
+      }
+
+      .position {
+        height: 28px;
+        max-height: 28px;
+        font-family: 'Open Sans Italic';
+        font-size: 14px;
+        line-height: 14px;
+        text-align: center;
+        color: #D81B60;
+      }
+
+      .separator {
+        width: 50%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-top: 1px solid @separator-color;
       }
     }
 
-    .photo {
-      align-self: center;
-      width: @contact-photo-image-width;
-      height: @contact-photo-image-width;
-      box-sizing: border-box;
-      border: 1px solid @contacts-photo-image-border-color;
-      border-radius: 50%;
-      box-sizing: border-box;
-    }
   }
 
   .contact-details {
@@ -111,7 +247,7 @@
       width: 50%;
       margin-top: 10px;
       margin-bottom: 10px;
-      border-top: 1px solid #ECEFF1;
+      border-top: 1px solid @separator-color;
     }
 
     .email {

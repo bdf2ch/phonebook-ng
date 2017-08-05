@@ -1,18 +1,53 @@
-<div class="contact">
-    <div class="contact-photo">
-        <div class="favorites-icon">
-            <i class="fa fa-star"></i>
+<div class="contact"
+     [ngClass]="{ 'first' : index === 0, 'second': index > 0 && (index + 1) % 2 === 0, 'third' : index > 0 && (index + 1) % 3 === 0, 'fourth': index > 0 && (index + 1) % 4 === 0, 'fifth' : index > 0 && (index + 1) % 5 === 0, 'sixth' : index > 0 && (index + 1) % 6 === 0 }">
+    <div class="contact-menu">
+        <div class="margin-bottom-10">
+            <button class="btn blue">Загрузить фото</button>
         </div>
-        <div class="photo"></div>
-        <div class="more-icon">
-            <i class="fa fa-ellipsis-v"></i>
+    </div>
+    <div class="contact-info">
+        <div id="contact-controls">
+            <i class="favorites fa fa-star" [ngClass]="{ 'in-favorites': contact.isInFavorites === true }"
+               title="{{ contact.isInFavorites ? 'Убрать из избранных' : 'Добавить в избранные' }}"
+               (click)="favorites()">
+            </i>
+
+            <!-- Кнопка редактирования информации о контакте -->
+            <i class="fa fa-ellipsis-v" *ngIf="session.user() && session.user().isAdministrator"></i>
+        </div>
+
+
+        <div id="photo"
+             [ngClass]="{ 'no-photo': contact.photo === '', 'with-photo': contact.photo !== '' }"
+             [ngStyle]="{ 'background': contact.photo !== '' ? 'url(http://127.0.0.1:4444' + contact.photo +  ')': 'url(http://127.0.0.1:4444/assets/images/users/no_photo.png)' }">
+            <label id="contact-upload-photo-button"
+                   class="btn blue upload round margin-bottom-10"
+                   *ngIf="session.user() && session.user().isAdministrator">
+                <i class="fa fa-camera"></i>
+                <input type="file"
+                       name="photo"
+                       id="user-photo"
+                       encType="multipart/form-data"
+                       (change)="uploadPhoto($event)">
+            </label>
+        </div>
+
+
+
+        <div id="name-and-position">
+            <div class="surname">{{ contact.surname }}</div>
+            <div class="name">{{ contact.name + ' ' + contact.fname }}</div>
+            <div class="position" title="{{ contact.position }}">{{ contact.positionTrimmed }}</div>
+            <div class="separator"></div>
         </div>
     </div>
     <div class="contact-details">
+        <!--
         <div class="surname">{{ contact.surname }}</div>
         <div class="name">{{ contact.name + ' ' + contact.fname }}</div>
         <div class="position" [text-overflow]="50">{{ contact.position }}</div>
         <div class="separator"></div>
+        -->
         <div class="phones">
             <i class="fa fa-phone"></i>
             <span class="phone-item">22-44,</span>

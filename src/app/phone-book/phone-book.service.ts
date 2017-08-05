@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
-import { Contact } from "../models/Contact.model";
+import { Contact } from "../models/contact.model";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
-//import { SessionService } from "./session.service";
+import { SessionService } from "../utilities/session/session.service";
 import { Division, IDivision } from "../models/Division.model";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 
@@ -16,10 +17,13 @@ export class PhoneBookService {
   private favorites: Contact[] = [];
   private divisions: Division[] = [];
   private groups: ContactGroup[] = [];
+  private visibleGroups: ContactGroup[] = [];
   private loadingInProgress: boolean = false;
+  private currentDivision: Division | null = null;
+  private currentContact: Contact | null = null;
   loading: boolean = false;
   searchMode: boolean = false;
-  searchQuery: string = '';
+  public searchQuery: string = '';
 
 
   /**
@@ -27,9 +31,9 @@ export class PhoneBookService {
    * @param $http {Http}
    * @param $session {SessionService}
    */
-  constructor(
-      private http: Http
-      //private $session: SessionService
+  constructor(private router: Router,
+              private http: Http,
+              private session: SessionService
   ) {};
 
 
@@ -57,9 +61,16 @@ export class PhoneBookService {
   fetchContactsByDivisionId(id: number): Observable<ContactGroup[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    let parameters = { action: 'getContactGroupsByDivisionId', data: { divisionId: id }};
+    let parameters = {
+      action: 'getContactGroupsByDivisionId',
+      data: {
+        divisionId: id,
+        token: this.session.session() ? this.session.session().token : ''
+      }
+    };
 
     this.loadingInProgress = true;
+    this.router.navigate(['/']);
     return this.http.post(this.apiUrl, parameters, options)
       .map((res: Response) => {
         this.clearContactGroups();
@@ -102,9 +113,9 @@ export class PhoneBookService {
 
   /**
    * Осуществляет поиск контактов на сервере в соответствии с условием поиска
-   * @returns {Observable<Contact|null>}
+   * @returns {Observable<ContactGroup|null>}
    */
-  searchContacts(): Observable<Contact[]>|null {
+  searchContacts(): Observable<ContactGroup[]>|null {
     let headers = new Headers({ "Content-Type": "application/json" });
     let options = new RequestOptions({ headers: headers });
     let params = { action: "searchContacts", data: { search: this.searchQuery } };
@@ -112,24 +123,16 @@ export class PhoneBookService {
     this.loading = true;
 
     return this.http.post(this.apiUrl, params, options)
-      .map((res: Response|null) => {
+      .map((res: Response) => {
         this.loading = false;
+        this.clearContactGroups();
         let body = res.json();
-        if (body !== null) {
-          let length = body.length;
-          //this.clear();
-          for (let i = 0; i < length; i++) {
-            let division = new Division(body[i].division);
-            let x = body[i].contacts.length;
-            for (let z = 0; z < x; z++) {
-              let contact = new Contact(body[i].contacts[z]);
-              //division.contacts.push(contact);
-            }
-            this.contacts.push(division);
-          }
-          this.loading = false;
-        } else
-          return null;
+        body.forEach((item: IContactGroup) => {
+          let group = new ContactGroup(item);
+          this.groups.push(group);
+          console.log(group);
+          return group;
+        });
       })
       .take(1)
       .catch(this.handleError);
@@ -139,13 +142,18 @@ export class PhoneBookService {
   /**
    * Добавляет контакт в избранные
    * @param contactId {number} - идентификатор контакта
-   * @param userId {number} - идентификатор пользователя
    * @returns {Observable<R>}
    */
-  addContactToFavorites (contactId: number, userId: number): Observable<Contact> {
+  addContactToFavorites (contactId: number): Observable<Contact> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    let parameters = { action: 'addContactToFavorites', data: { contactId: contactId, userId: userId }};
+    let parameters = {
+      action: 'addContactToFavorites',
+      data: {
+        contactId: contactId,
+        token: this.session.session() ? this.session.session().token : ''
+      }
+    };
     this.loading = true;
 
     return this.http.post(this.apiUrl, parameters, options)
@@ -153,7 +161,10 @@ export class PhoneBookService {
         this.loading = false;
         let body = response.json();
         let contact = new Contact(body);
-        this.favorites.push(contact);
+        if (this.session.user()) {
+          this.session.user().favorites.contacts.push(contact);
+        }
+        return contact;
       })
       .take(1)
       .catch(this.handleError);
@@ -163,13 +174,18 @@ export class PhoneBookService {
   /**
    * Удаляет контакт из избранных
    * @param contactId
-   * @param userId
    * @returns {Observable<R>}
    */
-  deleteContactFromFavorites(contactId: number, userId: number): Observable<boolean> {
+  removeContactFromFavorites(contactId: number): Observable<boolean> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    let parameters = { action: 'deleteContactFromFavorites', data: { contactId: contactId, userId: userId }};
+    let parameters = {
+      action: 'removeContactFromFavorites',
+      data: {
+        contactId: contactId,
+        token: this.session.session() ? this.session.session().token : ''
+      }
+    };
     this.loading = true;
 
     return this.http.post(this.apiUrl, parameters, options)
@@ -177,14 +193,12 @@ export class PhoneBookService {
         this.loading = false;
         let body = response.json();
         if (body === true) {
-          let length = this.favorites.length;
-          for (let i = 0; i < length; i++) {
-            if (this.favorites[i].id === contactId) {
-              this.favorites.splice(i, 1);
-              return true;
+          this.session.user().favorites.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
+            if (contact.id === contactId) {
+              array.splice(index, 1);
             }
-          }
-          return false;
+          });
+          return true;
         }
       })
       .take(1)
@@ -192,14 +206,58 @@ export class PhoneBookService {
   };
 
 
+  setContactDivision(contactId: number, divisionId: number): Observable<Contact> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let parameters = { action: 'setContactDivision', data: { contactId: contactId, divisionId: divisionId }};
 
-  /**
-   * Возвращает массив избранных контактов
-   * @returns {Contact[]}
-   */
-  getFavorites(): Contact[] {
-    return this.favorites;
+    return this.http.post(this.apiUrl, parameters, options)
+        .map((response: Response) => {
+          let body = response.json();
+          let contact = new Contact(body);
+          console.log(contact);
+          return contact;
+        })
+        .take(1)
+        .catch(this.handleError);
   };
+
+
+    uploadUserPhoto(userId: number, photo: File): Observable<string> {
+        console.log('photo', photo);
+        let headers = new Headers({ 'Accept': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let formData = new FormData();
+        formData.append('photo', photo);
+        formData.append('userId', userId.toString());
+
+        this.loading = true;
+        return this.http.post('http://127.0.0.1:4444/uploadPhoto', formData, options)
+            .map((response: Response) => {
+                this.loading = false;
+                let result = response.json();
+                console.log('photo url', result);
+                if (this.session.user()) {
+                    // Если фото загружено для текущего пользователя - меняем фото
+                    if (this.session.user().id === userId) {
+                        this.session.user().photo = result;
+                    }
+                    // Если контакт находится в избранных - меняем фото
+                    if (this.session.user().favorites.contacts.length > 0) {
+                        this.session.user().favorites.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
+                            if (contact.userId === userId) {
+                                contact.photo = result;
+                            }
+                        });
+                    }
+                }
+                return result;
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
+
+
 
 
   /**
@@ -230,6 +288,22 @@ export class PhoneBookService {
 
   isLoading(): boolean {
     return this.loading;
+  };
+
+
+  selectedDivision(division?: Division | null): Division | null {
+    if (division) {
+      this.currentDivision = division;
+    }
+    return this.currentDivision;
+  };
+
+
+  selectedContact(contact?: Contact | null): Contact | null {
+      if (contact) {
+          this.currentContact = contact;
+      }
+      return this.currentContact;
   };
 
 

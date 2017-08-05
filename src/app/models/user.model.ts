@@ -1,4 +1,7 @@
+
 import { Model } from './model.model';
+import { ContactGroup } from "./contact-group.model";
+import { Permission } from "./permission.model";
 
 
 export interface IUser {
@@ -11,7 +14,7 @@ export interface IUser {
   fname?: string;
   position?: string;
   email?: string;
-  password?: string;
+  photo?: string;
   active_directory_account?: string;
   is_administrator?: boolean;
 };
@@ -27,9 +30,11 @@ export class User extends Model {
   fname: string = "";
   position: string = "";
   email: string = "";
-  password: string = "";
+  photo: string = '';
   activeDirectoryAccount: string = "";
   isAdministrator: boolean = false;
+  favorites: ContactGroup;
+  permissions: Permission[] = [];
   fio: string = "";
 
 
@@ -45,29 +50,19 @@ export class User extends Model {
       this.fname = config.fname !== undefined ? config.fname : '';
       this.position = config.position !== undefined ? config.position : '';
       this.email = config.email !== undefined ? config.email : '';
-      this.password = config.password !== undefined ? config.password : '';
+      this.photo = config.photo !== undefined ? config.photo : '';
       this.activeDirectoryAccount = config.active_directory_account !== undefined ? config.active_directory_account : '';
-      this.isAdministrator = config.is_administrator !== undefined ? config.is_administrator : false;
+      //this.isAdministrator = config.is_administrator !== undefined ? config.is_administrator : false;
     }
+    this.favorites = new ContactGroup();
     this.fio = this.fname !== '' ? this.surname + " " + this.name + " " + this.fname : this.surname + ' ' + this.name;
   };
 
 
-  /**
-   * Сбрасывает значенеи всех полей
-   */
-  clear(): void {
-    this.tabId = "";
-    this.departmentId = 0;
-    this.divisionId = 0;
-    this.surname = "";
-    this.name = "";
-    this.fname = "";
-    this.position = "";
-    this.email = "";
-    this.password = "";
-    this.activeDirectoryAccount = "";
-    this.isAdministrator = false;
-    this.fio = "";
+  getPermissionByCode(code: string): Permission | null {
+    const findPermissionByCode = (permission: Permission, index: number, array: Permission[]) => permission.code === code;
+    const permission = this.permissions.find(findPermissionByCode);
+    console.log('permission', permission);
+    return permission ? permission : null;
   };
 };

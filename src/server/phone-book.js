@@ -1,68 +1,128 @@
-var ldapjs = require('ldapjs');
-var async = require('async');
-
+var cookies = require('cookies');
 
 module.exports = {
 
-    getDivisionList: function () {
+    /**
+     * Получение информации о сессии
+     * @param parameters
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    getSession: function (parameters) {
         return {
+            text: 'SELECT get_session_by_token($1)',
+            values: [parameters.token],
+            func: 'get_session_by_token'
+        }
+    },
+
+    /**
+     * Завершение сессии текущего пользователя
+     * @param parameters
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    logOut: function (parameters) {
+        return {
+            text: 'SELECT log_out_user($1)',
+            values: [parameters.token],
+            func: 'log_out_user'
+        }
+    },
+
+    onLogOutSuccess: function (parameters) {
+        return true;
+    },
+
+    /**
+     * Получение списка структурных подразделений
+     * @param parameters
+     * @returns {{text: string, values: Array, func: string}}
+     */
+    getDivisionList: function (parameters) {
+       return {
             text: 'SELECT get_phonebook_divisions()',
             values: [],
             func: 'get_phonebook_divisions'
         };
     },
 
+    /**
+     *
+     * @param parameters
+     * @returns {{text: string, values: [*], func: string}}
+     */
     getContactsByDivisionId: function (parameters) {
         return {
-            text: 'SELECT get_contacts_by_division_id($1)',
-            values: [parameters.divisionId],
+            text: 'SELECT get_contacts_by_division_id($1, $2)',
+            values: [parameters.divisionId, parameters.token],
             func: 'get_contacts_by_division_id'
         }
     },
 
-    logIn: function (parameters) {
-        var client = ldapjs.createClient({
-            url: 'ldap://10.50.0.1/'
-        });
+    /**
+     *
+     * @param parameters
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    searchContacts: function (parameters) {
+        return {
+            text: 'SELECT search_contacts($1)',
+            values: [parameters.search],
+            func: 'search_contacts'
+        }
+    },
 
-        var opts = {
-            filter: '(&(objectCategory=person)(sAMAccountName=' + parameters.account + '))',
-            scope: 'sub',
-            attributes: ['objectGUID', 'name', 'cn', 'mail', 'samaccountname'],
-            sizeLimit: 1
-        };
+    /**
+     * Добавление абонента в избранные
+     * @param parameters
+     * @returns {{text: string, values: [*,*], func: string}}
+     */
+    addContactToFavorites: function (parameters) {
+        return {
+            text: 'SELECT add_contact_to_favorites($1, $2)',
+            values: [parameters.contactId, parameters.token],
+            func: 'add_contact_to_favorites'
+        }
+    },
 
-        client.bind('NW\\' + parameters.account, parameters.password, function (err) {
-            if (err) {
-                console.log(err);
-            } else {
-                client.search('OU=02_USERS,OU=Kolenergo,DC=nw,DC=mrsksevzap,DC=ru', opts, function (err, result) {
-                    var user = null;
+    /**
+     *
+     * @param parameters
+     * @returns {{text: string, values: [*,*], func: string}}
+     */
+    removeContactFromFavorites: function (parameters) {
+        return {
+            text: 'SELECT delete_contact_from_favorites($1, $2)',
+            values: [parameters.contactId, parameters.token],
+            func: 'delete_contact_from_favorites'
+        }
+    },
 
-                    result.on('searchEntry', function (entry) {
-                        console.log(entry.object);
-                        user = entry.object;
-                    });
 
-                    result.on('end', function(res) {
-                        console.log('status: ' + res.status);
-                        if (res.status === 0) {
-                            return user;
-                        }
+    /**
+     *
+     * @param contactId
+     * @param url
+     * @returns {{text: string, values: [*,*], func: string}}
+     */
+    addContactPhoto: function (parameters) {
+        return {
+            text: 'SELECT add_user_photo($1, $2)',
+            values: [parameters.contactId, parameters.url],
+            func: 'add_user_photo'
+        }
+    },
 
-                        //if (user) {
-                        //    console.log(user);
-                        //    return {
-                        //        text: 'SELECT auth_user($1, $2)',
-                        //        values: [parameters.account, 20000],
-                        //        func: 'auth_user'
-                        //    };
-                        //} else
-                        //    return null;
-                    });
-                });
-            }
-        });
+
+    /**
+     *
+     * @param parameters
+     * @returns {{text: string, values: [*,*], func: string}}
+     */
+    setContactDivision: function (parameters) {
+        return {
+            text: 'SELECT set_contact_division($1, $2)',
+            values: [parameters.contactId, parameters.divisionId],
+            func: 'set_contact_division'
+        }
     }
-
 };

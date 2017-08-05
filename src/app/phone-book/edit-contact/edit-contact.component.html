@@ -1,0 +1,44 @@
+<div class="edit-contact-component" [@fog]="opened.toString()" *ngIf="opened"></div>
+
+<div class="auth-form" [@popup]="opened.toString()" *ngIf="opened">
+    <div class="form-icon">
+        <i class="fa fa-user"></i>
+    </div>
+    <form novalidate>
+        <div class="form-title margin-bottom-20">
+            Авторизация
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="surname" id="contact-surname" placeholder="Введите фамилию">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="name" id="contact-name" placeholder="Введите имя">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="fname" id="contact-fname" placeholder="Введите отчество">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="position" id="contact-position" placeholder="Введите должность">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-at"></i>
+            <input type="password" name="email" id="contact-email" placeholder="Введите e-mail">
+        </div>
+        <div class="combined-input margin-bottom-20">
+            <i class="fa fa-mobile-phone"></i>
+            <input type="password" name="mobile" id="contact-mobile" placeholder="Введите мобильный телефон">
+        </div>
+
+        <div class="separator margin-bottom-20"></div>
+
+        <div ></div>
+
+
+        <button type="submit" class="btn blue margin-bottom-5">Войти</button>
+        <button type="button" class="btn red" (click)="close()">Отмена</button>
+    </form>
+</div>

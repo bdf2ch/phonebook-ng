@@ -2,6 +2,9 @@ import {Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleC
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { AuthService } from "./auth.service";
 import { SessionService } from "../../utilities/session/session.service";
+import { CookieService } from "../../utilities/cookies/cookie.services";
+import { isError } from "../../models/error.model";
+
 
 
 @Component({
@@ -36,7 +39,8 @@ export class AuthComponent implements OnChanges {
     private password: string = '';
 
     constructor (private element: ElementRef,
-                 private session: SessionService) {};
+                 private session: SessionService,
+                 private cookies: CookieService) {};
 
 
     ngOnChanges (changes: SimpleChanges) {
@@ -61,7 +65,16 @@ export class AuthComponent implements OnChanges {
 
 
     send(): void {
-        this.session.logIn(this.account, this.password).subscribe();
+        this.session.logIn(this.account, this.password).subscribe((result: any) => {
+            if (!isError(result)) {
+                console.log('result', result);
+                this.cookies.set({
+                    name: 'kolenergo',
+                    value: result.session.token
+                });
+                this.close();
+            }
+        });
     };
 
 
@@ -70,6 +83,8 @@ export class AuthComponent implements OnChanges {
      */
     close(): void {
         this.opened = false;
+        this.account = '';
+        this.password = '';
         this.onClose.emit();
     };
 };

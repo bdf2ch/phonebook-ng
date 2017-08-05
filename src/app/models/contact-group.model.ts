@@ -1,5 +1,5 @@
 import { Division, IDivision } from "./Division.model";
-import { Contact, IContact } from "./Contact.model";
+import { Contact, IContact } from "./contact.model";
 
 
 /**
@@ -20,7 +20,7 @@ export class ContactGroup {
     divisions: Division[] = [];
     contacts: Contact[] = [];
 
-    constructor (config: IContactGroup) {
+    constructor (config?: IContactGroup) {
         if (config) {
             config.divisions.forEach((item: IDivision) => {
                 const division = new Division(item);

@@ -1,0 +1,84 @@
+.user-menu-component {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+.user-menu-form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 350px;
+  height: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.2);
+  transform: scale(0.1);
+}
+.user-menu-form form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.user-menu-form .user-photo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.user-menu-form .user-photo .photo {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  height: 220px;
+  font-size: 70px;
+  color: white;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  border-radius: 50%;
+}
+.user-menu-form .user-photo .no-photo {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  height: 220px;
+  margin-top: -120px;
+  font-size: 70px;
+  color: white;
+  background: #80CBC4;
+  border-radius: 50%;
+}
+.user-menu-form .user-photo .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  font-family: "Open Sans Regular";
+  font-size: 30px;
+  color: lightgrey;
+  text-align: center;
+  cursor: pointer;
+}
+.user-menu-form .user-photo .close-button:hover {
+  color: grey;
+}
+.user-menu-form .form-title {
+  font-family: "Open Sans Regular";
+  font-size: 18px;
+  color: #4DB6AC;
+  text-transform: uppercase;
+  text-align: center;
+}

@@ -1,9 +1,11 @@
 .division-tree-item-component {
   display: flex;
   flex-direction: column;
+  //width: 350px;
   //margin-bottom: 10px;
   //padding-top: 5px;
   //padding-bottom: 5px;
+
 
 
   .item-details {
@@ -21,6 +23,11 @@
     //border-bottom: 1px solid #E6EEF4;
     cursor: pointer;
 
+    * {
+      pointer-events: none;
+    }
+
+
     &:hover {
       margin-left: 0px;
       margin-right: 0px;
@@ -31,9 +38,13 @@
       .arrow {
         //border-top: 1px solid #DEEDF7;
       }
-
-
     }
+
+
+    &.drag-over {
+      background: #FFECB3;
+    }
+
 
     &.nested {
       &:hover {
