@@ -3,6 +3,19 @@ var cookies = require('cookies');
 module.exports = {
 
     /**
+     * Получение инициализационный данных
+     * @param parameters
+     * @returns {{text: string, values: Array, func: string}}
+     */
+    getInitialData: function (parameters) {
+        return {
+            text: 'SELECT get_phonebook_initial_data()',
+            values: [],
+            func: 'get_phonebook_initial_data'
+        }
+    },
+
+    /**
      * Получение информации о сессии
      * @param parameters
      * @returns {{text: string, values: [*], func: string}}

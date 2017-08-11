@@ -21,6 +21,7 @@ export class ContactComponent implements  OnInit, OnChanges{
     @Input() marginRight: number;
     @Input() row: number;
     @Output() onChangeDivision: EventEmitter<number> = new EventEmitter();
+    @Output() onEditContactClick: EventEmitter<Contact> = new EventEmitter();
 
     constructor(private phoneBook: PhoneBookService,
                 public element: ElementRef,
@@ -109,6 +110,12 @@ export class ContactComponent implements  OnInit, OnChanges{
                 });
             }
         }
+    };
+
+
+    editContact(): void {
+        this.onEditContactClick.emit(this.contact);
+        this.phoneBook.selectedContact(this.contact)
     };
 
 

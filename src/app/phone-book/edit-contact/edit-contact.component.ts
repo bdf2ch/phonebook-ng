@@ -4,9 +4,9 @@ import {
     SimpleChanges
 } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
-import { Contact } from '../../models/contact.model';
 import {PhoneBookService} from "../phone-book.service";
 import {SessionService} from "../../utilities/session/session.service";
+import {Contact} from '../../models/contact.model';
 
 
 @Component({
@@ -34,15 +34,15 @@ import {SessionService} from "../../utilities/session/session.service";
     ]
 })
 export class EditContactComponent implements OnChanges, AfterViewChecked {
-    @Input() contact: Contact;
+    @Input() contact: any;
     @Input() isOpened: boolean;
     @Output() onClose: EventEmitter<any> = new EventEmitter();
     private opened: boolean = false;
 
+
     constructor(private element: ElementRef,
                 private phoneBook: PhoneBookService,
                 private session: SessionService) {
-        console.log('edit contact component');
     };
 
 

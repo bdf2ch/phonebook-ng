@@ -28,6 +28,7 @@ export class ContactGroup {
             });
             config.contacts.forEach((item: IContact) => {
                 const contact = new Contact(item);
+                contact.setupBackup(['surname', 'name', 'fname', 'position', 'positionTrimmed', 'email', 'mobile']);
                 this.contacts.push(contact);
             });
         }

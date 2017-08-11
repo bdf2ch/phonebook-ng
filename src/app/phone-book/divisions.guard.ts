@@ -11,7 +11,7 @@ export class DivisionsGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|boolean {
         if (this.phoneBook.getDivisionList().length === 0) {
-            return this.phoneBook.fetchDivisionList().map(() => {
+            return this.phoneBook.fetchInitialData().map(() => {
                 return true;
             });
         } else {

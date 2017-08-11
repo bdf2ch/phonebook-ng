@@ -4,6 +4,7 @@ import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "../utilities/session/session.service";
 import { Division } from "../models/Division.model";
 import { ContactListComponent } from "./contact-list/contact-list.component";
+import {Contact} from "../models/contact.model";
 
 
 @Component({
@@ -26,6 +27,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
                 private session: SessionService) {};
 
 
+    /**
+     * Инициализация компонента.
+     * При наличии избранных контактов у текущего пользователя - редирект на /favorites
+     */
     ngOnInit(): void {
         if (this.session.user() && this.session.user().favorites.contacts.length > 0) {
             console.log('redirect to favs');
@@ -34,35 +39,63 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
 
     };
 
+
+    /**
+     * Открывает модальное окно авторизации пользователя
+     */
     openAuthModal(): void {
         this.inAuthMode = true;
     };
 
+
+    /**
+     * Закрывает модальное окно авторизации пользователя
+     */
     closeAuthModal(): void {
         this.inAuthMode = false;
     };
 
+
+    /**
+     * Открывает модальное окно с меню текущего пользователя
+     */
     openUserMenuModal(): void {
         this.inUserMenuMode = true;
     };
 
+
+    /**
+     * Закрывает модальное окно с меню текущего пользователя
+     */
     closeUserMenuModal(): void {
         this.inUserMenuMode = false;
     };
 
 
+    /**
+     * Открывает модальное окно редактированяи данных выбранного контакта
+     */
+    openEditContactModal(): void {
+        this.inEditContactMode = true;
+    };
+
+
+    /**
+     * Закрывает модальное окно редактирования данных выбранного пользователя
+     */
     closeEditContactModal(): void {
+        this.phoneBook.selectedContact(null);
         this.inEditContactMode = false;
     };
+
 
     selectDivision(division: Division): void {
         //console.log(division);
         this.phoneBook.selectedDivision(division);
         if (division !== null) {
+            this.router.navigate(['/']);
             this.phoneBook.fetchContactsByDivisionId(division.id).subscribe(() => {
                 document.getElementById('app-content-wrapper').scrollTop = 0;
-                //console.log(this.snapshot);
-                //this.router.navigate(['/']);
             })
         } else {
             this.phoneBook.clearContactGroups();

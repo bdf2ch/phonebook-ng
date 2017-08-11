@@ -1,4 +1,3 @@
-
 import { Model } from './model.model';
 import { ContactGroup } from "./contact-group.model";
 import { Permission } from "./permission.model";

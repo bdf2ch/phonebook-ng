@@ -8,6 +8,7 @@ import 'rxjs/add/operator/take';
 import { SessionService } from "../utilities/session/session.service";
 import { Division, IDivision } from "../models/Division.model";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
+import {ATS, IATS} from "../models/ATS.model";
 
 
 @Injectable()
@@ -16,6 +17,8 @@ export class PhoneBookService {
   private contacts: Division[] = [];
   private favorites: Contact[] = [];
   private divisions: Division[] = [];
+  private innerATS: ATS[] = [];
+  private outerATS: ATS[] = [];
   private groups: ContactGroup[] = [];
   private visibleGroups: ContactGroup[] = [];
   private loadingInProgress: boolean = false;
@@ -35,6 +38,45 @@ export class PhoneBookService {
               private http: Http,
               private session: SessionService
   ) {};
+
+
+  fetchInitialData(): Observable<any> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let parameters = { action: 'getInitialData' };
+
+      return this.http.post(this.apiUrl, parameters, options)
+          .map((res: Response) => {
+              let body = res.json();
+              console.log(body);
+
+              if (body.divisions) {
+                  body.divisions.forEach((item: IDivision) => {
+                      let division = new Division(item);
+                      division.setupBackup(['parentId', 'title']);
+                      this.divisions.push(division);
+                  });
+              }
+
+              if (body.ats) {
+                  body.ats.inner.forEach((item: IATS) => {
+                      let ats = new ATS(item);
+                      ats.setupBackup(['parentId', 'type', 'title']);
+                      this.innerATS.push(ats);
+                  });
+                  body.ats.outer.forEach((item: IATS) => {
+                      let ats = new ATS(item);
+                      ats.setupBackup(['parentId', 'type', 'title']);
+                      this.outerATS.push(ats);
+                  });
+              }
+
+              console.log(this.divisions);
+              return this.divisions;
+          })
+          .take(1)
+          .catch(this.handleError);
+  };
 
 
   fetchDivisionList(): Observable<Division[]> {
@@ -70,7 +112,6 @@ export class PhoneBookService {
     };
 
     this.loadingInProgress = true;
-    this.router.navigate(['/']);
     return this.http.post(this.apiUrl, parameters, options)
       .map((res: Response) => {
         this.clearContactGroups();
@@ -89,6 +130,15 @@ export class PhoneBookService {
 
   getDivisionList(): Division[] {
     return this.divisions;
+  };
+
+  getInnerATSList(): ATS[] {
+      return this.innerATS;
+  };
+
+
+  getOuterATSList(): ATS[] {
+      return this.outerATS;
   };
 
   getContactGroupList(): ContactGroup[] {
@@ -300,7 +350,7 @@ export class PhoneBookService {
 
 
   selectedContact(contact?: Contact | null): Contact | null {
-      if (contact) {
+      if (contact || contact === null) {
           this.currentContact = contact;
       }
       return this.currentContact;

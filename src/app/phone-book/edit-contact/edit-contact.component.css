@@ -41,6 +41,10 @@
   background: #80CBC4;
   border-radius: 50%;
 }
+.auth-form .form-icon.photo {
+  background-position: center top;
+  background-size: cover !important;
+}
 .auth-form .form-icon .fa {
   font-size: 70px;
   color: white;

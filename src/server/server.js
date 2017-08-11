@@ -13,7 +13,6 @@ var fs = require('fs');
 
 
 
-
 app
     .use(function (req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
@@ -38,6 +37,7 @@ app
 
         var queue = [];
         switch (request.body.action) {
+            case 'getInitialData': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getInitialData)]; break;
             case 'getSession': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getSession)]; break;
             case 'getDivisionList': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getDivisionList)]; break;
             case 'getContactGroupsByDivisionId': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getContactsByDivisionId)]; break;

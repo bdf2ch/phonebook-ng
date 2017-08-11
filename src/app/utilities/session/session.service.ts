@@ -41,6 +41,7 @@ export class SessionService {
                 let body = response.json();
                 this.currentSession = body.session ? new Session(body.session) : null;
                 this.currentUser = body.user ? new User(body.user) : null;
+
                 if (body.permissions) {
                     body.permissions.forEach((item: IPermission, index: number, array: IPermission[]) => {
                         const permission = new Permission(item);

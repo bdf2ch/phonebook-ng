@@ -8,7 +8,7 @@
         <i class="fa fa-question-circle"></i>
     </button>
 
-    <!-- Избранный контакты -->
+    <!-- Избранные контакты -->
     <button type="button" class="btn small favorites badged" routerLink="/favorites" *ngIf="session.user() !== null && session.user().favorites.contacts.length > 0">
         <span class="badge">{{ session.user().favorites.contacts.length }}</span>
         <i class="fa fa-star"></i>
@@ -51,6 +51,7 @@
     <router-outlet></router-outlet>
 </div>
 
-<edit-contact [isOpened]="inEditContactMode" (onClose)="closeEditContactModal()"></edit-contact>
+
 <auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>
 <user-menu [isOpened]="inUserMenuMode" (onClose)="closeUserMenuModal()"></user-menu>
+<edit-contact [isOpened]="phoneBook.selectedContact() !== null" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact()"></edit-contact>
