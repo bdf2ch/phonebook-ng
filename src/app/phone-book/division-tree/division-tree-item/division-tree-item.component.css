@@ -13,10 +13,16 @@
   border-left: 0px solid transparent;
   cursor: pointer;
 }
+.division-tree-item-component .item-details * {
+  pointer-events: none;
+}
 .division-tree-item-component .item-details:hover {
   margin-left: 0px;
   margin-right: 0px;
   background: #E6EEF4;
+}
+.division-tree-item-component .item-details.drag-over {
+  background: #FFECB3;
 }
 .division-tree-item-component .item-details.nested:hover .title {
   border-bottom: 1px solid transparent !important;

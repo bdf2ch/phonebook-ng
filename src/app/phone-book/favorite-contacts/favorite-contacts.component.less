@@ -1,0 +1,40 @@
+@caption-font-color: #B0BEC5;
+@caption-icon-width: 40px;
+@caption-icon-height: 40px;
+@caption-icon-color: #FFC107;
+@caption-icon-background-color: #E7E7E8;
+
+
+#app-favorites {
+  padding-top: 0px;
+
+  .contact {
+    border: 1px solid red;
+  }
+
+  #app-favorites-caption {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 20px;
+    font-family: 'Open Sans Semi Bold';
+    text-transform: uppercase;
+    font-size: 17px;
+    color: @caption-font-color;
+
+    .fa {
+      display: inline-block;
+      width: @caption-icon-width;
+      height: @caption-icon-height;
+      margin-right: 20px;
+      font-size: 25px;
+      line-height: @caption-icon-height;
+      color: @caption-icon-color;
+      text-align: center;
+      background: @caption-icon-background-color;
+      border-radius: 50%;
+    }
+  }
+}

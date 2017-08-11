@@ -1,0 +1,64 @@
+.edit-contact-component {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+.auth-form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 450px;
+  height: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.2);
+  transform: scale(0.1);
+}
+.auth-form form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.auth-form .form-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  margin-top: -70px;
+  margin-bottom: 20px;
+  background: #80CBC4;
+  border-radius: 50%;
+}
+.auth-form .form-icon.photo {
+  background-position: center top;
+  background-size: cover !important;
+}
+.auth-form .form-icon .fa {
+  font-size: 70px;
+  color: white;
+}
+.auth-form .form-title {
+  font-family: "Open Sans Regular";
+  font-size: 18px;
+  color: #4DB6AC;
+  text-transform: uppercase;
+  text-align: center;
+}
+.auth-form .separator {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: 1px solid #ECEFF1;
+}

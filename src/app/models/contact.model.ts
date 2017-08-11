@@ -1,7 +1,7 @@
 import { Model } from "./model.model";
 import { Phone } from "./phone.model";
 
-export class IContact {
+export interface IContact {
   id: number;
   user_id?: number;
   division_id: number;
@@ -12,6 +12,7 @@ export class IContact {
   email?: string;
   mobile?: string;
   photo?: string;
+  is_in_favorites: boolean;
 };
 
 
@@ -21,12 +22,15 @@ export class Contact extends Model {
   divisionId: number = 0;
   surname: string = "";
   name: string = "";
-  fname: string = "";
-  position: string = "";
-  email: string = "";
+  fname: string;
+  position: string;
+  positionTrimmed: string;
+  email: string;
   phones: Phone[] = [];
-  mobile: string = '';
-  photo: string = "";
+  mobile: string;
+  photo: string ;
+  order: number = 0;
+  isInFavorites: boolean = false;
   fio: string = "";
   search: string = "";
 
@@ -38,16 +42,13 @@ export class Contact extends Model {
       this.divisionId = config.division_id;
       this.surname = config.surname;
       this.name = config.name;
-      if (config.fname)
-        this.fname = config.fname;
-      if (config.position)
-        this.position = config.position;
-      if (config.email)
-        this.email = config.email;
-      if (config.mobile)
-        this.mobile = config.mobile;
-      if (config.photo)
-        this.photo = config.photo;
+      this.fname = config.fname ? config.fname : '';
+      this.position = config.position ? config.position : '';
+      this.positionTrimmed = this.position.length > 50 ? this.position.substr(0, 50) + '...' : this.position;
+      this.email = config.email ? config.email : '';
+      this.mobile = config.mobile ? config.mobile : '';
+      this.photo = config.photo ? config.photo : '';
+      this.isInFavorites = config.is_in_favorites;
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();
     }

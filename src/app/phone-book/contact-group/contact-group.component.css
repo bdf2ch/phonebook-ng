@@ -6,18 +6,30 @@
 .contact-group-component .divisions {
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
   padding-bottom: 5px;
   box-sizing: border-box;
   font-family: 'Open Sans Semi Bold';
-  font-size: 16px;
-  color: #607D8B;
-  border-bottom: 1px solid #ECEFF1;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #90A4AE;
+  border-bottom: 1px dotted #CFD8DC;
+  vertical-align: bottom;
 }
-.contact-group-component .contacts {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: flex-start;
+.contact-group-component .divisions .division {
+  float: left;
+  margin-right: 7px;
+}
+.contact-group-component .divisions .division.selected {
+  margin-left: 0px;
+  margin-right: 10px;
+  font-size: 14px;
+  color: #607D8B;
+}
+.contact-group-component .contacts .four-in-row .contact {
+  margin-right: 0px;
+  background: red !important;
 }

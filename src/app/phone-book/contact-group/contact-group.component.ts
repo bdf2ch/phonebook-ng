@@ -1,5 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {
+    Component, Input, ElementRef, OnChanges, SimpleChanges, ViewChild, AfterViewInit,
+    ViewChildren
+} from '@angular/core';
 import { ContactGroup } from "../../models/contact-group.model";
+import {PhoneBookService} from "../phone-book.service";
+import {ContactComponent} from "../contact/contact.component";
+import {Contact} from "../../models/contact.model";
 
 
 @Component({
@@ -7,7 +13,28 @@ import { ContactGroup } from "../../models/contact-group.model";
     templateUrl: './contact-group.component.html',
     styleUrls: ['./contact-group.component.css']
 })
-export class ContactGroupComponent {
+export class ContactGroupComponent implements OnChanges, AfterViewInit {
+    ngAfterViewInit(): void {
+        //console.log('contacts', this.contacts);
+
+    }
+
     @Input() group: ContactGroup;
+    @Input() margin: number;
+    @Input() row: number;
+    @ViewChildren(ContactComponent) contacts: ContactComponent[];
+
+
+    constructor(private element: ElementRef,
+                private phoneBook: PhoneBookService) {};
+
+
+    ngOnChanges(changes: SimpleChanges): void {
+        //if (changes['margin'] !== undefined)
+        //    this.contactMargin = changes['margin']['currentValue'];
+        //if (changes['contactsInRow'] !== undefined)
+        //    this.inRow = changes['contactsInRow']['currentValue'];
+        //console.log('cg margin', this.contactMargin);
+    };
 
 };

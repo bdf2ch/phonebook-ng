@@ -92,7 +92,7 @@
   font-family: "Open Sans Bold";
   src: url("../fonts/OpenSans-Bold.ttf");
 }
-button {
+.btn {
   display: inline-block;
   height: 40px;
   background: transparent;
@@ -104,34 +104,60 @@ button {
   cursor: pointer;
   transition: background 0.15s linear 0s;
 }
-button:hover {
+.btn:hover {
   background: #FAFAFA;
   border: 1px solid #E0E0E0;
 }
-button.small {
+.btn.small {
   width: 40px;
 }
-button.red {
+.btn.red {
   border: 1px solid #F44336;
   color: #F44336;
 }
-button.red:hover {
+.btn.red:hover {
   color: white;
   background: #F44336;
 }
-button.blue {
+.btn.blue {
   border: 1px solid #2196F3;
   color: #2196F3;
 }
-button.blue:hover {
+.btn.blue:hover {
   background: #2196F3;
   color: white;
 }
-button .fa {
+.btn .fa {
   margin-left: auto;
   margin-right: auto;
   font-size: 20px;
   color: #80CBC4;
+}
+.btn.upload {
+  text-align: center;
+  line-height: 40px;
+}
+.btn.upload input[type="file"] {
+  display: none;
+}
+.btn.upload.round {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  margin-right: -3px;
+  border-radius: 50%;
+  background: #8BC34A;
+  border: none;
+}
+.btn.upload.round:hover {
+  background: #558B2F;
+}
+.btn.upload.round .fa {
+  font-size: 15px;
+  color: white;
 }
 .combined-input {
   display: flex;
@@ -147,7 +173,7 @@ button .fa {
   box-sizing: border-box;
   font-family: 'Open Sans Regular';
   font-size: 15px;
-  background: #F5F5F5;
+  background: #F4F4F4;
   border: 1px solid transparent;
   border-radius: 4px;
   outline: none;
@@ -186,4 +212,65 @@ button .fa {
 .combined-input .fa:last-child {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+/* Target landscape tablets, desktops */
+/* Target landscape smartphones, portrait tablets, narrow desktops */
+@media screen and (min-width: 320px) and (max-width: 800px) {
+  .combined-input {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    flex-grow: 1;
+  }
+  .combined-input button {
+    height: 35px !important;
+  }
+  .combined-input input {
+    flex-grow: 1;
+    height: 35px !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    font-family: 'Open Sans Regular';
+    font-size: 15px;
+    background: #F5F5F5;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: none;
+    transition: border 0.2s linear 0s;
+  }
+  .combined-input input:not(first-child) {
+    padding-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  .combined-input input:not(last-child) {
+    padding-right: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .combined-input input:last-child {
+    padding-right: 20px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  .combined-input .fa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    font-size: 17px;
+    color: #546E7A;
+    background: #F5F5F5;
+  }
+  .combined-input .fa:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  .combined-input .fa:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
 }

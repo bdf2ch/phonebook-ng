@@ -1,34 +1,15 @@
 var express = require('express');
 var parser = require('body-parser');
-//const uploader = require('express-fileupload');
+var cookieParser = require('cookie-parser');
+const uploader = require('express-fileupload');
 var pg = require('pg');
 var app = express();
-//var users = require('./users');
 var phoneBook = require('./phone-book');
 var ldap = require('./ldap');
-//var db = require('./postgres');
 var postgres = require('./postgres');
 var async = require('async');
-
-//ldap.login('kolu0897', 'zx12!@#$');
-
-
-
-var config = {
-    user: 'docuser',
-    database: 'phone',
-    password: 'docasu',
-    host: '10.50.0.242',
-    port: 5432,
-    max: 10,
-    idleTimeoutMillis: 30000
-};
-
-
-var pool = new pg.Pool(config);
-pool.on('error', function (err, client) {
-    console.error('idle client error', err.message, err.stack);
-});
+var path = require('path');
+var fs = require('fs');
 
 
 
@@ -40,56 +21,135 @@ app
         res.header('Access-Control-Allow-Credentials', true);
         next();
     })
-    //.use(uploader())
+    .use(express.static(path.resolve('../../static')))
+    .use(uploader())
     .use(parser.json())
+    .use(cookieParser())
     .post('/api', function (request, response, next) {
         console.dir(request.body);
+        console.dir(request.cookies);
 
-        //pool.connect(function(err, client, done) {
-        //    if(err) {
-        //        return console.error('error fetching client from pool', err);
-        //    }
-
-        //    var query = null;
-            switch (request.body.action) {
-                //case 'getAllUsers': query = users.getAllUsers(); break;
-                //case 'getUserById': query = users.getUserById(request.body.data); break;
-                //case 'getPortionOfUsers': query = users.getPortionOfUsers(request.body.data); break;
-                //case 'searchUsers': query = users.searchUsers(request.body.data); break;
-                //case 'getAllPhoneBookDivisions': query = phonebook.getAllDivisions(); break;
-                //case 'addPhoneBookDivision': query = phonebook.addDivision(request.body.data); break;
-                //case 'editPhoneBookDivision': query = phonebook.editDivision(request.body.data); break;
-                //case 'getAllAts': query = phonebook.getAllAts(); break;
-                case 'getDivisionList': query = phoneBook.getDivisionList(); break;
-                case 'getContactGroupsByDivisionId': query = phoneBook.getContactsByDivisionId(request.body.data); break;
-                case 'logIn': query = phoneBook.logIn(request.body.data); break;
-            }
-
-
-            //if (query) {
-            //    console.log(query);
-            //    client.query({text: query['text'], values: query['values'] ? query['values'] : []}, function(err, result) {
-            //        done(err);
-            //        if(err) {
-            //            console.error('error running query', err);
-            //            return;
-            //        }
-            //        result = result.rows[0][query['func']];
-            //        response.statusCode = 200;
-            //        response.setHeader('Content-Type', 'application/json; charset=utf-8');
-            //        response.end(JSON.stringify(result));
-            //    });
-            //}
-        //});
-        //var answer = async.compose(postgres.query(), phoneBook.);
-        async.series(function (callback) {}, function (callback) {}, function (callback) {
-            result = result.rows[0][query['func']];
+        function send(result) {
             response.statusCode = 200;
             response.setHeader('Content-Type', 'application/json; charset=utf-8');
             response.end(JSON.stringify(result));
-            callback(null);
+        };
+
+        var queue = [];
+        switch (request.body.action) {
+            case 'getInitialData': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getInitialData)]; break;
+            case 'getSession': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getSession)]; break;
+            case 'getDivisionList': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getDivisionList)]; break;
+            case 'getContactGroupsByDivisionId': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getContactsByDivisionId)]; break;
+            case 'searchContacts': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.searchContacts)]; break;
+            case 'addContactToFavorites': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactToFavorites)]; break;
+            case 'removeContactFromFavorites': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.removeContactFromFavorites)]; break;
+            case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
+            case 'logOut': queue = [async.asyncify(phoneBook.onLogOutSuccess), async.asyncify(postgres.query), async.asyncify(phoneBook.logOut)]; break;
+            case 'uploadPhoto': console.log(request.files); break;
+            case 'setContactDivision': queue = [async.asyncify(phoneBook.onLogOutSuccess), async.asyncify(postgres.query), async.asyncify(phoneBook.setContactDivision)]; break;
+        };
+
+
+
+        console.log(queue);
+        var process = async.compose(...queue);
+        process(request.body.data, function (err, result) {
+            console.log('error', err);
+            console.log('result', result);
+            if (err)
+                send({ code: 1,  message: 'No such user' });
+            else
+                send(result);
         });
+    })
+    .post('/uploadPhoto', function (request, response, next) {
+        if (request.files.photo && request.body.userId) {
+            let folderPath = path.resolve('../../static/assets/images/users/', request.body.userId.toString());
+            let url = '/assets/images/users/' + request.body.userId.toString() + '/' + request.files.photo.name;
+            let photoPath = path.resolve(folderPath, request.files.photo.name);
+            let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactPhoto)];
+            let process = async.compose(...queue);
+            console.log('folder path = ', folderPath);
+            fs.exists(folderPath, (exists) => {
+                if (!exists) {
+                    fs.mkdir(folderPath, (err) => {
+                        if (!err) {
+                            request.files.photo.mv(photoPath, function(err) {
+                                if (err) {
+                                    return response.status(500).send(err);
+                                } else {
+                                    process({ contactId: request.body.userId, url: url }, function (err, result) {
+                                        console.log('error', err);
+                                        console.log('result', result);
+                                        if (err)
+                                            send({ code: 1,  message: 'Error uploading contact photo' });
+                                        else
+                                            send(result);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    request.files.photo.mv(photoPath, function(err) {
+                        if (err) {
+                            return response.status(500).send(err);
+                        } else {
+                            process({ contactId: request.body.userId, url: url }, function (err, result) {
+                                console.log('error', err);
+                                console.log('result', result);
+                                if (err)
+                                    send({ code: 1,  message: 'Error uploading contact photo' });
+                                else
+                                    send(result);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+
+        /*
+        let split = request.files.photo.name.split('.');
+        let extension = split[split.length - 1];
+        let url = '/assets/images/contacts/' + request.body.contactId.toString() + '.' + extension.toString();
+        let photoPath = path.resolve('../../static/assets/images/contacts/', request.body.contactId.toString() + '.' + extension.toString());
+        console.log('path', photoPath);
+        request.files.photo.mv(photoPath, function(err) {
+            if (err)
+                return response.status(500).send(err);
+
+            let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactPhoto)];
+            let process = async.compose(...queue);
+            process({ contactId: request.body.contactId, url: url }, function (err, result) {
+                console.log('error', err);
+                console.log('result', result);
+                if (err)
+                    send({ code: 1,  message: 'Error uploading contact photo' });
+                else
+                    send(result);
+            });
+
+        });
+        */
+
+
+        function send(result) {
+            response.statusCode = 200;
+            response.setHeader('Content-Type', 'application/json; charset=utf-8');
+            response.end(JSON.stringify(result));
+        };
+
+
     })
     .listen(4444, function () {
         console.log('Server started at 4444');
     });
+
+
+
+
+
+

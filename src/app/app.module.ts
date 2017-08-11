@@ -6,10 +6,17 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './phone-book/phone-book.component';
+import { ContactListComponent } from './phone-book/contact-list/contact-list.component';
+
+import { FavoriteContactsComponent } from './phone-book/favorite-contacts/favorite-contacts.component';
+import { FavoriteContactsUserSessionGuard } from './phone-book/favorite-contacts/session.guard';
+import { ContactsOrderPipe } from './phone-book/contact-group/contacts-order.pipe';
+
 import { ContactComponent } from './phone-book/contact/contact.component';
 import { ContactGroupComponent } from './phone-book/contact-group/contact-group.component';
 import { TextOverflowDirective } from './phone-book/text-overflow.directive';
-import { CanActivatePhoneBookGuard } from './phone-book/can-activate-guard.service';
+import { DivisionsGuard } from './phone-book/divisions.guard';
+import { UserSessionGuard } from './phone-book/session.guard';
 import { PhoneBookService } from './phone-book/phone-book.service';
 import { DivisionTreeComponent } from './phone-book/division-tree/division-tree.component';
 import { DivisionTreeItemComponent } from './phone-book/division-tree/division-tree-item/division-tree-item.component';
@@ -18,13 +25,33 @@ import { DivisionOrderPipe } from './phone-book/division-tree/division-order.pip
 import { StubComponent } from './phone-book/stub/stub.component';
 import { AuthComponent } from './phone-book/auth/auth.component';
 import { AuthService } from './phone-book/auth/auth.service';
+
+import { UserMenuComponent } from './phone-book/user-menu/user-menu.component';
+
+import { EditContactComponent } from './phone-book/edit-contact/edit-contact.component';
+
 import { SessionService} from './utilities/session/session.service';
+import { CookieService } from './utilities/cookies/cookie.services';
+import { ModalComponent } from './utilities/modal/modal.component';
+
+import { UploadDirective }  from './utilities/upload/upload.directive';
 
 const routes: Routes = [
   {
     path: '',
     component: PhoneBookComponent,
-    canActivate: [ CanActivatePhoneBookGuard ]
+    canActivate: [ UserSessionGuard, DivisionsGuard ],
+    children: [
+      {
+        path: '',
+        component: ContactListComponent
+      },
+      {
+        path: 'favorites',
+        component: FavoriteContactsComponent
+        //canActivate: [ FavoriteContactsUserSessionGuard ]
+      }
+    ]
   }
 ];
 
@@ -32,13 +59,16 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-      FormsModule,
+    FormsModule,
     HttpModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
     AppComponent,
     PhoneBookComponent,
+    ContactListComponent,
+    FavoriteContactsComponent,
+    ContactsOrderPipe,
     ContactComponent,
     ContactGroupComponent,
     TextOverflowDirective,
@@ -46,14 +76,21 @@ const routes: Routes = [
     DivisionTreeItemComponent,
     DivisionOrderPipe,
     StubComponent,
-    AuthComponent
+    AuthComponent,
+    UserMenuComponent,
+    EditContactComponent,
+    ModalComponent,
+    UploadDirective
   ],
   providers: [
-    CanActivatePhoneBookGuard,
+    FavoriteContactsUserSessionGuard,
+    DivisionsGuard,
+    UserSessionGuard,
     PhoneBookService,
     DivisionTreeService,
     AuthService,
-    SessionService
+    SessionService,
+    CookieService
   ],
   bootstrap: [ AppComponent ]
 })

@@ -1,46 +1,133 @@
 .contact {
+  position: relative;
   float: left;
   display: flex;
   flex-direction: column;
   width: 280px;
-  margin-right: 1%;
   margin-bottom: 20px;
   box-sizing: border-box;
   background: white;
   border-radius: 3px;
   box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
 }
-.contact .contact-photo {
+.contact.two-in-row.second {
+  margin-right: 0px !important;
+}
+.contact.three-in-row.third {
+  margin-right: 0px !important;
+}
+.contact.four-in-row.fourth {
+  margin-right: 0px !important;
+}
+.contact.five-in-row.fifth {
+  margin-right: 0px !important;
+}
+.contact.six-in-row.sixth {
+  margin-right: 0px !important;
+}
+.contact .contact-menu {
+  z-index: 5;
+  display: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  height: 200px;
+  padding: 20px;
+  box-sizing: border-box;
+  background: white;
+  border: 1px solid red;
+}
+.contact .contact-menu .btn {
+  width: 100%;
+}
+.contact .contact-info {
   display: flex;
-  flex-direction: row;
+  position: relative;
+  flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 10px;
   padding: 20px;
   padding-bottom: 0px !important;
   box-sizing: border-box;
+  /* Элементы управления контактом */
+  /* Фото контакта */
+  /* Имя и должность */
 }
-.contact .contact-photo .favorites-icon {
-  width: 20px;
+.contact .contact-info #contact-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
-.contact .contact-photo .favorites-icon .fa {
+.contact .contact-info #contact-controls .fa {
   font-size: 20px;
   color: #EEEEEE;
+  cursor: pointer;
 }
-.contact .contact-photo .more-icon {
-  width: 20px;
+.contact .contact-info #contact-controls .favorites:hover {
+  color: #FFC107;
 }
-.contact .contact-photo .more-icon .fa {
-  font-size: 20px;
-  color: #EEEEEE;
+.contact .contact-info #contact-controls .favorites.in-favorites {
+  color: #FFC107;
 }
-.contact .contact-photo .photo {
+.contact .contact-info #photo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
   align-self: center;
   width: 120px;
   height: 120px;
-  border: 1px solid lightgrey;
-  border-radius: 50%;
+  margin-top: -20px;
+  margin-bottom: 10px;
   box-sizing: border-box;
+  background-size: cover !important;
+  background-position: center top !important;
+  border-radius: 50%;
+}
+.contact .contact-info #photo.no-photo {
+  background-position: center center !important;
+  border: 1px solid #ECEFF1;
+}
+.contact .contact-info #name-and-position {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.contact .contact-info #name-and-position .surname {
+  height: 15px;
+  max-height: 15px;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 15px;
+  line-height: 15px;
+  color: black;
+}
+.contact .contact-info #name-and-position .name {
+  height: 15px;
+  max-height: 15px;
+  margin-bottom: 7px;
+  font-family: 'Open Sans Regular';
+  font-size: 15px;
+  line-height: 15px;
+}
+.contact .contact-info #name-and-position .position {
+  height: 28px;
+  max-height: 28px;
+  font-family: 'Open Sans Italic';
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center;
+  color: #D81B60;
+}
+.contact .contact-info #name-and-position .separator {
+  width: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid #ECEFF1;
 }
 .contact .contact-details {
   display: flex;

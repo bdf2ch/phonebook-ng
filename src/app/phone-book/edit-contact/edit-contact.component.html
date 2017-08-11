@@ -1,0 +1,65 @@
+<div class="edit-contact-component" [@fog]="opened.toString()" *ngIf="opened"></div>
+
+<div class="auth-form" [@popup]="opened.toString()" *ngIf="opened">
+    <div class="form-icon"
+         [ngClass]="{ 'photo': contact.photo !== '' }"
+         [ngStyle]="{'background': contact.photo !== '' ? 'url(http://127.0.0.1:4444' + contact.photo : 'url(http://127.0.0.1:4444/assets/images/users/no_photo.png)'}">
+    </div>
+    <form novalidate>
+        <div class="form-title margin-bottom-20">
+            {{ contact._backupData.name + ' ' + contact._backupData.surname }}
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="surname" id="contact-surname" placeholder="Введите фамилию" [(ngModel)]="contact.surname">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="name" id="contact-name" placeholder="Введите имя" [(ngModel)]="contact.name">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="fname" id="contact-fname" placeholder="Введите отчество" [(ngModel)]="contact.fname">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-user"></i>
+            <input type="text" name="position" id="contact-position" placeholder="Введите должность" [(ngModel)]="contact.position">
+        </div>
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-at"></i>
+            <input type="text" name="email" id="contact-email" placeholder="Введите e-mail" [(ngModel)]="contact.email">
+        </div>
+        <div class="combined-input margin-bottom-20">
+            <i class="fa fa-mobile-phone"></i>
+            <input type="text" name="mobile" id="contact-mobile" placeholder="Введите мобильный телефон" [(ngModel)]="contact.mobile">
+        </div>
+
+        <div class="separator margin-bottom-20"></div>
+
+        <div class="combined-input margin-bottom-10">
+            <i class="fa fa-phone"></i>
+            <select name="" id="" class="width-50">
+                <optgroup label="Внутренние АТС">
+                    <option value="{{ ats.id }}"
+                            *ngFor="let ats of phoneBook.getInnerATSList()"
+                            [disabled]="!ats.isSelectable">{{ '&#160;'.repeat(ats.level * 4) + ats.title }}
+                    </option>
+                </optgroup>
+                <optgroup label="Внешние АТС">
+                    <option value="{{ ats.id }}"
+                            *ngFor="let ats of phoneBook.getOuterATSList()"
+                            [disabled]="!ats.isSelectable">{{ '&#160;'.repeat(ats.level * 4) + ats.title }}
+                    </option>
+                </optgroup>
+            </select>
+            <input type="text" name="phone" placeholder="Введите номер телефона">
+            <i class="fa fa-plus"></i>
+        </div>
+
+        <div ></div>
+
+
+        <button type="submit" class="btn blue margin-bottom-5">Войти</button>
+        <button type="button" class="btn red" (click)="close()">Отмена</button>
+    </form>
+</div>

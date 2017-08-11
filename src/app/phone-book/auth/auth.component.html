@@ -16,7 +16,7 @@
             <i class="fa fa-key"></i>
             <input type="password" name="password" id="user-password" placeholder="Введите пароль" [(ngModel)]="password">
         </div>
-        <button type="submit" class="blue margin-bottom-5" (click)="send()">Войти</button>
-        <button type="button" class="red" (click)="close()">Отмена</button>
+        <button type="submit" class="btn blue margin-bottom-5" [disabled]="account === '' || password === ''" (click)="send()">Войти</button>
+        <button type="button" class="btn red" (click)="close()">Отмена</button>
     </form>
 </div>

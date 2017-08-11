@@ -2,7 +2,7 @@
     <div class="item-details"
          (click)="tree.selectDivision(division)"
          [ngClass]="{ 'selected': division.isSelected === true, 'last': last === true, 'nested': level > 0 }"
-         [ngStyle]="{'padding-left': 15 * level + 'px'}">
+         [ngStyle]="{ 'padding-left': 15 * level + 'px' }">
         <div class="arrow">
             <i class="fa fa-caret-right" *ngIf="division.children.length > 0 && !division.isOpened"></i>
             <i class="fa fa-caret-down" *ngIf="division.children.length > 0 && division.isOpened"></i>
@@ -12,6 +12,11 @@
     <div class="item-children"
          *ngIf="division.children.length > 0 && division.isOpened"
          [ngClass]="{ 'selected': division.isSelected === true, 'opened': division.isOpened }">
-        <division-tree-item *ngFor="let division of division.children | divisionOrder; let last = last" [division]="division" [tree]="this.tree" [level]="level + 1" [last]="last"></division-tree-item>
+        <division-tree-item
+                *ngFor="let division of division.children | divisionOrder; let last = last"
+                [division]="division" [tree]="this.tree"
+                [level]="level + 1"
+                [last]="last">
+        </division-tree-item>
     </div>
 </div>

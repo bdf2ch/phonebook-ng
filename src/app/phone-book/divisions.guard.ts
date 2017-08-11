@@ -5,14 +5,17 @@ import { PhoneBookService } from './phone-book.service';
 
 
 @Injectable()
-export class CanActivatePhoneBookGuard implements CanActivate {
+export class DivisionsGuard implements CanActivate {
 
     constructor (private phoneBook: PhoneBookService) {};
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|boolean {
-        return this.phoneBook.fetchDivisionList().map(() => {
+        if (this.phoneBook.getDivisionList().length === 0) {
+            return this.phoneBook.fetchInitialData().map(() => {
+                return true;
+            });
+        } else {
             return true;
-        });
+        }
     }
-
 };
