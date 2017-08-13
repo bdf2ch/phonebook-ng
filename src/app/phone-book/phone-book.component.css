@@ -42,8 +42,10 @@
   margin-right: -7px;
 }
 #app-header .user-logged {
-  width: 40px;
+  flex-shrink: 0;
+  width: 40px !important;
   height: 40px;
+  box-sizing: border-box;
   font-family: 'Open Sans Semi Bold';
   font-size: 20px;
   line-height: 40px;
@@ -160,15 +162,44 @@
   border-right: 1px solid #E1ECF4;
 }
 #app-content-wrapper {
-  overflow: auto;
   position: absolute;
   top: 60px;
   left: 350px;
   right: 0px;
   bottom: 0px;
-  padding: 20px;
   transition: left 0.2s linear 0s;
   background: #F4F4F4;
+}
+#app-content-wrapper.with-ats {
+  top: 120px;
+}
+#app-content-wrapper #app-ats {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: #F0F4C3;
+}
+#app-content-wrapper #app-ats .close-button {
+  justify-self: flex-end;
+  font-size: 30px;
+  color: lightgray;
+  cursor: pointer;
+}
+#app-content-wrapper #app-ats .close-button:hover {
+  color: gray;
+}
+#app-content-wrapper #app-content {
+  overflow: auto;
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 20px;
 }
 #app-content-wrapper #app-contacts {
   display: flex;

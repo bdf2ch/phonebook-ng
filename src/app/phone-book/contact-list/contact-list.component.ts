@@ -15,7 +15,7 @@ export class ContactListComponent implements AfterViewChecked {
     constructor(private detector: ChangeDetectorRef,
                 private element: ElementRef,
                 private phoneBook: PhoneBookService) {
-        this.container = document.getElementById('app-content-wrapper');
+        this.container = document.getElementById('app-content');
     };
 
 
@@ -24,5 +24,5 @@ export class ContactListComponent implements AfterViewChecked {
         this.row = Math.floor(width / 280);
         this.margin = (width - this.row * 280) / (this.row - 1);
         this.detector.detectChanges();
-    }
+    };
 };

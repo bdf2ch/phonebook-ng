@@ -2,6 +2,9 @@
 @app-header-height-mobile: 50px;
 @app-header-background-color: white;
 
+@app-ats-height: 60px;
+@app-ats-background-color: #F0F4C3;
+
 @app-divisions-width: 350px;
 @app-divisions-background-color: #F4F9FC;
 
@@ -61,8 +64,10 @@
 
 
 .user-logged {
-  width: 40px;
-  height: @app-header-height - 20px;
+  flex-shrink: 0;
+  width: 40px !important;
+  height: 40px;
+  box-sizing: border-box;
   //margin-left: 10px;
   font-family: 'Open Sans Semi Bold';
   font-size: 20px;
@@ -201,16 +206,54 @@
   }
 }
 
+
+
 #app-content-wrapper {
+  position: absolute;
+  top: @app-header-height;
+  left: @app-divisions-width;
+  right: 0px;
+  bottom: 0px;
+  transition: left 0.2s linear 0s;
+  background: @app-contacts-background-color;
+
+  &.with-ats {
+    top: @app-header-height + @app-ats-height;;
+  }
+
+
+  #app-ats {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: @app-ats-height;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: @app-ats-background-color;
+
+    .close-button {
+      justify-self: flex-end;
+      font-size: 30px;
+      color: lightgray;
+      cursor: pointer;
+      &:hover {
+        color: gray;
+      }
+    }
+  }
+
+
+  #app-content {
     overflow: auto;
     position: absolute;
-    top: @app-header-height;
-    left: @app-divisions-width;
+    top: @app-ats-height;
+    left: 0px;
     right: 0px;
     bottom: 0px;
     padding: 20px;
-    transition: left 0.2s linear 0s;
-    background: @app-contacts-background-color;
+  }
+
 
 
 

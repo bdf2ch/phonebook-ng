@@ -40,7 +40,19 @@
         <division-tree [divisions]="phoneBook.getDivisionList()" (onSelect)="selectDivision($event)"></division-tree>
     </div>
 </div>
+
+
+
 <div id="app-content-wrapper">
+    <div id="app-ats">
+        <div class="close-button">
+            &times;
+        </div>
+    </div>
+
+    <div id="app-content">
+        <router-outlet></router-outlet>
+    </div>
     <!--
     <stub *ngIf="phoneBook.getContactGroupList().length === 0 && !phoneBook.isLoadingInProgress()" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
     <stub *ngIf="phoneBook.isLoadingInProgress() === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
@@ -48,7 +60,6 @@
         <contact-group [group]="group" *ngFor="let group of phoneBook.getContactGroupList()"></contact-group>
     </div>
     -->
-    <router-outlet></router-outlet>
 </div>
 
 

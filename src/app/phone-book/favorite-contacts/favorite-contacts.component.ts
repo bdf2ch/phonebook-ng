@@ -53,7 +53,7 @@ export class FavoriteContactsComponent implements OnInit, AfterViewInit, AfterVi
                 private element: ElementRef,
                 private session: SessionService,
                 private phoneBook: PhoneBookService) {
-        this.container = document.getElementById('app-content-wrapper');
+        this.container = document.getElementById('app-content');
         //let width = this.container.clientWidth - 40;
         //this.row = Math.floor(width / 280);
         //this.margin = (width - this.row * 280) / (this.row - 1);

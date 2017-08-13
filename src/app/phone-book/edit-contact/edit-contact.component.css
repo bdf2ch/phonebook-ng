@@ -62,3 +62,10 @@
   margin-right: auto;
   border-bottom: 1px solid #ECEFF1;
 }
+.auth-form .ats {
+  width: 55%;
+}
+.auth-form .phone-number {
+  flex-grow: 1;
+  width: 20%;
+}

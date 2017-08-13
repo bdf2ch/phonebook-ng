@@ -36,23 +36,24 @@
 
         <div class="separator margin-bottom-20"></div>
 
-        <div class="combined-input margin-bottom-10">
+        <div class="combined-input margin-bottom-10" *ngFor="let phone of contact.phones">
             <i class="fa fa-phone"></i>
-            <select name="" id="" class="width-50">
+            <select name="ats" class="ats" [ngModel]="phone.atsId">
+                <option value="0">Выберите АТС</option>
                 <optgroup label="Внутренние АТС">
-                    <option value="{{ ats.id }}"
-                            *ngFor="let ats of phoneBook.getInnerATSList()"
+                    <option *ngFor="let ats of phoneBook.getInnerATSList()"
+                            [ngValue]="ats.id"
                             [disabled]="!ats.isSelectable">{{ '&#160;'.repeat(ats.level * 4) + ats.title }}
                     </option>
                 </optgroup>
                 <optgroup label="Внешние АТС">
-                    <option value="{{ ats.id }}"
-                            *ngFor="let ats of phoneBook.getOuterATSList()"
+                    <option *ngFor="let ats of phoneBook.getOuterATSList()"
+                            value="{{ats.id.toString()}}"
                             [disabled]="!ats.isSelectable">{{ '&#160;'.repeat(ats.level * 4) + ats.title }}
                     </option>
                 </optgroup>
             </select>
-            <input type="text" name="phone" placeholder="Введите номер телефона">
+            <input type="text" name="phone" class="phone-number" placeholder="Введите номер" [ngModel]="phone.number">
             <i class="fa fa-plus"></i>
         </div>
 

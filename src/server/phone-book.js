@@ -1,7 +1,4 @@
-var cookies = require('cookies');
-
 module.exports = {
-
     /**
      * Получение инициализационный данных
      * @param parameters
@@ -14,6 +11,7 @@ module.exports = {
             func: 'get_phonebook_initial_data'
         }
     },
+
 
     /**
      * Получение информации о сессии
@@ -28,6 +26,7 @@ module.exports = {
         }
     },
 
+
     /**
      * Завершение сессии текущего пользователя
      * @param parameters
@@ -41,9 +40,6 @@ module.exports = {
         }
     },
 
-    onLogOutSuccess: function (parameters) {
-        return true;
-    },
 
     /**
      * Получение списка структурных подразделений
@@ -58,8 +54,9 @@ module.exports = {
         };
     },
 
+
     /**
-     *
+     * Получение абонентов по структкрному подразделению
      * @param parameters
      * @returns {{text: string, values: [*], func: string}}
      */
@@ -71,8 +68,9 @@ module.exports = {
         }
     },
 
+
     /**
-     *
+     * Поиск абонентов
      * @param parameters
      * @returns {{text: string, values: [*], func: string}}
      */
@@ -83,6 +81,7 @@ module.exports = {
             func: 'search_contacts'
         }
     },
+
 
     /**
      * Добавление абонента в избранные
@@ -97,8 +96,9 @@ module.exports = {
         }
     },
 
+
     /**
-     *
+     * Удаление абонента из избранных
      * @param parameters
      * @returns {{text: string, values: [*,*], func: string}}
      */
@@ -112,7 +112,7 @@ module.exports = {
 
 
     /**
-     *
+     * Добавление фото абонента
      * @param contactId
      * @param url
      * @returns {{text: string, values: [*,*], func: string}}
@@ -127,7 +127,7 @@ module.exports = {
 
 
     /**
-     *
+     * Перемещение абонента в структурное подразделение с заданным идентификатором
      * @param parameters
      * @returns {{text: string, values: [*,*], func: string}}
      */
@@ -136,6 +136,20 @@ module.exports = {
             text: 'SELECT set_contact_division($1, $2)',
             values: [parameters.contactId, parameters.divisionId],
             func: 'set_contact_division'
+        }
+    },
+
+
+    /**
+     * Добавление телефона абоненту
+     * @param parameters
+     * @returns {{text: string, values: [null,null,null], func: string}}
+     */
+    addContactPhone: function (parameters) {
+        return {
+            text: 'SELECT add_contact_phone($1, $2, $3)',
+            values: [parameters.contactId, parameters.atsId, parameters.number],
+            func: 'add_contact_phone'
         }
     }
 };

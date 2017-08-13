@@ -8,7 +8,8 @@ import 'rxjs/add/operator/take';
 import { SessionService } from "../utilities/session/session.service";
 import { Division, IDivision } from "../models/Division.model";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
-import {ATS, IATS} from "../models/ATS.model";
+import {ATS, IATS} from "../models/ats.model";
+import {Phone} from "../models/phone.model";
 
 
 @Injectable()
@@ -267,6 +268,24 @@ export class PhoneBookService {
           let contact = new Contact(body);
           console.log(contact);
           return contact;
+        })
+        .take(1)
+        .catch(this.handleError);
+  };
+
+
+  addContactPhone(contactId: number, atsId: number, number: string): Observable<Phone> {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const parameters = { action: 'addContactPhone', data: { contactId: contactId, atsId: atsId, number: number}};
+
+    return this.http.post(this.apiUrl, parameters, options)
+        .map((response: Response) => {
+            const body = response.json();
+            const phone = new Phone(body);
+            phone.setupBackup(['atsId', 'number'])
+            console.log('phone', phone);
+            return phone;
         })
         .take(1)
         .catch(this.handleError);

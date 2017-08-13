@@ -1,5 +1,5 @@
 import { Model } from "./model.model";
-import { Phone } from "./phone.model";
+import { IPhone, Phone} from "./phone.model";
 
 export interface IContact {
   id: number;
@@ -13,6 +13,7 @@ export interface IContact {
   mobile?: string;
   photo?: string;
   is_in_favorites: boolean;
+  phones: IPhone[]
 };
 
 
@@ -51,6 +52,12 @@ export class Contact extends Model {
       this.isInFavorites = config.is_in_favorites;
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();
+
+        config.phones.forEach((item: IPhone, index: number, array: IPhone[]) => {
+          const phone = new Phone(item);
+          phone.setupBackup(['atsId', 'number']);
+          this.phones.push(phone);
+        });
     }
   };
 };

@@ -1,6 +1,6 @@
 var express = require('express');
 var parser = require('body-parser');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 const uploader = require('express-fileupload');
 var pg = require('pg');
 var app = express();
@@ -10,7 +10,6 @@ var postgres = require('./postgres');
 var async = require('async');
 var path = require('path');
 var fs = require('fs');
-
 
 
 app
@@ -24,7 +23,7 @@ app
     .use(express.static(path.resolve('../../static')))
     .use(uploader())
     .use(parser.json())
-    .use(cookieParser())
+    //.use(cookieParser())
     .post('/api', function (request, response, next) {
         console.dir(request.body);
         console.dir(request.cookies);

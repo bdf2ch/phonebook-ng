@@ -203,6 +203,8 @@
   flex-direction: row;
   justify-content: flex-start;
   margin-bottom: 5px;
+  font-family: 'Open Sans Regular';
+  font-size: 14px;
 }
 .contact .contact-details .phones .fa {
   width: 23px;
