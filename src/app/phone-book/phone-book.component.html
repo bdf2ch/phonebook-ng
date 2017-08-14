@@ -2,7 +2,8 @@
     <div class="combined-input margin-right-10">
         <i class="fa fa-search"></i>
         <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail" [(ngModel)]="phoneBook.searchQuery" (keyup)="searchContacts(phoneBook.searchQuery)">
-        <i class="fa fa-gear" *ngIf="phoneBook.getContactGroupList().length > 0"></i>
+        <i class="fa fa-times clickable" *ngIf="phoneBook.searchQuery.length > 0" (click)="phoneBook.clearSearch()" title="Очистить поиск"></i>
+        <i class="fa fa-gear clickable" *ngIf="phoneBook.getContactGroupList().length > 0" (click)="openAtsPanel()" title="Выбрать АТС"></i>
     </div>
     <button type="button" class="btn small margin-right-10">
         <i class="fa fa-question-circle"></i>
@@ -43,11 +44,9 @@
 
 
 
-<div id="app-content-wrapper">
-    <div id="app-ats">
-        <div class="close-button">
-            &times;
-        </div>
+<div id="app-content-wrapper" [ngClass]="{ 'with-ats': isAtsPanelOpened }">
+    <div id="app-ats" [ngClass]="{ 'opened': isAtsPanelOpened }">
+        <div class="close-button" title="Закрыть" (click)="closeAtsPanel()">&times;</div>
     </div>
 
     <div id="app-content">

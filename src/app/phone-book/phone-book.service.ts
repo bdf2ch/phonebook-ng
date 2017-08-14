@@ -190,6 +190,35 @@ export class PhoneBookService {
   };
 
 
+  editContact(contact: Contact): Observable<Contact> {
+      let headers = new Headers({ "Content-Type": "application/json" });
+      let options = new RequestOptions({ headers: headers });
+      let params = {
+          action: "editContact",
+          data: {
+              id: contact.id,
+              name: contact.name,
+              fname: contact.fname,
+              surname: contact.surname,
+              position: contact.position,
+              email: contact.email,
+              mobile: contact.mobile
+          }
+      };
+      this.loading = true;
+
+      return this.http.post(this.apiUrl, params, options)
+          .map((res: Response) => {
+              this.loading = false;
+              const body = res.json();
+              const cnt = new Contact(body);
+              return cnt;
+          })
+          .take(1)
+          .catch(this.handleError);
+  };
+
+
   /**
    * Добавляет контакт в избранные
    * @param contactId {number} - идентификатор контакта
@@ -283,7 +312,7 @@ export class PhoneBookService {
         .map((response: Response) => {
             const body = response.json();
             const phone = new Phone(body);
-            phone.setupBackup(['atsId', 'number'])
+            phone.setupBackup(['atsId', 'number']);
             console.log('phone', phone);
             return phone;
         })
@@ -373,6 +402,17 @@ export class PhoneBookService {
           this.currentContact = contact;
       }
       return this.currentContact;
+  };
+
+
+  clearSearch(): void {
+      this.searchQuery = '';
+      if (this.currentDivision !== null) {
+          this.fetchContactsByDivisionId(this.currentDivision.id)
+              .subscribe();
+      } else {
+          this.groups = [];
+      }
   };
 
 

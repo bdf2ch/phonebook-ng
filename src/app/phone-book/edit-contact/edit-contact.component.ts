@@ -7,6 +7,8 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 import {PhoneBookService} from "../phone-book.service";
 import {SessionService} from "../../utilities/session/session.service";
 import {Contact} from '../../models/contact.model';
+import {Phone} from "../../models/phone.model";
+import {noUndefined} from "@angular/compiler/src/util";
 
 
 @Component({
@@ -38,11 +40,14 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
     @Input() isOpened: boolean;
     @Output() onClose: EventEmitter<any> = new EventEmitter();
     private opened: boolean = false;
+    private isInAddPhoneMode: boolean = false;
+    private newPhone: Phone;
 
 
     constructor(private element: ElementRef,
                 private phoneBook: PhoneBookService,
                 private session: SessionService) {
+        this.newPhone = new Phone();
     };
 
 
@@ -70,10 +75,48 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
 
 
     /**
+     * Установка / получение состояния режима добавления нового телефона
+     * @param flag {boolean?} - состояние режима
+     * @returns {boolean}
+     */
+    addPhoneMode(flag?: boolean): boolean {
+        if (flag !== undefined) {
+            this.isInAddPhoneMode = flag;
+            this.newPhone.restoreBackup();
+        }
+        return this.isInAddPhoneMode;
+    };
+
+
+    addPhone(ats: any): void {
+        console.log(ats);
+        console.log(this.newPhone);
+
+        this.phoneBook.addContactPhone(this.contact.id, this.newPhone.atsId, this.newPhone.number)
+            .subscribe((phone: Phone) => {
+                this.contact.phones.push(phone);
+                this.addPhoneMode(false);
+            });
+    };
+
+
+    /**
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: any) {
+        return item.id; // or item.id
+    }
+
+
+    /**
      * Закрывает окно редактирования контакта
      */
     close(): void {
         this.opened = false;
+        this.contact.restoreBackup();
+        this.newPhone.restoreBackup();
         this.onClose.emit();
     };
 };

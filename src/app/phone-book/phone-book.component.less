@@ -11,21 +11,22 @@
 @app-contacts-background-color: #F4F4F4;
 
 #app-header {
-    position: absolute;
-    top: 0px;
-    left: @app-divisions-width;
-    right: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    height: @app-header-height;
-    padding-left: 20px;
-    padding-right: 35px;
-    box-sizing: border-box;
-    background: @app-header-background-color;
-    border-bottom: 1px solid #E9EBEC;
-    transition: left 0.2s linear 0s;
+  z-index: 5;
+  position: absolute;
+  top: 0px;
+  left: @app-divisions-width;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: @app-header-height;
+  padding-left: 20px;
+  padding-right: 35px;
+  box-sizing: border-box;
+  background: @app-header-background-color;
+  border-bottom: 1px solid #E9EBEC;
+  transition: left 0.2s linear 0s;
 
 
     button {
@@ -210,7 +211,7 @@
 
 #app-content-wrapper {
   position: absolute;
-  top: @app-header-height;
+  top: 0px;
   left: @app-divisions-width;
   right: 0px;
   bottom: 0px;
@@ -218,11 +219,17 @@
   background: @app-contacts-background-color;
 
   &.with-ats {
-    top: @app-header-height + @app-ats-height;;
+    #app-content {
+      top: @app-ats-height;
+    }
   }
 
 
+  /**
+  * Панель выбора АТС для маршрутизации
+  **/
   #app-ats {
+    z-index: 1;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -230,15 +237,25 @@
     height: @app-ats-height;
     padding-left: 20px;
     padding-right: 20px;
+    margin-top: @app-ats-height * -1;
     background: @app-ats-background-color;
+    -webkit-transition: margin-top linear 0.4s;
+    -moz-transition: margin-top linear 0.4s;
+    -ms-transition: margin-top linear 0.4s;
+    -o-transition: margin-top linear 0.4s;
+    transition: margin-top linear 0.4s;
+
+    &.opened {
+      margin-top: 0px;
+    }
 
     .close-button {
       justify-self: flex-end;
       font-size: 30px;
-      color: lightgray;
+      color: gray;
       cursor: pointer;
       &:hover {
-        color: gray;
+        color: black;
       }
     }
   }
@@ -247,11 +264,16 @@
   #app-content {
     overflow: auto;
     position: absolute;
-    top: @app-ats-height;
+    top: 0px;
     left: 0px;
     right: 0px;
     bottom: 0px;
     padding: 20px;
+    -webkit-transition: top linear 0.4s;
+    -moz-transition: top linear 0.4s;
+    -ms-transition: top linear 0.4s;
+    -o-transition: top linear 0.4s;
+    transition: top linear 0.4s;
   }
 
 

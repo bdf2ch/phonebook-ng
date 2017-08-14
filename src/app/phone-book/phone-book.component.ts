@@ -19,6 +19,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
     private inAuthMode: boolean = false;
     private inUserMenuMode: boolean = false;
     private inEditContactMode: boolean = true;
+    private isAtsPanelOpened: boolean = true;
     private snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
     @ViewChild(ContactListComponent) list: ContactListComponent;
 
@@ -89,13 +90,29 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
     };
 
 
+    /**
+     * Открывает панель выбора АТС
+     */
+    openAtsPanel(): void {
+        this.isAtsPanelOpened = true;
+    };
+
+
+    /**
+     * PЗакрывает панель выбора АТС
+     */
+    closeAtsPanel(): void {
+        this.isAtsPanelOpened = false;
+    };
+
+
     selectDivision(division: Division): void {
         //console.log(division);
         this.phoneBook.selectedDivision(division);
         if (division !== null) {
             this.router.navigate(['/']);
             this.phoneBook.fetchContactsByDivisionId(division.id).subscribe(() => {
-                document.getElementById('app-content-wrapper').scrollTop = 0;
+                document.getElementById('app-content').scrollTop = 0;
             })
         } else {
             this.phoneBook.clearContactGroups();

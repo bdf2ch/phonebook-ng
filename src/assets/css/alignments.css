@@ -1,0 +1,25 @@
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.flex-left {
+  align-self: flex-start;
+}
+.flex-right {
+  align-self: flex-end;
+}

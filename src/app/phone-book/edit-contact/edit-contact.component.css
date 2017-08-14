@@ -1,4 +1,5 @@
 .edit-contact-component {
+  z-index: 100;
   position: fixed;
   top: 0px;
   left: 0px;
@@ -11,12 +12,13 @@
   background: rgba(0, 0, 0, 0.2);
 }
 .auth-form {
+  z-index: 101;
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 450px;
+  width: 500px;
   height: auto;
   padding: 20px;
   background: white;
@@ -29,38 +31,86 @@
   flex-direction: column;
   width: 100%;
 }
-.auth-form .form-icon {
+.auth-form .form-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.auth-form .form-header .icon-and-name {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  padding-left: 40px;
+}
+.auth-form .form-header .icon-and-name .form-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 0;
   width: 100px;
   height: 100px;
-  margin-top: -70px;
-  margin-bottom: 20px;
+  margin-right: 20px;
   background: #80CBC4;
   border-radius: 50%;
 }
-.auth-form .form-icon.photo {
+.auth-form .form-header .icon-and-name .form-icon.photo {
   background-position: center top;
   background-size: cover !important;
 }
-.auth-form .form-icon .fa {
+.auth-form .form-header .icon-and-name .form-icon .fa {
   font-size: 70px;
   color: white;
 }
-.auth-form .form-title {
+.auth-form .form-header .icon-and-name .form-title {
   font-family: "Open Sans Regular";
   font-size: 18px;
   color: #4DB6AC;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
+}
+.auth-form .form-header .close-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex: 1;
+  width: 40px;
+}
+.auth-form .form-header .close-button .close {
+  margin-top: -60px;
+  font-size: 40px;
+  color: lightgray;
+  cursor: pointer;
+}
+.auth-form .form-header .close-button .close:hover {
+  color: gray;
 }
 .auth-form .separator {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
   border-bottom: 1px solid #ECEFF1;
+}
+.auth-form .no-phones {
+  font-family: 'Open Sans Regular';
+  font-size: 14px;
+  line-height: 17px;
+  color: gray;
+  text-align: center;
+}
+.auth-form .no-phones a {
+  color: #03A9F4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.auth-form .no-phones a:hover {
+  color: #01579B;
 }
 .auth-form .ats {
   width: 55%;

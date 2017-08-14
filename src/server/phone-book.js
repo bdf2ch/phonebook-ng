@@ -84,6 +84,20 @@ module.exports = {
 
 
     /**
+     * Изменение данных абонента
+     * @param parameters
+     * @returns {{text: string, values: Array, func: string}}
+     */
+    editContact: function (parameters) {
+        return {
+            text: 'SELECT edit_contact()',
+            values: [],
+            func: 'edit_contact'
+        }
+    },
+
+
+    /**
      * Добавление абонента в избранные
      * @param parameters
      * @returns {{text: string, values: [*,*], func: string}}
