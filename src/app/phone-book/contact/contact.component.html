@@ -13,7 +13,7 @@
             </i>
 
             <!-- Кнопка редактирования информации о контакте -->
-            <i class="fa fa-ellipsis-v" *ngIf="session.user() && session.user().isAdministrator" (click)="editContact()"></i>
+            <i class="fa fa-ellipsis-v" *ngIf="session.user() && session.user().isAdministrator" (click)="editContact()" title="Редактировать контакт"></i>
         </div>
 
 
@@ -49,18 +49,18 @@
         -->
         <div class="phones">
             <i class="fa fa-phone"></i>
-            <span class="phone-item" *ngFor="let phone of contact.phones">{{ phone.number }}</span>
+            <span class="phone-item" *ngFor="let phone of contact.phones">{{ phone._backupData.number }}</span>
             <span class="not-specified" *ngIf="contact.phones.length === 0">Телефон не указан</span>
         </div>
         <div class="mobile">
             <i class="fa fa-mobile-phone"></i>
-            {{ contact.mobile }}
-            <span class="not-specified" *ngIf="contact.mobile === ''">Моб. телефон не указан</span>
+            {{ contact._backupData.mobile }}
+            <span class="not-specified" *ngIf="contact._backupData.mobile === ''">Моб. телефон не указан</span>
         </div>
         <div class="email">
             <i class="fa fa-at"></i>
-            <a href="mailto:{{contact.email}}">{{ contact.email }}</a>
-            <span class="not-specified" *ngIf="contact.email === ''">E-mail не указан</span>
+            <a href="mailto:{{contact._backupData.email}}">{{ contact._backupData.email }}</a>
+            <span class="not-specified" *ngIf="contact._backupData.email === ''">E-mail не указан</span>
         </div>
     </div>
 </div>

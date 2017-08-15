@@ -90,8 +90,16 @@ module.exports = {
      */
     editContact: function (parameters) {
         return {
-            text: 'SELECT edit_contact()',
-            values: [],
+            text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7)',
+            values: [
+                parameters.contactId,
+                parameters.surname,
+                parameters.name,
+                parameters.fname,
+                parameters.position,
+                parameters.email,
+                parameters.mobile
+            ],
             func: 'edit_contact'
         }
     },
@@ -164,6 +172,32 @@ module.exports = {
             text: 'SELECT add_contact_phone($1, $2, $3)',
             values: [parameters.contactId, parameters.atsId, parameters.number],
             func: 'add_contact_phone'
+        }
+    },
+
+    /**
+     * Изменение телефона абонента
+     * @param parameters
+     * @returns {{text: string, values: [*,*,*], func: string}}
+     */
+    editContactPhone: function (parameters) {
+        return {
+            text: 'SELECT edit_contact_phone($1, $2, $3)',
+            values: [parameters.phoneId, parameters.atsId, parameters.number],
+            func: 'edit_contact_phone'
+        }
+    },
+
+    /**
+     * Удаление телефона абонента
+     * @param parameters
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    deleteContactPhone: function (parameters) {
+        return {
+            text: 'SELECT delete_contact_phone($1)',
+            values: [parameters.phoneId],
+            func: 'delete_contact_phone'
         }
     }
 };

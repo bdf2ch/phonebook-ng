@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="close-button" title="Закрыть" (click)="close()">
+        <div class="close-button" title="Закрыть" (click)="close(true)">
             <span class="close">&times;</span>
         </div>
     </div>
@@ -61,25 +61,30 @@
         <div class="separator margin-bottom-20"></div>
 
 
-        <div class="combined-input margin-bottom-10" *ngFor="let phone of contact.phones; trackBy:trackByFn;">
-            <i class="fa fa-phone"></i>
-            <select name="ats" class="ats" [(ngModel)]="phone.atsId">
-                <optgroup label="Внутренние АТС">
-                    <option *ngFor="let innerAts of phoneBook.getInnerATSList()"
-                            [ngValue]="innerAts.id"
-                            [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
-                    </option>
-                </optgroup>
-                <optgroup label="Внешние АТС">
-                    <option *ngFor="let outerAts of phoneBook.getOuterATSList()"
-                            [ngValue]="outerAts.id"
-                            [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
-                    </option>
-                </optgroup>
-            </select>
-            <input type="text" name="phone" class="phone-number" placeholder="Введите номер" [(ngModel)]="phone.number">
-            <i class="fa fa-save"></i>
-        </div>
+        <!-- Список телефонов абонента с привязкой к АТС -->
+        <form *ngFor="let phone of contact.phones; trackBy:trackByFn;" novalidate #phoneForm="ngForm">
+            <div class="combined-input margin-bottom-10">
+                <i class="fa fa-phone"></i>
+                <select name="ats" class="ats" [(ngModel)]="phone.atsId">
+                    <optgroup label="Внутренние АТС">
+                        <option *ngFor="let innerAts of phoneBook.getInnerATSList()"
+                                [ngValue]="innerAts.id"
+                                [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
+                        </option>
+                    </optgroup>
+                    <optgroup label="Внешние АТС">
+                        <option *ngFor="let outerAts of phoneBook.getOuterATSList()"
+                                [ngValue]="outerAts.id"
+                                [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
+                        </option>
+                    </optgroup>
+                </select>
+                <input type="text" name="phone" class="phone-number" placeholder="Введите номер" [(ngModel)]="phone.number" required>
+                <i class="fa fa-save clickable" *ngIf="phoneForm.dirty && phoneForm.valid" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"></i>
+                <i class="fa fa-times clickable" title="Удалить телефон" (click)="deletePhone(phone)"></i>
+            </div>
+        </form>
+
 
         <!-- Заглушка при отсутствии телефонных номеров -->
         <div class="no-phones margin-bottom-20" *ngIf="!isInAddPhoneMode && contact.phones.length === 0">
@@ -116,6 +121,11 @@
             </div>
         </form>
 
-        <button type="submit" class="btn green" [disabled]="!editContactForm.dirty || editContactForm.invalid">Сохранить изменения</button>
+        <button type="submit"
+                class="btn green"
+                [disabled]="!editContactForm.dirty || editContactForm.invalid"
+                (click)="edit()">
+            Сохранить изменения
+        </button>
     </form>
 </div>

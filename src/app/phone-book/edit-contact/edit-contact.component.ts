@@ -100,6 +100,40 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
     };
 
 
+
+    editPhone(phone: Phone, form: any) : void {
+        this.phoneBook.editContactPhone(phone)
+            .subscribe((phone: Phone) => {
+                form.reset({
+                    ats: phone.atsId,
+                    phone: phone.number
+                })
+            });
+    };
+
+
+    deletePhone(phone: Phone): void {
+        this.phoneBook.deleteContactPhone(phone)
+            .subscribe((result: boolean) => {
+                if (result === true) {
+                    this.contact.phones.forEach((item: Phone, index: number, array: Phone[]) => {
+                        if (item.id === phone.id) {
+                            array.splice(index, 1);
+                        }
+                    });
+                }
+            });
+    };
+
+
+    edit(): void {
+        this.phoneBook.editContact(this.contact)
+            .subscribe((contact: Contact) => {
+                this.close(false);
+            });
+    };
+
+
     /**
      *
      * @param index
@@ -113,10 +147,19 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
     /**
      * Закрывает окно редактирования контакта
      */
-    close(): void {
+    close(restore: boolean): void {
         this.opened = false;
-        this.contact.restoreBackup();
-        this.newPhone.restoreBackup();
+        this.addPhoneMode(false);
+        if (restore) {
+            this.contact.restoreBackup();
+            this.newPhone.restoreBackup();
+            this.contact.phones.forEach((phone: Phone) => {
+                console.log(phone);
+                phone.restoreBackup(['atsId', 'number']);
+            });
+        } else {
+            this.contact.setupBackup(['surname', 'name', 'fname', 'position', 'email', 'mobile']);
+        }
         this.onClose.emit();
     };
 };

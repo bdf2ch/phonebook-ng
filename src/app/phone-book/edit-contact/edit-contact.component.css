@@ -56,11 +56,12 @@
   width: 100px;
   height: 100px;
   margin-right: 20px;
-  background: #80CBC4;
   border-radius: 50%;
+  background-position: center center !important;
+  background-size: cover !important;
 }
 .auth-form .form-header .icon-and-name .form-icon.photo {
-  background-position: center top;
+  background-position: center top !important;
   background-size: cover !important;
 }
 .auth-form .form-header .icon-and-name .form-icon .fa {

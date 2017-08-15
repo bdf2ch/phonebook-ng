@@ -45,6 +45,8 @@ app
             case 'addContactToFavorites': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactToFavorites)]; break;
             case 'removeContactFromFavorites': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.removeContactFromFavorites)]; break;
             case 'addContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactPhone)]; break;
+            case 'editContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editContactPhone)]; break;
+            case 'deleteContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteContactPhone)]; break;
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
             case 'logOut': queue = [async.asyncify(phoneBook.onLogOutSuccess), async.asyncify(postgres.query), async.asyncify(phoneBook.logOut)]; break;
             case 'uploadPhoto': console.log(request.files); break;

@@ -12,16 +12,13 @@ import {Contact} from "../models/contact.model";
     styleUrls: ['./phone-book.component.css']
 })
 export class PhoneBookComponent implements  OnInit, AfterContentInit {
-    ngAfterContentInit(): void {
-        console.log('list', this.list);
-    }
-
     private inAuthMode: boolean = false;
     private inUserMenuMode: boolean = false;
     private inEditContactMode: boolean = true;
-    private isAtsPanelOpened: boolean = true;
+    private isAtsPanelOpened: boolean = false;
     private snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
     @ViewChild(ContactListComponent) list: ContactListComponent;
+
 
     constructor(private router: Router,
                 private phoneBook: PhoneBookService,
@@ -39,6 +36,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
         }
 
     };
+
+
+    ngAfterContentInit(): void {
+        console.log('list', this.list);
+    }
 
 
     /**

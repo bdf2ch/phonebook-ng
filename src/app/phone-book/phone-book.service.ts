@@ -196,7 +196,7 @@ export class PhoneBookService {
       let params = {
           action: "editContact",
           data: {
-              id: contact.id,
+              contactId: contact.id,
               name: contact.name,
               fname: contact.fname,
               surname: contact.surname,
@@ -303,6 +303,13 @@ export class PhoneBookService {
   };
 
 
+  /**
+   * Добавляет телефон абоненту
+   * @param contactId {number} - идентификатор абонента
+   * @param atsId {number} - идентификатор АТС
+   * @param number {string} - номекр телефона
+   * @returns {Observable<R>}
+   */
   addContactPhone(contactId: number, atsId: number, number: string): Observable<Phone> {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
@@ -318,6 +325,47 @@ export class PhoneBookService {
         })
         .take(1)
         .catch(this.handleError);
+  };
+
+
+  /**
+   * Сохраняет информацию о телефоне абонента
+   * @param phone
+   * @returns {Observable<R>}
+   */
+  editContactPhone(phone: Phone): Observable<Phone> {
+      const headers = new Headers({ 'Content-Type': 'application/json' });
+      const options = new RequestOptions({ headers: headers });
+      const parameters = { action: 'editContactPhone', data: { phoneId: phone.id, atsId: phone.atsId, number: phone.number}};
+
+      return this.http.post(this.apiUrl, parameters, options)
+          .map((response: Response) => {
+              phone.setupBackup(['atsId', 'number']);
+              console.log('phone', phone);
+              return phone;
+          })
+          .take(1)
+          .catch(this.handleError);
+  };
+
+
+  /**
+   * Удаляет телефон абонента
+   * @param phone {Phone} - телефон абонента
+   * @returns {Observable<R>}
+   */
+  deleteContactPhone(phone: Phone): Observable<boolean> {
+      const headers = new Headers({ 'Content-Type': 'application/json' });
+      const options = new RequestOptions({ headers: headers });
+      const parameters = { action: 'deleteContactPhone', data: { phoneId: phone.id }};
+
+      return this.http.post(this.apiUrl, parameters, options)
+          .map((response: Response) => {
+              const body = response.json();
+              return body;
+          })
+          .take(1)
+          .catch(this.handleError);
   };
 
 
