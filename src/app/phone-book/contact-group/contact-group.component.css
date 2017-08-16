@@ -22,6 +22,10 @@
 .contact-group-component .divisions .division {
   float: left;
   margin-right: 7px;
+  cursor: pointer;
+}
+.contact-group-component .divisions .division:hover {
+  color: #607D8B;
 }
 .contact-group-component .divisions .division.selected {
   margin-left: 0px;

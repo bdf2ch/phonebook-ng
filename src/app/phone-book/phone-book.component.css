@@ -197,6 +197,41 @@
 #app-content-wrapper #app-ats.opened {
   margin-top: 0px;
 }
+#app-content-wrapper #app-ats .ats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+#app-content-wrapper #app-ats .ats .title {
+  display: inline-block;
+  margin-right: 10px;
+  font-family: "Open Sans Regular";
+  text-transform: uppercase;
+  color: gray;
+}
+#app-content-wrapper #app-ats .ats select {
+  height: 40px;
+  font-family: "Open Sans Regular";
+  font-size: 15px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  color: gray;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+#app-content-wrapper #app-ats .ats select option {
+  font-family: "Open Sans Regular";
+  text-transform: uppercase;
+  color: gray;
+}
+#app-content-wrapper #app-ats .ats select option[selected] {
+  text-decoration: underline;
+}
 #app-content-wrapper #app-ats .close-button {
   justify-self: flex-end;
   font-size: 30px;

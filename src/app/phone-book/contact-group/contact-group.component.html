@@ -2,7 +2,8 @@
     <div class="divisions" *ngIf="group.divisions.length > 0">
         <span class="division"
               [ngClass]="{'selected': phoneBook.selectedDivision() && division.id === phoneBook.selectedDivision().id}"
-              *ngFor="let division of group.divisions; let isFirst = first; let isLast = last">
+              *ngFor="let division of group.divisions; let isFirst = first; let isLast = last"
+              (click)="selectDivision(division)">
             <span class="separator" *ngIf="!isFirst">/</span>
             {{ division.title }}
         </span>

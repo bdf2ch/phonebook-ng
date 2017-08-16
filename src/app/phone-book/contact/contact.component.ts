@@ -31,7 +31,7 @@ export class ContactComponent implements  OnInit, OnChanges{
             console.log('drag started');
             event.cancelBubble = true;
             event.stopPropagation();
-            event.dataTransfer.effectAllowed = 'move';
+            //event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('contactId', this.contact.id.toString());
             console.log('data', event.dataTransfer.getData('contactId'));
         });

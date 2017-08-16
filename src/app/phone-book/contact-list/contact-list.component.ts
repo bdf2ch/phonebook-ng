@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { PhoneBookService } from "../phone-book.service";
 
 
@@ -6,7 +6,7 @@ import { PhoneBookService } from "../phone-book.service";
     templateUrl: './contact-list.component.html',
     styleUrls: ['./contact-list.component.css']
 })
-export class ContactListComponent implements AfterViewChecked {
+export class ContactListComponent implements OnInit, AfterViewChecked {
     row: number;
     margin: number;
     container: any;
@@ -16,6 +16,11 @@ export class ContactListComponent implements AfterViewChecked {
                 private element: ElementRef,
                 private phoneBook: PhoneBookService) {
         this.container = document.getElementById('app-content');
+    };
+
+
+    ngOnInit(): void {
+        this.phoneBook.favoritesMode(false);
     };
 
 

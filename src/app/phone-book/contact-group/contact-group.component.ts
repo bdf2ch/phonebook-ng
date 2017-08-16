@@ -6,6 +6,7 @@ import { ContactGroup } from "../../models/contact-group.model";
 import {PhoneBookService} from "../phone-book.service";
 import {ContactComponent} from "../contact/contact.component";
 import {Contact} from "../../models/contact.model";
+import {Division} from "../../models/division.model";
 
 
 @Component({
@@ -35,6 +36,14 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
         //if (changes['contactsInRow'] !== undefined)
         //    this.inRow = changes['contactsInRow']['currentValue'];
         //console.log('cg margin', this.contactMargin);
+    };
+
+
+    selectDivision(division: Division): void {
+        this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedATS().id)
+            .subscribe(() => {
+                this.phoneBook.searchQuery = '';
+            });
     };
 
 };

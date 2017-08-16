@@ -52,7 +52,7 @@ for (var i = 1; i < 370; i++) {
           var splittedByComma = splittedBySpace[x].split(',');
           for (var z = 0; z < splittedByComma.length; z++) {
             if (splittedByComma[z] !== '') {
-              conatact.phones.push(splittedByComma[z]);
+              contact.phones.push(splittedByComma[z]);
             }
           }
         } else {

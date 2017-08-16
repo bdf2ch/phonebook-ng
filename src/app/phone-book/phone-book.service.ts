@@ -25,9 +25,11 @@ export class PhoneBookService {
   private loadingInProgress: boolean = false;
   private currentDivision: Division | null = null;
   private currentContact: Contact | null = null;
+  private currentAts: ATS;
   loading: boolean = false;
   searchMode: boolean = false;
   public searchQuery: string = '';
+  private isInFavoritesMode: boolean = false;
 
 
   /**
@@ -64,6 +66,9 @@ export class PhoneBookService {
                       let ats = new ATS(item);
                       ats.setupBackup(['parentId', 'type', 'title']);
                       this.innerATS.push(ats);
+                      if (ats.id === 17) {
+                          this.currentAts = ats;
+                      }
                   });
                   body.ats.outer.forEach((item: IATS) => {
                       let ats = new ATS(item);
@@ -101,13 +106,14 @@ export class PhoneBookService {
 
 
 
-  fetchContactsByDivisionId(id: number): Observable<ContactGroup[]> {
+  fetchContactsByDivisionId(divisionId: number, sourceAtsId: number): Observable<ContactGroup[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let parameters = {
       action: 'getContactGroupsByDivisionId',
       data: {
-        divisionId: id,
+        divisionId: divisionId,
+          sourceAtsId: sourceAtsId,
         token: this.session.session() ? this.session.session().token : ''
       }
     };
@@ -169,7 +175,7 @@ export class PhoneBookService {
   searchContacts(): Observable<ContactGroup[]>|null {
     let headers = new Headers({ "Content-Type": "application/json" });
     let options = new RequestOptions({ headers: headers });
-    let params = { action: "searchContacts", data: { search: this.searchQuery } };
+    let params = { action: "searchContacts", data: { search: this.searchQuery, sourceAtsId: this.currentAts.id } };
     this.searchMode = true;
     this.loading = true;
 
@@ -453,10 +459,23 @@ export class PhoneBookService {
   };
 
 
+  selectedATS(): ATS {
+      return this.currentAts;
+  };
+
+
+  favoritesMode(flag?:boolean): boolean {
+      if (flag !== undefined) {
+          this.isInFavoritesMode = flag;
+      }
+      return this.isInFavoritesMode;
+  };
+
+
   clearSearch(): void {
       this.searchQuery = '';
       if (this.currentDivision !== null) {
-          this.fetchContactsByDivisionId(this.currentDivision.id)
+          this.fetchContactsByDivisionId(this.currentDivision.id, this.currentAts.id)
               .subscribe();
       } else {
           this.groups = [];

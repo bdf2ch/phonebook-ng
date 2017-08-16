@@ -3,7 +3,9 @@
         <i class="fa fa-search"></i>
         <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail" [(ngModel)]="phoneBook.searchQuery" (keyup)="searchContacts(phoneBook.searchQuery)">
         <i class="fa fa-times clickable" *ngIf="phoneBook.searchQuery.length > 0" (click)="phoneBook.clearSearch()" title="Очистить поиск"></i>
-        <i class="fa fa-gear clickable" *ngIf="phoneBook.getContactGroupList().length > 0" (click)="openAtsPanel()" title="Выбрать АТС"></i>
+        <i class="fa fa-gear clickable"
+           *ngIf="phoneBook.getContactGroupList().length > 0 || (phoneBook.favoritesMode() === true && session.user() !== null && session.user().favorites.contacts.length > 0)"
+           (click)="openAtsPanel()" title="Выбрать АТС"></i>
     </div>
     <button type="button" class="btn small margin-right-10">
         <i class="fa fa-question-circle"></i>
@@ -46,6 +48,14 @@
 
 <div id="app-content-wrapper" [ngClass]="{ 'with-ats': isAtsPanelOpened }">
     <div id="app-ats" [ngClass]="{ 'opened': isAtsPanelOpened }">
+        <div class="ats">
+            <span class="title">Вы звоните из</span>
+            <select name="ats" id="ats" [(ngModel)]="phoneBook.selectedATS().id" (change)="selectSourceAts()">
+                <option value="{{ 17 }}">Аппарат управления</option>
+                <option value="{{ 18 }}">Северные электрические сети</option>
+                <option value="{{ 19 }}">Центральные электрические сети</option>
+            </select>
+        </div>
         <div class="close-button" title="Закрыть" (click)="closeAtsPanel()">&times;</div>
     </div>
 

@@ -1,6 +1,6 @@
 <stub *ngIf="phoneBook.getContactGroupList().length === 0 && !phoneBook.isLoadingInProgress()" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
 <stub *ngIf="phoneBook.isLoadingInProgress() === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
-<div id="app-contacts">
+<div id="app-contacts" *ngIf="phoneBook.getContactGroupList().length > 0 || phoneBook.isLoadingInProgress() === true">
     <contact-group [group]="group"
                    [margin]="margin"
                    [row]="row"

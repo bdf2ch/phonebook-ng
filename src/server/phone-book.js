@@ -62,8 +62,8 @@ module.exports = {
      */
     getContactsByDivisionId: function (parameters) {
         return {
-            text: 'SELECT get_contacts_by_division_id($1, $2)',
-            values: [parameters.divisionId, parameters.token],
+            text: 'SELECT get_contacts_by_division_id($1, $2, $3)',
+            values: [parameters.divisionId, parameters.sourceAtsId, parameters.token],
             func: 'get_contacts_by_division_id'
         }
     },
@@ -76,8 +76,8 @@ module.exports = {
      */
     searchContacts: function (parameters) {
         return {
-            text: 'SELECT search_contacts($1)',
-            values: [parameters.search],
+            text: 'SELECT search_contacts($1, $2)',
+            values: [parameters.search, parameters.sourceAtsId],
             func: 'search_contacts'
         }
     },

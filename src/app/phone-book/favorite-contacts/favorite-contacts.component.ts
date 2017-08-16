@@ -31,6 +31,8 @@ export class FavoriteContactsComponent implements OnInit, AfterViewInit, AfterVi
 
     ngOnInit(): void {
         document.getElementById('app-content-wrapper').scrollTop = 0;
+        this.phoneBook.favoritesMode(true);
+        this.detector.detectChanges();
     };
 
     ngAfterViewInit(): void {

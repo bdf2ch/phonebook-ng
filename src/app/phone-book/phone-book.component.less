@@ -249,6 +249,43 @@
       margin-top: 0px;
     }
 
+    .ats {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      .title {
+        display: inline-block;
+        margin-right: 10px;
+        font-family: "Open Sans Regular";
+        text-transform: uppercase;
+        color: gray;
+      }
+      select {
+        height: 40px;
+        font-family: "Open Sans Regular";
+        font-size: 15px;
+        text-transform: uppercase;
+        text-decoration: underline;
+        color: gray;
+        box-sizing: border-box;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        option {
+          font-family: "Open Sans Regular";
+          text-transform: uppercase;
+          color: gray;
+
+          &[selected] {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
     .close-button {
       justify-self: flex-end;
       font-size: 30px;

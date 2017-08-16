@@ -16,6 +16,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
     private inUserMenuMode: boolean = false;
     private inEditContactMode: boolean = true;
     private isAtsPanelOpened: boolean = false;
+    private sourceAtsId: number;
     private snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
     @ViewChild(ContactListComponent) list: ContactListComponent;
 
@@ -113,13 +114,16 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
         this.phoneBook.selectedDivision(division);
         if (division !== null) {
             this.router.navigate(['/']);
-            this.phoneBook.fetchContactsByDivisionId(division.id).subscribe(() => {
+            this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedATS().id).subscribe(() => {
                 document.getElementById('app-content').scrollTop = 0;
+                this.phoneBook.searchQuery = '';
+                if (this.isAtsPanelOpened) {
+                    this.isAtsPanelOpened = false;
+                }
             })
         } else {
             this.phoneBook.clearContactGroups();
-        }
-        ;
+        };
     };
 
 
@@ -129,6 +133,17 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
             this.phoneBook.searchContacts().subscribe(() => {
                 this.router.navigate(['/']);
             });
+        }
+    };
+
+
+    selectSourceAts(): void {
+        console.log('changed');
+        if (this.phoneBook.searchQuery.length > 3) {
+            this.phoneBook.searchContacts().subscribe();
+        } else {
+            this.phoneBook.fetchContactsByDivisionId(this.phoneBook.selectedDivision().id, this.phoneBook.selectedATS().id)
+                .subscribe();
         }
     };
 

@@ -50,6 +50,18 @@ export class DivisionTreeItemComponent implements OnInit {
     };
 
 
+    @HostListener('drop', ['$event']) onDrop(event: any) {
+        console.log('host listener DROP');
+        event.stopPropagation();
+        console.log('drop conatctId = ', event.dataTransfer.getData('contactId'), ', division id = ', this.division.id);
+        this.phoneBook.setContactDivision(parseInt(event.dataTransfer.getData('contactId')), this.division.id)
+            .subscribe((contact: Contact) => {
+                console.log(contact);
+            });
+    };
+
+
+
 
     ngOnInit(): void {
         /*
