@@ -33,4 +33,17 @@ export class ContactGroup {
             });
         }
     };
+
+
+    /**
+     * Удаление абонента
+     * @param contact {Contact} - удаляемый контакт
+     */
+    removeContact(contact: Contact): void {
+        this.contacts.forEach((item: Contact, index: number, array: Contact[]) => {
+            if (item.id === contact.id) {
+                array.splice(index, 1);
+            }
+        });
+    };
 };

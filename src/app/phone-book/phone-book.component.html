@@ -1,32 +1,48 @@
 <div id="app-header">
-    <div class="combined-input margin-right-10">
-        <i class="fa fa-search"></i>
-        <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail" [(ngModel)]="phoneBook.searchQuery" (keyup)="searchContacts(phoneBook.searchQuery)">
-        <i class="fa fa-times clickable" *ngIf="phoneBook.searchQuery.length > 0" (click)="phoneBook.clearSearch()" title="Очистить поиск"></i>
-        <i class="fa fa-gear clickable"
-           *ngIf="phoneBook.getContactGroupList().length > 0 || (phoneBook.favoritesMode() === true && session.user() !== null && session.user().favorites.contacts.length > 0)"
-           (click)="openAtsPanel()" title="Выбрать АТС"></i>
+
+    <!-- Заголовок приложения -->
+    <div id="title">
+        <i class="fa fa-phone-square"></i>
+        <span class="label">Телефонный справочник</span>
     </div>
-    <button type="button" class="btn small margin-right-10">
-        <i class="fa fa-question-circle"></i>
-    </button>
 
-    <!-- Избранные контакты -->
-    <button type="button" class="btn small favorites badged" routerLink="/favorites" *ngIf="session.user() !== null && session.user().favorites.contacts.length > 0">
-        <span class="badge">{{ session.user().favorites.contacts.length }}</span>
-        <i class="fa fa-star"></i>
-    </button>
+    <!-- Панель поиска абонентов -->
+    <div id="search">
+        <div id="search-left"></div>
+        <div id="search-center">
+            <div class="width-100 combined-input">
+                <i class="fa fa-search"></i>
+                <input type="text" name="" id="" placeholder="Введите имя абонента, телефон или e-mail" [(ngModel)]="phoneBook.searchQuery" (keyup)="searchContacts(phoneBook.searchQuery)">
+                <i class="fa fa-times clickable" *ngIf="phoneBook.searchQuery.length > 0" (click)="phoneBook.clearSearch()" title="Очистить поиск"></i>
+                <i class="fa fa-gear clickable" *ngIf="phoneBook.getContactGroupList().length > 0" (click)="openAtsPanel()" title="Выбрать АТС"></i>
+            </div>
+        </div>
+        <div id="search-right">
+            <!-- Руководство пользователя -->
+            <button type="button" class="btn round small margin-right-10" title="Помощь">
+                <i class="fa fa-question-circle"></i>
+            </button>
 
-    <!-- Авторизация пользователя -->
-    <button type="button" class="btn small" (click)="openAuthModal()" title="Войти" *ngIf="session.user() === null">
-        <i class="fa fa-sign-in"></i>
-    </button>
+            <!-- Избранные контакты -->
+            <button type="button" class="btn small round favorites badged" routerLink="/favorites" *ngIf="session.user() !== null && session.user().favorites.contacts.length > 0" title="Избранные контакты">
+                <span class="badge">{{ session.user().favorites.contacts.length }}</span>
+                <i class="fa fa-star"></i>
+            </button>
 
-    <!-- Меню пользователя -->
-    <div class="user-logged" *ngIf="session.user() !== null" (click)="openUserMenuModal()"
-         [ngStyle]="{ 'background': session.user().photo !== '' ? 'url(http://127.0.0.1:4444' + session.user().photo + ')' : ''}">
-        <span *ngIf="session.user().photo === ''">{{ session.user().name[0] + session.user().surname[0] }}</span>
+            <!-- Авторизация пользователя -->
+            <button type="button" class="btn small" (click)="openAuthModal()" title="Войти" *ngIf="session.user() === null" title="Авторизация">
+                <i class="fa fa-sign-in"></i>
+            </button>
+
+            <!-- Меню пользователя -->
+            <div class="user-logged" *ngIf="session.user() !== null" (click)="openUserMenuModal()"
+                 [ngStyle]="{ 'background': session.user().photo !== '' ? 'url(http://127.0.0.1:4444' + session.user().photo + ')' : ''}" title="Меню пользователя">
+                <span *ngIf="session.user().photo === ''">{{ session.user().name[0] + session.user().surname[0] }}</span>
+            </div>
+        </div>
     </div>
+
+
 </div>
 <div id="app-divisions">
     <!--

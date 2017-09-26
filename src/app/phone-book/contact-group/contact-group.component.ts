@@ -23,7 +23,7 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
     @Input() group: ContactGroup;
     @Input() margin: number;
     @Input() row: number;
-    @ViewChildren(ContactComponent) contacts: ContactComponent[];
+    //@ViewChildren(ContactComponent) contacts: ContactComponent[];
 
 
     constructor(private element: ElementRef,
@@ -44,6 +44,19 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
             .subscribe(() => {
                 this.phoneBook.searchQuery = '';
             });
+    };
+
+
+    /**
+     * Удаляет абонента из группы
+     * @param contact
+     */
+    removeContact(contact: Contact): void {
+        this.group.contacts.forEach((item: Contact, index: number, array: Contact[]) => {
+            if (item.id === contact.id) {
+                array.splice(index, 1);
+            }
+        });
     };
 
 };

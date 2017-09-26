@@ -13,6 +13,7 @@
                  [row]="row"
                  [marginRight]="margin"
                  [index]="ind"
+                 [group]="group"
                  *ngFor="let contact of group.contacts | contactsOrder:'fio'; trackBy: id; let ind = index"></contact>
     </div>
 </div>

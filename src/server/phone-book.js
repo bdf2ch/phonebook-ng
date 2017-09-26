@@ -1,7 +1,7 @@
 module.exports = {
     /**
      * Получение инициализационный данных
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: Array, func: string}}
      */
     getInitialData: function (parameters) {
@@ -15,7 +15,7 @@ module.exports = {
 
     /**
      * Получение информации о сессии
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}
      */
     getSession: function (parameters) {
@@ -29,7 +29,7 @@ module.exports = {
 
     /**
      * Завершение сессии текущего пользователя
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}
      */
     logOut: function (parameters) {
@@ -43,7 +43,7 @@ module.exports = {
 
     /**
      * Получение списка структурных подразделений
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: Array, func: string}}
      */
     getDivisionList: function (parameters) {
@@ -57,7 +57,7 @@ module.exports = {
 
     /**
      * Получение абонентов по структкрному подразделению
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}
      */
     getContactsByDivisionId: function (parameters) {
@@ -70,8 +70,22 @@ module.exports = {
 
 
     /**
+     * Получение избранных абонентов
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    getFavoriteContacts: function (parameters) {
+        return {
+            text: 'SELECT get_favorite_contacts($1, $2)',
+            values: [parameters.token, parameters.sourceAtsId],
+            func: 'get_favorite_contacts'
+        }
+    },
+
+
+    /**
      * Поиск абонентов
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}
      */
     searchContacts: function (parameters) {
@@ -85,7 +99,7 @@ module.exports = {
 
     /**
      * Изменение данных абонента
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: Array, func: string}}
      */
     editContact: function (parameters) {
@@ -107,7 +121,7 @@ module.exports = {
 
     /**
      * Добавление абонента в избранные
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*], func: string}}
      */
     addContactToFavorites: function (parameters) {
@@ -121,7 +135,7 @@ module.exports = {
 
     /**
      * Удаление абонента из избранных
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*], func: string}}
      */
     removeContactFromFavorites: function (parameters) {
@@ -135,8 +149,7 @@ module.exports = {
 
     /**
      * Добавление фото абонента
-     * @param contactId
-     * @param url
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*], func: string}}
      */
     addContactPhoto: function (parameters) {
@@ -155,8 +168,8 @@ module.exports = {
      */
     setContactDivision: function (parameters) {
         return {
-            text: 'SELECT set_contact_division($1, $2)',
-            values: [parameters.contactId, parameters.divisionId],
+            text: 'SELECT set_contact_division($1, $2, $3)',
+            values: [parameters.contactId, parameters.divisionId, parameters.sourceAtsId],
             func: 'set_contact_division'
         }
     },
@@ -164,7 +177,7 @@ module.exports = {
 
     /**
      * Добавление телефона абоненту
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [null,null,null], func: string}}
      */
     addContactPhone: function (parameters) {
@@ -175,9 +188,10 @@ module.exports = {
         }
     },
 
+
     /**
      * Изменение телефона абонента
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*,*], func: string}}
      */
     editContactPhone: function (parameters) {
@@ -188,9 +202,10 @@ module.exports = {
         }
     },
 
+
     /**
      * Удаление телефона абонента
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}
      */
     deleteContactPhone: function (parameters) {

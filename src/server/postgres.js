@@ -4,7 +4,7 @@ pool = new pg.Pool({
     user: 'docuser',
     database: 'phone',
     password: 'docasu',
-    host: '10.50.0.242',
+    host: '10.50.0.171',
     port: 5432,
     max: 10,
     idleTimeoutMillis: 30000

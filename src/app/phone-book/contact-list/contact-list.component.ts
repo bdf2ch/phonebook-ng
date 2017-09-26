@@ -20,7 +20,7 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
 
 
     ngOnInit(): void {
-        this.phoneBook.favoritesMode(false);
+
     };
 
 

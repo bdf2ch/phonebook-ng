@@ -31,6 +31,7 @@
 .btn {
   display: inline-block;
   height: 40px;
+  box-sizing: border-box;
   background: transparent;
   font-family: "Open Sans Regular";
   font-size: 14px;
@@ -46,7 +47,12 @@
   }
 
   &.small {
-    width: 40px;
+    width: 40px !important;
+    flex-shrink: 0;
+  }
+
+  &.round {
+    border-radius: 50%;
   }
 
   &.red {
@@ -123,9 +129,9 @@
 .combined-input {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  //width: 100%;
   box-sizing: border-box;
-  flex-grow: 1;
+  //flex-grow: 1;
 
   input {
     flex: 1;

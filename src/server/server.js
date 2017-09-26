@@ -40,6 +40,7 @@ app
             case 'getSession': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getSession)]; break;
             case 'getDivisionList': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getDivisionList)]; break;
             case 'getContactGroupsByDivisionId': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getContactsByDivisionId)]; break;
+            case 'getFavoriteContacts': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getFavoriteContacts)]; break;
             case 'searchContacts': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.searchContacts)]; break;
             case 'editContact': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editContact)]; break;
             case 'addContactToFavorites': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactToFavorites)]; break;
@@ -50,7 +51,7 @@ app
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
             case 'logOut': queue = [async.asyncify(phoneBook.onLogOutSuccess), async.asyncify(postgres.query), async.asyncify(phoneBook.logOut)]; break;
             case 'uploadPhoto': console.log(request.files); break;
-            case 'setContactDivision': queue = [async.asyncify(phoneBook.onLogOutSuccess), async.asyncify(postgres.query), async.asyncify(phoneBook.setContactDivision)]; break;
+            case 'setContactDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.setContactDivision)]; break;
         };
 
 

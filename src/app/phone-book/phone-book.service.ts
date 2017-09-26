@@ -10,6 +10,8 @@ import { Division, IDivision } from "../models/Division.model";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 import {ATS, IATS} from "../models/ats.model";
 import {Phone} from "../models/phone.model";
+import { IDraggableContact } from '../models/draggable-contact.interface';
+import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 
 @Injectable()
@@ -30,6 +32,16 @@ export class PhoneBookService {
   searchMode: boolean = false;
   public searchQuery: string = '';
   private isInFavoritesMode: boolean = false;
+  public _dragging: IDraggableContact | null = null;
+
+
+  get nowDragging() : IDraggableContact | null {
+      return this._dragging;
+  };
+
+  set nowDragging(data: IDraggableContact | null) {
+      this._dragging = data;
+  };
 
 
   /**
@@ -112,9 +124,9 @@ export class PhoneBookService {
     let parameters = {
       action: 'getContactGroupsByDivisionId',
       data: {
-        divisionId: divisionId,
+          divisionId: divisionId,
           sourceAtsId: sourceAtsId,
-        token: this.session.session() ? this.session.session().token : ''
+          token: this.session.session() ? this.session.session().token : ''
       }
     };
 
@@ -132,6 +144,34 @@ export class PhoneBookService {
       })
       .take(1)
       .catch(this.handleError);
+  };
+
+
+  fetchFavoriteContacts(token: string, sourceAtsId: number): Observable<Contact[]> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let parameters = {
+          action: 'getFavoriteContacts',
+          data: {
+              token: token,
+              sourceAtsId: sourceAtsId,
+          }
+      };
+
+      this.loadingInProgress = true;
+      return this.http.post(this.apiUrl, parameters, options)
+          .map((res: Response) => {
+              this.clearContactGroups();
+              this.loadingInProgress = false;
+              const body = res.json();
+              body.forEach((item: IContactGroup) => {
+                  const contactGroup = new ContactGroup(item);
+                  this.groups.push(contactGroup);
+              });
+              return this.groups;
+          })
+          .take(1)
+          .catch(this.handleError);
   };
 
 
@@ -292,16 +332,33 @@ export class PhoneBookService {
   };
 
 
-  setContactDivision(contactId: number, divisionId: number): Observable<Contact> {
+  /**
+   * Перемещение абонента в структурное подразделение
+   * @param contact {Contact} - перемещаемый абонент
+   * @param division {Division} - целевое структурное подразделение
+   * @param group {ContactGroup} - группа контактов, к которой относится перемещаемый абонент
+   * @returns {Observable<R>}
+   */
+  setContactDivision(contact: Contact, division: Division, group: ContactGroup, sourceAtsId: number): Observable<Contact> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    let parameters = { action: 'setContactDivision', data: { contactId: contactId, divisionId: divisionId }};
+    let parameters = {
+        action: 'setContactDivision',
+        data: {
+            contactId: contact.id,
+            divisionId: division.id,
+            sourceAtsId: sourceAtsId
+        }
+    };
 
     return this.http.post(this.apiUrl, parameters, options)
         .map((response: Response) => {
           let body = response.json();
           let contact = new Contact(body);
           console.log(contact);
+          console.log('group contacts', group.contacts);
+          group.removeContact(contact);
+          this.nowDragging = null;
           return contact;
         })
         .take(1)
@@ -464,9 +521,19 @@ export class PhoneBookService {
   };
 
 
-  favoritesMode(flag?:boolean): boolean {
+  setFavoritesMode(): void {
+      this.groups = [];
+      this.groups.push(this.session.user().favorites);
+  };
+
+
+  favoriteContactsMode(flag?: boolean): boolean {
       if (flag !== undefined) {
           this.isInFavoritesMode = flag;
+          if (flag === true) {
+              this.groups = [];
+              this.groups.push(this.session.user().favorites);
+          }
       }
       return this.isInFavoritesMode;
   };

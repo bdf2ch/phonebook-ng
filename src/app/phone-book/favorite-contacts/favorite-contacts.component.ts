@@ -31,8 +31,9 @@ export class FavoriteContactsComponent implements OnInit, AfterViewInit, AfterVi
 
     ngOnInit(): void {
         document.getElementById('app-content-wrapper').scrollTop = 0;
-        this.phoneBook.favoritesMode(true);
-        this.detector.detectChanges();
+        //this.phoneBook.setFavoritesMode();
+        this.phoneBook.favoriteContactsMode(true);
+        //this.detector.detectChanges();
     };
 
     ngAfterViewInit(): void {
@@ -56,6 +57,7 @@ export class FavoriteContactsComponent implements OnInit, AfterViewInit, AfterVi
                 private session: SessionService,
                 private phoneBook: PhoneBookService) {
         this.container = document.getElementById('app-content');
+        this.phoneBook.favoriteContactsMode(true);
         //let width = this.container.clientWidth - 40;
         //this.row = Math.floor(width / 280);
         //this.margin = (width - this.row * 280) / (this.row - 1);

@@ -6,6 +6,7 @@ import { Contact } from "../../models/contact.model";
 import { PhoneBookService } from "../phone-book.service";
 import { ContactGroupComponent } from "../contact-group/contact-group.component";
 import {SessionService} from "../../utilities/session/session.service";
+import { ContactGroup } from '../../models/contact-group.model';
 
 
 @Component({
@@ -17,6 +18,7 @@ import {SessionService} from "../../utilities/session/session.service";
 })
 export class ContactComponent implements  OnInit, OnChanges{
     @Input() private contact: Contact;
+    @Input() private group: ContactGroup;
     @Input() index: number;
     @Input() marginRight: number;
     @Input() row: number;
@@ -27,20 +29,28 @@ export class ContactComponent implements  OnInit, OnChanges{
                 public element: ElementRef,
                 private renderer: Renderer2,
                 private session: SessionService) {
+
         this.renderer.listen(this.element.nativeElement, 'dragstart', (event: any) => {
             console.log('drag started');
             event.cancelBubble = true;
             event.stopPropagation();
-            //event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('contactId', this.contact.id.toString());
             console.log('data', event.dataTransfer.getData('contactId'));
+            this.phoneBook.nowDragging = {
+                contact: this.contact,
+                group: this.group
+            };
+            console.log('group', this.phoneBook.nowDragging);
         });
 
         this.renderer.listen(this.element.nativeElement, 'dragend', (event: any) => {
             console.log('drag ended');
             event.cancelBubble = true;
             event.stopPropagation();
+            //this.phoneBook.nowDragging = null;
         });
+
     };
 
 

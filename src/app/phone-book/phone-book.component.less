@@ -6,7 +6,7 @@
 @app-ats-background-color: #F0F4C3;
 
 @app-divisions-width: 350px;
-@app-divisions-background-color: #F4F9FC;
+@app-divisions-background-color: #E6EEF4;
 
 @app-contacts-background-color: #F4F4F4;
 
@@ -14,7 +14,7 @@
   z-index: 5;
   position: absolute;
   top: 0px;
-  left: @app-divisions-width;
+  left: 0px;
   right: 0px;
   display: flex;
   flex-direction: row;
@@ -27,6 +27,63 @@
   background: @app-header-background-color;
   border-bottom: 1px solid #E9EBEC;
   transition: left 0.2s linear 0s;
+
+
+  #title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: @app-divisions-width - 20px;
+    height: 100%;
+    box-sizing: border-box;
+
+    .fa {
+      width: 40px;
+      font-size: 28px;
+      color: #29B6F6;
+    }
+
+    .label {
+      display: flex;
+      height: 80%;
+      flex-grow: 1;
+      flex-direction: row;
+      align-items: center;
+      font-family: "Open Sans Semi Bold";
+      font-size: 16px;
+      text-transform: uppercase;
+      color: #29B6F6;
+      border-right: 1px dotted #E9EBEC;
+    }
+  }
+
+  #search {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+    #search-left {
+      display: flex;
+      flex-direction: row;
+      width: 20%;
+      padding-left: 20px;
+      box-sizing: border-box;
+    }
+    #search-center {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+    }
+    #search-right {
+      display: flex;
+      flex-direction: row;
+      width: 20%;
+      justify-content: flex-end;
+    }
+  }
+
 
 
     button {
@@ -91,7 +148,7 @@
   overflow: auto;
   position: absolute;
   left: 0px;
-  top: 0px;
+  top: @app-header-height;
   bottom: 0px;
   display: flex;
   flex-direction: column;
@@ -211,7 +268,7 @@
 
 #app-content-wrapper {
   position: absolute;
-  top: 0px;
+  top: @app-header-height;
   left: @app-divisions-width;
   right: 0px;
   bottom: 0px;

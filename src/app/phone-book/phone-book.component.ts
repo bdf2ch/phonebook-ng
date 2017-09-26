@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "../utilities/session/session.service";
 import { Division } from "../models/Division.model";
@@ -11,17 +11,18 @@ import {Contact} from "../models/contact.model";
     templateUrl: './phone-book.component.html',
     styleUrls: ['./phone-book.component.css']
 })
-export class PhoneBookComponent implements  OnInit, AfterContentInit {
+export class PhoneBookComponent implements  OnInit {
     private inAuthMode: boolean = false;
     private inUserMenuMode: boolean = false;
     private inEditContactMode: boolean = true;
     private isAtsPanelOpened: boolean = false;
     private sourceAtsId: number;
     private snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
-    @ViewChild(ContactListComponent) list: ContactListComponent;
+    //@ViewChild(ContactListComponent) list: ContactListComponent;
 
 
     constructor(private router: Router,
+                private route: ActivatedRoute,
                 private phoneBook: PhoneBookService,
                 private session: SessionService) {};
 
@@ -34,14 +35,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
         if (this.session.user() && this.session.user().favorites.contacts.length > 0) {
             console.log('redirect to favs');
             this.router.navigate(['/favorites']);
+            this.phoneBook.setFavoritesMode();
         }
 
     };
 
-
-    ngAfterContentInit(): void {
-        console.log('list', this.list);
-    }
 
 
     /**
@@ -138,12 +136,20 @@ export class PhoneBookComponent implements  OnInit, AfterContentInit {
 
 
     selectSourceAts(): void {
-        console.log('changed');
+        console.log('ats changed');
         if (this.phoneBook.searchQuery.length > 3) {
             this.phoneBook.searchContacts().subscribe();
         } else {
-            this.phoneBook.fetchContactsByDivisionId(this.phoneBook.selectedDivision().id, this.phoneBook.selectedATS().id)
-                .subscribe();
+            //console.log(this.route);
+            if (this.phoneBook.favoriteContactsMode()) {
+                this.phoneBook.fetchFavoriteContacts(this.session.session() !== null ? this.session.session().token : '', this.phoneBook.selectedATS().id)
+                    .subscribe(() => {
+
+                    });
+            } else {
+                this.phoneBook.fetchContactsByDivisionId(this.phoneBook.selectedDivision().id, this.phoneBook.selectedATS().id)
+                    .subscribe();
+            }
         }
     };
 
