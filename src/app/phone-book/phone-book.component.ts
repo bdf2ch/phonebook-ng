@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { PhoneBookService } from './phone-book.service';
-import { SessionService } from "../utilities/session/session.service";
+import { SessionService } from "./session.service";
 import { Division } from "../models/Division.model";
 import { ContactListComponent } from "./contact-list/contact-list.component";
 import {Contact} from "../models/contact.model";

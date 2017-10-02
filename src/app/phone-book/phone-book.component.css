@@ -2,7 +2,7 @@
   z-index: 5;
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: 350px;
   right: 0px;
   display: flex;
   flex-direction: row;
@@ -12,8 +12,7 @@
   padding-left: 20px;
   padding-right: 35px;
   box-sizing: border-box;
-  background: white;
-  border-bottom: 1px solid #E9EBEC;
+  background: #3DB8DA;
   transition: left 0.2s linear 0s;
 }
 #app-header #title {
@@ -21,14 +20,25 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 330px;
+  width: 180px;
   height: 100%;
   box-sizing: border-box;
 }
-#app-header #title .fa {
+#app-header #title .logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
   width: 40px;
-  font-size: 28px;
-  color: #29B6F6;
+  height: 40px;
+  margin-right: 10px;
+  background: white;
+  border-radius: 50%;
+}
+#app-header #title .logo .fa {
+  font-size: 30px;
+  color: #3DB8DA;
 }
 #app-header #title .label {
   display: flex;
@@ -37,10 +47,10 @@
   flex-direction: row;
   align-items: center;
   font-family: "Open Sans Semi Bold";
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 16px;
   text-transform: uppercase;
-  color: #29B6F6;
-  border-right: 1px dotted #E9EBEC;
+  color: white;
 }
 #app-header #search {
   display: flex;
@@ -64,8 +74,19 @@
 #app-header #search #search-right {
   display: flex;
   flex-direction: row;
-  width: 20%;
+  width: 170px;
   justify-content: flex-end;
+}
+#app-header button {
+  background: #0097A7;
+  border: 0px solid transparent;
+  color: white;
+}
+#app-header button:hover {
+  background: #00838F;
+}
+#app-header button .fa {
+  color: white;
 }
 #app-header button.favorites {
   margin-right: 10px;
@@ -79,7 +100,7 @@
   display: inline-block;
   width: 17px;
   height: 17px;
-  margin-top: -15px;
+  margin-top: -12px;
   margin-right: -10px;
   font-family: 'Open Sans Semi Bold';
   font-size: 10px;
@@ -107,7 +128,6 @@
   background-size: cover !important;
   background-repeat: no-repeat !important;
   background-position: center top !important;
-  border: 1px solid #EEEEEE;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -115,7 +135,7 @@
   overflow: auto;
   position: absolute;
   left: 0px;
-  top: 60px;
+  top: 0px;
   bottom: 0px;
   display: flex;
   flex-direction: column;
@@ -149,11 +169,11 @@
   padding-right: 20px;
   font-family: 'Open Sans Semi Bold';
   font-size: 20px;
-  color: #607D8B;
+  color: white;
   border-right: 1px solid #E9EBEC;
 }
 #app-divisions #app-divisions-header .app-title .fa {
-  color: #80CBC4;
+  color: white;
 }
 #app-divisions #app-divisions-header button {
   overflow: visible;
@@ -220,7 +240,7 @@
   right: 0px;
   bottom: 0px;
   transition: left 0.2s linear 0s;
-  background: #F4F4F4;
+  background: white;
   /**
   * Панель выбора АТС для маршрутизации
   **/

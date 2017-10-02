@@ -5,6 +5,7 @@ import { trigger, state, transition, style, animate } from '@angular/animations'
 import { Division } from "../../../models/Division.model";
 import { DivisionTreeComponent } from "../division-tree.component";
 import { PhoneBookService } from "../../phone-book.service";
+import { PhoneBookManagerService } from '../../../manager/phone-book-manager.service';
 import { Contact } from "../../../models/contact.model";
 
 
@@ -41,7 +42,8 @@ export class DivisionTreeItemComponent implements OnInit {
 
     constructor(private element: ElementRef,
                 private renderer: Renderer2,
-                private phoneBook: PhoneBookService) {
+                private phoneBook: PhoneBookService,
+                private phoneBookManager: PhoneBookManagerService) {
 
         this.renderer.listen(this.element.nativeElement, 'dragenter', (event: any) => {
             this.renderer.addClass(event.target, 'drag-over');
@@ -66,7 +68,7 @@ export class DivisionTreeItemComponent implements OnInit {
             console.log('drop conatctId = ', event.dataTransfer.getData('contactId'), ', division id = ', this.division.id);
             console.log('now dragging', this.phoneBook.nowDragging);
             if (this.phoneBook.nowDragging !== null) {
-                this.phoneBook.setContactDivision(this.phoneBook.nowDragging.contact, this.division, this.phoneBook.nowDragging.group, this.phoneBook.selectedATS().id)
+                this.phoneBookManager.setContactDivision(this.phoneBook.nowDragging.contact, this.division, this.phoneBook.nowDragging.group, this.phoneBook.selectedATS().id)
                     .subscribe((contact: Contact) => {
                         console.log(contact);
                     });

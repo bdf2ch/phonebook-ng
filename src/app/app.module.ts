@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { PhoneBookManagerModule } from './manager/manager.module';
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './phone-book/phone-book.component';
 import { ContactListComponent } from './phone-book/contact-list/contact-list.component';
@@ -30,7 +31,7 @@ import { UserMenuComponent } from './phone-book/user-menu/user-menu.component';
 
 import { EditContactComponent } from './phone-book/edit-contact/edit-contact.component';
 
-import { SessionService} from './utilities/session/session.service';
+import { SessionService} from './phone-book/session.service';
 import { CookieService } from './utilities/cookies/cookie.services';
 import { ModalComponent } from './utilities/modal/modal.component';
 
@@ -61,6 +62,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    PhoneBookManagerModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
@@ -94,4 +96,4 @@ const routes: Routes = [
   ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {};

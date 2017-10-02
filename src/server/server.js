@@ -66,6 +66,7 @@ app
             else
                 send(result);
         });
+
     })
     .post('/uploadPhoto', function (request, response, next) {
         if (request.files.photo && request.body.userId) {

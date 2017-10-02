@@ -3,12 +3,14 @@
   float: left;
   display: flex;
   flex-direction: column;
-  width: 280px;
-  margin-bottom: 20px;
+  width: 260px;
+  margin-bottom: 40px;
   box-sizing: border-box;
+  border-right: 1px solid #ECEFF1;
+  border-left: 1px solid #ECEFF1;
+  border-bottom: 1px solid #ECEFF1;
+  border-top: 1px solid #ECEFF1;
   background: white;
-  border-radius: 3px;
-  box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
 }
 .contact.two-in-row.second {
   margin-right: 0px !important;
@@ -47,8 +49,6 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 10px;
-  padding: 20px;
   padding-bottom: 0px !important;
   box-sizing: border-box;
   /* Элементы управления контактом */
@@ -69,6 +69,9 @@
 .contact .contact-info #contact-controls .fa:hover {
   color: #BDBDBD;
 }
+.contact .contact-info #contact-controls .favorites {
+  margin: 20px;
+}
 .contact .contact-info #contact-controls .favorites:hover {
   color: #FFC107;
 }
@@ -76,23 +79,66 @@
   color: #FFC107;
 }
 .contact .contact-info #photo {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
   align-self: center;
-  width: 120px;
+  width: 100%;
   height: 120px;
-  margin-top: -20px;
   margin-bottom: 10px;
   box-sizing: border-box;
   background-size: cover !important;
   background-position: center top !important;
-  border-radius: 50%;
+  background-origin: content-box !important;
 }
 .contact .contact-info #photo.no-photo {
   background-position: center center !important;
-  border: 1px solid #ECEFF1;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+}
+.contact .contact-info #photo .control {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  color: white;
+  background: #8BC34A;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.contact .contact-info #photo .control:hover {
+  background: #558B2F;
+}
+.contact .contact-info #photo .control.favorites {
+  left: 0px;
+  top: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.contact .contact-info #photo .control.favorites:hover {
+  color: #FFC107;
+}
+.contact .contact-info #photo .control.favorites.in-favorites {
+  color: #FFC107;
+}
+.contact .contact-info #photo .control.edit {
+  right: 0px;
+  top: 0px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.contact .contact-info #photo .control.photo {
+  bottom: 0px;
+  left: 10px;
 }
 .contact .contact-info #name-and-position {
   display: flex;
@@ -124,7 +170,7 @@
   font-size: 14px;
   line-height: 14px;
   text-align: center;
-  color: #D81B60;
+  color: #B71C1C;
 }
 .contact .contact-info #name-and-position .separator {
   width: 50%;
@@ -137,8 +183,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
   padding-top: 0px !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }
 .contact .contact-details .not-specified {
   font-size: 14px;
@@ -198,7 +246,7 @@
   line-height: 23px;
   color: #004D40;
   text-align: center;
-  background: #FDEBDB;
+  background: #D1C4E9;
   border-radius: 50%;
 }
 .contact .contact-details .phones {
@@ -219,7 +267,7 @@
   line-height: 23px;
   color: #004D40;
   text-align: center;
-  background: #FDEBDB;
+  background: #D1C4E9;
   border-radius: 50%;
 }
 .contact .contact-details .phones .phone-item {
@@ -245,7 +293,7 @@
   line-height: 23px;
   color: #004D40;
   text-align: center;
-  background: #FDEBDB;
+  background: #D1C4E9;
   border-radius: 50%;
 }
 /* Target landscape smartphones, portrait tablets, narrow desktops */

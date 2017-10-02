@@ -26,8 +26,8 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
 
     ngAfterViewChecked(): void {
         let width = this.container.clientWidth - 40;
-        this.row = Math.floor(width / 280);
-        this.margin = (width - this.row * 280) / (this.row - 1);
+        this.row = Math.floor(width / 260);
+        this.margin = (width - this.row * 260) / (this.row - 1);
         this.detector.detectChanges();
     };
 };

@@ -5,7 +5,7 @@ import { Contact } from "../models/contact.model";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
-import { SessionService } from "../utilities/session/session.service";
+import { SessionService } from "./session.service";
 import { Division, IDivision } from "../models/Division.model";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 import {ATS, IATS} from "../models/ats.model";
@@ -14,9 +14,12 @@ import { IDraggableContact } from '../models/draggable-contact.interface';
 import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 
+import { API } from '../app.config';
+
+
 @Injectable()
 export class PhoneBookService {
-  private apiUrl: string = 'http://127.0.0.1:4444/api';
+  //private apiUrl: string = 'http://127.0.0.1:4444/api';
   private contacts: Division[] = [];
   private favorites: Contact[] = [];
   private divisions: Division[] = [];
@@ -60,7 +63,7 @@ export class PhoneBookService {
       let options = new RequestOptions({ headers: headers });
       let parameters = { action: 'getInitialData' };
 
-      return this.http.post(this.apiUrl, parameters, options)
+      return this.http.post(API, parameters, options)
           .map((res: Response) => {
               let body = res.json();
               console.log(body);
@@ -102,7 +105,7 @@ export class PhoneBookService {
     let options = new RequestOptions({ headers: headers });
     let parameters = { action: 'getDivisionList' };
 
-    return this.http.post(this.apiUrl, parameters, options)
+    return this.http.post(API, parameters, options)
         .map((res: Response) => {
           let body = res.json();
           body.forEach((item: IDivision) => {
@@ -131,7 +134,7 @@ export class PhoneBookService {
     };
 
     this.loadingInProgress = true;
-    return this.http.post(this.apiUrl, parameters, options)
+    return this.http.post(API, parameters, options)
       .map((res: Response) => {
         this.clearContactGroups();
         this.loadingInProgress = false;
@@ -159,7 +162,7 @@ export class PhoneBookService {
       };
 
       this.loadingInProgress = true;
-      return this.http.post(this.apiUrl, parameters, options)
+      return this.http.post(API, parameters, options)
           .map((res: Response) => {
               this.clearContactGroups();
               this.loadingInProgress = false;
@@ -219,7 +222,7 @@ export class PhoneBookService {
     this.searchMode = true;
     this.loading = true;
 
-    return this.http.post(this.apiUrl, params, options)
+    return this.http.post(API, params, options)
       .map((res: Response) => {
         this.loading = false;
         this.clearContactGroups();
@@ -236,33 +239,7 @@ export class PhoneBookService {
   };
 
 
-  editContact(contact: Contact): Observable<Contact> {
-      let headers = new Headers({ "Content-Type": "application/json" });
-      let options = new RequestOptions({ headers: headers });
-      let params = {
-          action: "editContact",
-          data: {
-              contactId: contact.id,
-              name: contact.name,
-              fname: contact.fname,
-              surname: contact.surname,
-              position: contact.position,
-              email: contact.email,
-              mobile: contact.mobile
-          }
-      };
-      this.loading = true;
 
-      return this.http.post(this.apiUrl, params, options)
-          .map((res: Response) => {
-              this.loading = false;
-              const body = res.json();
-              const cnt = new Contact(body);
-              return cnt;
-          })
-          .take(1)
-          .catch(this.handleError);
-  };
 
 
   /**
@@ -282,7 +259,7 @@ export class PhoneBookService {
     };
     this.loading = true;
 
-    return this.http.post(this.apiUrl, parameters, options)
+    return this.http.post(API, parameters, options)
       .map((response: Response) => {
         this.loading = false;
         let body = response.json();
@@ -314,7 +291,7 @@ export class PhoneBookService {
     };
     this.loading = true;
 
-    return this.http.post(this.apiUrl, parameters, options)
+    return this.http.post(API, parameters, options)
       .map((response: Response) => {
         this.loading = false;
         let body = response.json();
@@ -332,104 +309,6 @@ export class PhoneBookService {
   };
 
 
-  /**
-   * Перемещение абонента в структурное подразделение
-   * @param contact {Contact} - перемещаемый абонент
-   * @param division {Division} - целевое структурное подразделение
-   * @param group {ContactGroup} - группа контактов, к которой относится перемещаемый абонент
-   * @returns {Observable<R>}
-   */
-  setContactDivision(contact: Contact, division: Division, group: ContactGroup, sourceAtsId: number): Observable<Contact> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    let parameters = {
-        action: 'setContactDivision',
-        data: {
-            contactId: contact.id,
-            divisionId: division.id,
-            sourceAtsId: sourceAtsId
-        }
-    };
-
-    return this.http.post(this.apiUrl, parameters, options)
-        .map((response: Response) => {
-          let body = response.json();
-          let contact = new Contact(body);
-          console.log(contact);
-          console.log('group contacts', group.contacts);
-          group.removeContact(contact);
-          this.nowDragging = null;
-          return contact;
-        })
-        .take(1)
-        .catch(this.handleError);
-  };
-
-
-  /**
-   * Добавляет телефон абоненту
-   * @param contactId {number} - идентификатор абонента
-   * @param atsId {number} - идентификатор АТС
-   * @param number {string} - номекр телефона
-   * @returns {Observable<R>}
-   */
-  addContactPhone(contactId: number, atsId: number, number: string): Observable<Phone> {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    const parameters = { action: 'addContactPhone', data: { contactId: contactId, atsId: atsId, number: number}};
-
-    return this.http.post(this.apiUrl, parameters, options)
-        .map((response: Response) => {
-            const body = response.json();
-            const phone = new Phone(body);
-            phone.setupBackup(['atsId', 'number']);
-            console.log('phone', phone);
-            return phone;
-        })
-        .take(1)
-        .catch(this.handleError);
-  };
-
-
-  /**
-   * Сохраняет информацию о телефоне абонента
-   * @param phone
-   * @returns {Observable<R>}
-   */
-  editContactPhone(phone: Phone): Observable<Phone> {
-      const headers = new Headers({ 'Content-Type': 'application/json' });
-      const options = new RequestOptions({ headers: headers });
-      const parameters = { action: 'editContactPhone', data: { phoneId: phone.id, atsId: phone.atsId, number: phone.number}};
-
-      return this.http.post(this.apiUrl, parameters, options)
-          .map((response: Response) => {
-              phone.setupBackup(['atsId', 'number']);
-              console.log('phone', phone);
-              return phone;
-          })
-          .take(1)
-          .catch(this.handleError);
-  };
-
-
-  /**
-   * Удаляет телефон абонента
-   * @param phone {Phone} - телефон абонента
-   * @returns {Observable<R>}
-   */
-  deleteContactPhone(phone: Phone): Observable<boolean> {
-      const headers = new Headers({ 'Content-Type': 'application/json' });
-      const options = new RequestOptions({ headers: headers });
-      const parameters = { action: 'deleteContactPhone', data: { phoneId: phone.id }};
-
-      return this.http.post(this.apiUrl, parameters, options)
-          .map((response: Response) => {
-              const body = response.json();
-              return body;
-          })
-          .take(1)
-          .catch(this.handleError);
-  };
 
 
     uploadUserPhoto(userId: number, photo: File): Observable<string> {

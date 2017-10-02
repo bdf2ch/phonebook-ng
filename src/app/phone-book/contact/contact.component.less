@@ -1,10 +1,12 @@
-@contact-width: 280px;
+@contact-width: 260px;
 @contact-width-mobile: 100%;
 @contact-height: auto;
 @contact-background-color: white;
 
-@contact-photo-width: 120px;
-@contact-photo-image-width: 120px;
+//@contact-photo-width: 120px;
+//@contact-photo-image-width: 120px;
+@contact-photo-width: 100%;
+@contact-photo-image-width: 100%;
 @contacts-photo-image-border-color: lightgrey;
 
 @favorite-icon-color-hover: #FFC107;
@@ -17,11 +19,17 @@
   display: flex;
   flex-direction: column;
   width: @contact-width;
-  margin-bottom: 20px;
+  //padding-bottom: 10px;
+  margin-bottom: 40px;
   box-sizing: border-box;
+  border-right: 1px solid #ECEFF1;
+  border-left: 1px solid #ECEFF1;
+  border-bottom: 1px solid #ECEFF1;
+  border-top: 1px solid #ECEFF1;
+  //border-bottom: 1px solid @separator-color;
   background: @contact-background-color;
-  border-radius: 3px;
-  box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
+  //border-radius: 3px;
+  //box-shadow: 0 0.5px 2px 0 rgba(0, 0, 0, 0.14);
   //transition: margin-right 0.1s linear 0s;
 
 
@@ -85,8 +93,8 @@
     justify-content: space-between;
     align-items: flex-start;
     //height: @contact-photo-width;
-    margin-bottom: 10px;
-    padding: 20px;
+    //margin-bottom: 10px;
+    //padding: 10px;
     padding-bottom: 0px !important;
     box-sizing: border-box;
 
@@ -107,6 +115,7 @@
       }
 
       .favorites {
+        margin: 20px;
         &:hover {
           color: @favorite-icon-color-hover;
         }
@@ -121,19 +130,22 @@
 
 
       #photo {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-end;
         align-self: center;
         width: @contact-photo-image-width;
-        height: @contact-photo-image-width;
-        margin-top: -20px;
+        //height: @contact-photo-image-width;
+        height: 120px;
+        //margin-top: -20px;
         margin-bottom: 10px;
         box-sizing: border-box;
         background-size: cover !important;
         background-position: center top !important;
-        border-radius: 50%;
+        background-origin: content-box !important;
+        //border-radius: 50%;
 
         &.with-photo {
           &:hover {
@@ -154,8 +166,59 @@
 
         &.no-photo {
           background-position: center center !important;
-          border: 1px solid @separator-color;
+          background-size: contain !important;
+          background-repeat: no-repeat !important;
+          //border: 1px solid @separator-color;
+          //border-bottom: 1px solid @separator-color;
+          //border-top: 1px solid @separator-color;
         }
+
+        .control {
+          position: absolute;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+          font-size: 15px;
+          color: white;
+          background: #8BC34A;
+          border-radius: 50%;
+          cursor: pointer;
+          &:hover {
+            background: #558B2F;
+          }
+
+          &.favorites {
+            left: 0px;
+            top: 0px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.3);
+            &:hover {
+              color: @favorite-icon-color-hover;
+            }
+            &.in-favorites {
+              color: @favorite-icon-color-hover;
+            }
+          }
+
+          &.edit {
+            right: 0px;
+            top: 0px;
+            margin-top: 10px;
+            margin-right: 10px;
+          }
+
+          &.photo {
+            bottom: 0px;
+            left: 10px;
+          }
+        }
+
       }
 
 
@@ -192,7 +255,7 @@
         font-size: 14px;
         line-height: 14px;
         text-align: center;
-        color: #D81B60;
+        color: #B71C1C;
       }
 
       .separator {
@@ -210,8 +273,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    //padding: 20px;
     padding-top: 0px !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 
     .not-specified {
       font-size: 14px;
@@ -277,7 +343,7 @@
         line-height: 23px;
         color: #004D40;
         text-align: center;
-        background: #FDEBDB;
+        background: #D1C4E9;
         border-radius: 50%;
       }
     }
@@ -300,7 +366,7 @@
         line-height: 23px;
         color: #004D40;
         text-align: center;
-        background: #FDEBDB;
+        background: #D1C4E9;
         border-radius: 50%;
       }
 
@@ -329,7 +395,7 @@
         line-height: 23px;
         color: #004D40;
         text-align: center;
-        background: #FDEBDB;
+        background: #D1C4E9;
         border-radius: 50%;
       }
 

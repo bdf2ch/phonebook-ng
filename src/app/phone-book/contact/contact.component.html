@@ -1,34 +1,22 @@
 <div class="contact"
      [ngClass]="{ 'first' : index === 0, 'second': index > 0 && (index + 1) % 2 === 0, 'third' : index > 0 && (index + 1) % 3 === 0, 'fourth': index > 0 && (index + 1) % 4 === 0, 'fifth' : index > 0 && (index + 1) % 5 === 0, 'sixth' : index > 0 && (index + 1) % 6 === 0 }">
-    <div class="contact-menu">
-        <div class="margin-bottom-10">
-            <button class="btn blue">Загрузить фото</button>
-        </div>
-    </div>
     <div class="contact-info">
-        <div id="contact-controls">
-            <i class="favorites fa fa-star" [ngClass]="{ 'in-favorites': contact.isInFavorites === true }"
-               title="{{ contact.isInFavorites ? 'Убрать из избранных' : 'Добавить в избранные' }}"
+
+        <div id="photo"
+             [ngClass]="{'no-photo': contact.photo === '', 'with-photo': contact.photo !== ''}"
+             [ngStyle]="{'background': contact.photo !== '' ? 'url(http://127.0.0.1:4444' + contact.photo +  ')': 'url(http://127.0.0.1:4444/assets/images/users/no_photo.png)'}">
+            <i class="control favorites fa fa-star" [ngClass]="{ 'in-favorites': contact.isInFavorites === true }"
+               title="{{ contact.isInFavorites ? 'Убрать абонента из избранных' : 'Добавить абонента в избранные' }}"
                (click)="favorites()">
             </i>
 
             <!-- Кнопка редактирования информации о контакте -->
-            <i class="fa fa-ellipsis-v" *ngIf="session.user() && session.user().isAdministrator" (click)="editContact()" title="Редактировать контакт"></i>
-        </div>
-
-
-        <div id="photo"
-             [ngClass]="{ 'no-photo': contact.photo === '', 'with-photo': contact.photo !== '' }"
-             [ngStyle]="{ 'background': contact.photo !== '' ? 'url(http://127.0.0.1:4444' + contact.photo +  ')': 'url(http://127.0.0.1:4444/assets/images/users/no_photo.png)' }">
+            <i class="control edit fa fa-pencil" *ngIf="session.user() && session.user().isAdministrator" (click)="editContact()" title="Редактировать данные абонента"></i>
             <label id="contact-upload-photo-button"
-                   class="btn blue upload round margin-bottom-10"
+                   class="control photo btn blue upload round margin-bottom-10"
                    *ngIf="session.user() && session.user().isAdministrator">
                 <i class="fa fa-camera"></i>
-                <input type="file"
-                       name="photo"
-                       id="user-photo"
-                       encType="multipart/form-data"
-                       (change)="uploadPhoto($event)">
+                <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
             </label>
         </div>
 

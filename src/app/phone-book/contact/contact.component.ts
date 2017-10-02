@@ -5,7 +5,7 @@ import {
 import { Contact } from "../../models/contact.model";
 import { PhoneBookService } from "../phone-book.service";
 import { ContactGroupComponent } from "../contact-group/contact-group.component";
-import {SessionService} from "../../utilities/session/session.service";
+import {SessionService} from "../session.service";
 import { ContactGroup } from '../../models/contact-group.model';
 
 

@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { AuthService } from "./auth.service";
-import { SessionService } from "../../utilities/session/session.service";
+import { SessionService } from "../session.service";
 import { CookieService } from "../../utilities/cookies/cookie.services";
 import { isError } from "../../models/error.model";
 

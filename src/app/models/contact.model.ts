@@ -45,7 +45,7 @@ export class Contact extends Model {
       this.name = config.name;
       this.fname = config.fname ? config.fname : '';
       this.position = config.position ? config.position : '';
-      this.positionTrimmed = this.position.length > 50 ? this.position.substr(0, 50) + '...' : this.position;
+      this.positionTrimmed = this.position.length > 55 ? this.position.substr(0, 55) + '...' : this.position;
       this.email = config.email ? config.email : '';
       this.mobile = config.mobile ? config.mobile : '';
       this.photo = config.photo ? config.photo : '';
@@ -53,11 +53,13 @@ export class Contact extends Model {
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();
 
+      if (config.phones && config.phones.length > 0) {
         config.phones.forEach((item: IPhone, index: number, array: IPhone[]) => {
           const phone = new Phone(item);
           phone.setupBackup(['atsId', 'number']);
           this.phones.push(phone);
         });
+      }
     }
   };
 };

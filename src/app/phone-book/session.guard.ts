@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angul
 import { Observable } from "rxjs/Observable";
 import { PhoneBookService } from './phone-book.service';
 import { CookieService } from "../utilities/cookies/cookie.services";
-import {SessionService} from "../utilities/session/session.service";
+import { SessionService } from "./session.service";
 
 
 @Injectable()

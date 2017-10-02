@@ -5,10 +5,10 @@ import {
 } from '@angular/core';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import {PhoneBookService} from "../phone-book.service";
-import {SessionService} from "../../utilities/session/session.service";
+import { PhoneBookManagerService } from '../../manager/phone-book-manager.service';
+import {SessionService} from "../session.service";
 import {Contact} from '../../models/contact.model';
 import {Phone} from "../../models/phone.model";
-import {noUndefined} from "@angular/compiler/src/util";
 
 
 @Component({
@@ -46,6 +46,7 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
 
     constructor(private element: ElementRef,
                 private phoneBook: PhoneBookService,
+                private phoneBookManager: PhoneBookManagerService,
                 private session: SessionService) {
         this.newPhone = new Phone();
     };
@@ -92,7 +93,7 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
         console.log(ats);
         console.log(this.newPhone);
 
-        this.phoneBook.addContactPhone(this.contact.id, this.newPhone.atsId, this.newPhone.number)
+        this.phoneBookManager.addContactPhone(this.contact.id, this.newPhone.atsId, this.newPhone.number)
             .subscribe((phone: Phone) => {
                 this.contact.phones.push(phone);
                 this.addPhoneMode(false);
@@ -102,7 +103,7 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
 
 
     editPhone(phone: Phone, form: any) : void {
-        this.phoneBook.editContactPhone(phone)
+        this.phoneBookManager.editContactPhone(phone)
             .subscribe((phone: Phone) => {
                 form.reset({
                     ats: phone.atsId,
@@ -113,7 +114,7 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
 
 
     deletePhone(phone: Phone): void {
-        this.phoneBook.deleteContactPhone(phone)
+        this.phoneBookManager.deleteContactPhone(phone)
             .subscribe((result: boolean) => {
                 if (result === true) {
                     this.contact.phones.forEach((item: Phone, index: number, array: Phone[]) => {
@@ -127,7 +128,7 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
 
 
     edit(): void {
-        this.phoneBook.editContact(this.contact)
+        this.phoneBookManager.editContact(this.contact)
             .subscribe((contact: Contact) => {
                 this.close(false);
             });

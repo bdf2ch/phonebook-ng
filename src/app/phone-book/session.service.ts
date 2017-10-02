@@ -1,16 +1,17 @@
-///<reference path="../../models/contact-group.model.ts"/>
+///<reference path="../models/contact-group.model.ts"/>
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { ISessionData, Session } from "../../models/session.model";
-import { User } from "../../models/user.model";
+import { ISessionData, Session } from "../models/session.model";
+import { User } from "../models/user.model";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
-import { isError, RuntimeError } from "../../models/error.model";
-import { IContact, Contact } from "../../models/contact.model";
-import { ContactGroup } from "../../models/contact-group.model";
-import {IPermission, Permission} from "../../models/permission.model";
+import { isError, RuntimeError } from "../models/error.model";
+import { IContact, Contact } from "../models/contact.model";
+import { ContactGroup } from "../models/contact-group.model";
+import {IPermission, Permission} from "../models/permission.model";
+import { API } from '../app.config';
 
 
 @Injectable()
@@ -35,7 +36,7 @@ export class SessionService {
         let parameters = { action: 'getSession', data: { token: token }};
 
         this.loading = true;
-        return this.http.post('http://127.0.0.1:4444/api', parameters, options)
+        return this.http.post(API, parameters, options)
             .map((response: Response) => {
                 this.loading = false;
                 let body = response.json();
@@ -82,7 +83,7 @@ export class SessionService {
         let parameters = { action: 'logIn', data: { account: account, password: password }};
 
         this.loading = true;
-        return this.http.post('http://127.0.0.1:4444/api', parameters, options)
+        return this.http.post(API, parameters, options)
             .map((response: Response) => {
                 this.loading = false;
                 let body = response.json();
@@ -125,7 +126,7 @@ export class SessionService {
         let parameters = { action: 'logOut', data: { token: this.currentSession !== null ? this.currentSession.token : '' }};
 
         this.loading = true;
-        return this.http.post('http://127.0.0.1:4444/api', parameters, options)
+        return this.http.post(API, parameters, options)
             .map((response: Response) => {
                 this.loading = false;
                 let result = response.json();

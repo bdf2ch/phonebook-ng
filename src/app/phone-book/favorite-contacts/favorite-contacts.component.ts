@@ -2,7 +2,7 @@ import {
     Component, ElementRef, HostListener, AfterContentChecked, OnInit, AfterViewInit,
     AfterViewChecked, ChangeDetectorRef, ViewChild, ViewContainerRef, ViewChildren, QueryList
 } from '@angular/core';
-import { SessionService } from "../../utilities/session/session.service";
+import { SessionService } from "../session.service";
 import {Contact} from "../../models/contact.model";
 import {ContactGroup} from "../../models/contact-group.model";
 import {ContactGroupComponent} from "../contact-group/contact-group.component";
@@ -40,8 +40,8 @@ export class FavoriteContactsComponent implements OnInit, AfterViewInit, AfterVi
         //console.log('children', this.group);
         //console.log('clientWidth', this.container.clientWidth);
         let width = this.container.clientWidth - 40;
-        this.row = Math.floor(width / 280);
-        this.margin = (width - this.row * 280) / (this.row - 1);
+        this.row = Math.floor(width / 260);
+        this.margin = (width - this.row * 260) / (this.row - 1);
         this.detector.detectChanges();
         //console.log('clientWidth', this.container.clientWidth);
         //console.log('width', width);
@@ -69,8 +69,8 @@ export class FavoriteContactsComponent implements OnInit, AfterViewInit, AfterVi
             console.log(this.container.clientWidth);
             let width = this.container.clientWidth - 40;
             //let width = this.element.nativeElement.children[0].clientWidth - 40;
-            this.row = Math.floor(width / 280);
-            this.margin = (width - this.row * 280) / (this.row - 1);
+            this.row = Math.floor(width / 260);
+            this.margin = (width - this.row * 260) / (this.row - 1);
          //}
     };
 
