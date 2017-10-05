@@ -5,11 +5,20 @@ const uploader = require('express-fileupload');
 var pg = require('pg');
 var app = express();
 var phoneBook = require('./phone-book');
+var session = require('./session');
 var ldap = require('./ldap');
 var postgres = require('./postgres');
 var async = require('async');
 var path = require('path');
 var fs = require('fs');
+var process = require('process');
+
+
+process.on('uncaughtException', function (err) {
+    console.error(err.stack);
+    console.log("Node NOT Exiting...");
+});
+
 
 
 app
@@ -20,13 +29,24 @@ app
         res.header('Access-Control-Allow-Credentials', true);
         next();
     })
+    .use(function(err, req, res, next) {
+        console.error(err.stack);
+        res.status(500).send('Something broke!');
+    })
+
+
     .use(express.static(path.resolve('../../static')))
+    .use(express.static('../../dist'))
     .use(uploader())
     .use(parser.json())
     //.use(cookieParser())
+    .get('*', (req, res) => {
+        res.sendFile(path.resolve('../../dist/index.html'));
+    })
     .post('/api', function (request, response, next) {
         console.dir(request.body);
         console.dir(request.cookies);
+
 
         function send(result) {
             response.statusCode = 200;
@@ -49,16 +69,15 @@ app
             case 'editContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editContactPhone)]; break;
             case 'deleteContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteContactPhone)]; break;
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
-            case 'logOut': queue = [async.asyncify(phoneBook.onLogOutSuccess), async.asyncify(postgres.query), async.asyncify(phoneBook.logOut)]; break;
+            case 'logOut': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.logOut), async.asyncify(session.remove)]; break;
             case 'uploadPhoto': console.log(request.files); break;
             case 'setContactDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.setContactDivision)]; break;
         };
 
 
-
         console.log(queue);
         var process = async.compose(...queue);
-        process(request.body.data, function (err, result) {
+        process({data: request.body.data, response: response, request: request}, function (err, result) {
             console.log('error', err);
             console.log('result', result);
             if (err)
@@ -76,6 +95,7 @@ app
             let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactPhoto)];
             let process = async.compose(...queue);
             console.log('folder path = ', folderPath);
+            console.log('rbody', request.body);
             fs.exists(folderPath, (exists) => {
                 if (!exists) {
                     fs.mkdir(folderPath, (err) => {
@@ -114,6 +134,8 @@ app
                 }
             });
         }
+
+
 
 
         /*

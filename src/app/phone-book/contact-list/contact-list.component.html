@@ -1,9 +1,10 @@
-<stub *ngIf="phoneBook.getContactGroupList().length === 0 && !phoneBook.isLoadingInProgress()" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
-<stub *ngIf="phoneBook.isLoadingInProgress() === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
-<div id="app-contacts" *ngIf="phoneBook.getContactGroupList().length > 0 || phoneBook.isLoadingInProgress() === true">
+<stub *ngIf="phoneBook.contacts.length === 0 && !phoneBook.loading && !phoneBook.isInFavoritesMode" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
+<stub *ngIf="phoneBook.loading === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
+<div id="app-contacts" *ngIf="phoneBook.contacts.length > 0 || phoneBook.loading === true">
+    <div id="app-favorites-caption" *ngIf="phoneBook.isInFavoritesMode === true"><i class="fa fa-star"></i>Ваши избранные контакты</div>
     <contact-group [group]="group"
                    [margin]="margin"
                    [row]="row"
-                   *ngFor="let group of phoneBook.getContactGroupList(); trackBy: index | async">
+                   *ngFor="let group of phoneBook.contacts; trackBy: index | async">
     </contact-group>
 </div>

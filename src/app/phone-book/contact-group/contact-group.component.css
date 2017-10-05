@@ -11,17 +11,26 @@
   flex-wrap: wrap;
   margin-bottom: 15px;
   padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
   box-sizing: border-box;
-  font-family: 'Open Sans Semi Bold';
+  font-family: 'Open Sans Regular';
   font-size: 14px;
-  text-transform: uppercase;
   color: #90A4AE;
   border-bottom: 1px dotted #CFD8DC;
+  border-top: 1px dotted #CFD8DC;
   vertical-align: bottom;
+  background: #FAFAFA;
+}
+.contact-group-component .divisions .organization {
+  width: 100%;
+  font-family: "Open Sans Semi Bold";
+  font-size: 18px;
+  color: #006064;
 }
 .contact-group-component .divisions .division {
   float: left;
-  margin-right: 7px;
   cursor: pointer;
 }
 .contact-group-component .divisions .division:hover {
@@ -32,6 +41,14 @@
   margin-right: 10px;
   font-size: 14px;
   color: #607D8B;
+}
+.contact-group-component .divisions .separator {
+  margin-left: 8px;
+  margin-right: 7px;
+}
+.contact-group-component .divisions .separator .fa {
+  font-size: 7px;
+  vertical-align: middle;
 }
 .contact-group-component .contacts .four-in-row .contact {
   margin-right: 0px;

@@ -21,7 +21,7 @@ module.exports = {
     getSession: function (parameters) {
         return {
             text: 'SELECT get_session_by_token($1)',
-            values: [parameters.token],
+            values: [parameters.data.token],
             func: 'get_session_by_token'
         }
     },
@@ -35,7 +35,7 @@ module.exports = {
     logOut: function (parameters) {
         return {
             text: 'SELECT log_out_user($1)',
-            values: [parameters.token],
+            values: [parameters.data.token],
             func: 'log_out_user'
         }
     },
@@ -63,7 +63,7 @@ module.exports = {
     getContactsByDivisionId: function (parameters) {
         return {
             text: 'SELECT get_contacts_by_division_id($1, $2, $3)',
-            values: [parameters.divisionId, parameters.sourceAtsId, parameters.token],
+            values: [parameters.data.divisionId, parameters.data.sourceAtsId, parameters.data.token],
             func: 'get_contacts_by_division_id'
         }
     },
@@ -77,7 +77,7 @@ module.exports = {
     getFavoriteContacts: function (parameters) {
         return {
             text: 'SELECT get_favorite_contacts($1, $2)',
-            values: [parameters.token, parameters.sourceAtsId],
+            values: [parameters.data.userId, parameters.data.sourceAtsId],
             func: 'get_favorite_contacts'
         }
     },
@@ -90,8 +90,8 @@ module.exports = {
      */
     searchContacts: function (parameters) {
         return {
-            text: 'SELECT search_contacts($1, $2)',
-            values: [parameters.search, parameters.sourceAtsId],
+            text: 'SELECT search_contacts($1, $2, $3)',
+            values: [parameters.data.search, parameters.data.sourceAtsId, parameters.data.userId],
             func: 'search_contacts'
         }
     },
@@ -106,13 +106,13 @@ module.exports = {
         return {
             text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7)',
             values: [
-                parameters.contactId,
-                parameters.surname,
-                parameters.name,
-                parameters.fname,
-                parameters.position,
-                parameters.email,
-                parameters.mobile
+                parameters.data.contactId,
+                parameters.data.surname,
+                parameters.data.name,
+                parameters.data.fname,
+                parameters.data.position,
+                parameters.data.email,
+                parameters.data.mobile
             ],
             func: 'edit_contact'
         }
@@ -127,7 +127,7 @@ module.exports = {
     addContactToFavorites: function (parameters) {
         return {
             text: 'SELECT add_contact_to_favorites($1, $2)',
-            values: [parameters.contactId, parameters.token],
+            values: [parameters.data.contactId, parameters.data.token],
             func: 'add_contact_to_favorites'
         }
     },
@@ -141,7 +141,7 @@ module.exports = {
     removeContactFromFavorites: function (parameters) {
         return {
             text: 'SELECT delete_contact_from_favorites($1, $2)',
-            values: [parameters.contactId, parameters.token],
+            values: [parameters.data.contactId, parameters.data.token],
             func: 'delete_contact_from_favorites'
         }
     },
@@ -169,7 +169,7 @@ module.exports = {
     setContactDivision: function (parameters) {
         return {
             text: 'SELECT set_contact_division($1, $2, $3)',
-            values: [parameters.contactId, parameters.divisionId, parameters.sourceAtsId],
+            values: [parameters.data.contactId, parameters.data.divisionId, parameters.data.sourceAtsId],
             func: 'set_contact_division'
         }
     },
@@ -183,7 +183,7 @@ module.exports = {
     addContactPhone: function (parameters) {
         return {
             text: 'SELECT add_contact_phone($1, $2, $3)',
-            values: [parameters.contactId, parameters.atsId, parameters.number],
+            values: [parameters.data.contactId, parameters.data.atsId, parameters.data.number],
             func: 'add_contact_phone'
         }
     },
@@ -197,7 +197,7 @@ module.exports = {
     editContactPhone: function (parameters) {
         return {
             text: 'SELECT edit_contact_phone($1, $2, $3)',
-            values: [parameters.phoneId, parameters.atsId, parameters.number],
+            values: [parameters.data.phoneId, parameters.data.atsId, parameters.data.number],
             func: 'edit_contact_phone'
         }
     },
@@ -211,7 +211,7 @@ module.exports = {
     deleteContactPhone: function (parameters) {
         return {
             text: 'SELECT delete_contact_phone($1)',
-            values: [parameters.phoneId],
+            values: [parameters.data.phoneId],
             func: 'delete_contact_phone'
         }
     }

@@ -10,7 +10,7 @@ export class DivisionsGuard implements CanActivate {
     constructor (private phoneBook: PhoneBookService) {};
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|boolean {
-        if (this.phoneBook.getDivisionList().length === 0) {
+        if (this.phoneBook.divisions.length === 0) {
             return this.phoneBook.fetchInitialData().map(() => {
                 return true;
             });

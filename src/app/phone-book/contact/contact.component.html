@@ -4,17 +4,17 @@
 
         <div id="photo"
              [ngClass]="{'no-photo': contact.photo === '', 'with-photo': contact.photo !== ''}"
-             [ngStyle]="{'background': contact.photo !== '' ? 'url(http://127.0.0.1:4444' + contact.photo +  ')': 'url(http://127.0.0.1:4444/assets/images/users/no_photo.png)'}">
+             [ngStyle]="{'background': contact.photo !== '' ? 'url(http://10.50.4.7:4444' + contact.photo +  ')': 'url(http://10.50.4.7:4444/assets/images/users/no_photo.png)'}">
             <i class="control favorites fa fa-star" [ngClass]="{ 'in-favorites': contact.isInFavorites === true }"
                title="{{ contact.isInFavorites ? 'Убрать абонента из избранных' : 'Добавить абонента в избранные' }}"
                (click)="favorites()">
             </i>
 
             <!-- Кнопка редактирования информации о контакте -->
-            <i class="control edit fa fa-pencil" *ngIf="session.user() && session.user().isAdministrator" (click)="editContact()" title="Редактировать данные абонента"></i>
+            <i class="control edit fa fa-pencil" *ngIf="session.user && session.user.isAdministrator" (click)="editContact()" title="Редактировать данные абонента"></i>
             <label id="contact-upload-photo-button"
                    class="control photo btn blue upload round margin-bottom-10"
-                   *ngIf="session.user() && session.user().isAdministrator">
+                   *ngIf="session.user && session.user.isAdministrator">
                 <i class="fa fa-camera"></i>
                 <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
             </label>

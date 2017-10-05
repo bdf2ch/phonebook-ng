@@ -8,9 +8,6 @@ import { PhoneBookManagerModule } from './manager/manager.module';
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './phone-book/phone-book.component';
 import { ContactListComponent } from './phone-book/contact-list/contact-list.component';
-
-import { FavoriteContactsComponent } from './phone-book/favorite-contacts/favorite-contacts.component';
-import { FavoriteContactsUserSessionGuard } from './phone-book/favorite-contacts/session.guard';
 import { ContactsOrderPipe } from './phone-book/contact-group/contacts-order.pipe';
 
 import { ContactComponent } from './phone-book/contact/contact.component';
@@ -41,16 +38,11 @@ const routes: Routes = [
   {
     path: '',
     component: PhoneBookComponent,
-    canActivate: [ UserSessionGuard, DivisionsGuard ],
+    canActivate: [ UserSessionGuard ],
     children: [
       {
         path: '',
         component: ContactListComponent
-      },
-      {
-        path: 'favorites',
-        component: FavoriteContactsComponent
-        //canActivate: [ FavoriteContactsUserSessionGuard ]
       }
     ]
   }
@@ -69,7 +61,6 @@ const routes: Routes = [
     AppComponent,
     PhoneBookComponent,
     ContactListComponent,
-    FavoriteContactsComponent,
     ContactsOrderPipe,
     ContactComponent,
     ContactGroupComponent,
@@ -85,7 +76,6 @@ const routes: Routes = [
     UploadDirective
   ],
   providers: [
-    FavoriteContactsUserSessionGuard,
     DivisionsGuard,
     UserSessionGuard,
     PhoneBookService,

@@ -32,10 +32,11 @@ export class PhoneBookComponent implements  OnInit {
      * При наличии избранных контактов у текущего пользователя - редирект на /favorites
      */
     ngOnInit(): void {
-        if (this.session.user() && this.session.user().favorites.contacts.length > 0) {
+        if (this.phoneBook.favorites.contacts.length > 0) {
             console.log('redirect to favs');
-            this.router.navigate(['/favorites']);
-            this.phoneBook.setFavoritesMode();
+            //this.router.navigate(['/favorites']);
+            //this.phoneBook.setFavoritesMode();
+            this.phoneBook.isInFavoritesMode = true;
         }
 
     };
@@ -109,10 +110,12 @@ export class PhoneBookComponent implements  OnInit {
 
     selectDivision(division: Division): void {
         //console.log(division);
-        this.phoneBook.selectedDivision(division);
+        //this.phoneBook.isInFavoritesMode = false;
+        this.phoneBook.selectedDivision = division;
         if (division !== null) {
-            this.router.navigate(['/']);
-            this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedATS().id).subscribe(() => {
+            //this.router.navigate(['/']);
+
+            this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
                 document.getElementById('app-content').scrollTop = 0;
                 this.phoneBook.searchQuery = '';
                 if (this.isAtsPanelOpened) {
@@ -120,7 +123,8 @@ export class PhoneBookComponent implements  OnInit {
                 }
             })
         } else {
-            this.phoneBook.clearContactGroups();
+            //this.phoneBook.clearContactGroups();
+            this.phoneBook.contacts = [];
         };
     };
 
@@ -128,28 +132,39 @@ export class PhoneBookComponent implements  OnInit {
     searchContacts(value: string): void {
         console.log('search query = ', value);
         if (value.length >= 3) {
-            this.phoneBook.searchContacts().subscribe(() => {
-                this.router.navigate(['/']);
-            });
+
+            this.phoneBook.searchContacts(this.session.user ? this.session.user.id : 0).subscribe();
         }
     };
 
 
-    selectSourceAts(): void {
+
+    selectAts(): void {
         console.log('ats changed');
         if (this.phoneBook.searchQuery.length > 3) {
             this.phoneBook.searchContacts().subscribe();
         } else {
             //console.log(this.route);
-            if (this.phoneBook.favoriteContactsMode()) {
-                this.phoneBook.fetchFavoriteContacts(this.session.session() !== null ? this.session.session().token : '', this.phoneBook.selectedATS().id)
+
+            if (this.phoneBook.isInFavoritesMode) {
+                this.phoneBook.fetchFavoriteContacts(this.session.user !== null ? this.session.user.id : 0, this.phoneBook.selectedAts.id)
                     .subscribe(() => {
 
                     });
             } else {
-                this.phoneBook.fetchContactsByDivisionId(this.phoneBook.selectedDivision().id, this.phoneBook.selectedATS().id)
+                this.phoneBook.fetchContactsByDivisionId(this.phoneBook.selectedDivision.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
                     .subscribe();
             }
+
+        }
+    };
+
+
+    switchToFavorites(): void {
+        this.phoneBook.isInFavoritesMode = true;
+        const container = document.getElementById('app-content');
+        if (container) {
+            container.scrollTop = 0;
         }
     };
 

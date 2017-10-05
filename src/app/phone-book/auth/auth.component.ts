@@ -37,6 +37,7 @@ export class AuthComponent implements OnChanges {
     private opened: boolean = false;
     private account: string = '';
     private password: string = '';
+    private userNotFound: boolean = false;
 
     constructor (private element: ElementRef,
                  private session: SessionService,
@@ -65,6 +66,7 @@ export class AuthComponent implements OnChanges {
 
 
     send(): void {
+        this.userNotFound = false;
         this.session.logIn(this.account, this.password).subscribe((result: any) => {
             if (!isError(result)) {
                 console.log('result', result);
@@ -73,6 +75,9 @@ export class AuthComponent implements OnChanges {
                     value: result.session.token
                 });
                 this.close();
+            } else {
+                this.userNotFound = true;
+                console.log('USER NOT FOUND');
             }
         });
     };
@@ -85,6 +90,7 @@ export class AuthComponent implements OnChanges {
         this.opened = false;
         this.account = '';
         this.password = '';
+        this.userNotFound = false;
         this.onClose.emit();
     };
 };

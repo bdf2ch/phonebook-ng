@@ -18,5 +18,6 @@
         </div>
         <button type="submit" class="btn blue margin-bottom-5" [disabled]="account === '' || password === ''" (click)="send()">Войти</button>
         <button type="button" class="btn red" (click)="close()">Отмена</button>
+        <div class="form-error margin-top-20 padding-20" *ngIf="userNotFound"><i class="fa fa-exclamation-circle margin-right-10"></i>Пользователь не найден</div>
     </form>
 </div>

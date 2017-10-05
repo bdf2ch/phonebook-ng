@@ -8,7 +8,7 @@
   box-sizing: border-box;
   border-right: 1px solid #ECEFF1;
   border-left: 1px solid #ECEFF1;
-  border-bottom: 1px solid #ECEFF1;
+  border-bottom: 2px solid #ECEFF1;
   border-top: 1px solid #ECEFF1;
   background: white;
 }
@@ -150,6 +150,8 @@
 .contact .contact-info #name-and-position .surname {
   height: 15px;
   max-height: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-family: 'Open Sans Semi Bold';
   font-size: 15px;
   line-height: 15px;
@@ -159,6 +161,8 @@
   height: 15px;
   max-height: 15px;
   margin-bottom: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-family: 'Open Sans Regular';
   font-size: 15px;
   line-height: 15px;
@@ -166,6 +170,8 @@
 .contact .contact-info #name-and-position .position {
   height: 28px;
   max-height: 28px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-family: 'Open Sans Italic';
   font-size: 14px;
   line-height: 14px;

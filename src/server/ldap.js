@@ -5,14 +5,14 @@ module.exports = {
     logIn: function (parameters) {
             var client = ldapjs.createClient({ url: 'ldap://10.50.0.1/' });
             var bind = new Promise(function(bindResolve, bindReject) {
-                client.bind('NW\\' + parameters.account, parameters.password, function (error) {
+                client.bind('NW\\' + parameters.data.account, parameters.data.password, function (error) {
                     if (error) {
                         console.log(error);
                         bindReject(error);
                     } else {
                         var search = new Promise(function (searchResolve, searchReject) {
                             var opts = {
-                                filter: '(&(objectCategory=person)(sAMAccountName=' + parameters.account + '))',
+                                filter: '(&(objectCategory=person)(sAMAccountName=' + parameters.data.account + '))',
                                 scope: 'sub',
                                 attributes: ['objectGUID', 'name', 'cn', 'mail', 'samaccountname'],
                                 sizeLimit: 1
@@ -27,7 +27,7 @@ module.exports = {
                                         if (user) {
                                             searchResolve({
                                                 text: 'SELECT auth_user($1, $2)',
-                                                values: [parameters.account, 20000],
+                                                values: [parameters.data.account, 20000],
                                                 func: 'auth_user'
                                             });
                                         } else

@@ -65,17 +65,27 @@ export class UserMenuComponent implements OnChanges {
     };
 
 
-    logOut(): void {
-        this.session.logOut().subscribe((result: any) => {
-            console.log('logOut result', result);
-        });
-    };
+
 
 
     uploadPhoto(event: any): void {
         console.log(event);
-        this.phoneBook.uploadUserPhoto(this.session.user().id, event.target.files[0])
+        this.phoneBook.uploadUserPhoto(this.session.user.id, event.target.files[0])
             .subscribe();
+    };
+
+
+    /**
+     * Выход из учетной записи пользователя,
+     * закрытие сессии
+     */
+    logOut(): void {
+        this.session.logOut().subscribe((result: any) => {
+            console.log('logOut result', result);
+            if (result === true) {
+                this.close();
+            }
+        });
     };
 
 
@@ -86,4 +96,4 @@ export class UserMenuComponent implements OnChanges {
         this.opened = false;
         this.onClose.emit();
     };
-};
+}

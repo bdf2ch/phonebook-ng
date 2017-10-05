@@ -7,6 +7,7 @@ import {PhoneBookService} from "../phone-book.service";
 import {ContactComponent} from "../contact/contact.component";
 import {Contact} from "../../models/contact.model";
 import {Division} from "../../models/division.model";
+import { SessionService } from '../session.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
 
 
     constructor(private element: ElementRef,
+                private session: SessionService,
                 private phoneBook: PhoneBookService) {};
 
 
@@ -40,7 +42,8 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
 
 
     selectDivision(division: Division): void {
-        this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedATS().id)
+        this.phoneBook.selectedDivision = division;
+        this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
             .subscribe(() => {
                 this.phoneBook.searchQuery = '';
             });

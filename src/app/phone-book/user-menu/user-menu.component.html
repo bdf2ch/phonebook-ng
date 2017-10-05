@@ -2,15 +2,15 @@
 
 <div class="user-menu-form" [@popup]="opened.toString()" *ngIf="opened">
     <div class="user-photo">
-        <div class="photo" [ngStyle]="{'background': 'url(' + 'http://127.0.0.1:4444' + session.user().photo + ')'}"></div>
-        <div class="stub" *ngIf="session.user().photo === ''">
+        <div class="photo" [ngStyle]="{'background': 'url(' + 'http://10.50.4.7:4444' + session.user.photo + ')'}"></div>
+        <div class="stub" *ngIf="session.user.photo === null">
             <i class="fa fa-user no-photo"></i>
         </div>
         <span class="close-button" (click)="close()" title="Закрыть">&times;</span>
     </div>
     <form novalidate>
         <div class="form-title margin-bottom-20">
-            {{ session.user().name + ' ' + session.user().surname }}
+            {{ session.user.name + ' ' + session.user.surname }}
         </div>
         <label class="btn blue upload margin-bottom-10">
             Загрузить фотографию

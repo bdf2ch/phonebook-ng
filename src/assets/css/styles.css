@@ -340,6 +340,14 @@
   background: #2196F3;
   color: white;
 }
+.btn.blue[disabled] {
+  color: #B3E5FC;
+  border: 1px solid #B3E5FC;
+  cursor: default;
+}
+.btn.blue[disabled]:hover {
+  background: transparent;
+}
 .btn.green {
   border: 1px solid #4CAF50;
   color: #4CAF50;

@@ -11,20 +11,33 @@
     flex-wrap: wrap;
     margin-bottom: 15px;
     padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
     box-sizing: border-box;
-    font-family: 'Open Sans Semi Bold';
+    font-family: 'Open Sans Regular';
     font-size: 14px;
-    text-transform: uppercase;
+    //text-transform: uppercase;
     color: #90A4AE;
     border-bottom: 1px dotted #CFD8DC;
+    border-top: 1px dotted #CFD8DC;
     vertical-align: bottom;
+    background: #FAFAFA;
+
+    .organization {
+      width: 100%;
+      font-family: "Open Sans Semi Bold";
+      font-size: 18px;
+      color: #006064;
+    }
+
 
     .division {
       //display: flex;
       //flex-direction: column;
       //justify-content: flex-end;
       float: left;
-      margin-right: 7px;
+      //margin-right: 7px;
       cursor: pointer;
       &:hover {
         color: #607D8B;
@@ -41,8 +54,13 @@
     }
 
     .separator {
-      //margin-left: 8px;
-      //margin-right: 7px;
+      margin-left: 8px;
+      margin-right: 7px;
+      //font-size: 10px;
+      .fa {
+        font-size: 7px;
+        vertical-align: middle;
+      }
     }
   }
 

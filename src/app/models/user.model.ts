@@ -29,7 +29,7 @@ export class User extends Model {
   fname: string = "";
   position: string = "";
   email: string = "";
-  photo: string = '';
+  photo: string | null = null;
   activeDirectoryAccount: string = "";
   isAdministrator: boolean = false;
   favorites: ContactGroup;
@@ -49,7 +49,7 @@ export class User extends Model {
       this.fname = config.fname !== undefined ? config.fname : '';
       this.position = config.position !== undefined ? config.position : '';
       this.email = config.email !== undefined ? config.email : '';
-      this.photo = config.photo !== undefined ? config.photo : '';
+      this.photo = config.photo !== null ? config.photo : null;
       this.activeDirectoryAccount = config.active_directory_account !== undefined ? config.active_directory_account : '';
       //this.isAdministrator = config.is_administrator !== undefined ? config.is_administrator : false;
     }

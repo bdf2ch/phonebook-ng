@@ -58,7 +58,7 @@ export class ContactComponent implements  OnInit, OnChanges{
     ngOnInit(): void {
         //console.log('contact', this.element.nativeElement.children[0]);
         //console.log('host', this.host.element.clientWidth);
-        if (this.session.user() && this.session.user().isAdministrator) {
+        if (this.session.user && this.session.user.isAdministrator) {
             this.renderer.setAttribute(this.element.nativeElement.children[0], 'draggable', 'true');
         }
     };
@@ -109,13 +109,13 @@ export class ContactComponent implements  OnInit, OnChanges{
 
 
     favorites(): void {
-        if (!this.phoneBook.isLoading()) {
+        if (!this.phoneBook.loading) {
             if (!this.contact.isInFavorites) {
-                this.phoneBook.addContactToFavorites(this.contact.id).subscribe((res: any) => {
+                this.phoneBook.addContactToFavorites(this.contact.id, this.session.session ? this.session.session.token : '').subscribe((res: any) => {
                     this.contact.isInFavorites = true;
                 });
             } else {
-                this.phoneBook.removeContactFromFavorites(this.contact.id).subscribe(() => {
+                this.phoneBook.removeContactFromFavorites(this.contact.id, this.session.session ? this.session.session.token : '').subscribe(() => {
                     this.contact.isInFavorites = false;
                 });
             }

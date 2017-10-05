@@ -68,7 +68,7 @@ export class DivisionTreeItemComponent implements OnInit {
             console.log('drop conatctId = ', event.dataTransfer.getData('contactId'), ', division id = ', this.division.id);
             console.log('now dragging', this.phoneBook.nowDragging);
             if (this.phoneBook.nowDragging !== null) {
-                this.phoneBookManager.setContactDivision(this.phoneBook.nowDragging.contact, this.division, this.phoneBook.nowDragging.group, this.phoneBook.selectedATS().id)
+                this.phoneBookManager.setContactDivision(this.phoneBook.nowDragging.contact, this.division, this.phoneBook.nowDragging.group, this.phoneBook.selectedAts.id)
                     .subscribe((contact: Contact) => {
                         console.log(contact);
                     });

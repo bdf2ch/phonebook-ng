@@ -6,11 +6,12 @@
 @form-icon-height: 100px;
 @form-icon-font-size: 70px;
 @form-icon-color: white;
-@form-icon-background-color: #80CBC4;
+@form-icon-background-color: #3DB8DA;
 @form-title-font-size: 18px;
-@form-title-font-color: #4DB6AC;
+@form-title-font-color: #00838F;
 
 .auth-component {
+  z-index: 100;
   position: fixed;
   top: 0px;
   left: 0px;
@@ -23,7 +24,8 @@
   background: @auth-component-background-color;
 }
 
-  .auth-form {
+.auth-form {
+  z-index: 101;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -61,11 +63,24 @@
       }
     }
 
-    .form-title {
-      font-family: "Open Sans Regular";
-      font-size: @form-title-font-size;
-      color: @form-title-font-color;
-      text-transform: uppercase;
-      text-align: center;
-    }
+  .form-title {
+    font-family: "Open Sans Regular";
+    font-size: @form-title-font-size;
+    color: @form-title-font-color;
+    text-transform: uppercase;
+    text-align: center;
   }
+
+  .form-error {
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: -20px;
+    font-family: "Open Sans Regular";
+    font-size: 14px;
+    color: #E53935;
+    background: #FFCDD2;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+}
+

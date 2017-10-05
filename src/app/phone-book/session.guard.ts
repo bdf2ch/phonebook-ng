@@ -24,8 +24,11 @@ export class UserSessionGuard implements CanActivate {
                 console.log('session', res);
                 return true;
             });
-        } else
-            return true;
+        } else {
+            return this.phoneBook.fetchInitialData().map((res: any) => {
+                return true;
+            });
+        }
     }
 
 };
