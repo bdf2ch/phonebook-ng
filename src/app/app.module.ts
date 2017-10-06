@@ -33,6 +33,7 @@ import { CookieService } from './utilities/cookies/cookie.services';
 import { ModalComponent } from './utilities/modal/modal.component';
 
 import { UploadDirective }  from './utilities/upload/upload.directive';
+import { PhotoEditorComponent } from './phone-book/photo-editor/photo-editor.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,7 @@ const routes: Routes = [
     UserMenuComponent,
     EditContactComponent,
     ModalComponent,
+    PhotoEditorComponent,
     UploadDirective
   ],
   providers: [

@@ -162,6 +162,20 @@ module.exports = {
 
 
     /**
+     * Изменение позиции фото пользователя
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*,*,*], func: string}}
+     */
+    setUserPhotoPosition: function (parameters) {
+        return {
+            text: 'SELECT set_user_photo_position($1, $2, $3)',
+            values: [parameters.data.userId, parameters.data.top, parameters.data.left],
+            func: 'set_user_photo_position'
+        }
+    },
+
+
+    /**
      * Перемещение абонента в структурное подразделение с заданным идентификатором
      * @param parameters
      * @returns {{text: string, values: [*,*], func: string}}

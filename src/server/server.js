@@ -19,6 +19,14 @@ process.on('uncaughtException', function (err) {
     console.log("Node NOT Exiting...");
 });
 
+process.on('ECONNRESET', function (err) {
+    console.error(err.stack);
+    console.log("Node NOT Exiting...");
+});
+process.on('ETIMEDOUT', function (err) {
+    console.error(err.stack);
+    console.log("Node NOT Exiting...");
+});
 
 
 app
@@ -71,6 +79,7 @@ app
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
             case 'logOut': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.logOut), async.asyncify(session.remove)]; break;
             case 'uploadPhoto': console.log(request.files); break;
+            case 'setUserPhotoPosition': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.setUserPhotoPosition)]; break;
             case 'setContactDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.setContactDivision)]; break;
         };
 

@@ -138,7 +138,7 @@
         align-self: center;
         width: @contact-photo-image-width;
         //height: @contact-photo-image-width;
-        height: 120px;
+        height: 140px;
         //margin-top: -20px;
         margin-bottom: 10px;
         box-sizing: border-box;
@@ -232,24 +232,24 @@
 
 
       .surname {
-        height: 15px;
+        height: 14px;
         max-height: 15px;
         padding-left: 10px;
         padding-right: 10px;
         font-family: 'Open Sans Semi Bold';
-        font-size: 15px;
+        font-size: 14px;
         line-height: 15px;
         color: black;
       }
 
       .name {
-        height: 15px;
+        height: 14px;
         max-height: 15px;
-        margin-bottom: 7px;
+        margin-bottom: 5px;
         padding-left: 10px;
         padding-right: 10px;
         font-family: 'Open Sans Regular';
-        font-size: 15px;
+        font-size: 14px;
         line-height: 15px;
       }
 
@@ -378,9 +378,12 @@
       }
 
       .phone-item {
-        margin-right: 5px;
+        margin-right: 7px;
         font-family: 'Open Sans Regular';
         font-size: 14px;
+        &:nth-last-child {
+          margin-right: 0px;
+        }
       }
     }
 

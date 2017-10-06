@@ -1,8 +1,9 @@
 <div class="user-menu-component" [@fog]="opened.toString()" *ngIf="opened"></div>
 
 <div class="user-menu-form" [@popup]="opened.toString()" *ngIf="opened">
+    <photo-editor [url]="session.user.photo" [width]="258" [height]="140"></photo-editor>
     <div class="user-photo">
-        <div class="photo" [ngStyle]="{'background': 'url(' + 'http://10.50.4.7:4444' + session.user.photo + ')'}"></div>
+        <div class="photo" [ngStyle]="{'background': 'url(' + 'http://10.50.4.7:4444' + session.user.photo + ')', 'background-position-y': session.user.photoTop, 'background-position-x': session.user.photoLeft}"></div>
         <div class="stub" *ngIf="session.user.photo === null">
             <i class="fa fa-user no-photo"></i>
         </div>

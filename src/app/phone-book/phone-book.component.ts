@@ -5,6 +5,7 @@ import { SessionService } from "./session.service";
 import { Division } from "../models/Division.model";
 import { ContactListComponent } from "./contact-list/contact-list.component";
 import {Contact} from "../models/contact.model";
+import { IUserPhotoPosition } from '../models/user-photo-position.interface';
 
 
 @Component({
@@ -13,7 +14,7 @@ import {Contact} from "../models/contact.model";
 })
 export class PhoneBookComponent implements  OnInit {
     private inAuthMode: boolean = false;
-    private inUserMenuMode: boolean = false;
+    private inUserMenuMode: boolean = true;
     private inEditContactMode: boolean = true;
     private isAtsPanelOpened: boolean = false;
     private sourceAtsId: number;
@@ -166,6 +167,14 @@ export class PhoneBookComponent implements  OnInit {
         if (container) {
             container.scrollTop = 0;
         }
+    };
+
+
+    onChangeUserPhotoPosition(position: IUserPhotoPosition): void {
+        this.phoneBook.setUserPhotoPosition(this.session.user.id, position.top, position.left)
+            .subscribe((pos: IUserPhotoPosition) => {
+                this.session.user.setPhotoPosition(pos.left, pos.top)
+            });
     };
 
 };

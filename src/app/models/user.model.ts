@@ -30,6 +30,8 @@ export class User extends Model {
   position: string = "";
   email: string = "";
   photo: string | null = null;
+  photoTop: string = '0px';
+  photoLeft: string = '0px';
   activeDirectoryAccount: string = "";
   isAdministrator: boolean = false;
   favorites: ContactGroup;
@@ -63,5 +65,11 @@ export class User extends Model {
     const permission = this.permissions.find(findPermissionByCode);
     console.log('permission', permission);
     return permission ? permission : null;
+  };
+
+
+  setPhotoPosition(left: number, top: number): void {
+    this.photoLeft = left + 'px';
+    this.photoTop = top + 'px';
   };
 };

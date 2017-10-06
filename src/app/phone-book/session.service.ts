@@ -14,6 +14,7 @@ import { ATS, IATS } from '../models/ats.model';
 import { PhoneBookService } from "./phone-book.service";
 import { Division, IDivision } from '../models/division.model';
 
+
 @Injectable()
 export class SessionService {
 
@@ -59,6 +60,13 @@ export class SessionService {
                      */
                     this.currentSession = body.session ? new Session(body.session) : null;
                     this.currentUser = body.user ? new User(body.user) : null;
+
+                    /**
+                     * Обрабатываем и устанавливаем позицию фотографии пользователя
+                     */
+                    if (body.user_photo_position) {
+                        this.currentUser.setPhotoPosition(body.user_photo_position.left, body.user_photo_position.top)
+                    }
 
                     /**
                      * Обрабатываем и добавляем права пользователя

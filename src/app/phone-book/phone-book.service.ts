@@ -15,6 +15,7 @@ import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 
 import { API, uploadURL } from '../app.config';
+import { IUserPhotoPosition } from '../models/user-photo-position.interface';
 
 
 @Injectable()
@@ -389,6 +390,32 @@ export class PhoneBookService {
             .take(1)
             .catch(this.handleError);
     };
+
+
+  setUserPhotoPosition(userId: number, top: number, left: number): Observable<IUserPhotoPosition> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let parameters = {
+          action: 'setUserPhotoPosition',
+          data: {
+              userId: userId,
+              top: top,
+              left: left
+          }
+      };
+      this.loading = true;
+
+      return this.http.post(API, parameters, options)
+          .map((response: Response) => {
+              let body = response.json();
+              return body;
+          })
+          .take(1)
+          .finally(() => {
+            this.loading = false;
+          })
+          .catch(this.handleError);
+  };
 
 
 
