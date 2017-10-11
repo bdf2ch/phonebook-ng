@@ -176,15 +176,15 @@ module.exports = {
 
 
     /**
-     * Изменение позиции фото пользователя
+     * Изменение позиции фото абонента
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*,*], func: string}}
      */
-    setUserPhotoPosition: function (parameters) {
+    setContactPhotoPosition: function (parameters) {
         return {
-            text: 'SELECT set_user_photo_position($1, $2, $3)',
-            values: [parameters.data.userId, parameters.data.top, parameters.data.left],
-            func: 'set_user_photo_position'
+            text: 'SELECT set_contact_photo_position($1, $2, $3, $4)',
+            values: [parameters.data.contactId, parameters.data.top, parameters.data.left, parameters.data.zoom],
+            func: 'set_contact_photo_position'
         }
     },
 

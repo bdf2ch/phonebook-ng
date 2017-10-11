@@ -1,12 +1,14 @@
 <div class="photo-editor-component">
-    <div class="wrapper" [ngClass]="{'blank': !url, 'with-photo': url}" [ngStyle]="{'background': url ? 'url(http://10.50.4.7:4444/' + url + ')' : 'url(' + blankUrl + ')'}">
+    <div class="wrapper"
+         [ngClass]="{'blank': !url, 'with-photo': url}"
+         [ngStyle]="{'background': url ? 'url(http://10.50.4.7:4444/' + url + ')' : 'url(' + blankUrl + ')', 'background-size': zoom + '%'}">
         <div class="clipper-wrapper">
             <div class="clipper"
                  [ngStyle]="{'width': width + 'px', 'height': height + 'px'}" #clipper></div>
         </div>
     </div>
     <div class="controls">
-        <input type="range" min="100" max="300" step="10">
+        <input type="range" min="-100" max="300" step="10" [(ngModel)]="zoom" (change)="onChangeZoom()">
         <button type="button" class="btn small round green" [disabled]="!isPositionChanged" (click)="save()" title="Сохранить изменения">
             <i class="fa fa-save"></i>
         </button>

@@ -54,9 +54,9 @@ export class Contact extends Model {
       this.email = config.email ? config.email : '';
       this.mobile = config.mobile ? config.mobile : '';
       this.photo = config.photo ? config.photo : '';
-      this.photoTop = config.photo_position ? config.photo_position.top + 'px' : '';
-      this.photoLeft = config.photo_position ? config.photo_position.left + 'px' : '';
-      this.photoZoom = config.photo_position ? config.photo_position.zoom + '%' : '';
+      this.photoTop = config.photo_position ? config.photo_position.top + 'px' : '0px';
+      this.photoLeft = config.photo_position ? config.photo_position.left + 'px' : '0px';
+      this.photoZoom = config.photo_position ? config.photo_position.zoom + '%' : '100% !important';
       this.isInFavorites = config.is_in_favorites;
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();

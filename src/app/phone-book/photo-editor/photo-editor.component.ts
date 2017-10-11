@@ -23,6 +23,8 @@ export class PhotoEditorComponent implements AfterViewInit{
     y: number = 0;
     clipperTop: number = 0;
     clipperLeft: number = 0;
+    zoom: number = 100;
+
 
     constructor(private renderer: Renderer2) {};
 
@@ -65,5 +67,10 @@ export class PhotoEditorComponent implements AfterViewInit{
 
     save(): void {
         this.onSaveChanges.emit({top: this.y, left: this.x});
+    };
+
+
+    onChangeZoom(): void {
+        console.log('zoom', this.zoom);
     };
 }

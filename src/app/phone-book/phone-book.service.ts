@@ -21,7 +21,6 @@ import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 @Injectable()
 export class PhoneBookService {
   private groups: ContactGroup[] = [];
-  private currentContact: Contact | null = null;
   searchMode: boolean = false;
 
   public _dragging: IDraggableContact | null = null;
@@ -98,6 +97,11 @@ export class PhoneBookService {
   public currentDivision: Division | null = null;
   get selectedDivision(): Division | null { return this.currentDivision };
   set selectedDivision(value: Division | null) { this.currentDivision = value };
+
+  /* Выбранный абонент */
+  public currentContact: Contact | null = null;
+  get selectedContact(): Contact | null { return this.currentContact };
+  set selectedContact(value: Contact | null) { this.currentContact = value };
 
   /* Строка поиска абонентов */
   public searchQuery: string = '';
@@ -457,28 +461,27 @@ export class PhoneBookService {
     };
 
 
-  setUserPhotoPosition(userId: number, top: number, left: number): Observable<IContactPhotoPosition> {
+  setContactPhotoPosition(contactId: number, top: number, left: number, zoom: number): Observable<IContactPhotoPosition> {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       let parameters = {
-          action: 'setUserPhotoPosition',
+          action: 'setContactPhotoPosition',
           data: {
-              userId: userId,
+              contactId: contactId,
               top: top,
-              left: left
+              left: left,
+              zoom: zoom
           }
       };
-      this.loading = true;
 
+      this.loading = true;
       return this.http.post(API, parameters, options)
           .map((response: Response) => {
               let body = response.json();
               return body;
           })
           .take(1)
-          .finally(() => {
-            this.loading = false;
-          })
+          .finally(() => { this.loading = false; })
           .catch(this.handleError);
   };
 
@@ -498,17 +501,6 @@ export class PhoneBookService {
     }
     return false;
   };
-
-
-  selectedContact(contact?: Contact | null): Contact | null {
-      if (contact || contact === null) {
-          this.currentContact = contact;
-      }
-      return this.currentContact;
-  };
-
-
-
 
 
 

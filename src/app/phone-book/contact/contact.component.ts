@@ -125,7 +125,7 @@ export class ContactComponent implements  OnInit, OnChanges{
 
     editContact(): void {
         this.onEditContactClick.emit(this.contact);
-        this.phoneBook.selectedContact(this.contact)
+        this.phoneBook.selectedContact = this.contact;
     };
 
 

@@ -92,7 +92,7 @@ export class PhoneBookComponent implements  OnInit {
      * Закрывает модальное окно редактирования данных выбранного пользователя
      */
     closeEditContactModal(): void {
-        this.phoneBook.selectedContact(null);
+        this.phoneBook.selectedContact = null;
         this.inEditContactMode = false;
     };
 
@@ -177,7 +177,7 @@ export class PhoneBookComponent implements  OnInit {
 
 
     onChangeUserPhotoPosition(position: IContactPhotoPosition): void {
-        this.phoneBook.setUserPhotoPosition(this.session.user.id, position.top, position.left)
+        this.phoneBook.setContactPhotoPosition(this.session.user.id, position.top, position.left, position.zoom)
             .subscribe((pos: IContactPhotoPosition) => {
                 this.session.user.setPhotoPosition(pos.left, pos.top)
             });
