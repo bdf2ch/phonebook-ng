@@ -1,6 +1,7 @@
-export interface IUserPhotoPosition {
+export interface IContactPhotoPosition {
     id?: number;
-    userId?: number;
+    contact_id?: number;
     top: number,
-    left: number
+    left: number,
+    zoom?: number
 }

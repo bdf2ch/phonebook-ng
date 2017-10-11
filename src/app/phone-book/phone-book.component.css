@@ -159,9 +159,11 @@
   bottom: 0px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
   width: 350px;
   box-sizing: border-box;
-  background: #E6EEF4;
+  background: #FAFAFA;
   transition: width 0.2s linear 0s;
 }
 #app-divisions #app-divisions-header {
@@ -174,10 +176,14 @@
   align-items: center;
   height: 60px;
   padding-right: 0px;
-  padding-left: 20px;
   box-sizing: border-box;
-  background: white;
-  border-bottom: 1px solid #E9EBEC;
+  background: #3DB8DA;
+}
+#app-divisions #app-divisions-header #company-selector {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  outline: none;
 }
 #app-divisions #app-divisions-header .app-title {
   display: flex;
@@ -246,12 +252,29 @@
 #app-divisions #app-divisions-content {
   overflow: auto;
   position: absolute;
-  top: 0px;
+  top: 60px;
   left: 0px;
   right: 0px;
   bottom: 0px;
   display: flex;
   border-right: 1px solid #E1ECF4;
+}
+#app-divisions #app-divisions-content.with-controls {
+  bottom: 50px;
+}
+#app-divisions #app-division-controls {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background: #eceff1;
+  border-top: 1px solid lightgrey;
+  border-right: 1px solid #BDBDBD;
 }
 #app-content-wrapper {
   position: absolute;
@@ -399,13 +422,18 @@
  }
  */
 /* Target landscape tablets, desktops */
-@media screen and (min-width: 800px) and (max-width: 1400px) {
+@media screen and (min-width: 800px) and (max-width: 1280px) {
+  #app-header {
+    height: 50px;
+  }
+  #app-content-wrapper {
+    top: 50px;
+  }
+  #app-divisions {
+    width: 0px;
+  }
   #app-contacts {
     margin-left: 0px !important;
-  }
-  #app-contacts .contact:nth-of-type(3) {
-    margin-right: 0px !important;
-    background: red !important;
   }
 }
 /* Target big displays */

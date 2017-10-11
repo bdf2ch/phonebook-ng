@@ -1,5 +1,5 @@
 import { Component, Input, Output, ViewChild, ViewContainerRef, Renderer2, AfterViewInit, EventEmitter } from '@angular/core';
-import { IUserPhotoPosition } from '../../models/user-photo-position.interface';
+import { IContactPhotoPosition } from '../../models/user-photo-position.interface';
 
 
 @Component({
@@ -12,7 +12,7 @@ export class PhotoEditorComponent implements AfterViewInit{
     @Input() blankUrl: string | null = 'http://10.50.4.7:4444/assets/images/users/no_photo.png';
     @Input() height: number = 0;
     @Input() width: number = 0;
-    @Output() onSaveChanges: EventEmitter<IUserPhotoPosition> = new EventEmitter();
+    @Output() onSaveChanges: EventEmitter<IContactPhotoPosition> = new EventEmitter();
     @ViewChild('clipper', { read: ViewContainerRef }) clipper: ViewContainerRef;
     clipperWrapper: any | null = null;
     private isMouseDown: boolean = false;
@@ -31,8 +31,8 @@ export class PhotoEditorComponent implements AfterViewInit{
 
         //this.renderer.setStyle(this.clipperWrapper, 'clip', 'rect(' + this.y + 'px, ' + this.x + 'px, ' + this.height + 'px, ' + this.width + 'px)');
 
-        this.renderer.setStyle(this.clipper.element.nativeElement, 'top', (this.clipperWrapper.clientHeight / 2) - (this.height / 2) + 'px');
-        this.renderer.setStyle(this.clipper.element.nativeElement, 'left', (this.clipperWrapper.clientWidth / 2) - (this.width / 2) + 'px');
+        this.renderer.setStyle(this.clipper.element.nativeElement, 'top', (this.clipperWrapper.clientHeight / 2) - (this.height / 2) - 100 + 'px');
+        this.renderer.setStyle(this.clipper.element.nativeElement, 'left', (this.clipperWrapper.clientWidth  / 2) - (this.width / 2) - 100 + 'px');
 
         this.renderer.listen(this.clipper.element.nativeElement, 'mousedown', (event: any) => {
             this.isMouseDown = true;
@@ -46,13 +46,11 @@ export class PhotoEditorComponent implements AfterViewInit{
                 this.isPositionChanged = true;
                 this.y = event.pageY - this.startY;
                 this.x = event.pageX - this.startX;
-                if (this.y >= 0 && this.y <= this.clipperWrapper.clientHeight - this.height) {
+                if (this.y >= -100 && this.y <= this.clipperWrapper.clientHeight - this.height - 100) {
                     this.renderer.setStyle(this.clipper.element.nativeElement, 'top', this.y + 'px');
-                    //this.renderer.setStyle(this.clipper.element.nativeElement, 'background-position-y', this.y * -1 + 'px');
                 }
-                if (this.x >= 0 && this.x <= this.clipperWrapper.clientWidth - this.width) {
+                if (this.x >= 0-100 && this.x <= this.clipperWrapper.clientWidth - this.width - 100) {
                     this.renderer.setStyle(this.clipper.element.nativeElement, 'left', this.x + 'px');
-                    //this.renderer.setStyle(this.clipper.element.nativeElement, 'background-position-x', this.x * -1 + 'px');
                 }
 
                 //this.renderer.setStyle(this.clipperWrapper, 'clip', this.y + 'px, ' + (this.clipperWrapper.clientWidth - this.width) + 'px, ' + (this.clipperWrapper.clientHeight - this.height)+ 'px, ' + this.x + 'px');

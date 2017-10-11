@@ -89,9 +89,8 @@
   height: 140px;
   margin-bottom: 10px;
   box-sizing: border-box;
-  background-size: cover !important;
-  background-position: center top !important;
-  background-origin: content-box !important;
+  background-size: 200% !important;
+  background-repeat: no-repeat !important;
 }
 .contact .contact-info #photo.no-photo {
   background-position: center center !important;

@@ -51,18 +51,38 @@
 
 </div>
 <div id="app-divisions">
-    <!--
+
     <div id="app-divisions-header">
-        <span class="app-title">
-            Телефонный справочник
-            <button type="button">
-        <i class="fa fa-question-circle"></i>
-    </button>
-        </span>
+        <company-selector [divisions]="phoneBook.organizations"></company-selector>
     </div>
-    -->
-    <div id="app-divisions-content">
-        <division-tree [divisions]="phoneBook.divisions" (onSelect)="selectDivision($event)"></division-tree>
+
+    <div id="app-divisions-content" [ngClass]="{'with-controls': session.user && session.user.isAdministrator}">
+        <division-tree [id]="'phone-book-divisions'" [divisions]="phoneBook.divisions" (onSelect)="selectDivision($event)"></division-tree>
+    </div>
+    <div id="app-division-controls" *ngIf="session.user && session.user.isAdministrator">
+        <button type="button"
+                class="btn green small round margin-right-10"
+                title="Добавить структурное подразделение"
+                [disabled]="phoneBook.loading"
+                (click)="openNewDivisionModal()">
+            <i class="fa fa-plus"></i>
+        </button>
+
+        <button type="button"
+                class="btn blue small round margin-right-10"
+                [disabled]="!phoneBook.selectedDivision || phoneBook.loading"
+                title="Редактировать структурное подразделение"
+                (click)="openEditDivisionModal()">
+            <i class="fa fa-pencil"></i>
+        </button>
+
+        <button type="button"
+                class="btn red small round"
+                [disabled]="!phoneBook.selectedDivision || phoneBook.loading"
+                title="Удалить структурное подразделение"
+                (click)="openDeleteDivisionModal()">
+            <i class="fa fa-times"></i>
+        </button>
     </div>
 </div>
 
@@ -95,3 +115,144 @@
 <auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>
 <user-menu [isOpened]="inUserMenuMode" (onClose)="closeUserMenuModal()"></user-menu>
 <edit-contact [isOpened]="phoneBook.selectedContact() !== null" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact()"></edit-contact>
+
+
+<modal [id]="'new-division-modal'" [title]="'Новое структурное подразделение'" [width]="400" (onClose)="closeNewDivisionModal(newDivisionForm)">
+    <div class="modal-content">
+        <form novalidate class="padding-20" #newDivisionForm="ngForm">
+            <div class="margin-bottom-10" *ngIf="phoneBook.selectedDivision">
+                <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
+                <input type="text"
+                       name="parent"
+                       id="new-division-parent"
+                       class="width-100 margin-top-5"
+                       placeholder="Структурное подразделение верхнего уровня"
+                       [value]="phoneBook.selectedDivision.title"
+                       disabled>
+            </div>
+            <div class="margin-bottom-20">
+                <label for="new-division-title">Наименование структурного подразделения</label>
+                <input type="text"
+                       name="title"
+                       id="new-division-title"
+                       class="width-100 margin-top-5"
+                       placeholder="Введите наименование"
+                       [(ngModel)]="newDivision.title"
+                       required>
+            </div>
+            <!--
+            <div class="selectable-input margin-bottom-20">
+                <div class="value">
+                    <input type="checkbox"
+                           name="is-department"
+                           id="new-division-is-department"
+                           [(ngModel)]="newDivision.isDepartment">
+                </div>
+                <div class="label">Структурное подразделение является производственным отделением</div>
+            </div>
+            -->
+            <div class="width-50 padding-right-5">
+                <button type="submit"
+                        class="btn green width-100 margin-bottom-10"
+                        [disabled]="!newDivisionForm.valid"
+                        (click)="addDivision()">
+                    Добавить
+                </button>
+            </div>
+            <div class="width-50 padding-left-5">
+                <button type="button"
+                        class="btn red width-100"
+                        (click)="this.modals.close('new-division-modal')">
+                    Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</modal>
+
+
+
+<modal [id]="'edit-division-modal'"
+       [title]="'Изменение структ. подразделения'"
+       [width]="400"
+       (onClose)="closeEditDivisionModal(editDivisionForm)"
+       *ngIf="phoneBook.selectedDivision">
+    <div class="modal-content">
+        <form novalidate class="padding-20" #editDivisionForm="ngForm">
+            <div class="margin-bottom-10" *ngIf="phoneBook.selectedDivision.parentId !== 0">
+                <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
+                <input type="text"
+                       name="parent"
+                       id="selected-division-parent"
+                       class="width-100 margin-top-5"
+                       placeholder="Структурное подразделение верхнего уровня"
+                       [value]="phoneBook.getDivisionById(phoneBook.selectedDivision.parentId).title"
+                       disabled>
+            </div>
+            <div class="margin-bottom-20">
+                <label for="new-division-title">Наименование структурного подразделения</label>
+                <input type="text"
+                       name="title"
+                       id="selected-division-title"
+                       class="width-100 margin-top-5"
+                       placeholder="Введите наименование"
+                       [(ngModel)]="phoneBook.selectedDivision.title"
+                       required>
+            </div>
+            <!--
+            <div class="selectable-input margin-bottom-20">
+                <div class="value">
+                    <input type="checkbox"
+                           name="is-department"
+                           id="new-division-is-department"
+                           [(ngModel)]="newDivision.isDepartment">
+                </div>
+                <div class="label">Структурное подразделение является производственным отделением</div>
+            </div>
+            -->
+            <div class="width-50 padding-right-5">
+                <button type="submit"
+                        class="btn green width-100 margin-bottom-10"
+                        [disabled]="!editDivisionForm.valid || !editDivisionForm.dirty"
+                        (click)="editDivision()">
+                    Сохранить изменения
+                </button>
+            </div>
+            <div class="width-50 padding-left-5">
+                <button type="button"
+                        class="btn red width-100"
+                        (click)="this.modals.close('edit-division-modal')">
+                    Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</modal>
+
+
+<modal [id]="'delete-division-modal'"
+       [title]="'Удаление структ. подразделения'"
+       [width]="400"
+       *ngIf="phoneBook.selectedDivision">
+    <div class="modal-content">
+        <form novalidate class="padding-20">
+            <div class="margin-bottom-10" *ngIf="phoneBook.selectedDivision.parentId !== 0">
+                Структурное подразделение "{{ phoneBook.selectedDivision.title }}" будет удалено.
+            </div>
+            <div class="width-50 padding-right-5">
+                <button type="submit"
+                        class="btn blue width-100 margin-bottom-10"
+                        (click)="editDivision()">
+                    Удалить
+                </button>
+            </div>
+            <div class="width-50 padding-left-5">
+                <button type="button"
+                        class="btn red width-100"
+                        (click)="this.modals.close('edit-division-modal')">
+                    Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</modal>

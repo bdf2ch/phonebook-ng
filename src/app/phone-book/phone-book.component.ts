@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { appConfig } from '../app.config';
 import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "./session.service";
-import { Division } from "../models/Division.model";
+import { Division } from "../models/division.model";
 import { ContactListComponent } from "./contact-list/contact-list.component";
 import {Contact} from "../models/contact.model";
-import { IUserPhotoPosition } from '../models/user-photo-position.interface';
+import { IContactPhotoPosition } from '../models/user-photo-position.interface';
+import { ModalService } from '../utilities/modal/modal.service';
+import { PhoneBookManagerService } from '../manager/phone-book-manager.service';
+import { DivisionTreeService } from './division-tree/division-tree.service';
 
 
 @Component({
@@ -14,34 +17,35 @@ import { IUserPhotoPosition } from '../models/user-photo-position.interface';
 })
 export class PhoneBookComponent implements  OnInit {
     private inAuthMode: boolean = false;
-    private inUserMenuMode: boolean = true;
+    private inUserMenuMode: boolean = false;
     private inEditContactMode: boolean = true;
     private isAtsPanelOpened: boolean = false;
     private sourceAtsId: number;
-    private snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
     //@ViewChild(ContactListComponent) list: ContactListComponent;
+    private newDivision: Division = new Division();
 
 
-    constructor(private router: Router,
-                private route: ActivatedRoute,
-                private phoneBook: PhoneBookService,
-                private session: SessionService) {};
+    constructor(private phoneBook: PhoneBookService,
+                private manager: PhoneBookManagerService,
+                private trees: DivisionTreeService,
+                private session: SessionService,
+                private modals: ModalService) {
+        this.newDivision.parentId = appConfig.defaultOrganizationId;
+        this.newDivision.setupBackup(['parentId', 'title']);
+        console.log('new division', this.newDivision);
+    };
 
 
     /**
      * Инициализация компонента.
-     * При наличии избранных контактов у текущего пользователя - редирект на /favorites
+     * При наличии избранных контактов у текущего пользователя - показываем избранные контакты
      */
     ngOnInit(): void {
         if (this.phoneBook.favorites.contacts.length > 0) {
-            console.log('redirect to favs');
-            //this.router.navigate(['/favorites']);
-            //this.phoneBook.setFavoritesMode();
             this.phoneBook.isInFavoritesMode = true;
         }
 
     };
-
 
 
     /**
@@ -115,8 +119,9 @@ export class PhoneBookComponent implements  OnInit {
         this.phoneBook.selectedDivision = division;
         if (division !== null) {
             //this.router.navigate(['/']);
+            this.newDivision.parentId = division.id;
 
-            this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
+            this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
                 document.getElementById('app-content').scrollTop = 0;
                 this.phoneBook.searchQuery = '';
                 if (this.isAtsPanelOpened) {
@@ -125,6 +130,7 @@ export class PhoneBookComponent implements  OnInit {
             })
         } else {
             //this.phoneBook.clearContactGroups();
+            this.newDivision.parentId = 0;
             this.phoneBook.contacts = [];
         };
     };
@@ -153,7 +159,7 @@ export class PhoneBookComponent implements  OnInit {
 
                     });
             } else {
-                this.phoneBook.fetchContactsByDivisionId(this.phoneBook.selectedDivision.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
+                this.phoneBook.fetchContactsByDivisionIdRecursive(this.phoneBook.selectedDivision.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
                     .subscribe();
             }
 
@@ -170,11 +176,61 @@ export class PhoneBookComponent implements  OnInit {
     };
 
 
-    onChangeUserPhotoPosition(position: IUserPhotoPosition): void {
+    onChangeUserPhotoPosition(position: IContactPhotoPosition): void {
         this.phoneBook.setUserPhotoPosition(this.session.user.id, position.top, position.left)
-            .subscribe((pos: IUserPhotoPosition) => {
+            .subscribe((pos: IContactPhotoPosition) => {
                 this.session.user.setPhotoPosition(pos.left, pos.top)
             });
+    };
+
+
+
+    openNewDivisionModal(): void {
+        this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : 0;
+        this.modals.open('new-division-modal');
+    };
+
+
+    closeNewDivisionModal(form?: any): void {
+        this.newDivision.restoreBackup();
+        if (form)
+            form.reset();
+    };
+
+
+    addDivision(): void {
+        this.manager.addDivision(this.newDivision).subscribe((division: Division) => {
+            this.trees.addDivision('phone-book-divisions', division);
+            this.modals.close(false);
+        });
+    };
+
+
+    openEditDivisionModal(): void {
+        this.modals.open('edit-division-modal');
+    };
+
+
+    closeEditDivisionModal(form?: any): void {
+        this.phoneBook.selectedDivision.restoreBackup();
+        if (form)
+            form.reset({
+                title: this.phoneBook.selectedDivision.title
+            });
+    };
+
+
+    editDivision(): void {
+        this.manager.editDivision(this.phoneBook.selectedDivision).subscribe((result: boolean) => {
+            if (result) {
+                this.modals.close(false);
+            }
+        });
+    };
+
+
+    openDeleteDivisionModal(): void {
+        this.modals.open('delete-division-modal');
     };
 
 };

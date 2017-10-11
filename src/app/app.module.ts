@@ -30,10 +30,15 @@ import { EditContactComponent } from './phone-book/edit-contact/edit-contact.com
 
 import { SessionService} from './phone-book/session.service';
 import { CookieService } from './utilities/cookies/cookie.services';
-import { ModalComponent } from './utilities/modal/modal.component';
+//import { ModalComponent } from './utilities/modal/modal.component';
 
 import { UploadDirective }  from './utilities/upload/upload.directive';
 import { PhotoEditorComponent } from './phone-book/photo-editor/photo-editor.component';
+
+import { ModalComponent } from './utilities/modal/modal.component';
+import { ModalService } from './utilities/modal/modal.service';
+import { CompanySelectorComponent } from './phone-book/company-selector/company-selector.component';
+import { ExceptSelectedOrganizationPipe } from './phone-book/company-selector/except-selected-organization.pipe';
 
 const routes: Routes = [
   {
@@ -75,7 +80,9 @@ const routes: Routes = [
     EditContactComponent,
     ModalComponent,
     PhotoEditorComponent,
-    UploadDirective
+    CompanySelectorComponent,
+    UploadDirective,
+    ExceptSelectedOrganizationPipe
   ],
   providers: [
     DivisionsGuard,
@@ -84,7 +91,8 @@ const routes: Routes = [
     DivisionTreeService,
     AuthService,
     SessionService,
-    CookieService
+    CookieService,
+    ModalService
   ],
   bootstrap: [ AppComponent ]
 })

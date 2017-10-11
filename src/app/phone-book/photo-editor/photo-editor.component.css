@@ -21,6 +21,7 @@
   background-position: top center !important;
 }
 .photo-editor-component .wrapper .clipper-wrapper {
+  overflow: hidden;
   position: absolute;
   left: 0px;
   top: 0px;
@@ -36,8 +37,10 @@
   width: 258px;
   height: 140px;
   border: 2px dashed white;
-  box-sizing: border-box;
+  box-sizing: content-box;
   background-repeat: no-repeat !important;
+  border: 100px solid rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0px 0px 0px 1px white;
   /*
         &:before{
           content: " ";
@@ -56,7 +59,7 @@
 .photo-editor-component .controls {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 5px;
   border: 1px solid lightgrey;

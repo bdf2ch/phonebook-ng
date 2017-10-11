@@ -6,6 +6,7 @@
         </div>
     </div>
     <div class="controls">
+        <input type="range" min="100" max="300" step="10">
         <button type="button" class="btn small round green" [disabled]="!isPositionChanged" (click)="save()" title="Сохранить изменения">
             <i class="fa fa-save"></i>
         </button>

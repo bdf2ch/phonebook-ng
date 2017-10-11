@@ -1,5 +1,6 @@
 import { Model } from "./model.model";
 import { IPhone, Phone} from "./phone.model";
+import { IContactPhotoPosition } from './user-photo-position.interface';
 
 export interface IContact {
   id: number;
@@ -13,6 +14,7 @@ export interface IContact {
   mobile?: string;
   photo?: string;
   is_in_favorites: boolean;
+  photo_position?: IContactPhotoPosition,
   phones: IPhone[]
 };
 
@@ -30,6 +32,9 @@ export class Contact extends Model {
   phones: Phone[] = [];
   mobile: string;
   photo: string ;
+  photoTop: string = '';
+  photoLeft: string = '';
+  photoZoom: string = '';
   order: number = 0;
   isInFavorites: boolean = false;
   fio: string = "";
@@ -49,6 +54,9 @@ export class Contact extends Model {
       this.email = config.email ? config.email : '';
       this.mobile = config.mobile ? config.mobile : '';
       this.photo = config.photo ? config.photo : '';
+      this.photoTop = config.photo_position ? config.photo_position.top + 'px' : '';
+      this.photoLeft = config.photo_position ? config.photo_position.left + 'px' : '';
+      this.photoZoom = config.photo_position ? config.photo_position.zoom + '%' : '';
       this.isInFavorites = config.is_in_favorites;
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();

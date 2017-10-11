@@ -1,0 +1,93 @@
+.company-selector-component {
+  overflow: visible;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  width: 350px;
+  box-sizing: border-box;
+}
+.company-selector-component.opened .options {
+  top: 60px;
+}
+.company-selector-component .selected-company {
+  position: relative;
+  z-index: 11;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+  height: 60px;
+  cursor: pointer;
+  background: #259fc1;
+}
+.company-selector-component .selected-company:hover {
+  background: #218dab;
+}
+.company-selector-component .selected-company .company-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: "Open Sans Semi Bold";
+  font-size: 13px;
+  line-height: 13px;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+}
+.company-selector-component .selected-company .company-title.smaller {
+  font-size: 12px;
+}
+.company-selector-component .selected-company .arrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  font-size: 14px;
+  color: white;
+}
+.company-selector-component .options {
+  z-index: 10;
+  position: absolute;
+  top: -600px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: auto;
+  background: red;
+  -webkit-transition: top 0.5s;
+  -moz-transition: top 0.5s;
+  -ms-transition: top 0.5s;
+  -o-transition: top 0.5s;
+  transition: top 0.5s;
+}
+.company-selector-component .options.opened {
+  top: 60px;
+}
+.company-selector-component .options .option {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+  line-height: 13px;
+  font-family: "Open Sans Semi Bold";
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+  background: #3eb8da;
+  cursor: pointer;
+}
+.company-selector-component .options .option:hover {
+  background: #14586b;
+}

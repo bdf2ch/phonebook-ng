@@ -4,7 +4,7 @@
 
         <div id="photo"
              [ngClass]="{'no-photo': contact.photo === '', 'with-photo': contact.photo !== ''}"
-             [ngStyle]="{'background': contact.photo !== '' ? 'url(http://10.50.4.7:4444' + contact.photo +  ')': 'url(http://10.50.4.7:4444/assets/images/users/no_photo.png)'}">
+             [ngStyle]="{'background': contact.photo !== '' ? 'url(http://10.50.4.7:4444' + contact.photo +  ') ' + + contact.photoLeft + ' ' + contact.photoTop: 'url(http://10.50.4.7:4444/assets/images/users/no_photo.png)'}">
             <i class="control favorites fa fa-star" [ngClass]="{ 'in-favorites': contact.isInFavorites === true }"
                title="{{ contact.isInFavorites ? 'Убрать абонента из избранных' : 'Добавить абонента в избранные' }}"
                (click)="favorites()">

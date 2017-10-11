@@ -1,6 +1,8 @@
 .division-tree-item-component {
   display: flex;
   flex-direction: column;
+  font-family: "Open Sans Regular";
+  font-size: 14px;
 }
 .division-tree-item-component .item-details {
   display: flex;
@@ -10,19 +12,22 @@
   padding-right: 10px;
   padding-left: 10px;
   box-sizing: border-box;
+  color: #455A64;
   border-left: 0px solid transparent;
   cursor: pointer;
+  background: transparent;
 }
 .division-tree-item-component .item-details * {
   pointer-events: none;
 }
 .division-tree-item-component .item-details:hover {
-  margin-left: 0px;
-  margin-right: 0px;
-  background: #E6EEF4;
+  background: #eceff1;
 }
 .division-tree-item-component .item-details.drag-over {
   background: #FFECB3;
+}
+.division-tree-item-component .item-details.nested {
+  background: transparent;
 }
 .division-tree-item-component .item-details.nested:hover .title {
   border-bottom: 1px solid transparent !important;
@@ -35,9 +40,7 @@
   border-bottom: 1px solid #E6EEF4;
 }
 .division-tree-item-component .item-details.selected {
-  background: white;
-  margin-right: 0px;
-  margin-left: 0px;
+  background: #d3dade;
 }
 .division-tree-item-component .item-details.selected .title {
   border-bottom: 1px solid transparent !important;
@@ -52,7 +55,7 @@
   padding-bottom: 10px;
   box-sizing: border-box;
   font-size: 14px;
-  color: #8CAEC6;
+  color: #455A64;
 }
 .division-tree-item-component .item-details .title {
   display: flex;
@@ -65,15 +68,18 @@
   line-height: 14px;
 }
 .division-tree-item-component .item-children.selected {
-  background: #EDF3F7;
-  border-bottom: 1px solid #E1ECF4;
-  border-top: 1px solid #D0E1ED;
+  background: #eceff1;
+  border-bottom: 1px solid #e2e6e9;
+  /*border-top: 1px solid #D0E1ED;*/
 }
 .division-tree-item-component .item-children.selected .item-details {
   border-bottom: 1px solid transparent;
 }
+.division-tree-item-component .item-children.selected .item-details:hover {
+  background: #e2e6e9;
+}
 .division-tree-item-component .item-children.selected .item-details .title {
-  border-bottom: 1px solid #DEEAF2;
+  border-bottom: 1px solid #eceff1;
 }
 .division-tree-item-component .item-children.selected .item-details .item-details:last-of-type {
   border: 1px solid red;

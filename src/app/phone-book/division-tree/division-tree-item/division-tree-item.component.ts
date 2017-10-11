@@ -25,8 +25,8 @@ import { Contact } from "../../../models/contact.model";
             transition('* => true', animate(100)),
             transition('true => *', animate(100)),
         ])
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    ]
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DivisionTreeItemComponent implements OnInit {
 

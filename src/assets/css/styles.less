@@ -62,6 +62,14 @@
       color: white;
       background: #F44336;
     }
+    &[disabled] {
+      color: #FFCCBC;
+      border: 1px solid #FFCCBC;
+      cursor: default;
+      &:hover {
+        background: transparent;
+      }
+    }
   }
 
   &.blue {
@@ -151,7 +159,7 @@
     font-family: 'Open Sans Regular';
     font-size: 15px;
     background: #F4F4F4;
-    border: 1px solid transparent;
+    border: 1px solid transparent !important;
     border-radius: 4px;
     outline: none;
     transition: border 0.2s linear 0s;
@@ -225,6 +233,50 @@
     }
   }
 
+}
+
+
+
+input[type='text'] {
+  padding: 10px;
+  border: 1px solid #CFD8DC;
+}
+
+input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+
+
+label {
+  font-family: "Open Sans Regular";
+  font-size: 13px;
+  color: #90A4AE;
+}
+
+
+.selectable-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  .value {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .label {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 20px;
+    font-family: "Open Sans Regular";
+    font-size: 13px;
+    line-height: 13px;
+    color: #90A4AE;
+  }
 }
 
 
@@ -304,3 +356,14 @@
 
   }
 }
+
+
+.modal-header {
+  background: #3DB8DA !important;
+}
+
+.modal-content {
+  font-family: "Open Sans Regular";
+  font-size: 14px;
+}
+

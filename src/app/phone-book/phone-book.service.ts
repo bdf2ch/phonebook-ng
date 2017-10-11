@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import { SessionService } from "./session.service";
-import { Division, IDivision } from "../models/Division.model";
+import { Division, IDivision } from "../models/division.model";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 import {ATS, IATS} from "../models/ats.model";
 import {Phone} from "../models/phone.model";
@@ -15,7 +15,7 @@ import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 
 import { API, uploadURL } from '../app.config';
-import { IUserPhotoPosition } from '../models/user-photo-position.interface';
+import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 
 
 @Injectable()
@@ -37,10 +37,20 @@ export class PhoneBookService {
   get cache(): ContactGroup[] { return this.cachedContacts };
   set cache(value: ContactGroup[]) { this.cachedContacts = value };
 
+  /* Перечень организаций */
+  public organizationList: Division[] = [];
+  get organizations(): Division[] { return this.organizationList };
+  set organizations(value: Division[]) { this.organizationList = value; };
+
   /* Перечень структурных подразделений */
   public divisionsList: Division[] = [];
   get divisions(): Division[] { return this.divisionsList };
   set divisions(value: Division[]) { this.divisionsList = value };
+
+  /* Перечень структурных подразделений выбранной организации */
+  public organizationDivisionList: Division[] = [];
+  get organizationDivisions(): Division[] { return this.organizationList };
+  set organizationDivisions(value: Division[]) { this.organizationDivisionList = value; }
 
   /* Перечень внутренних АТС */
   public innerAtsList: ATS[] = [];
@@ -78,6 +88,11 @@ export class PhoneBookService {
   public currentAts: ATS | null = null;
   get selectedAts(): ATS | null { return this.currentAts };
   set selectedAts(value: ATS | null) { this.currentAts = value };
+
+  /* Выбранная организация */
+  public currentOrganization: Division | null = null;
+  get selectedOrganization(): Division | null { return this.currentOrganization };
+  set selectedOrganization(value: Division | null) { this.currentOrganization = value };
 
   /* Выбранное структурное подразделение */
   public currentDivision: Division | null = null;
@@ -122,6 +137,12 @@ export class PhoneBookService {
           .map((res: Response) => {
               let body = res.json();
               console.log(body);
+
+              body.organizations.forEach((item: IDivision) => {
+                  let division = new Division(item);
+                  division.setupBackup(['parentId', 'title']);
+                  this.organizations.push(division);
+              });
 
               body.divisions.forEach((item: IDivision) => {
                   let division = new Division(item);
@@ -172,12 +193,47 @@ export class PhoneBookService {
   };
 
 
+  /**
+   * Получение контактов по идентификатору структурного подразделения
+   * @param divisionId {number} - идентификатор структурного подразделения
+   * @param sourceAtsId {number} - идентификатор исходной АТС
+   * @param token {string} - токен сессии
+   * @returns {Observable<R>}
+   */
+  fetchContactsByDivisionId(divisionId: number, sourceAtsId: number, token: string): Observable<ContactGroup> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let parameters = {
+          action: 'getContactsByDivisionId',
+          data: {
+              divisionId: divisionId,
+              sourceAtsId: sourceAtsId,
+              token: token
+          }
+      };
 
-  fetchContactsByDivisionId(divisionId: number, sourceAtsId: number, token: string): Observable<ContactGroup[]> {
+      this.loading = true;
+      this.contacts = [];
+      this.isInFavoritesMode = false;
+      this.isInSearchMode = false;
+      return this.http.post(API, parameters, options)
+          .map((res: Response) => {
+              const body = res.json();
+              const group = new ContactGroup(body);
+              this.contacts.push(group);
+              return this.contacts;
+          })
+          .take(1)
+          .finally(() => { this.loading = false; })
+          .catch(this.handleError);
+  };
+
+
+  fetchContactsByDivisionIdRecursive(divisionId: number, sourceAtsId: number, token: string): Observable<ContactGroup[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let parameters = {
-      action: 'getContactGroupsByDivisionId',
+      action: 'getContactGroupsByDivisionIdRecursive',
       data: {
           divisionId: divisionId,
           sourceAtsId: sourceAtsId,
@@ -199,9 +255,7 @@ export class PhoneBookService {
         return this.contacts;
       })
       .take(1)
-        .finally(() => {
-            this.loading = false;
-        })
+        .finally(() => { this.loading = false; })
       .catch(this.handleError);
   };
 
@@ -241,6 +295,17 @@ export class PhoneBookService {
   getDivisionById(id: number): Division|undefined {
     const divisionById = (item: Division, index: number, divisions: Division[]) => item.id === id;
     return this.divisions.find(divisionById);
+  };
+
+
+  getDivisionsByOrganization(organization: Division): Division[] {
+      const result: Division[] = [];
+      this.divisions.forEach((division: Division) => {
+          if (division.parentId === organization.id) {
+
+          }
+      });
+      return result;
   };
 
 
@@ -392,7 +457,7 @@ export class PhoneBookService {
     };
 
 
-  setUserPhotoPosition(userId: number, top: number, left: number): Observable<IUserPhotoPosition> {
+  setUserPhotoPosition(userId: number, top: number, left: number): Observable<IContactPhotoPosition> {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       let parameters = {
@@ -451,7 +516,7 @@ export class PhoneBookService {
       this.searchQuery = '';
       this.isInSearchMode = false;
       if (this.currentDivision !== null) {
-          this.fetchContactsByDivisionId(this.currentDivision.id, this.currentAts.id, '')
+          this.fetchContactsByDivisionIdRecursive(this.currentDivision.id, this.currentAts.id, '')
               .subscribe();
       } else {
           this.contacts = [];

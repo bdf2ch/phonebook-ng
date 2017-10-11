@@ -4,6 +4,7 @@ import { SessionService } from "../session.service";
 import { CookieService } from "../../utilities/cookies/cookie.services";
 import { isError } from "../../models/error.model";
 import {PhoneBookService} from "../phone-book.service";
+import { IContactPhotoPosition } from '../../models/user-photo-position.interface';
 
 
 
@@ -72,6 +73,14 @@ export class UserMenuComponent implements OnChanges {
         console.log(event);
         this.phoneBook.uploadUserPhoto(this.session.user.id, event.target.files[0])
             .subscribe();
+    };
+
+
+    changeUserPhotoPosition(position: IContactPhotoPosition): void {
+        this.phoneBook.setUserPhotoPosition(this.session.user.id, position.top, position.left).subscribe((pos: IContactPhotoPosition) => {
+            this.session.user.photoTop = pos.top + 'px';
+            this.session.user.photoLeft = pos.left + 'px';
+        });
     };
 
 

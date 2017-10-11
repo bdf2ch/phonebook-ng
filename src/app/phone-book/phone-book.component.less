@@ -7,7 +7,9 @@
 @app-ats-background-color: #F0F4C3;
 
 @app-divisions-width: 350px;
-@app-divisions-background-color: #E6EEF4;
+@app-divisions-controls-height: 50px;
+@app-divisions-background-color: #FAFAFA;
+@divisions-controls-background-color: #eceff1;
 
 //@app-contacts-background-color: #FAFAFA;
 @app-contacts-background-color: white;
@@ -209,6 +211,8 @@
   bottom: 0px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
   width: @app-divisions-width;
   box-sizing: border-box;
   background: @app-divisions-background-color;
@@ -227,10 +231,20 @@
     height: @app-header-height;
     //padding: 20px;
     padding-right: 0px;
-    padding-left: 20px;
+    //padding-left: 5px;
     box-sizing: border-box;
-    background: white;
-    border-bottom: 1px solid #E9EBEC;
+    background: @app-header-background-color;
+    //border-bottom: 1px solid #E9EBEC;
+
+
+    #company-selector {
+      display: flex;
+      padding: 10px;
+      width: 100%;
+      outline: none;
+      //border: 1px solid lightgrey;
+    }
+
 
     .app-title {
       display: flex;
@@ -313,12 +327,30 @@
     overflow: auto;
     position: absolute;
     //top: @app-header-height;
-    top: 0px;
+    top: @app-header-height;
     left: 0px;
     right: 0px;
     bottom: 0px;
     display: flex;
     border-right: 1px solid #E1ECF4;
+    &.with-controls {
+      bottom: @app-divisions-controls-height;
+    }
+  }
+
+  #app-division-controls {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: @app-divisions-controls-height;
+    background: @divisions-controls-background-color;
+    border-top: 1px solid lightgrey;
+    border-right: 1px solid #BDBDBD;
   }
 }
 
@@ -506,27 +538,23 @@
 
 
 /* Target landscape tablets, desktops */
-@media screen and (min-width: 800px) and (max-width: 1400px) {
-    //#app-header {
-    //  height: @app-header-height-mobile;
-    //}
+@media screen and (min-width: 800px) and (max-width: 1280px) {
+    #app-header {
+      height: @app-header-height-mobile;
+    }
 
-    //#app-content-wrapper {
-    //  top: @app-header-height-mobile;
-    //}
+    #app-content-wrapper {
+      top: @app-header-height-mobile;
+    }
 
 #app-divisions {
         //display: none;
         //float: none;
+  width: 0px;
     }
 
   #app-contacts {
         margin-left: 0px !important;
-
-    .contact:nth-of-type(3) {
-            margin-right: 0px !important;
-            background: red !important;
-        }
     }
 
 }

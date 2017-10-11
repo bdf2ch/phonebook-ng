@@ -43,7 +43,7 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
 
     selectDivision(division: Division): void {
         this.phoneBook.selectedDivision = division;
-        this.phoneBook.fetchContactsByDivisionId(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
+        this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
             .subscribe(() => {
                 this.phoneBook.searchQuery = '';
             });

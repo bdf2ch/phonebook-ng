@@ -56,6 +56,20 @@ module.exports = {
 
 
     /**
+     * Получение абонентов по структкрному подразделению, рекурсивно
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    getContactsByDivisionIdRecursive: function (parameters) {
+        return {
+            text: 'SELECT get_contacts_by_division_id_recursive($1, $2, $3)',
+            values: [parameters.data.divisionId, parameters.data.sourceAtsId, parameters.data.token],
+            func: 'get_contacts_by_division_id_recursive'
+        }
+    },
+
+
+    /**
      * Получение абонентов по структкрному подразделению
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}
@@ -227,6 +241,34 @@ module.exports = {
             text: 'SELECT delete_contact_phone($1)',
             values: [parameters.data.phoneId],
             func: 'delete_contact_phone'
+        }
+    },
+
+
+    /**
+     * Добавление нового структурного подразделения
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*,*,*], func: string}}
+     */
+    addDivision: function (parameters) {
+        return {
+            text: 'SELECT add_phonebook_division($1, $2)',
+            values: [parameters.data.parentId, parameters.data.title],
+            func: 'add_phonebook_division'
+        }
+    },
+
+
+    /**
+     * Изменение структурного подразделения
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*,*,*,*], func: string}}
+     */
+    editDivision: function (parameters) {
+        return {
+            text: 'SELECT edit_phonebook_division($1, $2, $3)',
+            values: [parameters.data.id, parameters.data.parentId, parameters.data.title],
+            func: 'edit_phonebook_division'
         }
     }
 };

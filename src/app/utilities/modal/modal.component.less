@@ -1,20 +1,90 @@
-.modal-component {
+@modal-header-height: 50px;
+@modal-header-close-button-width: 40px;
+
+
+.ui-modal-fog {
+  z-index: 100;
   position: fixed;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  top: 0px;
   left: 0px;
+  top: 0px;
   right: 0px;
   bottom: 0px;
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.2);
+}
 
-  .modal {
-    position: absolute;
-    height: 400px;
-    background: white;
-    border-radius: 4px;
+.ui-modal {
+  z-index: 101;
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: auto;
+  margin-right: auto;
+  background: white;
+  box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.2);
+  transform: scale(0.1);
+
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: @modal-header-height;
+    padding-left: 20px;
+    //padding-right: 20px;
+    box-sizing: border-box;
+    background: #F5F5F5;
+    //border-bottom: 1px solid lightgrey;
+
+    .modal-header-title {
+      display: flex;
+      flex-grow: 1;
+      overflow: hidden;
+      margin-right: @modal-header-close-button-width;
+      box-sizing: border-box;
+      font-family: "Open Sans Semi Bold";
+      font-size: 15px;
+      line-height: @modal-header-height;
+      white-space: nowrap;
+      text-wrap: none;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .close-modal-button {
+      //float: right;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: @modal-header-close-button-width;
+      font-size: 18px;
+      //line-height: @modal-header-height;
+      //text-align: center;
+
+      i {
+        color: white;
+        cursor: pointer;
+        &:hover {
+          color: #ECEFF1;
+        }
+      }
+
+    }
+  }
+
+  .modal-content {
+    &.fixed-height {
+      overflow: auto;
+    }
+  }
+
+  .modal-footer {
+    display: block;
+    background: #FAFAFA;
+    border-top: 1px solid lightgrey;
   }
 }

@@ -26,6 +26,7 @@
     }
 
     .clipper-wrapper {
+      overflow: hidden;
       position: absolute;
       left: 0px;
       top: 0px;
@@ -42,10 +43,12 @@
         width: @clipper-width;
         height: @clipper-height;
         border: @clipper-border;
-        box-sizing: border-box;
+        box-sizing: content-box;
         //background-size: 298px 198px !important;
         background-repeat: no-repeat !important;
         //background-position: top center !important;
+        border: 100px solid rgba(0, 0, 0, 0.3);
+        box-shadow:inset 0px 0px 0px 1px white;
         &:hover {
           cursor: move;
         }
@@ -68,7 +71,7 @@
   .controls {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 5px;
     border: 1px solid lightgrey;

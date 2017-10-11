@@ -90,7 +90,7 @@ export class PhoneBookManagerService {
 
 
     /**
-     * Добавляет телефон абоненту
+     * Добавление телефона абоненту
      * @param contactId {number} - идентификатор абонента
      * @param atsId {number} - идентификатор АТС
      * @param number {string} - номекр телефона
@@ -122,8 +122,15 @@ export class PhoneBookManagerService {
     editContactPhone(phone: Phone): Observable<Phone> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        const parameters = { action: 'editContactPhone', data: { phoneId: phone.id, atsId: phone.atsId, number: phone.number}};
+        const parameters = { action: 'editContactPhone',
+            data: {
+                phoneId: phone.id,
+                atsId: phone.atsId,
+                number: phone.number
+            }
+        };
 
+        this.loading = true;
         return this.http.post(API, parameters, options)
             .map((response: Response) => {
                 phone.setupBackup(['atsId', 'number']);
@@ -131,6 +138,7 @@ export class PhoneBookManagerService {
                 return phone;
             })
             .take(1)
+            .finally(() => { this.loading = false; })
             .catch(this.handleError);
     };
 
@@ -145,12 +153,77 @@ export class PhoneBookManagerService {
         const options = new RequestOptions({ headers: headers });
         const parameters = { action: 'deleteContactPhone', data: { phoneId: phone.id }};
 
+        this.loading = true;
         return this.http.post(API, parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 return body;
             })
             .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
+    /**
+     * Добавление нового структурного подразделения
+     * @param division {Division} - Добавляемое структурное подразделение
+     * @returns {Observable<R>}
+     */
+    addDivision(division: Division): Observable<Division> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'addDivision',
+            data: {
+                parentId: division.parentId,
+                title: division.title
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(API, parameters, options)
+            .map((response: Response) => {
+                const body = response.json();
+                const division_ = new Division(body);
+                division_.setupBackup(['parentId', 'title']);
+                return division_;
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
+    /**
+     * Изменение структурного подразделения
+     * @param division {Division} - изменяемое структурное подразделение
+     * @returns {Observable<R>}
+     */
+    editDivision(division: Division): Observable<Boolean> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'editDivision',
+            data: {
+                id: division.id,
+                parentId: division.parentId,
+                title: division.title
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(API, parameters, options)
+            .map((response: Response) => {
+                const body = response.json();
+                if (body) {
+                    division.setupBackup(['parentId', 'title']);
+                    return true;
+                }
+                return false;
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
             .catch(this.handleError);
     };
 

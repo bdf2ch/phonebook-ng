@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DivisionTreeComponent } from '../division-tree/division-tree.component';
+import { Division } from '../../models/division.model';
 
 
 @Injectable()
@@ -30,4 +31,13 @@ export class DivisionTreeService {
             return this.trees.find(treeById);
         }
     };
-};
+
+
+    addDivision(id: string, division: Division): void {
+        this.trees.forEach((item: DivisionTreeComponent, index: number, array: DivisionTreeComponent[]) => {
+            if (item.id === id) {
+                item.addDivision(division);
+            }
+        });
+    };
+}

@@ -9,7 +9,7 @@ import { isError, RuntimeError } from "../models/error.model";
 import { IContact, Contact } from "../models/contact.model";
 import { ContactGroup } from "../models/contact-group.model";
 import {IPermission, Permission} from "../models/permission.model";
-import { API } from '../app.config';
+import { appConfig, API } from '../app.config';
 import { ATS, IATS } from '../models/ats.model';
 import { PhoneBookService } from "./phone-book.service";
 import { Division, IDivision } from '../models/division.model';
@@ -89,6 +89,15 @@ export class SessionService {
                     });
 
                     /**
+                     * Обрабатываем и добавляем организации
+                     */
+                    body.organizations.forEach((item: IDivision) => {
+                        let division = new Division(item);
+                        division.setupBackup(['parentId', 'title']);
+                        this.phoneBook.organizations.push(division);
+                    });
+
+                    /**
                      * Обработываем и добавляем структурные подразделения
                      */
                     body.divisions.forEach((value: IDivision, index: number, array: IDivision[]) => {
@@ -104,7 +113,7 @@ export class SessionService {
                         const ats = new ATS(value);
                         ats.setupBackup(['parentId', 'type', 'title']);
                         this.phoneBook.innerAts.push(ats);
-                        if (ats.id === 17) {
+                        if (ats.id === appConfig.defaultSourceAtsId) {
                             this.phoneBook.currentAts = ats
                         }
                     });
@@ -125,9 +134,7 @@ export class SessionService {
                 }
                 return null;
              })
-            .finally(() => {
-                this.loading = false;
-            })
+            .finally(() => { this.loading = false; })
             .take(1)
             .catch(this.handleError);
     };
