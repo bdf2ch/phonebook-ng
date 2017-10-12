@@ -32,9 +32,9 @@ export class Contact extends Model {
   phones: Phone[] = [];
   mobile: string;
   photo: string ;
-  photoTop: string = '';
-  photoLeft: string = '';
-  photoZoom: string = '';
+  photoTop: number = 0;
+  photoLeft: number = 0;
+  photoZoom: number = 100;
   order: number = 0;
   isInFavorites: boolean = false;
   fio: string = "";
@@ -54,9 +54,9 @@ export class Contact extends Model {
       this.email = config.email ? config.email : '';
       this.mobile = config.mobile ? config.mobile : '';
       this.photo = config.photo ? config.photo : '';
-      this.photoTop = config.photo_position ? config.photo_position.top + 'px' : '0px';
-      this.photoLeft = config.photo_position ? config.photo_position.left + 'px' : '0px';
-      this.photoZoom = config.photo_position ? config.photo_position.zoom + '%' : '100% !important';
+      this.photoTop = config.photo_position ? config.photo_position.photo_top : 0;
+      this.photoLeft = config.photo_position ? config.photo_position.photo_left : 0;
+      this.photoZoom = config.photo_position ? config.photo_position.photo_zoom : 100;
       this.isInFavorites = config.is_in_favorites;
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();

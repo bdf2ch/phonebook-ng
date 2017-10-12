@@ -1,16 +1,23 @@
-<div class="photo-editor-component">
+<div class="photo-editor-component" [ngStyle]="{'width': width + 'px', height: height + 'px'}">
     <div class="wrapper"
+         #wrapper
          [ngClass]="{'blank': !url, 'with-photo': url}"
-         [ngStyle]="{'background': url ? 'url(http://10.50.4.7:4444/' + url + ')' : 'url(' + blankUrl + ')', 'background-size': zoom + '%'}">
-        <div class="clipper-wrapper">
-            <div class="clipper"
-                 [ngStyle]="{'width': width + 'px', 'height': height + 'px'}" #clipper></div>
-        </div>
+         [ngStyle]="{'background': url ? 'url(http://10.50.4.7:4444/' + url + ') lightgray' : 'url(' + blankUrl + ') white', 'background-size': zoom + '%'}">
+        <!--<div class="clipper-wrapper">-->
+            <div class="clipper" [ngStyle]="{'width': frameWidth + 'px', 'height': frameHeight + 'px'}" #clipper></div>
+        <!--</div>-->
     </div>
-    <div class="controls">
-        <input type="range" min="-100" max="300" step="10" [(ngModel)]="zoom" (change)="onChangeZoom()">
-        <button type="button" class="btn small round green" [disabled]="!isPositionChanged" (click)="save()" title="Сохранить изменения">
-            <i class="fa fa-save"></i>
-        </button>
+    <div class="controls" #controls>
+        <div class="zoom">
+            <input type="range" min="10" max="300" step="10" [(ngModel)]="zoom" (change)="onChangeZoom()" title="{{zoom + '%'}}">
+        </div>
+        <div class="buttons">
+            <button type="button" class="btn small green round margin-right-10" [disabled]="!isPositionChanged" (click)="save()" title="Сохранить изменения">
+                <i class="fa fa-save"></i>
+            </button>
+            <button type="button" class="btn small red round" [disabled]="!isPositionChanged" (click)="cancel()" title="Отменить изменения">
+                <i class="fa fa-save"></i>
+            </button>
+        </div>
     </div>
 </div>

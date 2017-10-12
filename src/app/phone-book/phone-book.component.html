@@ -114,7 +114,7 @@
 
 <auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>
 <user-menu [isOpened]="inUserMenuMode" (onClose)="closeUserMenuModal()"></user-menu>
-<edit-contact [isOpened]="phoneBook.selectedContact !== null" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact"></edit-contact>
+<edit-contact [isOpened]="phoneBook.selectedContact === 'test'" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact"></edit-contact>
 
 
 <!-- Модальное окно добавления нового структурного подразделения -->
@@ -173,7 +173,6 @@
         </form>
     </div>
 </modal>
-
 
 
 <!-- Модальное окно изменения структурного подразделения -->
@@ -266,16 +265,23 @@
 
 
 <!-- Модальное окно кадрирования фотографии абонента -->
-<modal [id]="'delete-division-modal'"
-       [title]="'Удаление структ. подразделения'"
-       [width]="400"
-       *ngIf="phoneBook.selectedDivision">
+<modal [id]="'edit-contact-photo-modal'"
+       [title]="'Кадрирование фотографии'"
+       [width]="500"
+       [contentHeight]="400"
+(onClose)="modals.close(true)">
     <div class="modal-content">
         <photo-editor
+                *ngIf="phoneBook.selectedContact"
                 [url]="phoneBook.selectedContact.photo"
-                [width]="258"
-                [height]="140"
-                (onSaveChanges)="changeUserPhotoPosition(position)">
+                [width]="500"
+                [height]="400"
+                [frameWidth]="258"
+                [frameHeight]="140"
+                [frameLeft]="phoneBook.selectedContact.photoLeft"
+                [frameTop]="phoneBook.selectedContact.photoTop"
+                [zoom]="phoneBook.selectedContact.photoZoom"
+                (onSaveChanges)="onChangeContactPhotoPosition($event)">
         </photo-editor>
     </div>
 </modal>

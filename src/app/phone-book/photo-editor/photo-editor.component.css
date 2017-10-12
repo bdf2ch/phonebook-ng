@@ -1,66 +1,59 @@
-.photo-editor-component {
-  width: 300px;
-  height: 250px;
-}
 .photo-editor-component .wrapper {
+  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 200px;
-  border: 1px solid lightgrey;
+  width: 500px;
+  height: 350px;
   box-sizing: border-box;
   background-repeat: no-repeat !important;
+  background-position: center center !important;
 }
 .photo-editor-component .wrapper.blank {
   background-size: contain !important;
   background-position: center center !important;
 }
-.photo-editor-component .wrapper.with-photo {
-  background-position: top center !important;
-}
 .photo-editor-component .wrapper .clipper-wrapper {
+  z-index: 5;
   overflow: hidden;
   position: absolute;
   left: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
-  background: rgba(0, 0, 0, 0.2);
+  height: 80%;
+  box-sizing: border-box;
 }
-.photo-editor-component .wrapper .clipper-wrapper .clipper {
+.photo-editor-component .clipper {
   position: absolute;
   z-index: 2;
-  left: 20px;
-  top: 20px;
-  width: 258px;
-  height: 140px;
-  border: 2px dashed white;
   box-sizing: content-box;
-  background-repeat: no-repeat !important;
-  border: 100px solid rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 0, 0, 0.3);
+  border-style: solid;
   box-shadow: inset 0px 0px 0px 1px white;
-  /*
-        &:before{
-          content: " ";
-          position: absolute;
-          z-index: 1;
-          //left: -50%;
-          width: 150%;
-          height: 150%;
-          background: rgba(0, 0, 0, 0.2);
-        }
-        */
-}
-.photo-editor-component .wrapper .clipper-wrapper .clipper:hover {
   cursor: move;
 }
 .photo-editor-component .controls {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 5px;
-  border: 1px solid lightgrey;
-  border-top: none;
+  box-sizing: border-box;
+}
+.photo-editor-component .controls .zoom {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+.photo-editor-component .controls .zoom input[type='range'] {
+  width: 90%;
+}
+.photo-editor-component .controls .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }

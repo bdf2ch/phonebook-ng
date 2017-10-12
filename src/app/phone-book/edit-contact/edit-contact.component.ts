@@ -53,7 +53,9 @@ export class EditContactComponent implements OnChanges, AfterViewChecked {
 
 
     ngOnChanges (changes: SimpleChanges) {
-        this.opened = changes['isOpened']['currentValue'];
+        if (changes['isOpened']) {
+            this.opened = changes['isOpened']['currentValue'];
+        }
     };
 
 

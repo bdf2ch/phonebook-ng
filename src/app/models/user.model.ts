@@ -32,6 +32,7 @@ export class User extends Model {
   photo: string | null = null;
   photoTop: string = '0px';
   photoLeft: string = '0px';
+  photoZoom: string = '100%';
   activeDirectoryAccount: string = "";
   isAdministrator: boolean = false;
   favorites: ContactGroup;
@@ -68,8 +69,9 @@ export class User extends Model {
   };
 
 
-  setPhotoPosition(left: number, top: number): void {
+  setPhotoPosition(left: number, top: number, zoom: number): void {
     this.photoLeft = left + 'px';
     this.photoTop = top + 'px';
+    this.photoZoom = zoom + '%';
   };
 };

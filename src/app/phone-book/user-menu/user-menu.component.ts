@@ -77,9 +77,9 @@ export class UserMenuComponent implements OnChanges {
 
 
     changeContactPhotoPosition(position: IContactPhotoPosition): void {
-        this.phoneBook.setContactPhotoPosition(this.session.user.id, position.top, position.left, position.zoom).subscribe((pos: IContactPhotoPosition) => {
-            this.session.user.photoTop = pos.top + 'px';
-            this.session.user.photoLeft = pos.left + 'px';
+        this.phoneBook.setContactPhotoPosition(this.session.user.id, position.photo_top, position.photo_left, position.photo_zoom).subscribe((pos: IContactPhotoPosition) => {
+            this.session.user.photoTop = pos.photo_top + 'px';
+            this.session.user.photoLeft = pos.photo_left + 'px';
         });
     };
 

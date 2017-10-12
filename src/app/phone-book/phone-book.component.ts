@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentChecked } from '@angular/core';
 import { appConfig } from '../app.config';
 import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "./session.service";
@@ -15,7 +15,7 @@ import { DivisionTreeService } from './division-tree/division-tree.service';
     templateUrl: './phone-book.component.html',
     styleUrls: ['./phone-book.component.css']
 })
-export class PhoneBookComponent implements  OnInit {
+export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private inAuthMode: boolean = false;
     private inUserMenuMode: boolean = false;
     private inEditContactMode: boolean = true;
@@ -44,7 +44,12 @@ export class PhoneBookComponent implements  OnInit {
         if (this.phoneBook.favorites.contacts.length > 0) {
             this.phoneBook.isInFavoritesMode = true;
         }
+        //this.modals.open('edit-contact-photo-modal');
+    };
 
+
+    ngAfterContentChecked(): void {
+        //this.modals.open('edit-contact-photo-modal');
     };
 
 
@@ -176,10 +181,11 @@ export class PhoneBookComponent implements  OnInit {
     };
 
 
-    onChangeUserPhotoPosition(position: IContactPhotoPosition): void {
-        this.phoneBook.setContactPhotoPosition(this.session.user.id, position.top, position.left, position.zoom)
+    onChangeContactPhotoPosition(position: IContactPhotoPosition): void {
+        console.log(position);
+        this.phoneBook.setContactPhotoPosition(this.phoneBook.selectedContact.id, position.photo_top, position.photo_left, position.photo_zoom)
             .subscribe((pos: IContactPhotoPosition) => {
-                this.session.user.setPhotoPosition(pos.left, pos.top)
+                this.session.user.setPhotoPosition(pos.photo_left, pos.photo_top, pos.photo_zoom)
             });
     };
 

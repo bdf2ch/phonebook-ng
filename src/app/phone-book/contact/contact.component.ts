@@ -7,14 +7,15 @@ import { PhoneBookService } from "../phone-book.service";
 import { ContactGroupComponent } from "../contact-group/contact-group.component";
 import {SessionService} from "../session.service";
 import { ContactGroup } from '../../models/contact-group.model';
+import { ModalService } from '../../utilities/modal/modal.service';
 
 
 @Component({
     selector: 'contact',
     templateUrl: './contact.component.html',
     styleUrls: ['./contact.component.css'],
-    encapsulation: ViewEncapsulation.None
-    //changeDetection: ChangeDetectionStrategy.OnPush
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactComponent implements  OnInit, OnChanges{
     @Input() private contact: Contact;
@@ -24,11 +25,13 @@ export class ContactComponent implements  OnInit, OnChanges{
     @Input() row: number;
     @Output() onChangeDivision: EventEmitter<number> = new EventEmitter();
     @Output() onEditContactClick: EventEmitter<Contact> = new EventEmitter();
+    @Output() onEditContactPhoto: EventEmitter<any> = new EventEmitter();
 
     constructor(private phoneBook: PhoneBookService,
                 public element: ElementRef,
                 private renderer: Renderer2,
-                private session: SessionService) {
+                private session: SessionService,
+                private modals: ModalService) {
 
         this.renderer.listen(this.element.nativeElement, 'dragstart', (event: any) => {
             console.log('drag started');
@@ -136,5 +139,11 @@ export class ContactComponent implements  OnInit, OnChanges{
                 this.contact.photo = url;
                 console.log(this.contact);
             });
+    };
+
+    editContactPhoto(): void {
+        this.onEditContactPhoto.emit();
+        this.phoneBook.selectedContact = this.contact;
+        this.modals.open('edit-contact-photo-modal');
     };
 };

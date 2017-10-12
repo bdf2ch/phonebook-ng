@@ -3,11 +3,13 @@
     <div class="contact-info">
 
         <div id="photo"
-             [ngClass]="{'no-photo': contact.photo === '', 'with-photo': contact.photo !== ''}"
+             [ngClass]="{'no-photo': contact.photo === ''}"
              [ngStyle]="
                 {
-                    'background': contact.photo !== '' ? 'url(http://10.50.4.7:4444' + contact.photo +  ') ' + contact.photoLeft + ' ' + contact.photoTop : 'url(http://10.50.4.7:4444/assets/images/users/no_photo.png) top center',
-                    'background-size': contact.photoZoom
+                    'background': contact.photo !== '' ? 'url(http://10.50.4.7:4444' + contact.photo +  ')' : 'url(http://10.50.4.7:4444/assets/images/users/no_photo.png) top center',
+                    'background-size': contact.photoZoom + '%',
+                    'background-position-x': contact.photoLeft + 'px',
+                    'background-position-y': contact.photoTop + 'px'
                 }">
 
 
@@ -36,9 +38,9 @@
 
                 <!-- Кнопка редактирования информации о контакте -->
                 <i class="control fa fa-sliders"
-                   *ngIf="session.user && session.user.isAdministrator"
-                   (click)="editContact()"
-                   title="Редактировать данные абонента">
+                   *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
+                   (click)="editContactPhoto()"
+                   title="Кадрировать фотографию абонента">
                 </i>
             </div>
 
