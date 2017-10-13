@@ -7,7 +7,7 @@
              [ngStyle]="
                 {
                     'background': contact.photo !== '' ? 'url(http://10.50.4.7:4444' + contact.photo +  ')' : 'url(http://10.50.4.7:4444/assets/images/users/no_photo.png) top center',
-                    'background-size': contact.photoZoom + '%',
+                    'background-size': contact.photoZoom !== 0 ? contact.photoZoom + '%' : 'contain !important',
                     'background-position-x': contact.photoLeft + 'px',
                     'background-position-y': contact.photoTop + 'px'
                 }">

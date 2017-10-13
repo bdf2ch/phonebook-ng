@@ -312,6 +312,11 @@
   outline: none;
   cursor: pointer;
   transition: background 0.15s linear 0s;
+  -webkit-transition: background 0.2s linear 0s;
+  -moz-transition: background 0.2s linear 0s;
+  -ms-transition: background 0.2s linear 0s;
+  -o-transition: background 0.2s linear 0s;
+  transition: background 0.1s linear 0s;
 }
 .btn:hover {
   background: #FAFAFA;
@@ -574,9 +579,19 @@ label {
   }
 }
 .modal-header {
-  font-family: "Open Sans Semi Bold";
-  font-size: 13px;
+  font-family: "Open Sans Semi Bold" !important;
   background: #3DB8DA !important;
+}
+.modal-header .modal-header-title {
+  font-size: 14px !important;
+}
+.modal-header .close-modal-button {
+  font-size: 25px !important;
+  color: white;
+  cursor: pointer;
+}
+.modal-header .close-modal-button:hover {
+  color: #E0E0E0;
 }
 .modal-content {
   font-family: "Open Sans Regular";

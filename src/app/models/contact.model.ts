@@ -70,4 +70,13 @@ export class Contact extends Model {
       }
     }
   };
+
+
+
+  setPhotoPosition(position: IContactPhotoPosition): void {
+    console.log('canceled position', position);
+    this.photoLeft = position.photo_left;
+    this.photoTop = position.photo_top;
+    this.photoZoom = position.photo_zoom;
+  };
 };

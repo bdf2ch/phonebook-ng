@@ -3,11 +3,10 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 500px;
-  height: 350px;
   box-sizing: border-box;
   background-repeat: no-repeat !important;
   background-position: center center !important;
+  background-size: auto;
 }
 .photo-editor-component .wrapper.blank {
   background-size: contain !important;

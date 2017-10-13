@@ -14,8 +14,8 @@ import { ModalService } from '../../utilities/modal/modal.service';
     selector: 'contact',
     templateUrl: './contact.component.html',
     styleUrls: ['./contact.component.css'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    encapsulation: ViewEncapsulation.None
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactComponent implements  OnInit, OnChanges{
     @Input() private contact: Contact;

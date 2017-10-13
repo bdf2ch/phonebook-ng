@@ -183,10 +183,16 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     onChangeContactPhotoPosition(position: IContactPhotoPosition): void {
         console.log(position);
-        this.phoneBook.setContactPhotoPosition(this.phoneBook.selectedContact.id, position.photo_top, position.photo_left, position.photo_zoom)
-            .subscribe((pos: IContactPhotoPosition) => {
-                this.session.user.setPhotoPosition(pos.photo_left, pos.photo_top, pos.photo_zoom)
-            });
+        //this.phoneBook.setContactPhotoPosition(this.phoneBook.selectedContact.id, position.photo_top, position.photo_left, position.photo_zoom)
+        //    .subscribe((pos: IContactPhotoPosition) => {
+                this.phoneBook.selectedContact.setPhotoPosition(position);
+        //    });
+    };
+
+
+
+    onCancelContactPosition(position: IContactPhotoPosition): void {
+        this.phoneBook.selectedContact.setPhotoPosition(position);
     };
 
 

@@ -4,7 +4,7 @@ import { Contact } from '../models/contact.model';
 import { Division } from '../models/division.model';
 import { Phone } from '../models/phone.model';
 import { ContactGroup } from '../models/contact-group.model';
-import { API } from '../app.config';
+import { API, appConfig } from '../app.config';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
@@ -43,7 +43,7 @@ export class PhoneBookManagerService {
             }
         };
         this.loading = true;
-        return this.http.post(API, params, options)
+        return this.http.post(appConfig.apiUrl, params, options)
             .map((res: Response) => {
                 this.loading = false;
                 const body = res.json();
@@ -74,7 +74,7 @@ export class PhoneBookManagerService {
             }
         };
 
-        return this.http.post(API, parameters, options)
+        return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 let body = response.json();
                 let contact = new Contact(body);
@@ -101,7 +101,7 @@ export class PhoneBookManagerService {
         const options = new RequestOptions({ headers: headers });
         const parameters = { action: 'addContactPhone', data: { contactId: contactId, atsId: atsId, number: number}};
 
-        return this.http.post(API, parameters, options)
+        return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 const phone = new Phone(body);
@@ -131,7 +131,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 phone.setupBackup(['atsId', 'number']);
                 console.log('phone', phone);
@@ -154,7 +154,7 @@ export class PhoneBookManagerService {
         const parameters = { action: 'deleteContactPhone', data: { phoneId: phone.id }};
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 return body;
@@ -182,7 +182,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 const division_ = new Division(body);
@@ -213,7 +213,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 if (body) {

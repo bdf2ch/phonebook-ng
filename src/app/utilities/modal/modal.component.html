@@ -3,7 +3,8 @@
   <div class="modal-header">
     <div class="modal-header-title">{{ title }}</div>
     <div class="close-modal-button">
-      <i class="fa fa-times" (click)="close()" title="Закрыть"></i>
+      <!--<i class="fa fa-times" (click)="close()" title="Закрыть"></i>-->
+      <span (click)="close()" title="Закрыть">&times;</span>
     </div>
   </div>
   <div class="modal-content" [style.height]="contentHeight !== 0 ? contentHeight + 'px' : 'auto'" [ngClass]="{'fixed-height': contentHeight !== 0}">

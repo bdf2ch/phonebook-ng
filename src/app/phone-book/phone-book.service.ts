@@ -14,7 +14,7 @@ import { IDraggableContact } from '../models/draggable-contact.interface';
 import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 
-import { API, uploadURL } from '../app.config';
+import { API, uploadURL, appConfig } from '../app.config';
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 
 
@@ -46,11 +46,6 @@ export class PhoneBookService {
   get divisions(): Division[] { return this.divisionsList };
   set divisions(value: Division[]) { this.divisionsList = value };
 
-  /* Перечень структурных подразделений выбранной организации */
-  public organizationDivisionList: Division[] = [];
-  get organizationDivisions(): Division[] { return this.organizationList };
-  set organizationDivisions(value: Division[]) { this.organizationDivisionList = value; }
-
   /* Перечень внутренних АТС */
   public innerAtsList: ATS[] = [];
   get innerAts(): ATS[] { return this.innerAtsList };
@@ -76,7 +71,6 @@ export class PhoneBookService {
           this.contacts.push(this.favorites);
       }
   };
-
 
   /* Триггер, используется ли режим поиска абонентов */
   public isInSearchContactsMode: boolean = false;
@@ -137,7 +131,7 @@ export class PhoneBookService {
       let options = new RequestOptions({ headers: headers });
       let parameters = { action: 'getInitialData' };
 
-      return this.http.post(API, parameters, options)
+      return this.http.post(appConfig.apiUrl, parameters, options)
           .map((res: Response) => {
               let body = res.json();
               console.log(body);
@@ -182,7 +176,7 @@ export class PhoneBookService {
     let options = new RequestOptions({ headers: headers });
     let parameters = { action: 'getDivisionList' };
 
-    return this.http.post(API, parameters, options)
+    return this.http.post(appConfig.apiUrl, parameters, options)
         .map((res: Response) => {
           let body = res.json();
           body.forEach((item: IDivision) => {
@@ -220,7 +214,7 @@ export class PhoneBookService {
       this.contacts = [];
       this.isInFavoritesMode = false;
       this.isInSearchMode = false;
-      return this.http.post(API, parameters, options)
+      return this.http.post(appConfig.apiUrl, parameters, options)
           .map((res: Response) => {
               const body = res.json();
               const group = new ContactGroup(body);
@@ -249,7 +243,7 @@ export class PhoneBookService {
     this.contacts = [];
     this.isInFavoritesMode = false;
     this.isInSearchMode = false;
-    return this.http.post(API, parameters, options)
+    return this.http.post(appConfig.apiUrl, parameters, options)
       .map((res: Response) => {
         const body = res.json();
         body.forEach((item: IContactGroup) => {
@@ -276,7 +270,7 @@ export class PhoneBookService {
       };
 
       this.loading = true;
-      return this.http.post(API, parameters, options)
+      return this.http.post(appConfig.apiUrl, parameters, options)
           .map((res: Response) => {
               const body = res.json();
               //body.forEach((item: IContactGroup) => {
@@ -328,7 +322,7 @@ export class PhoneBookService {
     this.loading = true;
     this.contacts = [];
 
-    return this.http.post(API, params, options)
+    return this.http.post(appConfig.apiUrl, params, options)
       .map((res: Response) => {
         this.loading = false;
         this.contacts = [];
@@ -365,7 +359,7 @@ export class PhoneBookService {
     };
     this.loading = true;
 
-    return this.http.post(API, parameters, options)
+    return this.http.post(appConfig.apiUrl, parameters, options)
       .map((response: Response) => {
         this.loading = false;
         let body = response.json();
@@ -398,7 +392,7 @@ export class PhoneBookService {
     };
     this.loading = true;
 
-    return this.http.post(API, parameters, options)
+    return this.http.post(appConfig.apiUrl, parameters, options)
       .map((response: Response) => {
         this.loading = false;
         let body = response.json();
@@ -433,7 +427,7 @@ export class PhoneBookService {
         formData.append('userId', userId.toString());
 
         this.loading = true;
-        return this.http.post(uploadURL, formData, options)
+        return this.http.post(appConfig.uploadPhotoUrl, formData, options)
             .map((response: Response) => {
                 this.loading = false;
                 let result = response.json();
@@ -475,7 +469,7 @@ export class PhoneBookService {
       };
 
       this.loading = true;
-      return this.http.post(API, parameters, options)
+      return this.http.post(appConfig.apiUrl, parameters, options)
           .map((response: Response) => {
               let body = response.json();
               return body;

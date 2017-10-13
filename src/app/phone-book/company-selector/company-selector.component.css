@@ -33,7 +33,7 @@
   flex-grow: 1;
   padding: 10px;
   box-sizing: border-box;
-  font-family: "Open Sans Semi Bold";
+  font-family: "Open Sans Regular";
   font-size: 13px;
   line-height: 13px;
   text-transform: uppercase;
@@ -81,7 +81,7 @@
   box-sizing: border-box;
   font-size: 13px;
   line-height: 13px;
-  font-family: "Open Sans Semi Bold";
+  font-family: "Open Sans Regular";
   text-transform: uppercase;
   text-align: left;
   color: white;

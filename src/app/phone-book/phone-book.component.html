@@ -267,21 +267,22 @@
 <!-- Модальное окно кадрирования фотографии абонента -->
 <modal [id]="'edit-contact-photo-modal'"
        [title]="'Кадрирование фотографии'"
-       [width]="500"
-       [contentHeight]="400"
+       [width]="516"
+       [contentHeight]="330"
 (onClose)="modals.close(true)">
     <div class="modal-content">
         <photo-editor
                 *ngIf="phoneBook.selectedContact"
                 [url]="phoneBook.selectedContact.photo"
-                [width]="500"
-                [height]="400"
+                [width]="516"
+                [height]="280"
                 [frameWidth]="258"
                 [frameHeight]="140"
                 [frameLeft]="phoneBook.selectedContact.photoLeft"
                 [frameTop]="phoneBook.selectedContact.photoTop"
                 [zoom]="phoneBook.selectedContact.photoZoom"
-                (onSaveChanges)="onChangeContactPhotoPosition($event)">
+                (onSaveChanges)="onChangeContactPhotoPosition($event)"
+                (onCancelChanges)="onCancelContactPosition($event)">
         </photo-editor>
     </div>
 </modal>

@@ -2,21 +2,26 @@
     <div class="wrapper"
          #wrapper
          [ngClass]="{'blank': !url, 'with-photo': url}"
-         [ngStyle]="{'background': url ? 'url(http://10.50.4.7:4444/' + url + ') lightgray' : 'url(' + blankUrl + ') white', 'background-size': zoom + '%'}">
+         [ngStyle]="{
+            'width': width + 'px',
+            'height': height + 'px',
+            'background': url ? 'url(http://10.50.4.7:4444/' + url + ') lightgray' : 'url(' + blankUrl + ') white',
+            'background-size': photoZoom + '%'
+         }">
         <!--<div class="clipper-wrapper">-->
             <div class="clipper" [ngStyle]="{'width': frameWidth + 'px', 'height': frameHeight + 'px'}" #clipper></div>
         <!--</div>-->
     </div>
     <div class="controls" #controls>
         <div class="zoom">
-            <input type="range" min="10" max="300" step="10" [(ngModel)]="zoom" (change)="onChangeZoom()" title="{{zoom + '%'}}">
+            <input type="range" min="10" max="300" step="10" [(ngModel)]="photoZoom" (change)="onChangeZoom()" title="{{photoZoom + '%'}}">
         </div>
         <div class="buttons">
             <button type="button" class="btn small green round margin-right-10" [disabled]="!isPositionChanged" (click)="save()" title="Сохранить изменения">
                 <i class="fa fa-save"></i>
             </button>
             <button type="button" class="btn small red round" [disabled]="!isPositionChanged" (click)="cancel()" title="Отменить изменения">
-                <i class="fa fa-save"></i>
+                <i class="fa fa-ban"></i>
             </button>
         </div>
     </div>
