@@ -126,7 +126,7 @@ export class PhotoEditorComponent implements AfterViewInit, AfterViewChecked, On
 
     mouseUp(event: any): void {
         event.preventDefault();
-        this.onSaveChanges.emit({photo_top: -this.y - this.topBorderWidth, photo_left: this.x, photo_zoom: this.zoom});
+        this.onSaveChanges.emit({photo_top: -(this.y + this.topBorderWidth - this.frameHeight), photo_left: (-this.x * this.ratio) - this.leftBorderWidth, photo_zoom: this.photoZoom * this.ratio});
         if (this.isMouseButtonPressed) {
             this.isMouseButtonPressed = false;
             if (this.x !== this.frameLeft || this.y !== this.frameTop) {
