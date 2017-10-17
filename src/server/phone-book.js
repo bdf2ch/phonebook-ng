@@ -112,6 +112,29 @@ module.exports = {
 
 
     /**
+     * Добавление нового абонента
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*,*,*,*,*,*,*,*], func: string}}
+     */
+    addContact: function (parameters) {
+        return {
+            text: 'SELECT add_contact($1, $2, $3, $4, $5, $6, $7, $8)',
+            values: [
+                parameters.data.userId,
+                parameters.data.divisionId,
+                parameters.data.surname,
+                parameters.data.name,
+                parameters.data.fname,
+                parameters.data.position,
+                parameters.data.email,
+                parameters.data.mobile
+            ],
+            func: 'add_contact'
+        }
+    },
+
+
+    /**
      * Изменение данных абонента
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: Array, func: string}}

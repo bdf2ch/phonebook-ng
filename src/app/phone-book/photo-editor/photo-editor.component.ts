@@ -126,13 +126,15 @@ export class PhotoEditorComponent implements AfterViewInit, AfterViewChecked, On
 
     mouseUp(event: any): void {
         event.preventDefault();
-        this.onSaveChanges.emit({photo_top: -(this.y + this.topBorderWidth - this.frameHeight), photo_left: (-this.x * this.ratio) - this.leftBorderWidth, photo_zoom: this.photoZoom * this.ratio});
+        console.log('border top', this.topBorderWidth);
+        console.log('clipper top',parseInt(this.clipper.element.nativeElement.style.top));
+        this.onSaveChanges.emit({photo_top: parseInt(this.clipper.element.nativeElement.style.top) < 0 && parseInt(this.clipper.element.nativeElement.style.top) < (-this.topBorderWidth) ? parseInt(this.clipper.element.nativeElement.style.top): parseInt(this.clipper.element.nativeElement.style.top) - this.frameHeight, photo_left: -(this.x + this.frameWidth), photo_zoom: this.photoZoom * this.ratio});
         if (this.isMouseButtonPressed) {
             this.isMouseButtonPressed = false;
-            if (this.x !== this.frameLeft || this.y !== this.frameTop) {
+           // if (this.x !== this.frameLeft || this.y !== this.frameTop) {
                 this.isPositionChanged = true;
                 this.detector.detectChanges();
-            }
+            //}
         }
     };
 

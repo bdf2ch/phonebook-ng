@@ -127,8 +127,9 @@ export class ContactComponent implements  OnInit, OnChanges{
 
 
     editContact(): void {
-        this.onEditContactClick.emit(this.contact);
+        //this.onEditContactClick.emit(this.contact);
         this.phoneBook.selectedContact = this.contact;
+        this.modals.open('edit-contact-modal');
     };
 
 

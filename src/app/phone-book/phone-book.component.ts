@@ -9,6 +9,7 @@ import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 import { ModalService } from '../utilities/modal/modal.service';
 import { PhoneBookManagerService } from '../manager/phone-book-manager.service';
 import { DivisionTreeService } from './division-tree/division-tree.service';
+import { ContactGroup } from '../models/contact-group.model';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private sourceAtsId: number;
     //@ViewChild(ContactListComponent) list: ContactListComponent;
     private newDivision: Division = new Division();
+    private newContact: Contact = new Contact();
 
 
     constructor(private phoneBook: PhoneBookService,
@@ -32,6 +34,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private modals: ModalService) {
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
+        this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
         console.log('new division', this.newDivision);
     };
 
@@ -44,12 +47,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         if (this.phoneBook.favorites.contacts.length > 0) {
             this.phoneBook.isInFavoritesMode = true;
         }
-        //this.modals.open('edit-contact-photo-modal');
     };
 
 
     ngAfterContentChecked(): void {
-        //this.modals.open('edit-contact-photo-modal');
+        //this.modals.open('new-contact-modal');
     };
 
 
@@ -88,18 +90,18 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     /**
      * Открывает модальное окно редактированяи данных выбранного контакта
      */
-    openEditContactModal(): void {
-        this.inEditContactMode = true;
-    };
+    //openEditContactModal(): void {
+    //    this.inEditContactMode = true;
+    //};
 
 
     /**
      * Закрывает модальное окно редактирования данных выбранного пользователя
      */
-    closeEditContactModal(): void {
-        this.phoneBook.selectedContact = null;
-        this.inEditContactMode = false;
-    };
+    //closeEditContactModal(): void {
+    //    this.phoneBook.selectedContact = null;
+    //    this.inEditContactMode = false;
+    //};
 
 
     /**
@@ -123,7 +125,6 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         //this.phoneBook.isInFavoritesMode = false;
         this.phoneBook.selectedDivision = division;
         if (division !== null) {
-            //this.router.navigate(['/']);
             this.newDivision.parentId = division.id;
 
             this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
@@ -243,6 +244,65 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     openDeleteDivisionModal(): void {
         this.modals.open('delete-division-modal');
+    };
+
+
+    /**
+     * открытие модального окна добавления нового абонента
+     */
+    openNewContactModal(): void {
+        this.modals.open('new-contact-modal');
+    };
+
+
+    /**
+     * Закрытие модального окна добавления нового абонента, очистка формы.
+     * @param form {any} - форма добавления нового абонента
+     */
+    closeNewContactModal(form?: any): void {
+        this.newContact.restoreBackup();
+        if (form) {
+            form.reset({
+                surname: this.newContact.surname,
+                name: this.newContact.name,
+                fname: this.newContact.fname,
+                position: this.newContact.position,
+                email: this.newContact.email,
+                mobile: this.newContact.mobile
+            });
+        }
+    };
+
+
+    /**
+     * Добавление нового абонента
+     */
+    addContact(): void {
+        this.newContact.divisionId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
+        this.manager.addContact(this.newContact).subscribe((contact: Contact) => {
+            console.log('new contact', contact);
+            this.phoneBook.contacts.forEach((item: ContactGroup, index: number, array: ContactGroup[]) => {
+                if (this.newContact.divisionId === item.divisions[item.divisions.length - 1].id) {
+                    item.contacts.push(contact);
+                }
+            });
+            this.modals.close();
+        });
+    };
+
+
+    openEditContactModal(): void {
+
+    };
+
+
+    /**
+     * Закрытие модального окна редактирования данных абонента, отмена изменений
+     * @param form {any} - форма редактирования данных абонента
+     */
+    closeEditContactModal(form: any): void {
+        this.modals.close(true);
+        this.phoneBook.selectedContact = null;
     };
 
 };

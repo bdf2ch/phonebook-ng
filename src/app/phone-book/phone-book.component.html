@@ -112,6 +112,13 @@
 </div>
 
 
+<div id="new-contact-button"
+     (click)="openNewContactModal()"
+     title="Добавить нового абонента">
+    <i class="fa fa-plus"></i>
+</div>
+
+
 <auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>
 <user-menu [isOpened]="inUserMenuMode" (onClose)="closeUserMenuModal()"></user-menu>
 <edit-contact [isOpened]="phoneBook.selectedContact === 'test'" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact"></edit-contact>
@@ -287,3 +294,219 @@
     </div>
 </modal>
 
+
+
+<!-- Модальное окно добавления нового абонента -->
+<modal [id]="'new-contact-modal'"
+       [title]="'Новый абонент'"
+       [width]="500"
+       [contentHeight]="480"
+       (onClose)="closeNewContactModal(newContactForm)">
+    <div class="modal-content">
+        <div class="padding-20">
+            <form novalidate #newContactForm="ngForm">
+                <div class="margin-bottom-10">
+                    <label for="new-contact-surname">
+                        Фамилия
+                        <span class="form-error" *ngIf="surname.invalid && surname.dirty">Вы не указали фамилию абонента</span>
+                    </label>
+                    <input type="text"
+                           name="surname"
+                           id="new-contact-surname"
+                           class="width-100"
+                           placeholder="Введите фамилию"
+                           [(ngModel)]="newContact.surname"
+                           #surname="ngModel"
+                           required>
+                </div>
+                <div class="margin-bottom-10">
+                    <label for="new-contact-name">
+                        Имя
+                        <span class="form-error" *ngIf="name.invalid && name.dirty">Вы не указали имя абонента</span>
+                    </label>
+                    <input type="text"
+                           name="name"
+                           id="new-contact-name"
+                           class="width-100"
+                           placeholder="Введите имя"
+                           [(ngModel)]="newContact.name"
+                           #name="ngModel"
+                           required>
+                </div>
+                <div class="margin-bottom-10">
+                    <label for="new-contact-fname">
+                        Отчество
+                        <span class="form-error" *ngIf="fname.invalid && fname.dirty">Вы не указали отчество абонента</span>
+                    </label>
+                    <input type="text"
+                           name="fname"
+                           id="new-contact-fname"
+                           class="width-100"
+                           placeholder="Введите отчество"
+                           [(ngModel)]="newContact.fname"
+                           #fname="ngModel"
+                           required>
+                </div>
+                <div class="margin-bottom-10">
+                    <label for="new-contact-position">Должность</label>
+                    <input type="text"
+                           name="position"
+                           id="new-contact-position"
+                           class="width-100"
+                           placeholder="Введите должность"
+                           [(ngModel)]="newContact.position">
+                </div>
+                <div class="margin-bottom-10">
+                    <label for="new-contact-position">E-mail</label>
+                    <input type="text"
+                           name="email"
+                           id="new-contact-email"
+                           class="width-100"
+                           placeholder="Введите e-mail"
+                           [(ngModel)]="newContact.email">
+                </div>
+                <div class="margin-bottom-20">
+                    <label for="new-contact-position">Мобильный телефон</label>
+                    <input type="text"
+                           name="mobile"
+                           id="new-contact-mobile"
+                           class="width-100"
+                           placeholder="Введите мобильный телефон"
+                           [(ngModel)]="newContact.mobile">
+                </div>
+                <div>
+                    <div class="width-50 padding-right-5">
+                        <button type="submit" class="btn green width-100" [disabled]="newContactForm.invalid" (click)="addContact()">Добавить</button>
+                    </div>
+                    <div class="width-50 padding-left-5">
+                        <button type="submit" class="btn red width-100" (click)="modals.close()">Отмена</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</modal>
+
+
+
+<!-- Модальное окно изменения данных абонента -->
+<modal [id]="'edit-contact-modal'"
+       [title]="'Изменение данных абонента'"
+       [width]="500"
+       [contentHeight]="550"
+       (onClose)="closeEditContactModal(editContactForm)">
+    <div class="modal-content" *ngIf="phoneBook.selectedContact">
+        <tabs [id]="'edit-contact-tabs'">
+            <tab [id]="'contact-details'" [caption]="'Личные данные'" [width]="'50%'">
+                <div class="padding-20">
+                    <form novalidate #editContactForm="ngForm">
+                        <div class="margin-bottom-10">
+                            <label for="selected-contact-surname">
+                                Фамилия
+                                <span class="form-error" *ngIf="surname.invalid && surname.dirty">Вы не указали фамилию абонента</span>
+                            </label>
+                            <input type="text"
+                                   name="surname"
+                                   id="selected-contact-surname"
+                                   class="width-100"
+                                   placeholder="Введите фамилию"
+                                   [(ngModel)]="phoneBook.selectedContact.surname"
+                                   #surname="ngModel"
+                                   required>
+                        </div>
+                        <div class="margin-bottom-10">
+                            <label for="selected-contact-name">
+                                Имя
+                                <span class="form-error" *ngIf="name.invalid && name.dirty">Вы не указали имя абонента</span>
+                            </label>
+                            <input type="text"
+                                   name="name"
+                                   id="selected-contact-name"
+                                   class="width-100"
+                                   placeholder="Введите имя"
+                                   [(ngModel)]="phoneBook.selectedContact.name"
+                                   #name="ngModel"
+                                   required>
+                        </div>
+                        <div class="margin-bottom-10">
+                            <label for="selected-contact-fname">
+                                Отчество
+                                <span class="form-error" *ngIf="fname.invalid && fname.dirty">Вы не указали отчество абонента</span>
+                            </label>
+                            <input type="text"
+                                   name="fname"
+                                   id="selected-contact-fname"
+                                   class="width-100"
+                                   placeholder="Введите отчество"
+                                   [(ngModel)]="phoneBook.selectedContact.fname"
+                                   #fname="ngModel"
+                                   required>
+                        </div>
+                        <div class="margin-bottom-10">
+                            <label for="selected-contact-position">Должность</label>
+                            <input type="text"
+                                   name="position"
+                                   id="selected-contact-position"
+                                   class="width-100"
+                                   placeholder="Введите должность"
+                                   [(ngModel)]="phoneBook.selectedContact.position">
+                        </div>
+                        <div class="margin-bottom-10">
+                            <label for="selected-contact-position">E-mail</label>
+                            <input type="text"
+                                   name="email"
+                                   id="selected-contact-email"
+                                   class="width-100"
+                                   placeholder="Введите e-mail"
+                                   [(ngModel)]="phoneBook.selectedContact.email">
+                        </div>
+                        <div class="margin-bottom-20">
+                            <label for="selected-contact-mobile">Мобильный телефон</label>
+                            <input type="text"
+                                   name="mobile"
+                                   id="selected-contact-mobile"
+                                   class="width-100"
+                                   placeholder="Введите мобильный телефон"
+                                   [(ngModel)]="phoneBook.selectedContact.mobile">
+                        </div>
+                        <div>
+                            <div class="width-50 padding-right-5">
+                                <button type="submit" class="btn green width-100" [disabled]="!editContactForm.dirty || editContactForm.invalid" (click)="addContact()">Добавить</button>
+                            </div>
+                            <div class="width-50 padding-left-5">
+                                <button type="submit" class="btn red width-100" (click)="modals.close()">Отмена</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </tab>
+            <tab [id]="'contact-phones'" [caption]="'Контактные телефоны'" [width]="'50%'">
+                <!-- Список телефонов абонента с привязкой к АТС -->
+                <div class="padding-20">
+                    <form *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn;" novalidate #phoneForm="ngForm">
+                        <div class="combined-input margin-bottom-10">
+                            <i class="fa fa-phone"></i>
+                            <select name="ats" class="ats" [(ngModel)]="phone.atsId">
+                                <optgroup label="Внутренние АТС">
+                                    <option *ngFor="let innerAts of phoneBook.innerAtsList"
+                                            [ngValue]="innerAts.id"
+                                            [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
+                                    </option>
+                                </optgroup>
+                                <optgroup label="Внешние АТС">
+                                    <option *ngFor="let outerAts of phoneBook.outerAtsList"
+                                            [ngValue]="outerAts.id"
+                                            [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
+                                    </option>
+                                </optgroup>
+                            </select>
+                            <input type="text" name="phone" class="phone-number" placeholder="Введите номер" [(ngModel)]="phone.number" required>
+                            <i class="fa fa-save clickable" *ngIf="phoneForm.dirty && phoneForm.valid" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"></i>
+                            <i class="fa fa-times clickable" title="Удалить телефон" (click)="deletePhone(phone)"></i>
+                        </div>
+                    </form>
+                </div>
+            </tab>
+        </tabs>
+    </div>
+</modal>

@@ -23,6 +23,42 @@ export class PhoneBookManagerService {
 
 
     /**
+     * Добавление нового абонента
+     * @param contact {Contact} - добавляемый абонент
+     * @returns {Observable<R>}
+     */
+    addContact(contact: Contact): Observable<Contact> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+        let params = {
+            action: "addContact",
+            data: {
+                userId: contact.userId,
+                divisionId: contact.divisionId,
+                name: contact.name,
+                fname: contact.fname,
+                surname: contact.surname,
+                position: contact.position,
+                email: contact.email,
+                mobile: contact.mobile
+            }
+        };
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, params, options)
+            .map((res: Response) => {
+                this.loading = false;
+                const body = res.json();
+                console.log('contact data', body);
+                const cnt = new Contact(body);
+                cnt.setupBackup(['userId', 'divisionId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
+                return cnt;
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
+
+
+    /**
      * Редактиросвание данных абонента
      * @param contact {Contact} - редактируемыцй абонент
      * @returns {Observable<Contact>}

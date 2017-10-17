@@ -39,6 +39,9 @@ import { ModalComponent } from './utilities/modal/modal.component';
 import { ModalService } from './utilities/modal/modal.service';
 import { CompanySelectorComponent } from './phone-book/company-selector/company-selector.component';
 import { ExceptSelectedOrganizationPipe } from './phone-book/company-selector/except-selected-organization.pipe';
+import { TabsComponent } from './utilities/tabs/tabs.component';
+import { TabComponent } from './utilities/tabs/tab/tab.component';
+import { TabsService } from './utilities/tabs/tabs.service';
 
 const routes: Routes = [
   {
@@ -82,7 +85,9 @@ const routes: Routes = [
     PhotoEditorComponent,
     CompanySelectorComponent,
     UploadDirective,
-    ExceptSelectedOrganizationPipe
+    ExceptSelectedOrganizationPipe,
+    TabsComponent,
+    TabComponent
   ],
   providers: [
     DivisionsGuard,
@@ -92,7 +97,8 @@ const routes: Routes = [
     AuthService,
     SessionService,
     CookieService,
-    ModalService
+    ModalService,
+    TabsService
   ],
   bootstrap: [ AppComponent ]
 })
