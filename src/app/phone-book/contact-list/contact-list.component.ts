@@ -10,6 +10,28 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
     row: number;
     margin: number;
     container: any;
+    private users = [
+        {
+            fio: 'Иванов Иван Иванович',
+            position: 'Менеджер по сбору бутылок',
+            photo: ''
+        },
+        {
+            fio: 'Петров Пер Петрович',
+            position: 'Тестировщик тестовых тестов',
+            photo: ''
+        },
+        {
+            fio: 'Сидоров Сидор Сидорович',
+            position: 'инженер-программист',
+            photo: ''
+        },
+        {
+            fio: 'Константинопольский Константин Константинович',
+            position: 'никто',
+            photo: ''
+        }
+    ];
 
 
     constructor(private detector: ChangeDetectorRef,

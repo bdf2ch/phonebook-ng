@@ -15,7 +15,7 @@ export class TypeAheadComponent implements AfterViewInit {
     @Output() onChange: EventEmitter<string> = new EventEmitter();
     @Output() onSelect: EventEmitter<any> = new EventEmitter();
     @ViewChild('input', { read: ViewContainerRef }) public input: ViewContainerRef;
-    @ViewChild('options', { read: ViewContainerRef }) public optionsContainer: ViewContainerRef;
+    @ViewChild('optionsContainer', { read: ViewContainerRef }) public optionsContainer: ViewContainerRef;
     private isOptionsShowed: boolean = true;
 
     constructor(private element: ElementRef,
@@ -23,11 +23,16 @@ export class TypeAheadComponent implements AfterViewInit {
                 private zone: NgZone) {};
 
 
-    ngAfterViewInit(): void {};
+    ngAfterViewInit(): void {
+        const rect = this.input.element.nativeElement.getBoundingClientRect();
+        //console.log('child', this.parent.input.element.nativeElement.children[0]);
+        this.renderer.setStyle(this.optionsContainer.element.nativeElement.children[0], 'width', rect.width + 'px');
+    };
 
 
     select(value: any): void {
+        console.log('selected value', value);
         this.onSelect.emit(value);
     };
 
-};
+}

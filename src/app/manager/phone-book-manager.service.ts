@@ -7,6 +7,7 @@ import { ContactGroup } from '../models/contact-group.model';
 import { API, appConfig } from '../app.config';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
+import { IUser, User } from '../models/user.model';
 
 
 @Injectable()
@@ -257,6 +258,33 @@ export class PhoneBookManagerService {
                     return true;
                 }
                 return false;
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
+    searchUsers(search: string): Observable<User[]> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'searchUsers',
+            data: {
+                search: search
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, parameters, options)
+            .map((response: Response) => {
+                const body = response.json();
+                const result: User[] = [];
+                body.forEach((item: IUser, index: number, array: IUser[]) => {
+                    const user = new User(item);
+                    result.push(user);
+                });
+                return result;
             })
             .take(1)
             .finally(() => { this.loading = false; })
