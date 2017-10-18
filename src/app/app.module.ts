@@ -42,6 +42,8 @@ import { ExceptSelectedOrganizationPipe } from './phone-book/company-selector/ex
 import { TabsComponent } from './utilities/tabs/tabs.component';
 import { TabComponent } from './utilities/tabs/tab/tab.component';
 import { TabsService } from './utilities/tabs/tabs.service';
+import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
+import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
 
 const routes: Routes = [
   {
@@ -87,7 +89,9 @@ const routes: Routes = [
     UploadDirective,
     ExceptSelectedOrganizationPipe,
     TabsComponent,
-    TabComponent
+    TabComponent,
+    TypeAheadComponent,
+    TypeAheadOptionComponent
   ],
   providers: [
     DivisionsGuard,

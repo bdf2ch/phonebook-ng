@@ -1,0 +1,12 @@
+.typeahead-option-component {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+.typeahead-option-component:hover {
+  background: #F5F5F5;
+}

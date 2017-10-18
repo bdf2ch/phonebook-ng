@@ -610,3 +610,42 @@ label {
   font-family: "Open Sans Regular";
   font-size: 13px;
 }
+.user-search-option {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+.user-search-option .user-photo {
+  display: flex;
+  padding-right: 10px;
+}
+.user-search-option .user-photo .photo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: #CFD8DC;
+  border-radius: 50%;
+  font-family: "Open Sans Regular";
+  font-size: 18px;
+  color: #607D8B;
+}
+.user-search-option .user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-grow: 1;
+  font-family: "Open Sans Regular";
+  font-size: 14px;
+}
+.user-search-option .user-details .position {
+  color: #90A4AE;
+  font-size: 13px;
+}

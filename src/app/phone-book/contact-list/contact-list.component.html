@@ -1,3 +1,20 @@
+<div class="width-30">
+    <typeahead>
+        <typeahead-option *ngFor="let i of [1, 2, 3]">
+            <div class="user-search-option">
+                <div class="user-photo">
+                    <div class="photo">ИИ</div>
+                </div>
+                <div class="user-details width-100">
+                    <span class="name">Иванов Иван Иванович</span>
+                    <span class="position">Менеджер по сбору бутылок</span>
+                </div>
+            </div>
+        </typeahead-option>
+    </typeahead>
+</div>
+
+
 <stub *ngIf="phoneBook.contacts.length === 0 && !phoneBook.loading && !phoneBook.isInFavoritesMode" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
 <stub *ngIf="phoneBook.loading === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
 <div id="app-contacts" *ngIf="phoneBook.contacts.length > 0 || phoneBook.loading === true">
