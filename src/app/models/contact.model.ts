@@ -1,6 +1,7 @@
 import { Model } from "./model.model";
 import { IPhone, Phone} from "./phone.model";
 import { IContactPhotoPosition } from './user-photo-position.interface';
+import { IUser, User } from './user.model';
 
 export interface IContact {
   id: number;
@@ -15,6 +16,7 @@ export interface IContact {
   photo?: string;
   is_in_favorites: boolean;
   photo_position?: IContactPhotoPosition,
+  user?: IUser;
   phones: IPhone[]
 };
 
@@ -39,6 +41,7 @@ export class Contact extends Model {
   isInFavorites: boolean = false;
   fio: string = "";
   search: string = "";
+  user: User | null = null;
 
   constructor (config?: IContact) {
     super();
@@ -60,6 +63,13 @@ export class Contact extends Model {
       this.isInFavorites = config.is_in_favorites;
       this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
       //this.search = this.fio.toLowerCase();
+
+      /**
+       * Если есть информация о пользователе, к которому привязан абонент - собираем объект пользователя
+       */
+      if (config.user) {
+        this.user = new User(config.user);
+      }
 
       if (config.phones && config.phones.length > 0) {
         config.phones.forEach((item: IPhone, index: number, array: IPhone[]) => {

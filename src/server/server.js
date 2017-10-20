@@ -87,6 +87,7 @@ app
             case 'deleteContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteContactPhone)]; break;
             case 'addDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addDivision)]; break;
             case 'editDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editDivision)]; break;
+            case 'searchUsers': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.searchUsers)]; break;
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
             case 'logOut': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.logOut), async.asyncify(session.remove)]; break;
             case 'uploadPhoto': console.log(request.files); break;
@@ -194,7 +195,7 @@ app
     .listen(4444, function () {
         console.log('Server started at 4444');
     }).on('error', function(err){
-        console.log('on error handler');
+        console.log('ON ERROR HANDLER');
         console.log(err);
     });
 

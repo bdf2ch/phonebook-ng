@@ -293,5 +293,19 @@ module.exports = {
             values: [parameters.data.id, parameters.data.parentId, parameters.data.title],
             func: 'edit_phonebook_division'
         }
+    },
+
+
+    /**
+     * Поиск пользователей
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: [*], func: string}}
+     */
+    searchUsers: function (parameters) {
+        return {
+            text: 'SELECT search_users($1)',
+            values: [parameters.data.query],
+            func: 'search_users'
+        }
     }
 };

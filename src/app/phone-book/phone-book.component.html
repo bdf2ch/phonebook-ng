@@ -113,6 +113,7 @@
 
 
 <div id="new-contact-button"
+     *ngIf="(this.session.user && this.session.user.isAdministrator) && (!phoneBook.isInFavoritesMode && phoneBook.selectedDivision)"
      (click)="openNewContactModal()"
      title="Добавить нового абонента">
     <i class="fa fa-plus"></i>
@@ -270,7 +271,6 @@
 </modal>
 
 
-
 <!-- Модальное окно кадрирования фотографии абонента -->
 <modal [id]="'edit-contact-photo-modal'"
        [title]="'Кадрирование фотографии'"
@@ -295,16 +295,41 @@
 </modal>
 
 
-
 <!-- Модальное окно добавления нового абонента -->
 <modal [id]="'new-contact-modal'"
        [title]="'Новый абонент'"
        [width]="500"
-       [contentHeight]="480"
+       [contentHeight]="550"
        (onClose)="closeNewContactModal(newContactForm)">
     <div class="modal-content">
         <div class="padding-20">
             <form novalidate #newContactForm="ngForm">
+                <div class="margin-bottom-10">
+                    <label for="new-contact-user">Пользователь</label>
+                    <typeahead id="new-contact-user"
+                               [options]="users"
+                               [placeholder]="'Введите имя пользователя'"
+                               [loading]="manager.loading"
+                               [selectedOptionText]="'fio'"
+                               [optionHeight]="50"
+                               [limit]="5"
+                               (onChange)="onUserSearchChange($event)"
+                               (onSelect)="onUserSearchSelect($event)"
+                               (onReset)="onResetUserSearch()">
+                        <typeahead-option *ngFor="let user of users" [model]="user">
+                            <div class="user-search-option">
+                                <div class="user-photo">
+                                    <div class="photo" *ngIf="user.photo" [ngStyle]="{'background': 'url(http://10.50.4.7:4444' + user.photo + ')'}"></div>
+                                    <div class="no-photo" *ngIf="!user.photo">{{user.name[0] + user.surname[0]}}</div>
+                                </div>
+                                <div class="user-details">
+                                    <span class="name">{{user.fio}}</span>
+                                    <span class="position">{{user.position}}</span>
+                                </div>
+                            </div>
+                        </typeahead-option>
+                    </typeahead>
+                </div>
                 <div class="margin-bottom-10">
                     <label for="new-contact-surname">
                         Фамилия
@@ -388,18 +413,40 @@
 </modal>
 
 
-
 <!-- Модальное окно изменения данных абонента -->
 <modal [id]="'edit-contact-modal'"
        [title]="'Изменение данных абонента'"
        [width]="500"
-       [contentHeight]="550"
+       [contentHeight]="580"
        (onClose)="closeEditContactModal(editContactForm)">
     <div class="modal-content" *ngIf="phoneBook.selectedContact">
         <tabs [id]="'edit-contact-tabs'">
             <tab [id]="'contact-details'" [caption]="'Личные данные'" [width]="'50%'">
                 <div class="padding-20">
                     <form novalidate #editContactForm="ngForm">
+                        <div class="margin-bottom-10">
+                            <typeahead *ngIf="!phoneBook.selectedContact.user" [placeholder]="'Введите имя пользователя'"
+                                       [optionHeight]="50"
+                                       [limit]="5"
+                                       [loading]="manager.loading"
+                                       [selectedOptionText]="'fio'">
+                                <typeahead-option *ngFor="let user of users" [model]="user">
+                                    <div class="user-search-option">
+                                        <div class="user-photo">
+                                            <div class="photo" *ngIf="user.photo" [ngStyle]="{'background': 'url(http://10.50.4.7:4444' + user.photo + ')'}"></div>
+                                            <div class="no-photo" *ngIf="!user.photo">{{user.name[0] + user.surname[0]}}</div>
+                                        </div>
+                                        <div class="user-details">
+                                            <span class="name">{{user.fio}}</span>
+                                            <span class="position">{{user.position}}</span>
+                                        </div>
+                                    </div>
+                                </typeahead-option>
+                            </typeahead>
+                            <div class="selected-contact-user" *ngIf="phoneBook.selectedContact.user">
+                                USER HERE
+                            </div>
+                        </div>
                         <div class="margin-bottom-10">
                             <label for="selected-contact-surname">
                                 Фамилия

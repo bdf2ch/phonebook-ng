@@ -35,7 +35,6 @@ export class User extends Model {
   photoZoom: string = '100%';
   activeDirectoryAccount: string = "";
   isAdministrator: boolean = false;
-  favorites: ContactGroup;
   permissions: Permission[] = [];
   fio: string = "";
 
@@ -56,7 +55,6 @@ export class User extends Model {
       this.activeDirectoryAccount = config.active_directory_account !== undefined ? config.active_directory_account : '';
       //this.isAdministrator = config.is_administrator !== undefined ? config.is_administrator : false;
     }
-    this.favorites = new ContactGroup();
     this.fio = this.fname !== '' ? this.surname + " " + this.name + " " + this.fname : this.surname + ' ' + this.name;
   };
 

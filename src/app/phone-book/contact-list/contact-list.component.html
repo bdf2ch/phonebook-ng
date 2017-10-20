@@ -1,20 +1,3 @@
-<div class="width-30">
-    <typeahead [options]="users">
-        <typeahead-option *ngFor="let user of users">
-            <div class="user-search-option">
-                <div class="user-photo">
-                    <div class="photo">ИИ</div>
-                </div>
-                <div class="user-details">
-                    <span class="name">{{ user.fio }}</span>
-                    <span class="position">{{ user.position }}</span>
-                </div>
-            </div>
-        </typeahead-option>
-    </typeahead>
-</div>
-
-
 <stub *ngIf="phoneBook.contacts.length === 0 && !phoneBook.loading && !phoneBook.isInFavoritesMode" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
 <stub *ngIf="phoneBook.loading === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
 <div id="app-contacts" *ngIf="phoneBook.contacts.length > 0 || phoneBook.loading === true">

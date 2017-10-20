@@ -16,16 +16,22 @@
     position: relative;
     display: flex;
     width: 100%;
+
   }
 }
 
 
 
 .typeahead-option {
-  position: relative;
-  display: flex;
-  left: 0px;
-  right: 0px;
+  overflow: hidden;
+  position: static;
+  display: block;
+  //left: 0px;
+  //right: 0px;
   width: 100%;
   box-sizing: border-box;
+  cursor: pointer;
+  &:hover {
+    background: #EEEEEE;
+  }
 }

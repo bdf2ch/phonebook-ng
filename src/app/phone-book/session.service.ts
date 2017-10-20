@@ -84,7 +84,6 @@ export class SessionService {
                      * Обработываем и добавляем избранные контакты пользователя
                      */
                     body.favorites.forEach((value: IContact, index: number, array: IContact[]) => {
-                        this.currentUser.favorites = new ContactGroup({ contacts: body.favorites, divisions: [] });
                         this.phoneBook.favorites = new ContactGroup({ contacts: body.favorites, divisions: [] });
                     });
 

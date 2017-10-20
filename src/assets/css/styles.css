@@ -620,6 +620,7 @@ label {
   width: inherit;
   max-width: inherit;
   padding: 5px 10px;
+  box-sizing: border-box;
 }
 .user-search-option .user-photo {
   display: flex;
@@ -627,17 +628,24 @@ label {
   box-sizing: border-box;
 }
 .user-search-option .user-photo .photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+.user-search-option .user-photo .no-photo {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 40px;
-  background: #CFD8DC;
+  background: #C5CAE9;
   border-radius: 50%;
   font-family: "Open Sans Regular";
   font-size: 18px;
-  color: #607D8B;
+  color: #5C6BC0;
 }
 .user-search-option .user-details {
   display: flex;
@@ -645,19 +653,18 @@ label {
   justify-content: flex-start;
   align-items: flex-start;
   flex-grow: 1;
+  box-sizing: border-box;
   font-family: "Open Sans Regular";
-  font-size: 13px;
+  font-size: 14px;
 }
 .user-search-option .user-details .name {
-  height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .user-search-option .user-details .position {
   overflow: hidden;
-  height: 20px;
-  color: #90A4AE;
+  color: #757575;
   font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;

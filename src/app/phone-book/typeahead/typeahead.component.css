@@ -7,23 +7,85 @@
   align-items: flex-start;
   box-sizing: border-box;
 }
-.typeahead-component .input {
-  position: relative;
+.typeahead-component.loading .input input[type='text'] {
+  border-right: none;
+}
+.typeahead-component .input-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+}
+.typeahead-component .input-wrapper .icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 37px;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #546E7A;
+  border: 1px solid #CFD8DC;
+  border-right: none;
+}
+.typeahead-component .input-wrapper .input {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-grow: 1;
+  height: 35px;
+  align-items: center;
   box-sizing: border-box;
 }
-.typeahead-component .input input[type='text'] {
+.typeahead-component .input-wrapper .input input[type='text'] {
   position: relative;
   width: 100%;
+  height: 37px;
+  padding-left: 0px;
+  padding-right: 0px;
   box-sizing: border-box;
+  line-height: 37px;
   outline: none;
+  border-left: none;
+}
+.typeahead-component .input-wrapper .loader {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 37px;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #546E7A;
+  border: 1px solid #CFD8DC;
+  border-left: none;
+}
+.typeahead-component .input-wrapper .reset {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 37px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: "Open Sans Semi Bold";
+  font-size: 25px;
+  color: #546E7A;
+  border: 1px solid #CFD8DC;
+  border-left: none;
+  cursor: pointer;
+}
+.typeahead-component .input-wrapper .reset:hover {
+  color: #37474F;
 }
 .typeahead-component .options {
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 120;
   position: absolute;
   top: 100%;
@@ -35,7 +97,7 @@
   align-items: flex-start;
   box-sizing: border-box;
   background: #FAFAFA;
-  border: 1px solid #ECEFF1;
+  border: 1px solid #CFD8DC;
   border-top: none;
   border-bottom: 1px solid #ECEFF1;
 }

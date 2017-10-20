@@ -10,7 +10,12 @@ import { ModalService } from '../utilities/modal/modal.service';
 import { PhoneBookManagerService } from '../manager/phone-book-manager.service';
 import { DivisionTreeService } from './division-tree/division-tree.service';
 import { ContactGroup } from '../models/contact-group.model';
-
+import { User } from '../models/user.model';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/debounce';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/observable/of';
+import { Subject } from "rxjs/Subject";
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -25,6 +30,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     //@ViewChild(ContactListComponent) list: ContactListComponent;
     private newDivision: Division = new Division();
     private newContact: Contact = new Contact();
+    private users: User[] = [];
+    private usersStream: Observable<User[]>;
+    private searchTerms = new Subject<string>();
+    private usersSearchQuery: string = '';
 
 
     constructor(private phoneBook: PhoneBookService,
@@ -303,6 +312,63 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     closeEditContactModal(form: any): void {
         this.modals.close(true);
         this.phoneBook.selectedContact = null;
+    };
+
+// Push a search term into the observable stream.
+    search(term: string): void {
+        this.searchTerms.next(term);
+    }
+
+    onUserSearchChange(text: string): void {
+        console.log('text', text);
+        this.manager.usersSearchQuery = text;
+        this.search(text);
+
+        /*
+        this.manager.searchUsers(text).subscribe((users: User[]) => {
+            console.log(users);
+            this.users = users;
+        });
+        */
+
+        this.usersStream = this.manager.searchUsers(text)
+            .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+            .distinctUntilChanged()   // ignore if next search term is same as previous
+            .switchMap(term => term   // switch to new observable each time the term changes
+                // return the http search observable
+                ? this.manager.searchUsers(text)
+                // or the observable of empty heroes if there was no search term
+                : Observable.of<User[]>([]))
+            .map((res: User[]) => {
+                //const body = response.json();
+                const result: User[] = [];
+                res.forEach((item: User, index: number, array: User[]) => {
+                    const user = new User(item);
+                    result.push(user);
+                });
+                return result;
+            })
+
+
+
+    };
+
+
+    onUserSearchSelect(user: User): void {
+        //this.users = [];
+        this.newContact.userId = user.id;
+        this.newContact.surname = user.surname;
+        this.newContact.name = user.name;
+        this.newContact.fname = user.fname;
+        this.newContact.position = user.position;
+        this.newContact.email = user.email;
+    };
+
+
+    onResetUserSearch(): void {
+        console.log('reset typeahead');
+        //this.users = [];
+        this.newContact.restoreBackup();
     };
 
 };

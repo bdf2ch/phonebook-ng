@@ -15,6 +15,10 @@ export class PhoneBookManagerService {
     /* Триггер полученя данных с сервера */
     private loading: boolean = false;
 
+    public usersSearchQueryString: string = '';
+    get usersSearchQuery(): string { return this.usersSearchQueryString; };
+    set usersSearchQuery(value: string) {this.usersSearchQueryString = value;};
+
 
     /**
      * Конструктор сервиса
@@ -51,7 +55,7 @@ export class PhoneBookManagerService {
                 const body = res.json();
                 console.log('contact data', body);
                 const cnt = new Contact(body);
-                cnt.setupBackup(['userId', 'divisionId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
+                cnt.setupBackup(['userId', 'divisionId', 'surname', 'name', 'fname', 'position', 'positionTrimmed', 'email', 'mobile']);
                 return cnt;
             })
             .take(1)
@@ -265,27 +269,31 @@ export class PhoneBookManagerService {
     };
 
 
-    searchUsers(search: string): Observable<User[]> {
+    searchUsers(query: string): Observable<User[]> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
             action: 'searchUsers',
             data: {
-                search: search
+                query: query
             }
         };
 
         this.loading = true;
         return this.http.post(appConfig.apiUrl, parameters, options)
+            /*
             .map((response: Response) => {
-                const body = response.json();
-                const result: User[] = [];
-                body.forEach((item: IUser, index: number, array: IUser[]) => {
-                    const user = new User(item);
-                    result.push(user);
-                });
-                return result;
+                //const body = response.json();
+                //const result: User[] = [];
+                //body.forEach((item: IUser, index: number, array: IUser[]) => {
+                //    const user = new User(item);
+                //    result.push(user);
+                //});
+                //return result;
+
             })
+            */
+            .map((response :Response) => response.json() as User[])
             .take(1)
             .finally(() => { this.loading = false; })
             .catch(this.handleError);

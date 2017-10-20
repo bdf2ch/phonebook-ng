@@ -1,8 +1,17 @@
-<div class="typeahead-component">
-    <div class="input">
-        <input type="text" name="" id="" #input>
+<div class="typeahead-component" [ngClass]="{'loading': loading || options.length > 0 || selectedOption}">
+    <div class="input-wrapper" #inputWrapper>
+        <!-- Иконка поиска -->
+        <div class="icon"><i class="fa fa-search"></i></div>
+        <!-- Поле ввода -->
+        <div class="input"><input type="text" [placeholder]="placeholder" #input (keyup)="change(input.value)"></div>
+        <!-- Иконка загрузки данных -->
+        <div class="loader" *ngIf="loading"><i class="fa fa-spin fa-spinner"></i></div>
+        <!-- Кнопка очистки поля ввода -->
+        <div class="reset" *ngIf="!loading && input.value.length > 0" title="Очистить" (click)="reset()">&times;</div>
     </div>
-    <div class="options" #optionsContainer *ngIf="isOptionsShowed">
-        <div class="options-wrapper"><ng-content></ng-content></div>
+    <div class="options" *ngIf="options.length > 0" [ngStyle]="{'max-height': optionHeight > 0 ? (optionHeight * limit) + 2 + 'px': 'auto'}" #optionsWrapper>
+        <div class="options-wrapper">
+            <ng-content></ng-content>
+        </div>
     </div>
 </div>

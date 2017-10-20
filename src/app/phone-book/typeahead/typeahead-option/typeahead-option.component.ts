@@ -12,7 +12,6 @@ import { TypeAheadComponent } from '../typeahead.component';
     encapsulation: ViewEncapsulation.None
 })
 export class TypeAheadOptionComponent implements AfterContentInit {
-    //@Output() onSelect: EventEmitter<any> = new EventEmitter();
     @Input() model: any;
 
     constructor(@Host() private parent: TypeAheadComponent,
@@ -21,15 +20,18 @@ export class TypeAheadOptionComponent implements AfterContentInit {
 
 
     ngAfterContentInit(): void {
-        const rect = this.parent.input.element.nativeElement.getBoundingClientRect();
-        //console.log('child', this.parent.input.element.nativeElement.children[0]);
-        //this.renderer.setStyle(this.element.nativeElement.children[0], 'width', rect.width - 6 + 'px');
-        this.renderer.setStyle(this.element.nativeElement, 'width', rect.width - 6 + 'px');
+        console.log('option after content init');
+        if (this.model) {
+            const rect = this.parent.inputWrapper.element.nativeElement.getBoundingClientRect();
+            //console.log('child', this.parent.input.element.nativeElement.children[0]);
+            //this.renderer.setStyle(this.element.nativeElement.children[0], 'width', rect.width - 6 + 'px');
+            this.renderer.setStyle(this.element.nativeElement.children[0], 'width', rect.width + 'px');
+            this.renderer.setStyle(this.element.nativeElement.children[0], 'height', this.parent.optionHeight !== 0 ? this.parent.optionHeight + 'px' : 'auto')
+        }
     };
 
 
     select(value: any): void {
-        //this.onSelect.emit(value);
         this.parent.select(value);
     };
 }
