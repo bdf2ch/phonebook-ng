@@ -503,7 +503,51 @@
 
 
 .selected-contact-user {
-  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  padding-right: 0px;
+  box-sizing: border-box;
+  border: 1px solid lightgray;
+  .photo {
+    width: 40px;
+    height: 40px;
+    background-size: cover !important;
+    background-position: top center !important;
+    border-radius: 50%;
+  }
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-grow: 1;
+    padding-left: 10px;
+    font-family: "Open Sans Regular";
+    box-sizing: border-box;
+    .name {}
+    .position {
+      color: #B71C1C;
+    }
+  }
+  .clear-user-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    font-family: "Open Sans Regular";
+    font-size: 30px;
+    color: lightgray;
+    text-align: center;
+    cursor: pointer;
+    border-left: 1px solid lightgray;
+    &:hover {
+      color: gray;
+    }
+  }
 }
 
 

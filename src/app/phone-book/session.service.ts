@@ -65,7 +65,10 @@ export class SessionService {
                      * Обрабатываем и устанавливаем позицию фотографии пользователя
                      */
                     if (body.user_photo_position) {
-                        this.currentUser.setPhotoPosition(body.user_photo_position.photo_left, body.user_photo_position.photo_top, body.user_photo_position.zoom)
+                        this.currentUser.setPhotoPosition(
+                            body.user_photo_position.photo_left,
+                            body.user_photo_position.photo_top,
+                            body.user_photo_position.zoom)
                     }
 
                     /**

@@ -75,6 +75,7 @@ export class PhoneBookManagerService {
             action: "editContact",
             data: {
                 contactId: contact.id,
+                userId: contact.userId,
                 name: contact.name,
                 fname: contact.fname,
                 surname: contact.surname,
@@ -87,9 +88,7 @@ export class PhoneBookManagerService {
         return this.http.post(appConfig.apiUrl, params, options)
             .map((res: Response) => {
                 this.loading = false;
-                const body = res.json();
-                const cnt = new Contact(body);
-                return cnt;
+                return new Contact(res.json());
             })
             .take(1)
             .catch(this.handleError);
@@ -197,8 +196,7 @@ export class PhoneBookManagerService {
         this.loading = true;
         return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
-                const body = response.json();
-                return body;
+                return response.json();
             })
             .take(1)
             .finally(() => { this.loading = false; })
@@ -281,19 +279,16 @@ export class PhoneBookManagerService {
 
         this.loading = true;
         return this.http.post(appConfig.apiUrl, parameters, options)
-            /*
             .map((response: Response) => {
-                //const body = response.json();
-                //const result: User[] = [];
-                //body.forEach((item: IUser, index: number, array: IUser[]) => {
-                //    const user = new User(item);
-                //    result.push(user);
-                //});
-                //return result;
+                const body = response.json();
+                const result: User[] = [];
+                body.forEach((item: IUser, index: number, array: IUser[]) => {
+                    const user = new User(item);
+                    result.push(user);
+                });
+                return result;
 
             })
-            */
-            .map((response :Response) => response.json() as User[])
             .take(1)
             .finally(() => { this.loading = false; })
             .catch(this.handleError);

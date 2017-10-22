@@ -34,6 +34,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private usersStream: Observable<User[]>;
     private searchTerms = new Subject<string>();
     private usersSearchQuery: string = '';
+    private selectedContactUserBackup: User | null = null;
 
 
     constructor(private phoneBook: PhoneBookService,
@@ -300,8 +301,29 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    openEditContactModal(): void {
+    /**
+     * Открытие модального окна редактирования данных абонента
+     */
+    openEditContactModal(): void {};
 
+
+    /**
+     * Отвязка выбранного абонента от пользователя
+     * @param form {any} - форма редактирования данных абонента
+     */
+    clearSelectedContactUser(form: any): void {
+        this.selectedContactUserBackup = this.phoneBook.selectedContact.user;
+        this.phoneBook.selectedContact.userId = 0;
+        this.phoneBook.selectedContact.user = null;
+        form.form.markAsDirty();
+    };
+
+
+    editContact(): void {
+        this.manager.editContact(this.phoneBook.selectedContact)
+            .subscribe(() => {
+                this.phoneBook.selectedContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
+            });
     };
 
 
@@ -310,65 +332,55 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * @param form {any} - форма редактирования данных абонента
      */
     closeEditContactModal(form: any): void {
-        this.modals.close(true);
+        //this.modals.close(true);
+        this.phoneBook.selectedContact.restoreBackup();
+        if (this.selectedContactUserBackup) {
+            this.phoneBook.selectedContact.user = this.selectedContactUserBackup;
+            this.selectedContactUserBackup = null;
+        }
         this.phoneBook.selectedContact = null;
     };
+
 
 // Push a search term into the observable stream.
     search(term: string): void {
         this.searchTerms.next(term);
     }
 
+
     onUserSearchChange(text: string): void {
         console.log('text', text);
-        this.manager.usersSearchQuery = text;
-        this.search(text);
-
-        /*
         this.manager.searchUsers(text).subscribe((users: User[]) => {
             console.log(users);
             this.users = users;
         });
-        */
-
-        this.usersStream = this.manager.searchUsers(text)
-            .debounceTime(300)        // wait 300ms after each keystroke before considering the term
-            .distinctUntilChanged()   // ignore if next search term is same as previous
-            .switchMap(term => term   // switch to new observable each time the term changes
-                // return the http search observable
-                ? this.manager.searchUsers(text)
-                // or the observable of empty heroes if there was no search term
-                : Observable.of<User[]>([]))
-            .map((res: User[]) => {
-                //const body = response.json();
-                const result: User[] = [];
-                res.forEach((item: User, index: number, array: User[]) => {
-                    const user = new User(item);
-                    result.push(user);
-                });
-                return result;
-            })
-
-
-
     };
 
 
-    onUserSearchSelect(user: User): void {
-        //this.users = [];
-        this.newContact.userId = user.id;
-        this.newContact.surname = user.surname;
-        this.newContact.name = user.name;
-        this.newContact.fname = user.fname;
-        this.newContact.position = user.position;
-        this.newContact.email = user.email;
+    onUserSearchSelect(user: User, form?: any): void {
+        this.users = [];
+        if (!this.phoneBook.selectedContact) {
+            this.newContact.userId = user.id;
+            this.newContact.surname = user.surname;
+            this.newContact.name = user.name;
+            this.newContact.fname = user.fname;
+            this.newContact.position = user.position;
+            this.newContact.email = user.email;
+        } else {
+            this.phoneBook.selectedContact.userId = user.id;
+            this.phoneBook.selectedContact.user = user;
+            form.form.markAsDirty();
+        }
     };
 
 
     onResetUserSearch(): void {
         console.log('reset typeahead');
-        //this.users = [];
+        this.users = [];
         this.newContact.restoreBackup();
     };
+
+
+
 
 };

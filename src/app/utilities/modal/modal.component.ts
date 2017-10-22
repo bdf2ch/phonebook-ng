@@ -87,9 +87,10 @@ export class ModalComponent implements OnInit, AfterViewChecked {
 
 
   close (withoutCallback?: boolean) {
+    if (withoutCallback === undefined || withoutCallback !== true) {
+        this.onClose.emit();
+    }
     this.opened = false;
-    if (withoutCallback === undefined || withoutCallback !== true)
-      this.onClose.emit();
   };
 
-};
+}

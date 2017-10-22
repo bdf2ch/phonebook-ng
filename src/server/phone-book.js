@@ -141,9 +141,10 @@ module.exports = {
      */
     editContact: function (parameters) {
         return {
-            text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7)',
+            text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7, $8)',
             values: [
                 parameters.data.contactId,
+                parameters.data.userId,
                 parameters.data.surname,
                 parameters.data.name,
                 parameters.data.fname,

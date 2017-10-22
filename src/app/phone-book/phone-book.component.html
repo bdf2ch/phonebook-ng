@@ -417,7 +417,7 @@
 <modal [id]="'edit-contact-modal'"
        [title]="'Изменение данных абонента'"
        [width]="500"
-       [contentHeight]="580"
+       [contentHeight]="phoneBook.selectedContact && phoneBook.selectedContact.user ? 620 : 600"
        (onClose)="closeEditContactModal(editContactForm)">
     <div class="modal-content" *ngIf="phoneBook.selectedContact">
         <tabs [id]="'edit-contact-tabs'">
@@ -425,11 +425,16 @@
                 <div class="padding-20">
                     <form novalidate #editContactForm="ngForm">
                         <div class="margin-bottom-10">
+                            <label for="">Пользователь</label>
                             <typeahead *ngIf="!phoneBook.selectedContact.user" [placeholder]="'Введите имя пользователя'"
+                                       [options]="users"
                                        [optionHeight]="50"
                                        [limit]="5"
                                        [loading]="manager.loading"
-                                       [selectedOptionText]="'fio'">
+                                       [selectedOptionText]="'fio'"
+                                       (onChange)="onUserSearchChange($event)"
+                                       (onSelect)="onUserSearchSelect($event, editContactForm)"
+                                       (onReset)="onResetUserSearch()">
                                 <typeahead-option *ngFor="let user of users" [model]="user">
                                     <div class="user-search-option">
                                         <div class="user-photo">
@@ -444,7 +449,18 @@
                                 </typeahead-option>
                             </typeahead>
                             <div class="selected-contact-user" *ngIf="phoneBook.selectedContact.user">
-                                USER HERE
+                                <div class="photo" [ngStyle]="{'background': 'url(http://10.50.4.7:4444' + phoneBook.selectedContact.user.photo + ')'}"></div>
+                                <div class="no-photo" *ngIf="!phoneBook.selectedContact.user.photo">{{ phoneBook.selectedContact.user.name[0] + phoneBook.selectedContact.user.surname[0] }}</div>
+                                <!-- Данные о привязанном пользователе -->
+                                <div class="details">
+                                    <div class="name" [innerHTML]="phoneBook.selectedContact.user.fio"></div>
+                                    <div class="position" [innerHTML]="phoneBook.selectedContact.user.position"></div>
+                                </div>
+                                <!-- Кнопка отвязки контакта от пользователя -->
+                                <div class="clear-user-button" title="Отвязать пользователя"
+                                     (click)="clearSelectedContactUser(editContactForm)">
+                                    &times;
+                                </div>
                             </div>
                         </div>
                         <div class="margin-bottom-10">
@@ -518,10 +534,19 @@
                         </div>
                         <div>
                             <div class="width-50 padding-right-5">
-                                <button type="submit" class="btn green width-100" [disabled]="!editContactForm.dirty || editContactForm.invalid" (click)="addContact()">Добавить</button>
+                                <button type="submit"
+                                        class="btn green width-100"
+                                        [disabled]="!editContactForm.dirty || editContactForm.invalid"
+                                        (click)="editContact()">
+                                    Сохранить изменения
+                                </button>
                             </div>
                             <div class="width-50 padding-left-5">
-                                <button type="submit" class="btn red width-100" (click)="modals.close()">Отмена</button>
+                                <button type="submit"
+                                        class="btn red width-100"
+                                        (click)="modals.close()">
+                                    Отмена
+                                </button>
                             </div>
                         </div>
                     </form>

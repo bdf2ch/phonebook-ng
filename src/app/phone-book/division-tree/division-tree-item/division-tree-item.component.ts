@@ -1,7 +1,6 @@
 import {
-    ChangeDetectionStrategy, Component, ElementRef, Input, Output, Renderer2, ViewEncapsulation, OnInit
+    ChangeDetectionStrategy, Component, ElementRef, Input, Renderer2, ViewEncapsulation, OnInit
 } from '@angular/core';
-import { trigger, state, transition, style, animate } from '@angular/animations';
 import { Division } from "../../../models/Division.model";
 import { DivisionTreeComponent } from "../division-tree.component";
 import { PhoneBookService } from "../../phone-book.service";
@@ -14,19 +13,7 @@ import { Contact } from "../../../models/contact.model";
     templateUrl: './division-tree-item.component.html',
     styleUrls: ['./division-tree-item.component.css'],
     encapsulation: ViewEncapsulation.None,
-    animations: [
-        trigger("slide", [
-            state('true', style({
-                transform: 'scaleY(1)'
-            })),
-            state('false', style({
-                transform: 'scaleY(0)'
-            })),
-            transition('* => true', animate(100)),
-            transition('true => *', animate(100)),
-        ])
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DivisionTreeItemComponent implements OnInit {
 
@@ -97,4 +84,4 @@ export class DivisionTreeItemComponent implements OnInit {
         }
         this.isSelected = !this.isSelected;
     };
-};
+}
