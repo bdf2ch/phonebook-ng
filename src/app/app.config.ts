@@ -11,5 +11,7 @@ export const appConfig = {
     /* Url API для получения данных с сервера */
     apiUrl: 'http://10.50.4.7:4444/api',
     /* Url для загрузки фото пользователей */
-    uploadPhotoUrl: 'http://10.50.4.7:4444/uploadPhoto'
+    uploadPhotoUrl: 'http://10.50.4.7:4444/uploadPhoto',
+
+    isInTestMode: false
 };

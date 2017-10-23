@@ -125,6 +125,57 @@
 <edit-contact [isOpened]="phoneBook.selectedContact === 'test'" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact"></edit-contact>
 
 
+<!-- Модальное окно авторизации пользователя -->
+<modal [id]="'authorization-modal'" [title]="'Авторизация'" [width]="400" [contentHeight]="!authorization.userNotFound ? 220 : 281" (onClose)="closeAuthModal()">
+    <div class="modal-content">
+        <form novalidate class="padding-20">
+            <!-- Учетная запись пользователя -->
+            <div class="margin-bottom-10">
+                <label for="user-account" class="width-100">Учетная запись</label>
+                <input type="text"
+                       name="account"
+                       id="user-account"
+                       class="width-100"
+                       placeholder="Введите учетную запись"
+                       [(ngModel)]="authorization.login">
+            </div>
+            <!-- Пароль -->
+            <div class="margin-bottom-20">
+                <label for="user-password" class="width-100">Пароль</label>
+                <input type="password"
+                       name="password"
+                       id="user-password"
+                       class="width-100"
+                       placeholder="Введите пароль"
+                       [(ngModel)]="authorization.password">
+            </div>
+            <div class="width-100 margin-bottom-20">
+                <div class="width-50 padding-right-5">
+                    <button type="submit"
+                            class="btn blue width-100"
+                            [disabled]="authorization.account === '' || authorization.password === ''"
+                            (click)="login()">
+                        Войти
+                    </button>
+                </div>
+                <div class="width-50 padding-left-5">
+                    <button type="button"
+                            class="btn red width-100"
+                            (click)="modals.close()">
+                        Отмена
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="form-error-bottom width-100 padding-20"
+             *ngIf="authorization.userNotFound">
+            <i class="fa fa-exclamation-circle margin-right-10"></i>
+            Пользователь не найден
+        </div>
+    </div>
+</modal>
+
+
 <!-- Модальное окно добавления нового структурного подразделения -->
 <modal [id]="'new-division-modal'"
        [title]="'Новое структурное подразделение'"
@@ -556,27 +607,40 @@
                 <!-- Список телефонов абонента с привязкой к АТС -->
                 <div class="padding-20">
                     <form *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn;" novalidate #phoneForm="ngForm">
-                        <div class="combined-input margin-bottom-10">
-                            <i class="fa fa-phone"></i>
-                            <select name="ats" class="ats" [(ngModel)]="phone.atsId">
-                                <optgroup label="Внутренние АТС">
-                                    <option *ngFor="let innerAts of phoneBook.innerAtsList"
-                                            [ngValue]="innerAts.id"
-                                            [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
-                                    </option>
-                                </optgroup>
-                                <optgroup label="Внешние АТС">
-                                    <option *ngFor="let outerAts of phoneBook.outerAtsList"
-                                            [ngValue]="outerAts.id"
-                                            [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
-                                    </option>
-                                </optgroup>
-                            </select>
-                            <input type="text" name="phone" class="phone-number" placeholder="Введите номер" [(ngModel)]="phone.number" required>
-                            <i class="fa fa-save clickable" *ngIf="phoneForm.dirty && phoneForm.valid" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"></i>
-                            <i class="fa fa-times clickable" title="Удалить телефон" (click)="deletePhone(phone)"></i>
+                        <div class="margin-bottom-15">
+                            <div class="margin-bottom-5">
+                                <select name="ats" class="ats width-50" [(ngModel)]="phone.atsId">
+                                    <optgroup label="Внутренние АТС">
+                                        <option *ngFor="let innerAts of phoneBook.innerAtsList"
+                                                [ngValue]="innerAts.id"
+                                                [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="Внешние АТС">
+                                        <option *ngFor="let outerAts of phoneBook.outerAtsList"
+                                                [ngValue]="outerAts.id"
+                                                [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
+                                        </option>
+                                    </optgroup>
+                                </select>
+                                <input type="text" name="phone" class="phone-number width-30" placeholder="Введите номер" [(ngModel)]="phone.number" required>
+                                <div class="width-20">
+                                    <button type="button" *ngIf="phoneForm.dirty && phoneForm.valid" class="btn green" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"><i class="fa fa-save"></i></button>
+                                    <button type="button" class="btn red" title="Удалить телефон" (click)="deletePhone(phone)"><i class="fa fa-save"></i></button>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="input-row">
+                                <input type="text" name="phone" class="phone-number width-100" placeholder="Введите номер" [(ngModel)]="phone.number" required>
+                                <button type="button" *ngIf="phoneForm.dirty && phoneForm.valid" class="btn green" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"><i class="fa fa-save"></i></button>
+                                <button type="button" class="btn red" title="Удалить телефон" (click)="deletePhone(phone)"><i class="fa fa-save"></i></button>
+                            </div>
+                            -->
                         </div>
                     </form>
+                </div>
+                <div class="padding-20">
+
                 </div>
             </tab>
         </tabs>

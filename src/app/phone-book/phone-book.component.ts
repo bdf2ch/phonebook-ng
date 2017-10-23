@@ -16,6 +16,8 @@ import 'rxjs/add/operator/debounce';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/observable/of';
 import { Subject } from "rxjs/Subject";
+import { isError } from "../models/error.model";
+import { CookieService } from '../utilities/cookies/cookie.services';
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -35,12 +37,18 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private searchTerms = new Subject<string>();
     private usersSearchQuery: string = '';
     private selectedContactUserBackup: User | null = null;
+    private authorization = {
+        login: '',
+        password: '',
+        userNotFound: false
+    };
 
 
     constructor(private phoneBook: PhoneBookService,
                 private manager: PhoneBookManagerService,
                 private trees: DivisionTreeService,
                 private session: SessionService,
+                private cookies: CookieService,
                 private modals: ModalService) {
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
@@ -57,6 +65,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         if (this.phoneBook.favorites.contacts.length > 0) {
             this.phoneBook.isInFavoritesMode = true;
         }
+        if (appConfig.isInTestMode) {
+            setInterval(() => {
+                window.location.reload();
+            }, 2000)
+        }
     };
 
 
@@ -69,7 +82,29 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * Открывает модальное окно авторизации пользователя
      */
     openAuthModal(): void {
-        this.inAuthMode = true;
+        //this.inAuthMode = true;
+        this.modals.open('authorization-modal');
+    };
+
+
+    /**
+     * Авторизация пользователя
+     */
+    login(): void {
+        this.authorization.userNotFound = false;
+        this.session.logIn(this.authorization.login, this.authorization.password).subscribe((result: any) => {
+            if (!isError(result)) {
+                console.log('result', result);
+                this.cookies.set({
+                    name: 'kolenergo',
+                    value: result.session.token
+                });
+                this.modals.close();
+            } else {
+                this.authorization.userNotFound = true;
+                console.log('USER NOT FOUND');
+            }
+        });
     };
 
 
@@ -77,7 +112,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * Закрывает модальное окно авторизации пользователя
      */
     closeAuthModal(): void {
-        this.inAuthMode = false;
+        this.authorization.login = '';
+        this.authorization.password = '';
+        this.authorization.userNotFound = false;
+        //this.inAuthMode = false;
     };
 
 
@@ -323,6 +361,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.manager.editContact(this.phoneBook.selectedContact)
             .subscribe(() => {
                 this.phoneBook.selectedContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
+                this.modals.close(true);
+                this.phoneBook.selectedContact = null;
             });
     };
 

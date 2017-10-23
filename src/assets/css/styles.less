@@ -242,7 +242,7 @@
 
 
 
-input[type='text'] {
+input[type='text'], input[type='password'] {
   padding: 10px;
   border: 1px solid #CFD8DC;
 }
@@ -250,6 +250,12 @@ input[type='text'] {
 input[type='checkbox'] {
   width: 20px;
   height: 20px;
+}
+
+select {
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #CFD8DC;
 }
 
 
@@ -282,6 +288,56 @@ label {
     line-height: 13px;
     color: #90A4AE;
   }
+}
+
+
+.form-error-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+  margin-top: 40px;
+  font-family: "Open Sans Regular";
+  font-size: 14px;
+  color: #E53935;
+  background: #FFCDD2;
+}
+
+
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  input {
+    &:first-child {
+      border-right: none;
+    }
+    &:last-child {
+      border-left: none;
+    }
+  }
+
+  select {
+    height: 37px;
+  }
+
+  button {
+    display: flex;
+    width: 37px !important;
+    height: 37px !important;
+    border-radius: 0px;
+    &:first-of-type {
+      //border-left: none;
+    }
+    &:last-of-type {
+      //border-left: none;
+    }
+  }
+
 }
 
 
