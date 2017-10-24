@@ -66,9 +66,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             this.phoneBook.isInFavoritesMode = true;
         }
         if (appConfig.isInTestMode) {
+            let i = 0;
             setInterval(() => {
-                window.location.reload();
-            }, 2000)
+                this.phoneBook.fetchContactsByDivisionIdRecursive(this.phoneBook.ids[i], appConfig.defaultSourceAtsId, this.session.session ? this.session.session.token : '').subscribe(() => {
+                    i = (i + 1) < this.phoneBook.ids.length - 1 ? i + 1 : 0;
+                });
+            }, 10000)
         }
     };
 

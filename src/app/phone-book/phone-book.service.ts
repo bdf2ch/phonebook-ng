@@ -118,6 +118,12 @@ export class PhoneBookService {
   };
 
 
+  public ids: number[] = [];
+  public randomId(): number {
+      return Math.floor(Math.random() * this.ids.length);
+  };
+
+
   /**
    * Конструктор сервиса
    * @param $http {Http} - Http injector
