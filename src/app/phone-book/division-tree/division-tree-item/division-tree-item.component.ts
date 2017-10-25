@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, ElementRef, Input, Renderer2, ViewEncapsulation, OnInit
+    ChangeDetectionStrategy, Component, ElementRef, Input, Renderer2, ViewEncapsulation, OnInit, NgZone,
 } from '@angular/core';
 import { Division } from "../../../models/Division.model";
 import { DivisionTreeComponent } from "../division-tree.component";
@@ -30,18 +30,43 @@ export class DivisionTreeItemComponent implements OnInit {
     constructor(private element: ElementRef,
                 private renderer: Renderer2,
                 private phoneBook: PhoneBookService,
-                private phoneBookManager: PhoneBookManagerService) {
+                private phoneBookManager: PhoneBookManagerService,
+                private zones: NgZone) {
 
-        this.renderer.listen(this.element.nativeElement, 'dragenter', (event: any) => {
-            this.renderer.addClass(event.target, 'drag-over');
+
+        this.zones.runOutsideAngular(() => {
+            this.element.nativeElement.addEventListener('dragenter', (event: any) => {
+                console.log('dragenter');
+                //this.renderer.addClass(event.target, 'drag-over');
+                this.element.nativeElement.classList.add('drag-over');
+            });
+
+
+            this.element.nativeElement.addEventListener('dragover', (event: any) => {
+                console.log('dragover');
+                event.preventDefault();
+                //this.renderer.removeClass(event.target, 'drag-over');
+
+            });
+
+            this.element.nativeElement.addEventListener('dragleave', (event: any) => {
+                console.log('dragleave');
+                this.element.nativeElement.classList.remove('drag-over');
+            });
         });
 
 
 
-        this.renderer.listen(this.element.nativeElement, 'dragover', (event: any) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = 'move';
-        });
+        //this.renderer.listen(this.element.nativeElement, 'dragenter', (event: any) => {
+        //    this.renderer.addClass(event.target, 'drag-over');
+        //});
+
+
+
+        //this.renderer.listen(this.element.nativeElement, 'dragover', (event: any) => {
+        //    event.preventDefault();
+        //    event.dataTransfer.dropEffect = 'move';
+        //});
 
 
         this.renderer.listen(this.element.nativeElement, 'dragleave', (event: any) => {
