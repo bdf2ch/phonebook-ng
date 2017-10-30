@@ -133,7 +133,8 @@
 }
 .contact .contact-info #photo .control.favorites {
   font-size: 18px;
-  background: rgba(0, 0, 0, 0.3);
+  color: rgba(102, 153, 204, 0.4);
+  background: transparent;
 }
 .contact .contact-info #photo .control.favorites:hover {
   color: #FFC107;

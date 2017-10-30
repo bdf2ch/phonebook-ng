@@ -44,6 +44,7 @@ import { TabComponent } from './utilities/tabs/tab/tab.component';
 import { TabsService } from './utilities/tabs/tabs.service';
 import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
 import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
+import { UserAccountComponent } from './phone-book/user-account/user-account.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
       {
         path: '',
         component: ContactListComponent
+      },
+      {
+        path: 'account',
+        component: UserAccountComponent
       }
     ]
   }
@@ -86,6 +91,7 @@ const routes: Routes = [
     ModalComponent,
     PhotoEditorComponent,
     CompanySelectorComponent,
+    UserAccountComponent,
     UploadDirective,
     ExceptSelectedOrganizationPipe,
     TabsComponent,

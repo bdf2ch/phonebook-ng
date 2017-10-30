@@ -77,6 +77,11 @@ export class PhoneBookService {
   get isInSearchMode(): boolean { return this.isInSearchContactsMode };
   set isInSearchMode(value: boolean) { this.isInSearchContactsMode = value };
 
+
+  public isInUserAccountViewMode: boolean = false;
+  get isInUserAccountMode(): boolean { return this.isInFavoriteContactsViewMode };
+  set isInUserAccountMode(value: boolean) { this.isInUserAccountViewMode = value };
+
   /* Выбранная АТС */
   public currentAts: ATS | null = null;
   get selectedAts(): ATS | null { return this.currentAts };

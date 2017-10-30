@@ -94,10 +94,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * Авторизация пользователя
      */
     login(): void {
-        this.authorization.userNotFound = false;
         this.session.logIn(this.authorization.login, this.authorization.password).subscribe((result: any) => {
             if (!isError(result)) {
                 console.log('result', result);
+                this.authorization.userNotFound = false;
                 this.cookies.set({
                     name: 'kolenergo',
                     value: result.session.token
@@ -380,6 +380,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         if (this.selectedContactUserBackup) {
             this.phoneBook.selectedContact.user = this.selectedContactUserBackup;
             this.selectedContactUserBackup = null;
+        } else {
+            this.phoneBook.selectedContact.user = null;
         }
         this.phoneBook.selectedContact = null;
     };
@@ -393,10 +395,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     onUserSearchChange(text: string): void {
         console.log('text', text);
-        this.manager.searchUsers(text).subscribe((users: User[]) => {
-            console.log(users);
-            this.users = users;
-        });
+        this.manager.searchUsers(text)
+            .subscribe((users: User[]) => {
+                console.log(users);
+                this.users = users;
+            });
     };
 
 

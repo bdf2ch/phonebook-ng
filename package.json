@@ -52,6 +52,7 @@
     "ldapjs": "^1.0.1",
     "rxjs": "5.0.1",
     "systemjs": "0.19.39",
+    "winston": "^2.4.0",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {

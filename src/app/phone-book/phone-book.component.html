@@ -1,3 +1,4 @@
+<!-- Шапка приложения -->
 <div id="app-header">
 
     <!-- Заголовок приложения -->
@@ -41,15 +42,20 @@
             </button>
 
             <!-- Меню пользователя -->
-            <div class="user-logged" *ngIf="session.user !== null" (click)="openUserMenuModal()"
+            <div class="user-logged"
+                 *ngIf="session.user !== null"
+                 [ngClass]="{'active': phoneBook.isInUserAccountMode === true}" (click)="openUserMenuModal()"
                  [ngStyle]="{ 'background': session.user.photo !== null ? 'url(http://10.50.4.7:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
                 <span class="initials" *ngIf="session.user.photo === null">{{ session.user.name[0] + session.user.surname[0] }}</span>
+                <span class="corner"></span>
             </div>
         </div>
     </div>
 
 
 </div>
+
+<!-- Панель выбора организации, дерево структурных подразделений -->
 <div id="app-divisions">
 
     <div id="app-divisions-header">
@@ -87,7 +93,7 @@
 </div>
 
 
-
+<!-- Область отображения контента приложения -->
 <div id="app-content-wrapper" [ngClass]="{ 'with-ats': isAtsPanelOpened }">
 
     <!-- Панель выбора АТС -->
@@ -112,6 +118,7 @@
 </div>
 
 
+<!-- Кнопка добавления нового абонента -->
 <div id="new-contact-button"
      *ngIf="(this.session.user && this.session.user.isAdministrator) && (!phoneBook.isInFavoritesMode && phoneBook.selectedDivision)"
      (click)="openNewContactModal()"
@@ -153,8 +160,9 @@
                 <div class="width-50 padding-right-5">
                     <button type="submit"
                             class="btn blue width-100"
-                            [disabled]="authorization.account === '' || authorization.password === ''"
+                            [disabled]="authorization.account === '' || authorization.password === '' || session.loading"
                             (click)="login()">
+                        <i class="fa fa-spinner fa-spin margin-right-15" *ngIf="session.loading"></i>
                         Войти
                     </button>
                 </div>
