@@ -1,0 +1,61 @@
+#user-account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+#user-account button {
+  width: 220px;
+}
+#user-account .upload {
+  width: 220px;
+}
+#user-account .user-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  font-family: "Open Sans Semi Bold";
+  font-size: 16px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #B0BEC5;
+}
+#user-account .user-details {
+  display: flex;
+  flex-direction: row;
+}
+#user-account .user-details #photo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 40px;
+  box-sizing: border-box;
+  border-right: 1px solid #ECEFF1;
+}
+#user-account .user-details #photo .user-photo {
+  width: 250px;
+  height: 250px;
+  margin-bottom: 10px;
+  border: 1px solid #ECEFF1;
+  border-radius: 50%;
+}
+#user-account .user-details #photo .user-photo.with-photo {
+  background-size: cover !important;
+}
+#user-account .user-details #photo .user-photo.no-photo {
+  border: 1px solid #ECEFF1;
+}
+#user-account .user-details #controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 40px;
+  box-sizing: border-box;
+}

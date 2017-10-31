@@ -154,6 +154,7 @@
   background-size: cover !important;
   background-repeat: no-repeat !important;
   background-position: center top !important;
+  outline: none;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -164,6 +165,23 @@
   visibility: visible;
 }
 #app-header .user-logged .corner {
+  position: absolute;
+  display: inline-block;
+  bottom: -14px;
+  border-width: 10px;
+  border-top: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white;
+  visibility: hidden;
+}
+#app-header #help-button.active {
+  background: #006064;
+}
+#app-header #help-button.active .corner {
+  visibility: visible;
+}
+#app-header #help-button .corner {
   position: absolute;
   display: inline-block;
   bottom: -14px;

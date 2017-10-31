@@ -79,7 +79,7 @@ export class PhoneBookService {
 
 
   public isInUserAccountViewMode: boolean = false;
-  get isInUserAccountMode(): boolean { return this.isInFavoriteContactsViewMode };
+  get isInUserAccountMode(): boolean { return this.isInUserAccountViewMode };
   set isInUserAccountMode(value: boolean) { this.isInUserAccountViewMode = value };
 
   /* Выбранная АТС */

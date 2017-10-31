@@ -45,6 +45,8 @@ import { TabsService } from './utilities/tabs/tabs.service';
 import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
 import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
 import { UserAccountComponent } from './phone-book/user-account/user-account.component';
+import { FavoritesComponent } from './phone-book/favorites/favorites.component';
+import { HelpComponent } from './phone-book/help/help.component';
 
 const routes: Routes = [
   {
@@ -57,8 +59,16 @@ const routes: Routes = [
         component: ContactListComponent
       },
       {
+        path: 'favorites',
+        component: FavoritesComponent
+      },
+      {
         path: 'account',
         component: UserAccountComponent
+      },
+      {
+        path: 'help',
+        component: HelpComponent
       }
     ]
   }
@@ -91,6 +101,8 @@ const routes: Routes = [
     ModalComponent,
     PhotoEditorComponent,
     CompanySelectorComponent,
+    FavoritesComponent,
+    HelpComponent,
     UserAccountComponent,
     UploadDirective,
     ExceptSelectedOrganizationPipe,

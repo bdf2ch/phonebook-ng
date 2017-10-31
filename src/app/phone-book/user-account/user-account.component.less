@@ -1,0 +1,76 @@
+@photo-right-border-color: #ECEFF1;
+@photo-width: 250px;
+@photo-height: 250px;
+@user-name-color: #B0BEC5;
+
+
+#user-account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  button {
+    width: 220px;
+  }
+
+  .upload {
+    width: 220px;
+  }
+
+  .user-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 50px;
+    font-family: "Open Sans Semi Bold";
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+    color: @user-name-color;
+  }
+
+  .user-details {
+    display: flex;
+    flex-direction: row;
+    #photo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      padding-right: 40px;
+      //padding-top: 20px;
+      //padding-bottom: 20px;
+      box-sizing: border-box;
+      border-right: 1px solid @photo-right-border-color;
+      .user-photo {
+        width: @photo-width;
+        height: @photo-height;
+        margin-bottom: 10px;
+        border: 1px solid #ECEFF1;
+        border-radius: 50%;
+        &.with-photo {
+          background-size: cover !important;
+        }
+        &.no-photo {
+          border: 1px solid @photo-right-border-color;
+        }
+      }
+    }
+
+    #controls {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 40px;
+      //padding-top: 20px;
+      //padding-bottom: 20px;
+      box-sizing: border-box;
+    }
+  }
+}

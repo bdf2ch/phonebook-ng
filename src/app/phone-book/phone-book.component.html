@@ -19,17 +19,24 @@
             </div>
         </div>
         <div id="search-right">
+
             <!-- Руководство пользователя -->
-            <button type="button" class="btn round small margin-right-10" title="Помощь">
+            <button type="button"
+                    id="help-button"
+                    class="btn round small margin-right-10"
+                    title="Помощь"
+                    routerLink="/help"
+                    routerLinkActive="active">
                 <i class="fa fa-info"></i>
+                <span class="corner"></span>
             </button>
 
             <!-- Избранные контакты -->
             <button type="button"
                     class="btn small round favorites badged"
                     *ngIf="session.user && phoneBook.favorites.contacts.length > 0"
-                    [ngClass]="{'active': phoneBook.isInFavoritesMode === true}"
-                    (click)="switchToFavorites()"
+                    routerLink="/favorites"
+                    routerLinkActive="active"
                     title="Избранные контакты">
                 <span class="badge">{{ phoneBook.favorites.contacts.length }}</span>
                 <i class="fa fa-star"></i>
@@ -43,9 +50,10 @@
 
             <!-- Меню пользователя -->
             <div class="user-logged"
+                 routerLink="/account"
+                 routerLinkActive="active"
                  *ngIf="session.user !== null"
-                 [ngClass]="{'active': phoneBook.isInUserAccountMode === true}" (click)="openUserMenuModal()"
-                 [ngStyle]="{ 'background': session.user.photo !== null ? 'url(http://10.50.4.7:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
+                 [ngStyle]="{'background': session.user.photo !== null ? 'url(http://10.50.4.7:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
                 <span class="initials" *ngIf="session.user.photo === null">{{ session.user.name[0] + session.user.surname[0] }}</span>
                 <span class="corner"></span>
             </div>
@@ -118,9 +126,10 @@
 </div>
 
 
+
 <!-- Кнопка добавления нового абонента -->
 <div id="new-contact-button"
-     *ngIf="(this.session.user && this.session.user.isAdministrator) && (!phoneBook.isInFavoritesMode && phoneBook.selectedDivision)"
+    *ngIf="(session.user && session.user.isAdministrator) && (!phoneBook.isInFavoritesMode && !phoneBook.isInUserAccountMode && phoneBook.selectedDivision)"
      (click)="openNewContactModal()"
      title="Добавить нового абонента">
     <i class="fa fa-plus"></i>
@@ -616,8 +625,8 @@
                 <div class="padding-20">
                     <form *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn;" novalidate #phoneForm="ngForm">
                         <div class="margin-bottom-15">
-                            <div class="margin-bottom-5">
-                                <select name="ats" class="ats width-50" [(ngModel)]="phone.atsId">
+                            <div class="input-row margin-bottom-5 width-100">
+                                <select name="ats" class="ats width-60" [(ngModel)]="phone.atsId">
                                     <optgroup label="Внутренние АТС">
                                         <option *ngFor="let innerAts of phoneBook.innerAtsList"
                                                 [ngValue]="innerAts.id"
@@ -631,7 +640,7 @@
                                         </option>
                                     </optgroup>
                                 </select>
-                                <input type="text" name="phone" class="phone-number width-30" placeholder="Введите номер" [(ngModel)]="phone.number" required>
+                                <input type="text" name="phone" class="phone-number width-20" placeholder="Введите номер" [(ngModel)]="phone.number" required>
                                 <div class="width-20">
                                     <button type="button" *ngIf="phoneForm.dirty && phoneForm.valid" class="btn green" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"><i class="fa fa-save"></i></button>
                                     <button type="button" class="btn red" title="Удалить телефон" (click)="deletePhone(phone)"><i class="fa fa-save"></i></button>

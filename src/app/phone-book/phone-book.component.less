@@ -200,6 +200,7 @@
   background-size: cover !important;
   background-repeat: no-repeat !important;
   background-position: center top !important;
+  outline: none;
   //border: 1px solid #EEEEEE;
   //border: 1px solid #EEEEEE;
   border-radius: 50%;
@@ -215,8 +216,6 @@
   .corner {
     position: absolute;
     display: inline-block;
-    //width: 10px;
-    //height: 10px;
     bottom: -14px;
     border-width: 10px;
     border-top: 10px solid transparent;
@@ -226,6 +225,28 @@
     visibility: hidden;
   }
 }
+
+
+  #help-button {
+    &.active {
+      background: #006064;
+      .corner {
+        visibility: visible;
+      }
+    }
+
+    .corner {
+      position: absolute;
+      display: inline-block;
+      bottom: -14px;
+      border-width: 10px;
+      border-top: 10px solid transparent;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid white;
+      visibility: hidden;
+    }
+  }
 
 }
 

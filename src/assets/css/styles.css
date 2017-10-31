@@ -303,6 +303,7 @@
 .btn {
   display: inline-block;
   height: 40px;
+  padding: 10px;
   box-sizing: border-box;
   background: transparent;
   font-family: "Open Sans Regular";
@@ -384,8 +385,13 @@
   font-size: 20px;
 }
 .btn.upload {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  line-height: 40px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 .btn.upload input[type="file"] {
   display: none;

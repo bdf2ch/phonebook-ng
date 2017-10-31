@@ -1,0 +1,27 @@
+#app-favorite-contacts {
+  box-sizing: border-box;
+}
+#app-favorite-contacts #app-favorites-caption {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  margin-bottom: 20px;
+  font-family: 'Open Sans Semi Bold';
+  text-transform: uppercase;
+  font-size: 17px;
+  color: #B0BEC5;
+}
+#app-favorite-contacts #app-favorites-caption .fa {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  font-size: 25px;
+  line-height: 40px;
+  color: #FFC107;
+  text-align: center;
+  background: #E7E7E8;
+  border-radius: 50%;
+}

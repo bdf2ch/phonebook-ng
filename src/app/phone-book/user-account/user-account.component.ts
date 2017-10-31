@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SessionService } from '../session.service';
 import { PhoneBookService } from '../phone-book.service';
 
@@ -7,7 +7,7 @@ import { PhoneBookService } from '../phone-book.service';
     templateUrl: './user-account.component.html',
     styleUrls: ['./user-account.component.css']
 })
-export class UserAccountComponent implements OnInit{
+export class UserAccountComponent {
 
     /**
      * Конструктор
@@ -15,10 +15,9 @@ export class UserAccountComponent implements OnInit{
      * @param phoneBook {PhoneBookService} - PhoneBookService injector
      */
     constructor(private session: SessionService,
-                private phoneBook: PhoneBookService) {};
-
-
-    ngOnInit(): void {
+                private phoneBook: PhoneBookService) {
         this.phoneBook.isInUserAccountMode = true;
+        this.phoneBook.isInFavoritesMode = false;
     };
+
 }

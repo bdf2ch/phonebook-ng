@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, AfterContentChecked } from '@angular/core';
+import { Router } from '@angular/router';
 import { appConfig } from '../app.config';
 import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "./session.service";
@@ -49,7 +50,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private trees: DivisionTreeService,
                 private session: SessionService,
                 private cookies: CookieService,
-                private modals: ModalService) {
+                private modals: ModalService,
+                private router: Router) {
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
         this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
@@ -62,9 +64,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * При наличии избранных контактов у текущего пользователя - показываем избранные контакты
      */
     ngOnInit(): void {
-        if (this.phoneBook.favorites.contacts.length > 0) {
-            this.phoneBook.isInFavoritesMode = true;
-        }
+        //if (this.phoneBook.favorites.contacts.length > 0) {
+            //this.phoneBook.isInFavoritesMode = true;
+        //    this.router.navigate(['favorites'])
+        //}
         if (appConfig.isInTestMode) {
             let i = 0;
             setInterval(() => {
@@ -172,6 +175,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     selectDivision(division: Division): void {
+        this.router.navigate(['/']);
         //console.log(division);
         //this.phoneBook.isInFavoritesMode = false;
         this.phoneBook.selectedDivision = division;

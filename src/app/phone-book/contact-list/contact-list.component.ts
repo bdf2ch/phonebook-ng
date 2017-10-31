@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { PhoneBookService } from "../phone-book.service";
 import { User } from '../../models/user.model';
 import { PhoneBookManagerService } from '../../manager/phone-book-manager.service';
@@ -17,13 +18,17 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
     constructor(private detector: ChangeDetectorRef,
                 private element: ElementRef,
                 private phoneBook: PhoneBookService,
-                private manager: PhoneBookManagerService) {
+                private manager: PhoneBookManagerService,
+                private router: Router) {
         this.container = document.getElementById('app-content');
     };
 
 
     ngOnInit(): void {
-
+        if (!this.phoneBook.selectedDivision && this.phoneBook.favorites.contacts.length > 0) {
+            //this.phoneBook.isInFavoritesMode = true;
+            this.router.navigate(['favorites'])
+        }
     };
 
 
