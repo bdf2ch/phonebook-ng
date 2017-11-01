@@ -19,6 +19,8 @@ import 'rxjs/observable/of';
 import { Subject } from "rxjs/Subject";
 import { isError } from "../models/error.model";
 import { CookieService } from '../utilities/cookies/cookie.services';
+import { Phone } from '../models/phone.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -33,6 +35,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     //@ViewChild(ContactListComponent) list: ContactListComponent;
     private newDivision: Division = new Division();
     private newContact: Contact = new Contact();
+    private newContactPhone: Phone = new Phone();
     private users: User[] = [];
     private usersStream: Observable<User[]>;
     private searchTerms = new Subject<string>();
@@ -55,7 +58,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
         this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
-        console.log('new division', this.newDivision);
+        this.newContactPhone.setupBackup(['atsId', 'number']);
     };
 
 
@@ -430,7 +433,24 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newContact.restoreBackup();
     };
 
+    /**
+     * Открытие модального окна добавления абоненту нового номера телефона
+     */
+    openNewContactPhoneModal(): void {
+        this.modals.open('new-contact-phone-modal');
+    };
 
+
+    /**
+     * Закрытие модального окна добавления абоненту нового номера телефона
+     * @param form {NgForm}
+     */
+    closeNewContactPhoneModal(form: NgForm): void {
+        this.newContactPhone.restoreBackup();
+        form.form.reset({
+            ats: 0
+        });
+    };
 
 
 };

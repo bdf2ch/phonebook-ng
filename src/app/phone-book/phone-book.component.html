@@ -657,9 +657,65 @@
                     </form>
                 </div>
                 <div class="padding-20">
-
+                    <button class="btn blue width-100" (click)="openNewContactPhoneModal()">Добавить телефон</button>
                 </div>
             </tab>
         </tabs>
+    </div>
+</modal>
+
+
+
+
+<!-- Модальное окно добавления абоненту нового номера телефона -->
+<modal [id]="'new-contact-phone-modal'"
+       [title]="'Новый телефонный номер'"
+       [width]="400"
+       (onClose)="closeNewContactPhoneModal(newContactPhoneForm)">
+    <div class="modal-content">
+        <form novalidate class="padding-20" #newContactPhoneForm="ngForm">
+            <div class="margin-bottom-20">
+                <label for="new-contact-phone-ats">АТС</label>
+                <select id="new-contact-phone-ats" name="ats" class="ats width-100" [(ngModel)]="newContactPhone.atsId" required>
+                    <optgroup label="Внутренние АТС">
+                        <option *ngFor="let innerAts of phoneBook.innerAtsList"
+                                [ngValue]="innerAts.id"
+                                [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
+                        </option>
+                    </optgroup>
+                    <optgroup label="Внешние АТС">
+                        <option *ngFor="let outerAts of phoneBook.outerAtsList"
+                                [ngValue]="outerAts.id"
+                                [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
+                        </option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="margin-bottom-20">
+                <label for="new-phone-number">Телефон</label>
+                <input type="text"
+                       name="number"
+                       id="new-phone-number"
+                       class="width-100 margin-top-5"
+                       placeholder="Введите номер телефона"
+                       [(ngModel)]="newContactPhone.number"
+                       required>
+            </div>
+            <div class="width-50 padding-right-5">
+                <button type="submit"
+                        class="btn green width-100 margin-bottom-10"
+                        [disabled]="!newContactPhoneForm.valid && newContactPhone.atsId === 0"
+                        (click)="addContactPhone()">
+                    Добавить
+                </button>
+            </div>
+            <div class="width-50 padding-left-5">
+                <button type="button"
+                        class="btn red width-100"
+                        (click)="this.modals.close('new-contact-phone-modal')">
+                    Отмена
+                </button>
+            </div>
+        </form>
     </div>
 </modal>
