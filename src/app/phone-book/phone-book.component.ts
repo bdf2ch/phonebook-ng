@@ -433,11 +433,36 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newContact.restoreBackup();
     };
 
+
     /**
      * Открытие модального окна добавления абоненту нового номера телефона
      */
     openNewContactPhoneModal(): void {
         this.modals.open('new-contact-phone-modal');
+    };
+
+
+    /**
+     * Добавление абоненту нового номера телефона
+     */
+    addContactPhone(): void {
+        this.manager.addContactPhone(
+            this.phoneBook.selectedContact.id,
+            this.newContactPhone.atsId,
+            this.newContactPhone.number)
+            .subscribe((phone: Phone) => {
+                this.phoneBook.selectedContact.phones.push(phone);
+                this.modals.close();
+            });
+    };
+
+
+    cancelPhoneChanges(phone: Phone, form: NgForm): void {
+        phone.restoreBackup();
+        form.reset({
+            ats: phone.atsId,
+            phone: phone.number
+        });
     };
 
 
@@ -450,6 +475,29 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         form.form.reset({
             ats: 0
         });
+    };
+
+
+    openEditContactPhoneModal(phone: Phone): void {
+        this.phoneBook.selectedContactPhone = phone;
+        this.modals.open('edit-contact-phone-modal');
+    };
+
+
+    closeEditContactPhoneModal(form: NgForm): void {
+        this.modals.close(true);
+        this.phoneBook.selectedContactPhone.restoreBackup();
+    };
+
+
+
+    openDeleteContactPhoneModal(): void {
+        this.modals.open('delete-contact-phone-modal');
+    };
+
+
+    closeDeleteContactPhoneModal(): void {
+        this.modals.close(true);
     };
 
 

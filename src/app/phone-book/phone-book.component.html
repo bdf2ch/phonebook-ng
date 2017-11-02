@@ -623,48 +623,31 @@
             <tab [id]="'contact-phones'" [caption]="'Контактные телефоны'" [width]="'50%'">
                 <!-- Список телефонов абонента с привязкой к АТС -->
                 <div class="padding-20">
-                    <form *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn;" novalidate #phoneForm="ngForm">
-                        <div class="margin-bottom-15">
-                            <div class="input-row margin-bottom-5 width-100">
-                                <select name="ats" class="ats width-60" [(ngModel)]="phone.atsId">
-                                    <optgroup label="Внутренние АТС">
-                                        <option *ngFor="let innerAts of phoneBook.innerAtsList"
-                                                [ngValue]="innerAts.id"
-                                                [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
-                                        </option>
-                                    </optgroup>
-                                    <optgroup label="Внешние АТС">
-                                        <option *ngFor="let outerAts of phoneBook.outerAtsList"
-                                                [ngValue]="outerAts.id"
-                                                [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
-                                        </option>
-                                    </optgroup>
-                                </select>
-                                <input type="text" name="phone" class="phone-number width-20" placeholder="Введите номер" [(ngModel)]="phone.number" required>
-                                <div class="width-20">
-                                    <button type="button" *ngIf="phoneForm.dirty && phoneForm.valid" class="btn green" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"><i class="fa fa-save"></i></button>
-                                    <button type="button" class="btn red" title="Удалить телефон" (click)="deletePhone(phone)"><i class="fa fa-save"></i></button>
-                                </div>
+                    <div class="contact-phones-list width-100">
+                        <div class="contact-phone-item width-100 margin-bottom-20" *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn">
+                            <div class="icon margin-right-10">
+                                <i class="fa fa-phone"></i>
                             </div>
-                            <!--
-                            <div class="input-row">
-                                <input type="text" name="phone" class="phone-number width-100" placeholder="Введите номер" [(ngModel)]="phone.number" required>
-                                <button type="button" *ngIf="phoneForm.dirty && phoneForm.valid" class="btn green" title="Сохранить телефон" (click)="editPhone(phone, phoneForm)"><i class="fa fa-save"></i></button>
-                                <button type="button" class="btn red" title="Удалить телефон" (click)="deletePhone(phone)"><i class="fa fa-save"></i></button>
+                            <div class="phone-details margin-right-15">
+                                <div class="number">{{ phone.number }}</div>
+                                <div class="ats">{{ phoneBook.getAtsById(phone.atsId).title }}</div>
                             </div>
-                            -->
+                            <div class="controls">
+                                <button class="btn blue round margin-right-5" title="Изменить телефон" (click)="openEditContactPhoneModal(phone)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn red round" title="Удалить телефон">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="padding-20">
-                    <button class="btn blue width-100" (click)="openNewContactPhoneModal()">Добавить телефон</button>
+                        <button class="btn blue width-100" (click)="openNewContactPhoneModal()">Добавить телефон</button>
+                    </div>
                 </div>
             </tab>
         </tabs>
     </div>
 </modal>
-
-
 
 
 <!-- Модальное окно добавления абоненту нового номера телефона -->
@@ -713,6 +696,62 @@
                 <button type="button"
                         class="btn red width-100"
                         (click)="this.modals.close('new-contact-phone-modal')">
+                    Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</modal>
+
+
+
+
+<!-- Модальное окно добавления абоненту нового номера телефона -->
+<modal [id]="'edit-contact-phone-modal'"
+       [title]="'Изменение телефонного номера'"
+       [width]="400"
+       (onClose)="closeEditContactPhoneModal(editContactPhoneForm)">
+    <div class="modal-content">
+        <form novalidate class="padding-20" #editContactPhoneForm="ngForm" *ngIf="phoneBook.selectedContactPhone">
+            <div class="margin-bottom-20">
+                <label for="edit-contact-phone-ats">АТС</label>
+                <select id="edit-contact-phone-ats" name="ats" class="ats width-100" [(ngModel)]="phoneBook.selectedContactPhone.atsId" required>
+                    <optgroup label="Внутренние АТС">
+                        <option *ngFor="let innerAts of phoneBook.innerAtsList"
+                                [ngValue]="innerAts.id"
+                                [disabled]="!innerAts.isSelectable">{{ '&#160;'.repeat(innerAts.level * 4) + innerAts.title }}
+                        </option>
+                    </optgroup>
+                    <optgroup label="Внешние АТС">
+                        <option *ngFor="let outerAts of phoneBook.outerAtsList"
+                                [ngValue]="outerAts.id"
+                                [disabled]="!outerAts.isSelectable">{{ '&#160;'.repeat(outerAts.level * 4) + outerAts.title }}
+                        </option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="margin-bottom-20">
+                <label for="edit-contact-phone-number">Телефон</label>
+                <input type="text"
+                       name="number"
+                       id="edit-contact-phone-number"
+                       class="width-100 margin-top-5"
+                       placeholder="Введите номер телефона"
+                       [(ngModel)]="phoneBook.selectedContactPhone.number"
+                       required>
+            </div>
+            <div class="width-50 padding-right-5">
+                <button type="submit"
+                        class="btn green width-100 margin-bottom-10"
+                        [disabled]="!editContactPhoneForm.valid || phoneBook.selectedContactPhone.atsId === 0"
+                        (click)="editContactPhone()">
+                    Сохранить
+                </button>
+            </div>
+            <div class="width-50 padding-left-5">
+                <button type="button"
+                        class="btn red width-100"
+                        (click)="this.modals.close()">
                     Отмена
                 </button>
             </div>

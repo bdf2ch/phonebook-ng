@@ -484,6 +484,63 @@
 .selected-contact-user .clear-user-button:hover {
   color: gray;
 }
+.contact-phones-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: content-box;
+}
+.contact-phones-list .contact-phone-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+}
+.contact-phones-list .contact-phone-item .icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  text-align: center;
+  color: #7E57C2;
+  width: 40px;
+}
+.contact-phones-list .contact-phone-item .icon .fa {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: #D1C4E9;
+  border-radius: 4px;
+}
+.contact-phones-list .contact-phone-item .phone-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Open Sans Regular";
+  font-size: 14px;
+  flex: 1;
+}
+.contact-phones-list .contact-phone-item .phone-details,
+.contact-phones-list .contact-phone-item .phone-details > * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.contact-phones-list .contact-phone-item .phone-details .ats {
+  color: #607D8B;
+}
+.contact-phones-list .contact-phone-item .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
 /* Target landscape smartphones, portrait tablets, narrow desktops */
 @media screen and (min-width: 320px) and (max-width: 800px) {
   #app-header {

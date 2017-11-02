@@ -267,6 +267,11 @@ export class PhoneBookManagerService {
     };
 
 
+    /**
+     * Поиск пользователей
+     * @param query {string}
+     * @returns {Observable<R>}
+     */
     searchUsers(query: string): Observable<User[]> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });

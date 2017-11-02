@@ -562,6 +562,26 @@ label {
   height: 37px !important;
   border-radius: 0px;
 }
+.input-row.phone .ats {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+}
+.input-row.phone .phone {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 30%;
+}
+.input-row.phone .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 /* Target landscape tablets, desktops */
 /* Target landscape smartphones, portrait tablets, narrow desktops */
 @media screen and (min-width: 320px) and (max-width: 800px) {

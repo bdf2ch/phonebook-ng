@@ -102,6 +102,12 @@ export class PhoneBookService {
   get selectedContact(): Contact | null { return this.currentContact };
   set selectedContact(value: Contact | null) { this.currentContact = value };
 
+
+  /* Выбранный абонент */
+  public currentContactPhone: Phone | null = null;
+  get selectedContactPhone(): Phone | null { return this.currentContactPhone };
+  set selectedContactPhone(value: Phone | null) { this.currentContactPhone = value };
+
   /* Строка поиска абонентов */
   public searchQuery: string = '';
   get search(): string { return this.searchQuery };
@@ -312,6 +318,24 @@ export class PhoneBookService {
       this.divisions.forEach((division: Division) => {
           if (division.parentId === organization.id) {
 
+          }
+      });
+      return result;
+  };
+
+
+  getAtsById(atsId: number): ATS | null {
+      let result: ATS | null = null;
+      this.innerAts.forEach((item: ATS, index: number, array: ATS[]) => {
+          if (item.id === atsId) {
+              result = item;
+              return result;
+          }
+      });
+      this.outerAts.forEach((item: ATS, index: number, array: ATS[]) => {
+          if (item.id === atsId) {
+              result = item;
+              return result;
           }
       });
       return result;
