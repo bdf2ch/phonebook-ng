@@ -23,7 +23,7 @@
             <!-- Руководство пользователя -->
             <button type="button"
                     id="help-button"
-                    class="btn round margin-right-10"
+                    class="btn medium round margin-right-10"
                     title="Помощь"
                     routerLink="/help"
                     routerLinkActive="active">
@@ -33,7 +33,7 @@
 
             <!-- Избранные контакты -->
             <button type="button"
-                    class="btn round favorites badged"
+                    class="btn medium round favorites badged"
                     *ngIf="session.user && phoneBook.favorites.contacts.length > 0"
                     routerLink="/favorites"
                     routerLinkActive="active"
@@ -44,7 +44,7 @@
             </button>
 
             <!-- Авторизация пользователя -->
-            <button type="button" class="btn round" (click)="openAuthModal()" title="Войти" *ngIf="session.user === null" title="Авторизация">
+            <button type="button" class="btn medium round" (click)="openAuthModal()" title="Войти" *ngIf="session.user === null" title="Авторизация">
                 <i class="fa fa-sign-in"></i>
             </button>
 
@@ -660,14 +660,14 @@
        [caption]="'Новый телефонный номер'"
        [icon]="'fa fa-phone'"
        [width]="400"
-       [height]="270"
+       [height]="300"
        [depth]="2"
        (onClose)="closeNewContactPhoneModal(newContactPhoneForm)">
     <div class="padding-20">
         <form novalidate #newContactPhoneForm="ngForm">
             <div class="column margin-bottom-20">
                 <label for="new-contact-phone-ats">АТС</label>
-                <select id="new-contact-phone-ats" name="ats" class="ats width-100" [(ngModel)]="newContactPhone.atsId" required>
+                <select id="new-contact-phone-ats" name="ats" class="ats inp medium width-100" [(ngModel)]="newContactPhone.atsId" required>
                     <optgroup label="Внутренние АТС">
                         <option *ngFor="let innerAts of phoneBook.innerAtsList"
                                 [ngValue]="innerAts.id"
@@ -718,14 +718,14 @@
        [caption]="'Изменение телефонного номера'"
        [icon]="'fa fa-phone'"
        [width]="400"
-       [height]="275"
+       [height]="300"
        [depth]="2"
        (onClose)="closeEditContactPhoneModal(editContactPhoneForm)">
     <div class="padding-20">
         <form novalidate #editContactPhoneForm="ngForm" *ngIf="phoneBook.selectedContactPhone">
             <div class="margin-bottom-20">
                 <label for="edit-contact-phone-ats">АТС</label>
-                <select id="edit-contact-phone-ats" name="ats" class="ats width-100" [(ngModel)]="phoneBook.selectedContactPhone.atsId" required>
+                <select id="edit-contact-phone-ats" name="ats" class="inp medium ats width-100" [(ngModel)]="phoneBook.selectedContactPhone.atsId" required>
                     <optgroup label="Внутренние АТС">
                         <option *ngFor="let innerAts of phoneBook.innerAtsList"
                                 [ngValue]="innerAts.id"

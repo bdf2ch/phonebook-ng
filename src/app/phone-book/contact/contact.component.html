@@ -23,11 +23,20 @@
 
             <div class="editor-controls">
                 <!-- Кнопка редактирования информации о контакте -->
+                <!--
                 <i class="control fa fa-pencil"
                    *ngIf="session.user && session.user.isAdministrator"
                    (click)="editContact()"
                    title="Редактировать данные абонента">
                 </i>
+                -->
+
+                <button class="btn blue round"
+                        *ngIf="session.user && session.user.isAdministrator"
+                        (click)="editContact()"
+                        title="Редактировать данные абонента">
+                    <i class="fa fa-pencil"></i>
+                </button>
 
                 <label id="contact-upload-photo-button"
                        class="control btn blue upload round"
@@ -37,11 +46,20 @@
                 </label>
 
                 <!-- Кнопка редактирования информации о контакте -->
+                <!--
                 <i class="control fa fa-sliders"
                    *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
                    (click)="editContactPhoto()"
                    title="Кадрировать фотографию абонента">
                 </i>
+                -->
+
+                <button class="btn blue round"
+                        *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
+                        (click)="editContactPhoto()"
+                        title="Кадрировать фотографию абонента">
+                    <i class="fa fa-sliders"></i>
+                </button>
             </div>
 
 
