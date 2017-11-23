@@ -7,7 +7,7 @@ import { PhoneBookService } from "../phone-book.service";
 import { ContactGroupComponent } from "../contact-group/contact-group.component";
 import {SessionService} from "../session.service";
 import { ContactGroup } from '../../models/contact-group.model';
-import { ModalService } from '../../utilities/modal/modal.service';
+import { ModalsService } from '@bdf2ch/angular-transistor';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class ContactComponent implements  OnInit, OnChanges{
                 public element: ElementRef,
                 private renderer: Renderer2,
                 private session: SessionService,
-                private modals: ModalService) {
+                private modals: ModalsService) {
 
         this.renderer.listen(this.element.nativeElement, 'dragstart', (event: any) => {
             console.log('drag started');
@@ -129,7 +129,7 @@ export class ContactComponent implements  OnInit, OnChanges{
     editContact(): void {
         //this.onEditContactClick.emit(this.contact);
         this.phoneBook.selectedContact = this.contact;
-        this.modals.open('edit-contact-modal');
+        this.modals.get('edit-contact-modal').open();
     };
 
 
@@ -145,6 +145,6 @@ export class ContactComponent implements  OnInit, OnChanges{
     editContactPhoto(): void {
         this.onEditContactPhoto.emit();
         this.phoneBook.selectedContact = this.contact;
-        this.modals.open('edit-contact-photo-modal');
+        this.modals.get('edit-contact-photo-modal').open();
     };
 };

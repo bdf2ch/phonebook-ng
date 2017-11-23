@@ -5,6 +5,9 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { PhoneBookManagerModule } from './manager/manager.module';
+import { AngularTransistorModule } from '@bdf2ch/angular-transistor';
+
+
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './phone-book/phone-book.component';
 import { ContactListComponent } from './phone-book/contact-list/contact-list.component';
@@ -35,8 +38,9 @@ import { CookieService } from './utilities/cookies/cookie.services';
 import { UploadDirective }  from './utilities/upload/upload.directive';
 import { PhotoEditorComponent } from './phone-book/photo-editor/photo-editor.component';
 
-import { ModalComponent } from './utilities/modal/modal.component';
-import { ModalService } from './utilities/modal/modal.service';
+//import { ModalComponent } from './utilities/modal/modal.component';
+//import { ModalComponent } from '@bdf2ch/angular-transistor';
+//import { ModalService } from './utilities/modal/modal.service';
 import { CompanySelectorComponent } from './phone-book/company-selector/company-selector.component';
 import { ExceptSelectedOrganizationPipe } from './phone-book/company-selector/except-selected-organization.pipe';
 import { TabsComponent } from './utilities/tabs/tabs.component';
@@ -81,6 +85,7 @@ const routes: Routes = [
     FormsModule,
     HttpModule,
     PhoneBookManagerModule,
+    AngularTransistorModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
@@ -98,7 +103,7 @@ const routes: Routes = [
     AuthComponent,
     UserMenuComponent,
     EditContactComponent,
-    ModalComponent,
+    //ModalComponent,
     PhotoEditorComponent,
     CompanySelectorComponent,
     FavoritesComponent,
@@ -106,8 +111,8 @@ const routes: Routes = [
     UserAccountComponent,
     UploadDirective,
     ExceptSelectedOrganizationPipe,
-    TabsComponent,
-    TabComponent,
+    //TabsComponent,
+    //TabComponent,
     TypeAheadComponent,
     TypeAheadOptionComponent
   ],
@@ -119,9 +124,10 @@ const routes: Routes = [
     AuthService,
     SessionService,
     CookieService,
-    ModalService,
-    TabsService
+    //ModalService,
+    //TabsService
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  exports: [AngularTransistorModule]
 })
-export class AppModule {};
+export class AppModule {}

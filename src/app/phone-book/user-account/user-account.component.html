@@ -1,5 +1,5 @@
 <div id="user-account" class="padding-20">
-    <div class="user-name">{{ session.user.fio }}</div>
+    <div class="user-name">{{ session.user.name + ' ' + session.user.fname + ' ' + session.user.surname }}</div>
     <div class="user-details">
         <div id="photo" class="width-50">
             <div class="user-photo"
@@ -8,7 +8,7 @@
             </div>
         </div>
         <div id="controls" class="width-50">
-            <label class="btn blue upload margin-bottom-10">
+            <label class="btn blue outline upload margin-bottom-10">
                 Загрузить фотографию
                 <input type="file"
                        name="photo"
@@ -17,9 +17,9 @@
                        (change)="uploadPhoto($event)">
             </label>
 
-            <button class="btn blue margin-bottom-10">Кадрировать фотографию</button>
+            <button class="btn blue outline margin-bottom-10">Кадрировать фотографию</button>
 
-            <button class="btn red">Выйти из учетной записи</button>
+            <button class="btn red outline">Выйти из учетной записи</button>
         </div>
     </div>
 </div>

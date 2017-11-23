@@ -7,7 +7,8 @@ import { Division } from "../models/division.model";
 import { ContactListComponent } from "./contact-list/contact-list.component";
 import {Contact} from "../models/contact.model";
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
-import { ModalService } from '../utilities/modal/modal.service';
+//import { ModalService } from '../utilities/modal/modal.service';
+import { ModalsService } from '@bdf2ch/angular-transistor';
 import { PhoneBookManagerService } from '../manager/phone-book-manager.service';
 import { DivisionTreeService } from './division-tree/division-tree.service';
 import { ContactGroup } from '../models/contact-group.model';
@@ -53,7 +54,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private trees: DivisionTreeService,
                 private session: SessionService,
                 private cookies: CookieService,
-                private modals: ModalService,
+                private modals: ModalsService,
                 private router: Router) {
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
@@ -92,7 +93,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      */
     openAuthModal(): void {
         //this.inAuthMode = true;
-        this.modals.open('authorization-modal');
+        this.modals.get('authorization-modal').open();
     };
 
 
@@ -108,7 +109,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                     name: 'kolenergo',
                     value: result.session.token
                 });
-                this.modals.close();
+                this.modals.get('authorization-modal').close();
             } else {
                 this.authorization.userNotFound = true;
                 console.log('USER NOT FOUND');
@@ -120,10 +121,15 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     /**
      * Закрывает модальное окно авторизации пользователя
      */
-    closeAuthModal(): void {
-        this.authorization.login = '';
-        this.authorization.password = '';
+    closeAuthModal(form: NgForm): void {
+        //this.authorization.login = '';
+        //this.authorization.password = '';
         this.authorization.userNotFound = false;
+        form.form.reset({
+            account: '',
+            password: ''
+        });
+        this.modals.get('authorization-modal');
         //this.inAuthMode = false;
     };
 
@@ -258,7 +264,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     openNewDivisionModal(): void {
         this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : 0;
-        this.modals.open('new-division-modal');
+        this.modals.get('new-division-modal').open();
     };
 
 
@@ -272,13 +278,13 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     addDivision(): void {
         this.manager.addDivision(this.newDivision).subscribe((division: Division) => {
             this.trees.addDivision('phone-book-divisions', division);
-            this.modals.close(false);
+            this.modals.get('new-division-modal').close();
         });
     };
 
 
     openEditDivisionModal(): void {
-        this.modals.open('edit-division-modal');
+        this.modals.get('edit-division-modal').open();
     };
 
 
@@ -294,14 +300,14 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     editDivision(): void {
         this.manager.editDivision(this.phoneBook.selectedDivision).subscribe((result: boolean) => {
             if (result) {
-                this.modals.close(false);
+                this.modals.get('edit-division-modal').close();
             }
         });
     };
 
 
     openDeleteDivisionModal(): void {
-        this.modals.open('delete-division-modal');
+        this.modals.get('delete-division-modal').open();
     };
 
 
@@ -309,7 +315,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * открытие модального окна добавления нового абонента
      */
     openNewContactModal(): void {
-        this.modals.open('new-contact-modal');
+        this.modals.get('new-contact-modal').open();
     };
 
 
@@ -344,7 +350,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                     item.contacts.push(contact);
                 }
             });
-            this.modals.close();
+            this.modals.get('new-contact-modal').close();
         });
     };
 
@@ -371,7 +377,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.manager.editContact(this.phoneBook.selectedContact)
             .subscribe(() => {
                 this.phoneBook.selectedContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
-                this.modals.close(true);
+                this.modals.get('edit-contact-modal').close();
                 this.phoneBook.selectedContact = null;
             });
     };
@@ -438,7 +444,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * Открытие модального окна добавления абоненту нового номера телефона
      */
     openNewContactPhoneModal(): void {
-        this.modals.open('new-contact-phone-modal');
+        this.modals.get('new-contact-phone-modal').open();
     };
 
 
@@ -452,7 +458,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             this.newContactPhone.number)
             .subscribe((phone: Phone) => {
                 this.phoneBook.selectedContact.phones.push(phone);
-                this.modals.close();
+                this.modals.get('new-contact-phone-modal').close();
             });
     };
 
@@ -480,24 +486,30 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     openEditContactPhoneModal(phone: Phone): void {
         this.phoneBook.selectedContactPhone = phone;
-        this.modals.open('edit-contact-phone-modal');
+        this.modals.get('edit-contact-phone-modal').open();
     };
 
 
     closeEditContactPhoneModal(form: NgForm): void {
-        this.modals.close(true);
+        this.modals.get('edit-contact-phone-modal').close();
         this.phoneBook.selectedContactPhone.restoreBackup();
     };
 
 
 
-    openDeleteContactPhoneModal(): void {
-        this.modals.open('delete-contact-phone-modal');
+    openDeleteContactPhoneModal(phone: Phone): void {
+        this.phoneBook.selectedContactPhone = phone;
+        this.modals.get('delete-contact-phone-modal').open();
+    };
+
+
+    deleteContactPhone(): void {
+
     };
 
 
     closeDeleteContactPhoneModal(): void {
-        this.modals.close(true);
+        this.modals.get('delete-contact-phone-modal').close();
     };
 
 
