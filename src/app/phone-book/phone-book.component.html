@@ -490,7 +490,7 @@
        (onClose)="closeEditContactModal(editContactForm)">
     <div class="modal-content" *ngIf="phoneBook.selectedContact">
         <tabs [id]="'edit-contact-tabs'">
-            <tab [id]="'contact-details'" [caption]="'Личные данные'" [icon]="'fa fa-user'" [width]="50">
+            <tab [id]="'contact-details'" [caption]="'Анкета'" [icon]="'fa fa-user'" [width]="33.3">
                 <div class="column width-100 padding-20">
                     <form novalidate #editContactForm="ngForm">
                         <div class="column margin-bottom-10">
@@ -625,7 +625,19 @@
                     </form>
                 </div>
             </tab>
-            <tab [id]="'contact-phones'" [caption]="'Телефоны'" [icon]="'fa fa-phone'" [width]="50">
+            <tab [id]="'contact-location'" [caption]="'Кабинет'" [icon]="'fa fa-map-marker'" [width]="33.3">
+                <div class="column padding-20">
+                    <div class="column margin-bottom-10">
+                        <label for="contact-office">Офис</label>
+                        <select name="contact-office" class="inp medium" id="contact-office"></select>
+                    </div>
+                    <div class="column">
+                        <label for="contact-room">Кабинет</label>
+                        <input type="text" class="inp medium" name="contact-room" id="contact-room">
+                    </div>
+                </div>
+            </tab>
+            <tab [id]="'contact-phones'" [caption]="'Телефоны'" [icon]="'fa fa-phone'" [width]="33.3">
 
                 <div class="padding-20">
                     <div class="contact-phones-list width-100">

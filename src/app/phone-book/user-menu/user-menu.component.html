@@ -9,16 +9,14 @@
         <span class="close-button" (click)="close()" title="Закрыть">&times;</span>
     </div>
     <form novalidate>
+
         <div class="form-title margin-bottom-20">
             {{ session.user.name + ' ' + session.user.surname }}
         </div>
-        <label class="btn blue upload margin-bottom-10 padding-left-20 padding-right-20">
+
+        <label class="btn blue file margin-bottom-10 padding-left-20 padding-right-20">
             Загрузить фотографию
-            <input type="file"
-                   name="photo"
-                   id="user-photo"
-                   encType="multipart/form-data"
-                   (change)="uploadPhoto($event)">
+            <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
         </label>
 
 

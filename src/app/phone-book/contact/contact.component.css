@@ -181,7 +181,7 @@
   color: #B71C1C;
 }
 .contact .contact-info #name-and-position .separator {
-  width: 50%;
+  width: 70%;
   margin-top: 10px;
   margin-bottom: 10px;
   border-top: 1px solid #ECEFF1;
@@ -194,7 +194,7 @@
   padding-top: 0px !important;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 .contact .contact-details .not-specified {
   font-size: 14px;
@@ -220,92 +220,41 @@
   height: 28px;
   max-height: 28px;
   font-family: 'Open Sans Italic';
-  font-size: 14px;
-  line-height: 14px;
+  font-size: 13px;
+  line-height: 13px;
   text-align: center;
   color: #D81B60;
 }
-.contact .contact-details .separator {
-  width: 50%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-top: 1px solid #ECEFF1;
-}
-.contact .contact-details .email {
+.contact .contact-details .detail {
   display: flex;
-  flex-shrink: 0;
-  width: 100%;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 23px;
   font-family: 'Open Sans Regular';
   font-size: 14px;
 }
-.contact .contact-details .email a {
-  color: #039BE5;
-}
-.contact .contact-details .email a:hover {
-  color: #01579B;
-}
-.contact .contact-details .email .fa {
-  width: 23px;
+.contact .contact-details .detail .fa {
+  width: 20px;
   height: 23px;
   margin-right: 10px;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 23px;
-  color: #004D40;
+  color: #0097A7;
   text-align: center;
-  background: #D1C4E9;
-  border-radius: 50%;
 }
-.contact .contact-details .phones {
-  display: flex;
-  width: 100%;
-  flex-shrink: 0;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-bottom: 5px;
-  font-family: 'Open Sans Regular';
-  font-size: 14px;
-}
-.contact .contact-details .phones .fa {
-  width: 23px;
-  height: 23px;
-  margin-right: 10px;
-  font-size: 15px;
-  line-height: 23px;
-  color: #004D40;
-  text-align: center;
-  background: #D1C4E9;
-  border-radius: 50%;
-}
-.contact .contact-details .phones .phone-item {
+.contact .contact-details .detail .detail-item {
   margin-right: 7px;
-  font-family: 'Open Sans Regular';
-  font-size: 14px;
 }
-.contact .contact-details .phones .phone-item:nth-last-child {
+.contact .contact-details .detail .detail-item:last-child {
   margin-right: 0px;
 }
-.contact .contact-details .mobile {
-  display: flex;
-  width: 100%;
-  flex-shrink: 0;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-bottom: 5px;
-  font-family: 'Open Sans Regular';
-  font-size: 14px;
+.contact .contact-details .detail a {
+  color: #29B6F6;
 }
-.contact .contact-details .mobile .fa {
-  width: 23px;
-  height: 23px;
-  margin-right: 10px;
-  font-size: 16px;
-  line-height: 23px;
-  color: #004D40;
-  text-align: center;
-  background: #D1C4E9;
-  border-radius: 50%;
+.contact .contact-details .detail a:hover {
+  color: #0288D1;
 }
 /* Target landscape smartphones, portrait tablets, narrow desktops */
 @media screen and (min-width: 320px) and (max-width: 800px) {

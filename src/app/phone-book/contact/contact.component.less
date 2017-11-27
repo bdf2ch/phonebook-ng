@@ -274,7 +274,7 @@
       }
 
       .separator {
-        width: 50%;
+        width: 70%;
         margin-top: 10px;
         margin-bottom: 10px;
         border-top: 1px solid @separator-color;
@@ -292,7 +292,7 @@
     padding-top: 0px !important;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 
     .not-specified {
       font-size: 14px;
@@ -321,104 +321,50 @@
       height: 28px;
       max-height: 28px;
       font-family: 'Open Sans Italic';
-      font-size: 14px;
-      line-height: 14px;
+      font-size: 13px;
+      line-height: 13px;
       text-align: center;
       color: #D81B60;
     }
 
-    .separator {
-      width: 50%;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      border-top: 1px solid @separator-color;
-    }
 
-    .email {
+    .detail {
       display: flex;
-      flex-shrink: 0;
-      width: 100%;
       flex-direction: row;
       justify-content: flex-start;
-      font-family: 'Open Sans Regular';
-      font-size: 14px;
-
-      a {
-        color: #039BE5;
-        &:hover {
-          color: #01579B;
-        }
-      }
-
-      .fa {
-        width: 23px;
-        height: 23px;
-        margin-right: 10px;
-        font-size: 15px;
-        line-height: 23px;
-        color: #004D40;
-        text-align: center;
-        background: #D1C4E9;
-        border-radius: 50%;
-      }
-    }
-
-    .phones {
-      display: flex;
+      align-items: center;
       width: 100%;
-      flex-shrink: 0;
-      flex-direction: row;
-      justify-content: flex-start;
-      margin-bottom: 5px;
+      height: 23px;
       font-family: 'Open Sans Regular';
       font-size: 14px;
 
       .fa {
-        width: 23px;
+        width: 20px;
         height: 23px;
         margin-right: 10px;
-        font-size: 15px;
+        font-size: 17px;
         line-height: 23px;
-        color: #004D40;
+        color: #0097A7;
         text-align: center;
-        background: #D1C4E9;
-        border-radius: 50%;
       }
 
-      .phone-item {
+      .detail-item {
         margin-right: 7px;
-        font-family: 'Open Sans Regular';
-        font-size: 14px;
-        &:nth-last-child {
+        &:last-child {
           margin-right: 0px;
         }
       }
-    }
 
-    .mobile {
-      display: flex;
-      width: 100%;
-      flex-shrink: 0;
-      flex-direction: row;
-      justify-content: flex-start;
-      margin-bottom: 5px;
-      font-family: 'Open Sans Regular';
-      font-size: 14px;
-
-      .fa {
-        width: 23px;
-        height: 23px;
-        margin-right: 10px;
-        font-size: 16px;
-        line-height: 23px;
-        color: #004D40;
-        text-align: center;
-        background: #D1C4E9;
-        border-radius: 50%;
+      a {
+        color: #29B6F6;
+        &:hover {
+          color: #0288D1;
+        }
       }
-
     }
+
   }
+
 }
 
 

@@ -7,12 +7,6 @@
   height: 100%;
   box-sizing: border-box;
 }
-#user-account button {
-  width: 220px;
-}
-#user-account .upload {
-  width: 220px;
-}
 #user-account .user-name {
   display: flex;
   flex-direction: row;

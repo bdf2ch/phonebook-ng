@@ -7,19 +7,16 @@
                  [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}">
             </div>
         </div>
-        <div id="controls" class="width-50">
-            <label class="btn blue outline upload margin-bottom-10">
+        <div id="controls" class="column width-50">
+
+            <label class="btn medium width-100 blue outline file margin-bottom-10">
                 Загрузить фотографию
-                <input type="file"
-                       name="photo"
-                       id="user-photo"
-                       encType="multipart/form-data"
-                       (change)="uploadPhoto($event)">
+                <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
             </label>
 
-            <button class="btn blue outline margin-bottom-10">Кадрировать фотографию</button>
+            <button class="btn medium width-100 blue outline margin-bottom-10">Кадрировать фотографию</button>
 
-            <button class="btn red outline">Выйти из учетной записи</button>
+            <button class="btn medium width-100 red outline">Выйти из учетной записи</button>
         </div>
     </div>
 </div>

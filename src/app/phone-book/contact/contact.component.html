@@ -38,8 +38,7 @@
                     <i class="fa fa-pencil"></i>
                 </button>
 
-                <label id="contact-upload-photo-button"
-                       class="control btn blue upload round"
+                <label class="btn blue round file"
                        *ngIf="session.user && session.user.isAdministrator">
                     <i class="fa fa-camera"></i>
                     <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
@@ -82,20 +81,25 @@
         <div class="position" [text-overflow]="50">{{ contact.position }}</div>
         <div class="separator"></div>
         -->
-        <div class="phones">
+        <div class="detail">
             <i class="fa fa-phone"></i>
-            <span class="phone-item" *ngFor="let phone of contact.phones">{{ phone._backupData.number }}</span>
+            <span class="detail-item" *ngFor="let phone of contact.phones">{{ phone._backupData.number }}</span>
             <span class="not-specified" *ngIf="contact.phones.length === 0">Телефон не указан</span>
         </div>
-        <div class="mobile">
+        <div class="detail">
             <i class="fa fa-mobile-phone"></i>
             {{ contact._backupData.mobile }}
             <span class="not-specified" *ngIf="contact._backupData.mobile === ''">Моб. телефон не указан</span>
         </div>
-        <div class="email">
+        <div class="detail">
             <i class="fa fa-at"></i>
             <a href="mailto:{{contact._backupData.email}}">{{ contact._backupData.email }}</a>
             <span class="not-specified" *ngIf="contact._backupData.email === ''">E-mail не указан</span>
+        </div>
+        <div class="detail">
+            <i class="fa fa-map-marker"></i>
+            ул. Кирова,  д.1 &mdash; каб. 233
+            <span class="not-specified" *ngIf="contact._backupData.location === ''">Местоположение не указано</span>
         </div>
     </div>
 </div>
