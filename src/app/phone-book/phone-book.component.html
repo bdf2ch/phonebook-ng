@@ -205,11 +205,12 @@
        [caption]="'Новое структурное подразделение'"
        [icon]="'fa fa-building'"
        [width]="400"
-       [height]="phoneBook.selectedDivision ? 295 : 225"
+       [height]="phoneBook.selectedDivision ? 295 : 222"
        (onClose)="closeNewDivisionModal(newDivisionForm)">
     <div class="modal-content">
-        <form novalidate class="padding-20" #newDivisionForm="ngForm">
-            <div class="margin-bottom-10" *ngIf="phoneBook.selectedDivision">
+        <form novalidate class="column" #newDivisionForm="ngForm">
+
+            <div class="padding-20 margin-bottom-10" *ngIf="phoneBook.selectedDivision">
                 <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
                 <input type="text"
                        name="parent"
@@ -219,7 +220,7 @@
                        [value]="phoneBook.selectedDivision.title"
                        disabled>
             </div>
-            <div class="margin-bottom-20">
+            <div class="padding-20">
                 <label for="new-division-title">Наименование структурного подразделения</label>
                 <input type="text"
                        name="title"
@@ -231,7 +232,7 @@
                        #title="ngModel"
                        required>
             </div>
-            <div class="row width-100">
+            <div class="row width-100 padding-left-20 padding-right-20 padding-top-10 padding-bottom-10 form-footer">
                 <button type="submit"
                         class="btn medium green width-50 margin-right-5"
                         [disabled]="!newDivisionForm.valid"
@@ -485,7 +486,7 @@
        [caption]="'Изменение данных абонента'"
        [icon]="'fa fa-user'"
        [width]="550"
-       [height]="phoneBook.selectedContact && phoneBook.selectedContact.user ? 700 : 675"
+       [height]="phoneBook.selectedContact && phoneBook.selectedContact.user ? 680 : 675"
        [depth]="1"
        (onClose)="closeEditContactModal(editContactForm)">
     <div class="modal-content" *ngIf="phoneBook.selectedContact">

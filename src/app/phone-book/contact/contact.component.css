@@ -6,13 +6,9 @@
   width: 260px;
   margin-bottom: 40px;
   box-sizing: border-box;
-  border-right: 1px solid #ECEFF1;
-  border-left: 1px solid #ECEFF1;
-  border-bottom: 2px solid #ECEFF1;
-  border-top: 1px solid #ECEFF1;
   background: white;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 .contact.two-in-row.second {
   margin-right: 0px !important;
@@ -186,8 +182,8 @@
 }
 .contact .contact-info #name-and-position .separator {
   width: 70%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   border-top: 1px solid #ECEFF1;
 }
 .contact .contact-details {

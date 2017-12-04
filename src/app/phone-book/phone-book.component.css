@@ -341,7 +341,9 @@
   padding-left: 20px;
   padding-right: 20px;
   margin-top: -60px;
+  box-sizing: border-box;
   background: #F0F4C3;
+  border-bottom: 1px solid #FFE0B2;
   -webkit-transition: margin-top linear 0.4s;
   -moz-transition: margin-top linear 0.4s;
   -ms-transition: margin-top linear 0.4s;
