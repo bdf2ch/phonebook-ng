@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Division } from "../../models/Division.model";
+import { Division } from "../../models/division.model";
 
 
 @Pipe({

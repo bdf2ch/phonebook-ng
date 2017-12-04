@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy, Component, ElementRef, Input, Renderer2, ViewEncapsulation, OnInit, NgZone,
 } from '@angular/core';
-import { Division } from "../../../models/Division.model";
+import { Division } from "../../../models/division.model";
 import { DivisionTreeComponent } from "../division-tree.component";
 import { PhoneBookService } from "../../phone-book.service";
 import { PhoneBookManagerService } from '../../../manager/phone-book-manager.service';

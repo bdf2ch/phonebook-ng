@@ -1,4 +1,4 @@
-import { Division, IDivision } from "./Division.model";
+import { Division, IDivision } from "./division.model";
 import { Contact, IContact } from "./contact.model";
 
 
