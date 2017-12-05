@@ -26,21 +26,16 @@
 .division-tree-item-component .item-details.drag-over {
   background: #FFECB3;
 }
+.division-tree-item-component .item-details.root .title {
+  font-size: 13px;
+  text-transform: uppercase;
+}
 .division-tree-item-component .item-details.nested {
   background: transparent;
-}
-.division-tree-item-component .item-details.nested:hover .title {
-  border-bottom: 1px solid transparent !important;
-}
-.division-tree-item-component .item-details.last .title {
-  border-bottom: 1px solid transparent !important;
 }
 .division-tree-item-component .item-details .title {
   padding-bottom: 10px;
   margin-left: 10px;
-}
-.division-tree-item-component .item-details.selected .title {
-  border-bottom: 1px solid transparent !important;
 }
 .division-tree-item-component .item-details .arrow {
   display: flex;
@@ -65,7 +60,6 @@
   line-height: 14px;
 }
 .division-tree-item-component .item-children.selected {
-  border-bottom: 1px solid #e2e6e9;
   /*border-top: 1px solid #D0E1ED;*/
 }
 .division-tree-item-component .item-children.selected .item-details {
@@ -73,9 +67,6 @@
 }
 .division-tree-item-component .item-children.selected .item-details:hover {
   background: #e2e6e9;
-}
-.division-tree-item-component .item-children.selected .item-details .title {
-  border-bottom: 1px solid #eceff1;
 }
 .division-tree-item-component .item-children.selected .item-details .item-details:last-of-type {
   border: 1px solid red;

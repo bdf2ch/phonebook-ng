@@ -13,17 +13,28 @@
   font-size: 17px;
   color: #B0BEC5;
 }
-#app-favorite-contacts #app-favorites-caption .fa {
+#app-favorite-contacts #app-favorites-caption .caption {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  box-shadow: inset 0px 1px 1px #BDBDBD;
+  background: #EEEEEE;
+  border-radius: 25px;
+}
+#app-favorite-contacts #app-favorites-caption .caption .fa {
   display: inline-block;
   width: 40px;
   height: 40px;
-  margin-right: 20px;
+  margin-right: 5px;
   font-size: 25px;
   line-height: 40px;
   color: #FFC107;
   text-align: center;
-  background: #E7E7E8;
   border-radius: 50%;
-  box-shadow: inset 0px 1px 1px #BDBDBD;
   text-shadow: none;
 }

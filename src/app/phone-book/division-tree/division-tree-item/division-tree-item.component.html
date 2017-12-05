@@ -1,7 +1,7 @@
 <div class="division-tree-item-component">
     <div class="item-details"
          (click)="tree.selectDivision(division)"
-         [ngClass]="{ 'selected': division.isSelected === true, 'last': last === true, 'nested': level > 0 }"
+         [ngClass]="{ 'selected': division.isSelected === true, 'last': last === true, 'nested': level > 0, 'root': level === 0 }"
          [ngStyle]="{ 'padding-left': 15 * level + 'px' }">
         <div class="title">{{ division._backupData.title }}</div>
         <div class="arrow">
