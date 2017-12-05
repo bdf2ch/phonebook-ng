@@ -245,10 +245,17 @@
   text-align: center;
 }
 .contact .contact-details .detail .detail-item {
-  margin-right: 7px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.contact .contact-details .detail .detail-item:last-child {
-  margin-right: 0px;
+.contact .contact-details .detail .detail-item .separator {
+  display: flex;
+  width: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 7px;
+  color: #B0BEC5;
 }
 .contact .contact-details .detail a {
   color: #29B6F6;

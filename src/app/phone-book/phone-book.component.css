@@ -204,7 +204,7 @@
   align-items: stretch;
   width: 350px;
   box-sizing: border-box;
-  background: #FAFAFA;
+  background: white;
   transition: width 0.2s linear 0s;
 }
 #app-divisions #app-divisions-header {
@@ -260,7 +260,7 @@
 #app-divisions #app-divisions-header button .fa {
   margin-left: auto;
   margin-right: auto;
-  font-size: 20px;
+  font-size: 25px !important;
   color: #80CBC4;
 }
 #app-divisions #app-divisions-header button.favorites {
@@ -343,7 +343,7 @@
   margin-top: -60px;
   box-sizing: border-box;
   background: #F0F4C3;
-  border-bottom: 1px solid #FFE0B2;
+  border-bottom: 2px solid #E0E0E0;
   -webkit-transition: margin-top linear 0.4s;
   -moz-transition: margin-top linear 0.4s;
   -ms-transition: margin-top linear 0.4s;
@@ -506,7 +506,7 @@
 }
 .contact-phones-list .contact-phone-item .phone-details {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   font-family: "Open Sans Regular";
   font-size: 14px;
@@ -528,7 +528,7 @@
   align-items: center;
 }
 .form-footer {
-  background: #FAFAFA;
+  background: #F5F5F5;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }

@@ -34,9 +34,9 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private isAtsPanelOpened: boolean = false;
     private sourceAtsId: number;
     //@ViewChild(ContactListComponent) list: ContactListComponent;
-    private newDivision: Division = new Division();
-    private newContact: Contact = new Contact();
-    private newContactPhone: Phone = new Phone();
+    private newDivision: Division;
+    private newContact: Contact;
+    private newContactPhone: Phone;
     private users: User[] = [];
     private usersStream: Observable<User[]>;
     private searchTerms = new Subject<string>();
@@ -56,9 +56,13 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private cookies: CookieService,
                 private modals: ModalsService,
                 private router: Router) {
+        this.newDivision = new Division();
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
+        console.log('new division after construct', this.newDivision);
+        this.newContact = new Contact();
         this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
+        this.newContactPhone = new Phone();
         this.newContactPhone.setupBackup(['atsId', 'number']);
     };
 
@@ -263,7 +267,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     openNewDivisionModal(): void {
-        this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : 0;
+        this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
         this.modals.get('new-division-modal').open();
     };
 
@@ -290,10 +294,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     closeEditDivisionModal(form?: any): void {
         this.phoneBook.selectedDivision.restoreBackup();
-        if (form)
+        if (form) {
             form.reset({
                 title: this.phoneBook.selectedDivision.title
             });
+        }
     };
 
 
@@ -325,6 +330,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      */
     closeNewContactModal(form?: any): void {
         this.newContact.restoreBackup();
+        this.newContact.user = null;
         if (form) {
             form.reset({
                 surname: this.newContact.surname,
@@ -366,9 +372,14 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * @param form {any} - форма редактирования данных абонента
      */
     clearSelectedContactUser(form: any): void {
-        this.selectedContactUserBackup = this.phoneBook.selectedContact.user;
-        this.phoneBook.selectedContact.userId = 0;
-        this.phoneBook.selectedContact.user = null;
+        if (this.phoneBook.selectedContact) {
+            this.selectedContactUserBackup = this.phoneBook.selectedContact.user;
+            this.phoneBook.selectedContact.userId = 0;
+            this.phoneBook.selectedContact.user = null;
+        } else {
+            this.newContact.restoreBackup();
+            this.newContact.user = null;
+        }
         form.form.markAsDirty();
     };
 
@@ -388,7 +399,6 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * @param form {any} - форма редактирования данных абонента
      */
     closeEditContactModal(form: any): void {
-        //this.modals.close(true);
         this.phoneBook.selectedContact.restoreBackup();
         if (this.selectedContactUserBackup) {
             this.phoneBook.selectedContact.user = this.selectedContactUserBackup;
@@ -419,12 +429,14 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     onUserSearchSelect(user: User, form?: any): void {
         this.users = [];
         if (!this.phoneBook.selectedContact) {
+            this.newContact.user = user;
             this.newContact.userId = user.id;
             this.newContact.surname = user.surname;
             this.newContact.name = user.name;
             this.newContact.fname = user.fname;
             this.newContact.position = user.position;
             this.newContact.email = user.email;
+            this.newContact.photo = user.photo;
         } else {
             this.phoneBook.selectedContact.userId = user.id;
             this.phoneBook.selectedContact.user = user;

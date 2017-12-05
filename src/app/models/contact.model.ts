@@ -32,6 +32,7 @@ export class Contact extends Model {
   positionTrimmed: string;
   email: string;
   phones: Phone[] = [];
+  visiblePhones: Phone[] = [];
   mobile: string;
   photo: string ;
   photoTop: number = 0;
@@ -76,6 +77,9 @@ export class Contact extends Model {
           const phone = new Phone(item);
           phone.setupBackup(['atsId', 'number']);
           this.phones.push(phone);
+          if (index === 0 || index === 1) {
+            this.visiblePhones.push(phone);
+          }
         });
       }
     }

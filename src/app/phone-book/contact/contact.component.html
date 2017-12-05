@@ -83,7 +83,11 @@
         -->
         <div class="detail">
             <i class="fa fa-phone"></i>
-            <span class="detail-item" *ngFor="let phone of contact.phones">{{ phone._backupData.number }}</span>
+            <span class="detail-item" *ngFor="let phone of contact.visiblePhones; last as isLast">
+                {{ phone._backupData.number }}
+                <i class="separator fa fa-circle" *ngIf="!isLast"></i>
+            </span>
+            <i class="fa fa-ellipsis-h more" *ngIf="contact.phones.length > 2"></i>
             <span class="not-specified" *ngIf="contact.phones.length === 0">Телефон не указан</span>
         </div>
         <div class="detail">

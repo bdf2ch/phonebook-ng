@@ -14,13 +14,15 @@
   align-items: center;
   width: 250px;
   height: 250px;
-  font-family: 'Open Sans Regular';
-  font-size: 17px;
-  line-height: 17px;
-  color: #455A64;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 14px;
+  color: #90A4AE;
   text-align: center;
   background: #ECEFF1;
   border-radius: 50%;
+  box-shadow: inset 0px 1px 1px #BDBDBD;
 }
 .stub-component .stub .fa {
   margin-bottom: 15px;

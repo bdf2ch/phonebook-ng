@@ -24,4 +24,6 @@
   text-align: center;
   background: #E7E7E8;
   border-radius: 50%;
+  box-shadow: inset 0px 1px 1px #BDBDBD;
+  text-shadow: none;
 }

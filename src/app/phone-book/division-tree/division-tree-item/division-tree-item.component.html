@@ -3,11 +3,11 @@
          (click)="tree.selectDivision(division)"
          [ngClass]="{ 'selected': division.isSelected === true, 'last': last === true, 'nested': level > 0 }"
          [ngStyle]="{ 'padding-left': 15 * level + 'px' }">
+        <div class="title">{{ division._backupData.title }}</div>
         <div class="arrow">
             <i class="fa fa-caret-right" *ngIf="division.children.length > 0 && !division.isOpened"></i>
             <i class="fa fa-caret-down" *ngIf="division.children.length > 0 && division.isOpened"></i>
         </div>
-        <div class="title">{{ division._backupData.title }}</div>
     </div>
     <div class="item-children"
          *ngIf="division.children.length > 0 && division.isOpened"
