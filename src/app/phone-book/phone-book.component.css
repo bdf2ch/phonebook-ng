@@ -506,7 +506,7 @@
 }
 .contact-phones-list .contact-phone-item .phone-details {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   font-family: "Open Sans Regular";
   font-size: 14px;

@@ -6,6 +6,8 @@ import { IUser, User } from './user.model';
 export interface IContact {
   id: number;
   user_id?: number;
+  organization_id: number;
+  office_id: number;
   division_id: number;
   surname: string;
   name: string;
@@ -24,6 +26,8 @@ export interface IContact {
 export class Contact extends Model {
   readonly id: number = 0;
   userId: number = 0;
+  organizationId: number = 0;
+  officeId: number = 0;
   divisionId: number = 0;
   surname: string = "";
   name: string = "";
@@ -46,6 +50,10 @@ export class Contact extends Model {
 
   constructor (config?: IContact) {
     super();
+    this.organizationId = config && config.organization_id ? config.organization_id : 0;
+    this.officeId = config && config.office_id ? config.office_id : 0;
+
+
     if (config) {
       this.id = config.id;
       this.userId = config.user_id;

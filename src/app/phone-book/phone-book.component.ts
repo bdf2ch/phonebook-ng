@@ -525,4 +525,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-};
+
+    closeDeleteContactModal(): void {
+        this.modals.get('delete-contact-modal').close();
+        this.phoneBook.selectedContact = null;
+    };
+
+}

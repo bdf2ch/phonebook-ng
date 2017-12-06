@@ -96,10 +96,36 @@ export class PhoneBookManagerService {
 
 
     /**
+     * Удаление абонента
+     * @param {Contact} contact - удаляемый абонент
+     * @returns {Observable<boolean>}
+     */
+    deleteContact(contact: Contact): Observable<boolean> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+        let params = {
+            action: "deleteContact",
+            data: {
+                contactId: contact.id
+            }
+        };
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, params, options)
+            .map((res: Response) => {
+                this.loading = false;
+                return res.json();
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
+
+
+    /**
      * Перемещение абонента в структурное подразделение
      * @param contact {Contact} - перемещаемый абонент
      * @param division {Division} - целевое структурное подразделение
      * @param group {ContactGroup} - группа контактов, к которой относится перемещаемый абонент
+     * @param sourceAtsId {number} - идентификатор исходящей АТС
      * @returns {Observable<R>}
      */
     setContactDivision(contact: Contact, division: Division, group: ContactGroup, sourceAtsId: number): Observable<Contact> {

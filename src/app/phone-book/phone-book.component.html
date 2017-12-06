@@ -217,7 +217,7 @@
        [caption]="'Новое структурное подразделение'"
        [icon]="'fa fa-building'"
        [width]="400"
-       [height]="phoneBook.selectedDivision ? 305 : 220"
+       [height]="phoneBook.selectedDivision ? 302 : 220"
        (onClose)="closeNewDivisionModal(newDivisionForm)">
     <div class="modal-content">
         <form novalidate class="column width-100" #newDivisionForm="ngForm">
@@ -695,8 +695,28 @@
                     <tab [id]="'contact-location'" [caption]="'местоположение'" [icon]="'fa fa-map-marker'" [width]="33.3">
                         <div class="column padding-20">
                             <div class="column margin-bottom-10">
+                                <label for="contact-organization">Организация</label>
+                                <select id="contact-organization"
+                                        name="organization"
+                                        class="inp medium width-100"
+                                        [(ngModel)]="phoneBook.selectedContact.organizationId"
+                                        required>
+                                    <option *ngFor="let org of phoneBook.organizations"
+                                            [ngValue]="org.id">{{ org.title }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="column margin-bottom-10">
                                 <label for="contact-office">Офис</label>
-                                <select name="contact-office" class="inp medium" id="contact-office"></select>
+                                <select id="contact-office"
+                                        name="office"
+                                        class="inp medium width-100"
+                                        [(ngModel)]="phoneBook.selectedContact.organizationId"
+                                        required>
+                                    <option *ngFor="let org of phoneBook.organizations"
+                                            [ngValue]="org.id">{{ org.title }}
+                                    </option>
+                                </select>
                             </div>
                             <div class="column">
                                 <label for="contact-room">Кабинет</label>
@@ -822,7 +842,6 @@
 </modal>
 
 
-
 <!-- Модальное окно изменения телефонного номера абонента -->
 <modal [id]="'edit-contact-phone-modal'"
        [caption]="'Изменение телефонного номера'"
@@ -890,7 +909,6 @@
 </modal>
 
 
-
 <!-- Модальное окно удаления телефонного номера абонента -->
 <modal [id]="'delete-contact-phone-modal'"
        [caption]="'Удаление телефонного номера'"
@@ -899,7 +917,7 @@
        [height]="188"
        [depth]="2"
        (onClose)="closeDeleteContactPhoneModal()">
-    <form class="column width-100" novalidate #editContactPhoneForm="ngForm" *ngIf="phoneBook.selectedContactPhone">
+    <form class="column width-100" novalidate #deleteContactPhoneForm="ngForm" *ngIf="phoneBook.selectedContactPhone">
         <div class="row padding-top-25 padding-bottom-25 vertical-center horizontal-center">
             <span>Телефонный номер <b>{{ phoneBook.selectedContactPhone.number }}</b> будет удален.</span>
         </div>
@@ -917,3 +935,32 @@
         </div>
     </form>
 </modal>
+
+
+<!-- Модальное окно удаления абонента -->
+<modal [id]="'delete-contact-modal'"
+       [caption]="'Удаление абонента'"
+       [icon]="'fa fa-user'"
+       [width]="400"
+       [height]="188"
+       [depth]="2"
+       (onClose)="closeDeleteContactModal()">
+    <form class="column width-100" novalidate #deleteContactForm="ngForm" *ngIf="phoneBook.selectedContact">
+        <div class="row padding-top-25 padding-bottom-25 vertical-center horizontal-center">
+            <span>Абонент <b>{{ phoneBook.selectedContact.fio }}</b> будет удален.</span>
+        </div>
+        <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
+            <button type="submit"
+                    class="btn medium green width-50 margin-right-5"
+                    (click)="deleteContact()">
+                Удалить
+            </button>
+            <button type="button"
+                    class="btn medium red width-50 margin-left-5"
+                    (click)="modals.get('delete-contact-modal').close()">
+                Отмена
+            </button>
+        </div>
+    </form>
+</modal>
+

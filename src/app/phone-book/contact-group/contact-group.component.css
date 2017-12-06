@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  box-sizing: border-box;
 }
 .contact-group-component .divisions {
   display: flex;
@@ -10,18 +11,13 @@
   align-items: flex-end;
   flex-wrap: wrap;
   margin-bottom: 15px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 5px 15px;
   box-sizing: border-box;
   font-family: 'Open Sans Regular';
   font-size: 14px;
   color: #90A4AE;
   border-bottom: 1px dotted #CFD8DC;
-  border-top: 1px dotted #CFD8DC;
   vertical-align: bottom;
-  background: #FAFAFA;
 }
 .contact-group-component .divisions .organization {
   width: 100%;

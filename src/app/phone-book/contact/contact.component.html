@@ -31,13 +31,6 @@
                 </i>
                 -->
 
-                <button class="btn blue round"
-                        *ngIf="session.user && session.user.isAdministrator"
-                        (click)="editContact()"
-                        title="Редактировать данные абонента">
-                    <i class="fa fa-pencil"></i>
-                </button>
-
                 <label class="btn blue round file"
                        *ngIf="session.user && session.user.isAdministrator">
                     <i class="fa fa-camera"></i>
@@ -58,6 +51,20 @@
                         (click)="editContactPhoto()"
                         title="Кадрировать фотографию абонента">
                     <i class="fa fa-sliders"></i>
+                </button>
+
+                <button class="btn blue round"
+                        *ngIf="session.user && session.user.isAdministrator"
+                        (click)="editContact()"
+                        title="Редактировать данные абонента">
+                    <i class="fa fa-pencil"></i>
+                </button>
+
+                <button class="btn red round"
+                        *ngIf="session.user && session.user.isAdministrator"
+                        (click)="deleteContact(contact)"
+                        title="удалить абонента">
+                    <i class="fa fa-trash"></i>
                 </button>
             </div>
 
@@ -87,7 +94,6 @@
                 {{ phone._backupData.number }}
                 <i class="separator fa fa-circle" *ngIf="!isLast"></i>
             </span>
-            <i class="fa fa-ellipsis-h more" *ngIf="contact.phones.length > 2"></i>
             <span class="not-specified" *ngIf="contact.phones.length === 0">Телефон не указан</span>
         </div>
         <div class="detail">

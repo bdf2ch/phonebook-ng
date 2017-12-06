@@ -158,6 +158,20 @@ module.exports = {
 
 
     /**
+     * Удаление абонента
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: *[], func: string}}
+     */
+    deleteContact: (parameters) => {
+        return {
+            text: 'SELECT delete_contact($1)',
+            values: [parameters.data.contactId],
+            func: 'delete_contact'
+        }
+    },
+
+
+    /**
      * Добавление абонента в избранные
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*], func: string}}

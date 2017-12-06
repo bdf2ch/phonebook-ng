@@ -1,5 +1,5 @@
 @item-background-color: transparent;
-@item-header-background-color-selected: #78909C;
+@item-header-background-color-selected: black;
 
 
 .division-tree-item-component {
@@ -27,7 +27,7 @@
     padding-left: 10px;
     box-sizing: border-box;
     color: #455A64;
-    border-left: 0px solid transparent;
+    //border-left: 0px solid transparent;
     //border-bottom: 1px solid #B0BEC5;
     cursor: pointer;
     background: @item-background-color;
@@ -61,6 +61,7 @@
 
     &.root {
       .title {
+        font-family: "Open Sans Semi Bold";
         font-size: 13px;
         text-transform: uppercase;
       }
@@ -70,6 +71,7 @@
       background: transparent;
       //margin: 5px;
       &:hover {
+        background: #eceff1;
         .title {
           //border-bottom: 1px solid transparent !important;
         }
@@ -106,7 +108,7 @@
       //margin-left: 0px;
       //border-left: 4px solid #8CAEC6;
       //border-bottom: 2px solid lightgrey;
-      //color: white;
+      color: #01579B;
       .title {
           //font-family: 'Open Sans Semi Bold';
         //border-bottom: 1px solid transparent !important;
@@ -167,7 +169,7 @@
 
 
       .item-details {
-          border-bottom: 1px solid transparent;
+          //border-bottom: 1px solid transparent;
         &:hover {
           background: #e2e6e9;
         }
@@ -184,7 +186,7 @@
             //border-bottom: 1px solid transparent;
             //border: 1px solid red;
           }
-          border: 1px solid red;
+          //border: 1px solid red;
         }
 
       }
