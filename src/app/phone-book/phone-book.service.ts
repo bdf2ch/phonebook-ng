@@ -16,6 +16,7 @@ import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 import { API, uploadURL, appConfig } from '../app.config';
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
+import {Office} from "../models/office.model";
 
 
 @Injectable()
@@ -40,6 +41,11 @@ export class PhoneBookService {
   public organizationList: Division[] = [];
   get organizations(): Division[] { return this.organizationList };
   set organizations(value: Division[]) { this.organizationList = value; };
+
+    /* Перечень офисов организаций */
+    public officeList: Office[] = [];
+    get offices(): Office[] { return this.officeList };
+    set offices(value: Office[]) { this.officeList = value; };
 
   /* Перечень структурных подразделений */
   public divisionsList: Division[] = [];
@@ -350,7 +356,14 @@ export class PhoneBookService {
   searchContacts(userId?: number): Observable<ContactGroup[]>|null {
     let headers = new Headers({ "Content-Type": "application/json" });
     let options = new RequestOptions({ headers: headers });
-    let params = { action: "searchContacts", data: { search: this.searchQuery, sourceAtsId: this.currentAts.id, userId: userId ? userId : 0 }};
+    let params = {
+        action: "searchContacts",
+        data: {
+            search: this.searchQuery,
+            sourceAtsId: this.currentAts.id,
+            userId: userId ? userId : 0
+        }
+    };
     this.searchMode = true;
     this.isInSearchMode = true;
     this.isInFavoritesMode = false;

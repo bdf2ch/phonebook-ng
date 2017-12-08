@@ -36,22 +36,35 @@ export class DivisionTreeItemComponent implements OnInit {
 
         this.zones.runOutsideAngular(() => {
             this.element.nativeElement.addEventListener('dragenter', (event: any) => {
-                console.log('dragenter');
-                //this.renderer.addClass(event.target, 'drag-over');
-                this.element.nativeElement.classList.add('drag-over');
+                //console.log('dragenter');
+                this.renderer.addClass(event.target, 'drag-over');
+                //this.element.nativeElement.classList.add('drag-over');
             });
 
-
             this.element.nativeElement.addEventListener('dragover', (event: any) => {
-                console.log('dragover');
+                //console.log('dragover');
                 event.preventDefault();
                 //this.renderer.removeClass(event.target, 'drag-over');
-
             });
 
             this.element.nativeElement.addEventListener('dragleave', (event: any) => {
-                console.log('dragleave');
-                this.element.nativeElement.classList.remove('drag-over');
+                //console.log('dragleave');
+                //this.element.nativeElement.classList.remove('drag-over');
+                this.renderer.removeClass(event.target, 'drag-over');
+            });
+
+            this.element.nativeElement.addEventListener('drop', (event: any) => {
+                event.stopPropagation();
+                console.log(event);
+                console.log('drop conatctId = ', event.dataTransfer.getData('contactId'), ', division id = ', this.division.id);
+                console.log('now dragging', this.phoneBook.nowDragging);
+                if (this.phoneBook.nowDragging !== null) {
+                    this.phoneBookManager.setContactDivision(this.phoneBook.nowDragging.contact, this.division, this.phoneBook.nowDragging.group, this.phoneBook.selectedAts.id)
+                        .subscribe((contact: Contact) => {
+                            console.log(contact);
+                            this.renderer.removeClass(event.target, 'drag-over');
+                        });
+                }
             });
         });
 
@@ -69,11 +82,12 @@ export class DivisionTreeItemComponent implements OnInit {
         //});
 
 
-        this.renderer.listen(this.element.nativeElement, 'dragleave', (event: any) => {
-            this.renderer.removeClass(event.target, 'drag-over');
-        });
+        //this.renderer.listen(this.element.nativeElement, 'dragleave', (event: any) => {
+        //    this.renderer.removeClass(event.target, 'drag-over');
+        //});
 
 
+        /*
         this.renderer.listen(this.element.nativeElement, 'drop', (event: any) => {
             event.stopPropagation();
             console.log(event);
@@ -86,6 +100,7 @@ export class DivisionTreeItemComponent implements OnInit {
                     });
             }
         });
+        */
 
 
     };

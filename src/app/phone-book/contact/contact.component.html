@@ -7,9 +7,7 @@
              [ngStyle]="
                 {
                     'background': contact.photo !== '' ? 'url(http://10.50.0.153:4444' + contact.photo +  ')' : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center',
-                    'background-size': contact.photoZoom !== 0 ? contact.photoZoom + '%' : 'contain !important',
-                    'background-position-x': contact.photoLeft + 'px',
-                    'background-position-y': contact.photoTop + 'px'
+                    'background-size': contact.photoZoom !== 0 ? contact.photoZoom + '%' : 'contain !important'
                 }">
 
 
@@ -22,48 +20,27 @@
 
 
             <div class="editor-controls">
-                <!-- Кнопка редактирования информации о контакте -->
-                <!--
-                <i class="control fa fa-pencil"
-                   *ngIf="session.user && session.user.isAdministrator"
-                   (click)="editContact()"
-                   title="Редактировать данные абонента">
-                </i>
-                -->
-
-                <label class="btn blue round file"
-                       *ngIf="session.user && session.user.isAdministrator">
-                    <i class="fa fa-camera"></i>
-                    <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
-                </label>
-
-                <!-- Кнопка редактирования информации о контакте -->
-                <!--
-                <i class="control fa fa-sliders"
-                   *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
-                   (click)="editContactPhoto()"
-                   title="Кадрировать фотографию абонента">
-                </i>
-                -->
-
-                <button class="btn blue round"
-                        *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
-                        (click)="editContactPhoto()"
-                        title="Кадрировать фотографию абонента">
-                    <i class="fa fa-sliders"></i>
-                </button>
-
-                <button class="btn blue round"
+                <button class="btn blue round small"
                         *ngIf="session.user && session.user.isAdministrator"
                         (click)="editContact()"
                         title="Редактировать данные абонента">
                     <i class="fa fa-pencil"></i>
                 </button>
-
-                <button class="btn red round"
+                <label class="btn blue round file small"
+                       *ngIf="session.user && session.user.isAdministrator">
+                    <i class="fa fa-camera"></i>
+                    <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
+                </label>
+                <button class="btn blue round small"
+                        *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
+                        (click)="editContactPhoto()"
+                        title="Кадрировать фотографию абонента">
+                    <i class="fa fa-sliders"></i>
+                </button>
+                <button class="btn red round small"
                         *ngIf="session.user && session.user.isAdministrator"
                         (click)="deleteContact(contact)"
-                        title="удалить абонента">
+                        title="Удалить абонента">
                     <i class="fa fa-trash"></i>
                 </button>
             </div>
@@ -91,7 +68,7 @@
         <div class="detail">
             <i class="fa fa-phone"></i>
             <span class="detail-item" *ngFor="let phone of contact.visiblePhones; last as isLast">
-                {{ phone._backupData.number }}
+                {{ phone.title }}
                 <i class="separator fa fa-circle" *ngIf="!isLast"></i>
             </span>
             <span class="not-specified" *ngIf="contact.phones.length === 0">Телефон не указан</span>

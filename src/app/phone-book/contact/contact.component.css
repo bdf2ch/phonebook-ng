@@ -96,6 +96,7 @@
   background-position: center center !important;
   background-size: contain !important;
   background-repeat: no-repeat !important;
+  border-bottom: 1px solid #F5F5F5;
 }
 .contact .contact-info #photo .user-controls {
   display: flex;
@@ -108,9 +109,9 @@
 }
 .contact .contact-info #photo .editor-controls {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
   flex-grow: 1;
   height: 100%;
   padding: 10px;

@@ -387,7 +387,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     editContact(): void {
         this.manager.editContact(this.phoneBook.selectedContact)
             .subscribe(() => {
-                this.phoneBook.selectedContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
+                this.phoneBook.selectedContact.positionTrimmed =
+                    this.phoneBook.selectedContact.position.length > 55
+                        ? this.phoneBook.selectedContact.position.substr(0, 55) + '...'
+                        : this.phoneBook.selectedContact.position;
+                this.phoneBook.selectedContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'positionTrimmed', 'email', 'mobile']);
                 this.modals.get('edit-contact-modal').close();
                 this.phoneBook.selectedContact = null;
             });
@@ -399,12 +403,14 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * @param form {any} - форма редактирования данных абонента
      */
     closeEditContactModal(form: any): void {
-        this.phoneBook.selectedContact.restoreBackup();
-        if (this.selectedContactUserBackup) {
-            this.phoneBook.selectedContact.user = this.selectedContactUserBackup;
-            this.selectedContactUserBackup = null;
-        } else {
-            this.phoneBook.selectedContact.user = null;
+        if (this.phoneBook.selectedContact) {
+            this.phoneBook.selectedContact.restoreBackup();
+            if (this.selectedContactUserBackup) {
+                this.phoneBook.selectedContact.user = this.selectedContactUserBackup;
+                this.selectedContactUserBackup = null;
+            } else {
+                this.phoneBook.selectedContact.user = null;
+            }
         }
         this.phoneBook.selectedContact = null;
     };
@@ -460,19 +466,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    /**
-     * Добавление абоненту нового номера телефона
-     */
-    addContactPhone(): void {
-        this.manager.addContactPhone(
-            this.phoneBook.selectedContact.id,
-            this.newContactPhone.atsId,
-            this.newContactPhone.number)
-            .subscribe((phone: Phone) => {
-                this.phoneBook.selectedContact.phones.push(phone);
-                this.modals.get('new-contact-phone-modal').close();
-            });
-    };
+
 
 
     cancelPhoneChanges(phone: Phone, form: NgForm): void {
@@ -496,39 +490,115 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
+    /**
+     * Добавление абоненту нового номера телефона
+     */
+    addContactPhone(): void {
+        this.manager.addContactPhone(
+            this.phoneBook.selectedContact.id,
+            this.newContactPhone.atsId,
+            this.newContactPhone.number,
+            this.phoneBook.selectedAts.id)
+            .subscribe((phone: Phone) => {
+                if (this.phoneBook.selectedContact.visiblePhones.length < 2) {
+                    this.phoneBook.selectedContact.visiblePhones.push(phone);
+                }
+                this.phoneBook.selectedContact.phones.push(phone);
+                this.modals.get('new-contact-phone-modal').close();
+            });
+    };
+
+
+    /**
+     * Открытие модального окна изменения контактного телефона абонента
+     * @param {Phone} phone - Изменяемый контактный телефон абоеннта
+     */
     openEditContactPhoneModal(phone: Phone): void {
         this.phoneBook.selectedContactPhone = phone;
+        console.log(this.phoneBook.selectedContactPhone);
         this.modals.get('edit-contact-phone-modal').open();
     };
 
 
+    /**
+     * Закрытие модального окна изменения контактного телефона абонента
+     * @param {NgForm} form - Форма изменения контактного телефона абонента
+     */
     closeEditContactPhoneModal(form: NgForm): void {
-        this.modals.get('edit-contact-phone-modal').close();
         this.phoneBook.selectedContactPhone.restoreBackup();
     };
 
 
+    /**
+     * Изменение контактного телефона абонента
+     */
+    editContactPhone(): void {
+        this.manager.editContactPhone(this.phoneBook.selectedContactPhone).subscribe(() => {
+            this.modals.get('edit-contact-phone-modal').close();
+        });
+    };
 
+
+    /**
+     * Открытие модального окна удаления контактного телефона абонента
+     * @param {Phone} phone - Удаляемый контактный телефон
+     */
     openDeleteContactPhoneModal(phone: Phone): void {
         this.phoneBook.selectedContactPhone = phone;
         this.modals.get('delete-contact-phone-modal').open();
     };
 
 
-    deleteContactPhone(): void {
-
-    };
-
-
-    closeDeleteContactPhoneModal(): void {
-        this.modals.get('delete-contact-phone-modal').close();
-    };
-
-
-
+    /**
+     * Закрытие модального окна удаленния контакта
+     */
     closeDeleteContactModal(): void {
-        this.modals.get('delete-contact-modal').close();
         this.phoneBook.selectedContact = null;
     };
 
+
+    /**
+     * Удаление контактного телефона абонента
+     * @param {Phone} phone - Удаляемый телефон
+     */
+    deleteContactPhone(phone: Phone): void {
+        this.phoneBook.selectedContactPhone = phone;
+        this.manager.deleteContactPhone(phone).subscribe((result: boolean) => {
+            if (result) {
+                this.phoneBook.selectedContact.phones.forEach((item: Phone, index: number, phones: Phone[]) => {
+                    if (item.id === phone.id) {
+                        phones.splice(index, 1);
+                    }
+                });
+                this.phoneBook.selectedContact.visiblePhones.forEach((item: Phone, index: number, phones: Phone[]) => {
+                    if (item.id === phone.id) {
+                        phones.splice(index, 1);
+                    }
+                });
+                this.phoneBook.selectedContactPhone = null;
+                this.modals.get('delete-contact-phone-modal').close();
+            }
+        });
+    };
+
+
+    /**
+     * Удаление абонента
+     */
+    deleteContact(): void {
+        this.manager.deleteContact(this.phoneBook.selectedContact).subscribe((result: boolean) => {
+            if (result) {
+                this.modals.get('delete-contact-modal').close();
+                this.phoneBook.contacts.forEach((group: ContactGroup) => {
+                    for (let contact in group.contacts) {
+                        if (group.contacts[contact].id === this.phoneBook.selectedContact.id) {
+                            group.contacts.splice(+contact, 1);
+                            this.phoneBook.selectedContact = null;
+                            break;
+                        }
+                    }
+                });
+            }
+        });
+    };
 }

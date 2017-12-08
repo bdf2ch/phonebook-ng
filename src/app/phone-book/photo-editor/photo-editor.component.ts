@@ -120,6 +120,7 @@ export class PhotoEditorComponent implements AfterViewInit, AfterViewChecked, On
             if (this.x >= -(this.leftBorderWidth) && this.x <= 0) {
                 this.renderer.setStyle(this.clipper.element.nativeElement, 'left', this.x + 'px');
             }
+            this.detector.detectChanges();
         }
     };
 
@@ -136,6 +137,7 @@ export class PhotoEditorComponent implements AfterViewInit, AfterViewChecked, On
                 this.detector.detectChanges();
             //}
         }
+        this.detector.detectChanges();
     };
 
 

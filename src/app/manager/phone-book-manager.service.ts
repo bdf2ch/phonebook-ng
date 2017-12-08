@@ -81,7 +81,9 @@ export class PhoneBookManagerService {
                 surname: contact.surname,
                 position: contact.position,
                 email: contact.email,
-                mobile: contact.mobile
+                mobile: contact.mobile,
+                officeId: contact.officeId,
+                room: contact.room
             }
         };
         this.loading = true;
@@ -162,10 +164,18 @@ export class PhoneBookManagerService {
      * @param number {string} - номекр телефона
      * @returns {Observable<R>}
      */
-    addContactPhone(contactId: number, atsId: number, number: string): Observable<Phone> {
+    addContactPhone(contactId: number, atsId: number, number: string, sourceAtsId: number): Observable<Phone> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        const parameters = { action: 'addContactPhone', data: { contactId: contactId, atsId: atsId, number: number}};
+        const parameters = {
+            action: 'addContactPhone',
+            data: {
+                contactId: contactId,
+                atsId: atsId,
+                number: number,
+                sourceAtsId: sourceAtsId
+            }
+        };
 
         return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
@@ -273,6 +283,7 @@ export class PhoneBookManagerService {
             data: {
                 id: division.id,
                 parentId: division.parentId,
+                officeId: division.officeId,
                 title: division.title
             }
         };

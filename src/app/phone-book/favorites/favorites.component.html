@@ -2,9 +2,10 @@
     <div id="app-favorites-caption" *ngIf="phoneBook.isInFavoritesMode">
         <div class="caption"><i class="fa fa-star"></i>Ваши избранные контакты</div>
     </div>
-    <contact-group [group]="group"
-                   [margin]="margin"
-                   [row]="row"
-                   *ngFor="let group of phoneBook.contacts; trackBy: index | async">
+    <contact-group
+            *ngFor="let group of phoneBook.contacts; trackBy: index | async"
+            [group]="group"
+            [margin]="margin"
+            [row]="row">
     </contact-group>
 </div>

@@ -219,12 +219,12 @@
     position: absolute;
     display: inline-block;
     bottom: -14px;
-    border-width: 10px;
-    border-top: 10px solid transparent;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid white;
+    border: 10px solid transparent;
+    border-bottom-color: #F5F5F5;
     visibility: hidden;
+    &.ats-panel-opened {
+      background: @app-ats-background-color;
+    }
   }
 }
 

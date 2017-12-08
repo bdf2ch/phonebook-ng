@@ -13,6 +13,7 @@ import { appConfig, API } from '../app.config';
 import { ATS, IATS } from '../models/ats.model';
 import { PhoneBookService } from "./phone-book.service";
 import { Division, IDivision } from '../models/division.model';
+import {IOffice, Office} from "../models/office.model";
 
 
 @Injectable()
@@ -97,6 +98,15 @@ export class SessionService {
                         let division = new Division(item);
                         division.setupBackup(['parentId', 'title']);
                         this.phoneBook.organizations.push(division);
+                    });
+
+                    /**
+                     * Обрабатываем и добавляем офисы организаций
+                     */
+                    body.offices.forEach((item: IOffice) => {
+                        let office = new Office(item);
+                        office.setupBackup(['organizationId', 'address']);
+                        this.phoneBook.offices.push(office);
                     });
 
                     /**

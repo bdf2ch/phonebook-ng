@@ -141,7 +141,7 @@ module.exports = {
      */
     editContact: function (parameters) {
         return {
-            text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7, $8)',
+            text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
             values: [
                 parameters.data.contactId,
                 parameters.data.userId,
@@ -150,7 +150,9 @@ module.exports = {
                 parameters.data.fname,
                 parameters.data.position,
                 parameters.data.email,
-                parameters.data.mobile
+                parameters.data.mobile,
+                parameters.data.officeId,
+                parameters.data.room
             ],
             func: 'edit_contact'
         }
@@ -244,12 +246,12 @@ module.exports = {
     /**
      * Добавление телефона абоненту
      * @param parameters {Object} - параметры запроса
-     * @returns {{text: string, values: [null,null,null], func: string}}
+     * @returns {{text: string, values: [number,number,string,number], func: string}}
      */
     addContactPhone: function (parameters) {
         return {
-            text: 'SELECT add_contact_phone($1, $2, $3)',
-            values: [parameters.data.contactId, parameters.data.atsId, parameters.data.number],
+            text: 'SELECT add_contact_phone($1, $2, $3, $4)',
+            values: [parameters.data.contactId, parameters.data.atsId, parameters.data.number, parameters.data.sourceAtsId],
             func: 'add_contact_phone'
         }
     },

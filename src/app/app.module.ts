@@ -29,8 +29,6 @@ import { AuthService } from './phone-book/auth/auth.service';
 
 import { UserMenuComponent } from './phone-book/user-menu/user-menu.component';
 
-import { EditContactComponent } from './phone-book/edit-contact/edit-contact.component';
-
 import { SessionService} from './phone-book/session.service';
 import { CookieService } from './utilities/cookies/cookie.services';
 //import { ModalComponent } from './utilities/modal/modal.component';
@@ -103,7 +101,6 @@ const routes: Routes = [
     StubComponent,
     AuthComponent,
     UserMenuComponent,
-    EditContactComponent,
     //ModalComponent,
     PhotoEditorComponent,
     CompanySelectorComponent,

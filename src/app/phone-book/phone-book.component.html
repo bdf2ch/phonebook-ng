@@ -40,7 +40,7 @@
                     title="Избранные контакты">
                 <span class="badge">{{ phoneBook.favorites.contacts.length }}</span>
                 <i class="fa fa-star"></i>
-                <span class="corner"></span>
+                <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
             </button>
 
             <!-- Авторизация пользователя -->
@@ -55,7 +55,7 @@
                  *ngIf="session.user !== null"
                  [ngStyle]="{'background': session.user.photo !== null ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
                 <span class="initials" *ngIf="session.user.photo === null">{{ session.user.name[0] + session.user.surname[0] }}</span>
-                <span class="corner"></span>
+                <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
             </div>
         </div>
     </div>
@@ -140,7 +140,6 @@
 
 <auth [isOpened]="inAuthMode" (onClose)="closeAuthModal()"></auth>
 <user-menu [isOpened]="inUserMenuMode" (onClose)="closeUserMenuModal()"></user-menu>
-<edit-contact [isOpened]="phoneBook.selectedContact === 'test'" (onClose)="closeEditContactModal()" [contact]="phoneBook.selectedContact"></edit-contact>
 
 
 <!-- Модальное окно авторизации пользователя -->
@@ -275,7 +274,7 @@
        [caption]="'Изменение структ. подразделения'"
        [icon]="'fa fa-building'"
        [width]="400"
-       [height]="305"
+       [height]="383"
        (onClose)="closeEditDivisionModal(editDivisionForm)"
        *ngIf="phoneBook.selectedDivision">
     <div class="modal-content">
@@ -304,6 +303,16 @@
                        [(ngModel)]="phoneBook.selectedDivision.title"
                        #title="ngModel"
                        required>
+            </div>
+            <div class="padding-left-20 padding-right-20 padding-bottom-20">
+                <label for="selected-division-office">Офис</label>
+                <select id="selected-division-office" name="ats" class="inp medium ats width-100" *ngIf="phoneBook.selectedOrganization"
+                        [(ngModel)]="phoneBook.selectedDivision.officeId">
+                    <option *ngFor="let office of phoneBook.offices | officesByOrganization:phoneBook.selectedOrganization.id"
+                            [ngValue]="office.id">
+                        {{ office.address }}
+                    </option>
+                </select>
             </div>
             <div class="row width-100 padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
                 <button type="submit"
@@ -354,13 +363,12 @@
 -->
 
 <!-- Модальное окно кадрирования фотографии абонента -->
-<!--
 <modal [id]="'edit-contact-photo-modal'"
-       [title]="'Кадрирование фотографии'"
+       [caption]="'Кадрирование фотографии'"
+       [icon]="'fa fa-picture-o'"
        [width]="516"
-       [contentHeight]="330"
-(onClose)="modals.close(true)">
-    <div class="modal-content">
+       [height]="375">
+    <div>
         <photo-editor
                 *ngIf="phoneBook.selectedContact"
                 [url]="phoneBook.selectedContact.photo"
@@ -376,7 +384,6 @@
         </photo-editor>
     </div>
 </modal>
--->
 
 
 <!-- Модальное окно добавления нового абонента -->
@@ -547,12 +554,12 @@
        [depth]="1"
        (onClose)="closeEditContactModal(editContactForm)">
     <div class="modal-content" *ngIf="phoneBook.selectedContact">
-        <form class="column width-100 height-100 vertical-between">
+        <form class="column width-100 height-100 vertical-between" #editContactForm="ngForm">
             <div class="width-100">
                 <tabs [id]="'edit-contact-tabs'">
                     <tab [id]="'contact-details'" [caption]="'Анкета'" [icon]="'fa fa-user'" [width]="33.3">
                         <div class="column width-100 padding-20">
-                            <form novalidate #editContactForm="ngForm">
+                            <!--<form novalidate #editContactForm="ngForm">-->
                                 <div class="column margin-bottom-10">
                                     <label for="">Пользователь</label>
                                     <typeahead *ngIf="!phoneBook.selectedContact.user" [placeholder]="'Введите имя пользователя'"
@@ -689,11 +696,12 @@
                                     </div>
                                 </div>
                                 -->
-                            </form>
+                            <<!--/form>-->
                         </div>
                     </tab>
                     <tab [id]="'contact-location'" [caption]="'местоположение'" [icon]="'fa fa-map-marker'" [width]="33.3">
                         <div class="column padding-20">
+                            <!--
                             <div class="column margin-bottom-10">
                                 <label for="contact-organization">Организация</label>
                                 <select id="contact-organization"
@@ -706,6 +714,7 @@
                                     </option>
                                 </select>
                             </div>
+                            -->
                             <div class="column margin-bottom-10">
                                 <label for="contact-office">Офис</label>
                                 <select id="contact-office"
@@ -713,33 +722,43 @@
                                         class="inp medium width-100"
                                         [(ngModel)]="phoneBook.selectedContact.organizationId"
                                         required>
-                                    <option *ngFor="let org of phoneBook.organizations"
-                                            [ngValue]="org.id">{{ org.title }}
+                                    <option *ngFor="let office of phoneBook.offices | officesByOrganization: phoneBook.selectedOrganiation"
+                                            [ngValue]="office.id">
+                                        {{ office.address }}
                                     </option>
                                 </select>
                             </div>
                             <div class="column">
                                 <label for="contact-room">Кабинет</label>
-                                <input type="text" class="inp medium" name="contact-room" id="contact-room">
+                                <input type="text"
+                                       class="inp medium"
+                                       name="contact-room"
+                                       id="contact-room"
+                                       [(ngModel)]="phoneBook.selectedContact.room">
                             </div>
                         </div>
                     </tab>
                     <tab [id]="'contact-phones'" [caption]="'Телефоны'" [icon]="'fa fa-phone'" [width]="33.3">
                         <div class="width-100 padding-20">
                             <div class="contact-phones-list width-100">
-                                <div class="contact-phone-item width-100 margin-bottom-20" *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn">
+                                <div class="contact-phone-item width-100 margin-bottom-20"
+                                     *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn">
                                     <div class="icon margin-right-10">
                                         <i class="fa fa-phone"></i>
                                     </div>
                                     <div class="phone-details margin-right-15">
-                                        <div class="number">{{ phone._backupData.number }}</div>
+                                        <div class="number">{{ phone.title }}</div>
                                         <div class="ats">{{ phoneBook.getAtsById(phone.atsId).title }}</div>
                                     </div>
                                     <div class="controls">
-                                        <button class="btn medium blue round margin-right-5" title="Изменить телефон" (click)="openEditContactPhoneModal(phone)">
+                                        <button class="btn medium blue round margin-right-5"
+                                                title="Изменить телефон"
+                                                (click)="openEditContactPhoneModal(phone)">
                                             <i class="fa fa-pencil"></i>
                                         </button>
-                                        <button class="btn medium red round" title="Удалить телефон" (click)="openDeleteContactPhoneModal(phone)">
+                                        <button class="btn medium red round"
+                                                title="Удалить телефон"
+                                                (click)="openDeleteContactPhoneModal(phone)">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
@@ -895,7 +914,7 @@
         <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
             <button type="submit"
                     class="btn medium green width-50 margin-right-5"
-                    [disabled]="!editContactPhoneForm.valid || phoneBook.selectedContactPhone.atsId === 0"
+                    [disabled]="(!editContactPhoneForm.valid && !editContactPhoneForm.dirty) || phoneBook.selectedContactPhone.atsId === 0"
                     (click)="editContactPhone()">
                 Сохранить
             </button>
@@ -915,8 +934,7 @@
        [icon]="'fa fa-phone'"
        [width]="400"
        [height]="188"
-       [depth]="2"
-       (onClose)="closeDeleteContactPhoneModal()">
+       [depth]="2">
     <form class="column width-100" novalidate #deleteContactPhoneForm="ngForm" *ngIf="phoneBook.selectedContactPhone">
         <div class="row padding-top-25 padding-bottom-25 vertical-center horizontal-center">
             <span>Телефонный номер <b>{{ phoneBook.selectedContactPhone.number }}</b> будет удален.</span>
@@ -924,7 +942,8 @@
         <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
             <button type="submit"
                     class="btn medium green width-50 margin-right-5"
-                    (click)="deleteContactPhone()">
+                    (click)="deleteContactPhone(phoneBook.selectedContactPhone)"
+                    [disabled]="manager.loading">
                 Удалить
             </button>
             <button type="button"
@@ -942,11 +961,11 @@
        [caption]="'Удаление абонента'"
        [icon]="'fa fa-user'"
        [width]="400"
-       [height]="188"
+       [height]="207"
        [depth]="2"
        (onClose)="closeDeleteContactModal()">
     <form class="column width-100" novalidate #deleteContactForm="ngForm" *ngIf="phoneBook.selectedContact">
-        <div class="row padding-top-25 padding-bottom-25 vertical-center horizontal-center">
+        <div class="row padding-25 vertical-center horizontal-center">
             <span>Абонент <b>{{ phoneBook.selectedContact.fio }}</b> будет удален.</span>
         </div>
         <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
@@ -963,4 +982,6 @@
         </div>
     </form>
 </modal>
+
+
 

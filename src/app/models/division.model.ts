@@ -5,6 +5,7 @@ export interface IDivision {
   id: number;
   parent_id: number;
   department_id: number;
+  office_id: number;
   title: string;
   order: number;
   is_department?: boolean;
@@ -15,6 +16,7 @@ export class Division extends Model {
   readonly id: number = 0;
   parentId: number = 0;
   departmentId: number = 0;
+  officeId: number;
   title: string = "";
   order: number = 0;
   isDepartment: boolean = false;
@@ -25,6 +27,7 @@ export class Division extends Model {
 
   constructor (config?: IDivision) {
     super();
+    this.officeId = config ? config.office_id : 0;
     if (config) {
       this.id = config.id;
       this.parentId = config.parent_id;
