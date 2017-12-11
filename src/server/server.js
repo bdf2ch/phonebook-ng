@@ -88,6 +88,7 @@ app
             case 'deleteContactPhone': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteContactPhone)]; break;
             case 'addDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addDivision)]; break;
             case 'editDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editDivision)]; break;
+            case 'deleteDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteDivision)]; break;
             case 'searchUsers': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.searchUsers)]; break;
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
             case 'logOut': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.logOut), async.asyncify(session.remove)]; break;

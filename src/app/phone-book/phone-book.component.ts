@@ -189,10 +189,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     selectDivision(division: Division): void {
         this.router.navigate(['/']);
-        //console.log(division);
         //this.phoneBook.isInFavoritesMode = false;
         this.phoneBook.selectedDivision = division;
         if (division !== null) {
+            console.log('selected division id = ', division.id);
             this.newDivision.parentId = division.id;
 
             this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
@@ -313,6 +313,24 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     openDeleteDivisionModal(): void {
         this.modals.get('delete-division-modal').open();
+    };
+
+
+    deleteDivision(): void {
+        this.manager.deleteDivision(
+            this.phoneBook.selectedDivision.id,
+            this.session.session ? this.session.session.token : ''
+        ).subscribe((result: boolean) => {
+            if (result === true) {
+                const tree = this.trees.getById('phone-book-divisions');
+                if (tree) {
+                    tree.deleteDivision(this.phoneBook.selectedDivision);
+                }
+                this.phoneBook.selectedDivision = null;
+                this.phoneBook.contacts = [];
+                this.modals.get('delete-division-modal').close();
+            }
+        });
     };
 
 

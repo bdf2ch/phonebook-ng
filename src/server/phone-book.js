@@ -314,6 +314,20 @@ module.exports = {
 
 
     /**
+     * Удаление структурного подразделения
+     * @param parameters
+     * @returns {{text: string, values: *[], func: string}}
+     */
+    deleteDivision: function (parameters) {
+        return {
+            text: 'SELECT delete_phonebook_division($1, $2)',
+            values: [parameters.data.divisionId, parameters.data.token],
+            func: 'delete_phonebook_division'
+        }
+    },
+
+
+    /**
      * Поиск пользователей
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*], func: string}}

@@ -304,6 +304,29 @@ export class PhoneBookManagerService {
     };
 
 
+
+    deleteDivision(divisionId: number, token: string): Observable<boolean> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'deleteDivision',
+            data: {
+                divisionId: divisionId,
+                token: token
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, parameters, options)
+            .map((response: Response) => {
+                return response.json();
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
     /**
      * Поиск пользователей
      * @param query {string}

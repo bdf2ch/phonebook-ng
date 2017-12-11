@@ -95,7 +95,7 @@
                 class="btn red outline medium round"
                 title="Удалить структурное подразделение"
                 [disabled]="phoneBook.loading"
-                *ngIf="phoneBook.selectedDivision"
+                *ngIf="phoneBook.selectedDivision && phoneBook.selectedDivision.children.length === 0"
                 (click)="openDeleteDivisionModal()">
             <i class="fa fa-times"></i>
         </button>
@@ -333,34 +333,30 @@
 
 
 <!-- Модальное окно удаления структурного подразделения -->
-<!--
 <modal [id]="'delete-division-modal'"
-       [title]="'Удаление структ. подразделения'"
+       [caption]="'Удаление структ. подразделения'"
+       [icon]="'fa fa-building'"
        [width]="400"
-       *ngIf="phoneBook.selectedDivision">
-    <div class="modal-content">
-        <form novalidate class="padding-20">
-            <div class="margin-bottom-10" *ngIf="phoneBook.selectedDivision.parentId !== 0">
-                Структурное подразделение "{{ phoneBook.selectedDivision.title }}" будет удалено.
-            </div>
-            <div class="width-50 padding-right-5">
-                <button type="submit"
-                        class="btn blue width-100 margin-bottom-10"
-                        (click)="editDivision()">
-                    Удалить
-                </button>
-            </div>
-            <div class="width-50 padding-left-5">
-                <button type="button"
-                        class="btn red width-100"
-                        (click)="this.modals.close('edit-division-modal')">
-                    Отмена
-                </button>
-            </div>
-        </form>
-    </div>
+       [height]="207">
+    <form class="column width-100" novalidate *ngIf="phoneBook.selectedDivision">
+        <div class="row padding-25 vertical-center horizontal-center">
+            <span>Структурное подразделение <b>"{{ phoneBook.selectedDivision.title }}"</b> будет удалено.</span>
+        </div>
+        <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
+            <button type="submit"
+                    class="btn medium green width-50 margin-right-5"
+                    (click)="deleteDivision()">
+                Удалить
+            </button>
+            <button type="button"
+                    class="btn medium red width-50 margin-left-5"
+                    (click)="modals.get('delete-division-modal').close()">
+                Отмена
+            </button>
+        </div>
+    </form>
 </modal>
--->
+
 
 <!-- Модальное окно кадрирования фотографии абонента -->
 <modal [id]="'edit-contact-photo-modal'"

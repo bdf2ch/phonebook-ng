@@ -47,6 +47,34 @@ export class DivisionTreeComponent implements OnInit {
     };
 
 
+    deleteDivision(division: Division): void {
+        if (division.parentId !== 0) {
+            const findDivisionById = (div: Division) => div.id === division.parentId;
+            const parent = this.divisions.find(findDivisionById);
+            if (parent) {
+                console.log('parent', parent);
+                parent.children.forEach((child: Division, index: number, children: Division[]) => {
+                    if (child.id === division.id) {
+                        children.splice(index, 1);
+                    }
+                });
+            }
+        }
+
+        this.divisions.forEach((item: Division, index: number, divisions: Division[]) => {
+            if (item.id === division.id) {
+                divisions.splice(index, 1);
+            }
+        });
+
+        this.root.forEach((item: Division, index: number, root: Division[]) => {
+            if (item.id === division.id) {
+                root.splice(index, 1);
+            }
+        });
+    };
+
+
     selectDivision(division: Division): void {
         if (division) {
             const divisionById = (item: Division, index: number, divisions: Division[]) => item.id === division.id;
