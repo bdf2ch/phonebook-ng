@@ -135,11 +135,25 @@ export class ContactComponent implements  OnInit, OnChanges{
 
 
     uploadPhoto(event: any): void {
-        this.phoneBook.uploadUserPhoto(this.contact.userId, event.target.files[0])
+        this.phoneBook.uploadContactPhoto(this.contact.id, event.target.files[0])
             .subscribe((url: string) => {
                 console.log('new photo url = ', url);
                 this.contact.photo = url;
                 console.log(this.contact);
+                if (this.session.user) {
+                    if (this.session.user.id === this.contact.userId) {
+                        this.session.user.photo = url;
+                    }
+
+                }
+                // Если контакт находится в избранных - меняем фото
+                if (this.phoneBook.favorites.contacts.length > 0) {
+                    this.phoneBook.favorites.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
+                        if (contact.id === this.contact.id) {
+                            contact.photo = url;
+                        }
+                    });
+                }
             });
     };
 

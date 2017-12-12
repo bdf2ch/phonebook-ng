@@ -12,6 +12,7 @@ var async = require('async');
 var path = require('path');
 var fs = require('fs');
 var process = require('process');
+var jimp = require('jimp');
 
 
 process.on('uncaughtException', function (err) {
@@ -112,9 +113,11 @@ app
 
     })
     .post('/uploadPhoto', function (request, response, next) {
-        if (request.files.photo && request.body.userId) {
-            let folderPath = path.resolve('../../static/assets/images/users/', request.body.userId.toString());
-            let url = '/assets/images/users/' + request.body.userId.toString() + '/' + request.files.photo.name;
+        if (request.files.photo && request.body.contactId) {
+            let folderPath = path.resolve('../../static/assets/images/users/', request.body.contactId.toString());
+            let url = '/assets/images/users/' + request.body.contactId.toString() + '/' + request.files.photo.name;
+            let fileNameArray = request.files.photo.name.split('.');
+            let extension = fileNameArray[fileNameArray.length - 1];
             let photoPath = path.resolve(folderPath, request.files.photo.name);
             let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactPhoto)];
             let process = async.compose(...queue);
@@ -128,7 +131,7 @@ app
                                 if (err) {
                                     return response.status(500).send(err);
                                 } else {
-                                    process({ contactId: request.body.userId, url: url }, function (err, result) {
+                                    process({ contactId: request.body.contactId, url: url }, function (err, result) {
                                         console.log('error', err);
                                         console.log('result', result);
                                         if (err)
@@ -141,17 +144,27 @@ app
                         }
                     });
                 } else {
+
                     request.files.photo.mv(photoPath, function(err) {
                         if (err) {
                             return response.status(500).send(err);
                         } else {
-                            process({ contactId: request.body.userId, url: url }, function (err, result) {
+                            process({ contactId: request.body.contactId, url: url }, function (err, result) {
                                 console.log('error', err);
                                 console.log('result', result);
                                 if (err)
                                     send({ code: 1,  message: 'Error uploading contact photo' });
-                                else
+                                else {
+                                    jimp.read(url).then(function (photo) {
+                                        photo
+                                            .resize(320, 240)            // resize
+                                            .quality(80)                 // set JPEG quality
+                                            .write('/assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg' ); // save
+                                    }).catch(function (err) {
+                                        console.error(err);
+                                    });
                                     send(result);
+                                }
                             });
                         }
                     });

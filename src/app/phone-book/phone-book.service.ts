@@ -503,6 +503,44 @@ export class PhoneBookService {
     };
 
 
+
+    uploadContactPhoto(contactId: number, photo: File): Observable<string> {
+        console.log('photo', photo);
+        let headers = new Headers({ 'Accept': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let formData = new FormData();
+        formData.append('photo', photo);
+        formData.append('contactId', contactId.toString());
+
+        this.loading = true;
+        return this.http.post(appConfig.uploadPhotoUrl, formData, options)
+            .map((response: Response) => {
+                this.loading = false;
+                let result = response.json();
+                console.log('photo url', result);
+                /*
+                if (this.session.user) {
+                    // Если фото загружено для текущего пользователя - меняем фото
+                    if (this.session.user.id === userId) {
+                        this.session.user.photo = result;
+                    }
+                    // Если контакт находится в избранных - меняем фото
+                    if (this.session.user.favorites.contacts.length > 0) {
+                        this.session.user.favorites.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
+                            if (contact.userId === userId) {
+                                contact.photo = result;
+                            }
+                        });
+                    }
+                }
+                */
+                return result;
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
+
+
   setContactPhotoPosition(contactId: number, top: number, left: number, zoom: number): Observable<IContactPhotoPosition> {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
