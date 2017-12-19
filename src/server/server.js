@@ -136,8 +136,27 @@ app
                                         console.log('result', result);
                                         if (err)
                                             send({ code: 1,  message: 'Error uploading contact photo' });
-                                        else
-                                            send(result);
+                                        else {
+                                            jimp.read(url).then(function (photo) {
+                                                photo
+                                                    .resize(800, 600)            // resize
+                                                    .quality(80)                 // set JPEG quality
+                                                    .write(photoPath); // save
+                                            }).catch(function (err) {
+                                                console.error(err);
+                                            });
+
+                                            jimp.read(url).then(function (photo) {
+                                                photo
+                                                    .resize(320, 240)            // resize
+                                                    .quality(60)                 // set JPEG quality
+                                                    .write('../../assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg' ); // save
+                                                send(result);
+                                            }).catch(function (err) {
+                                                console.error(err);
+                                            });
+                                            //send(result);
+                                        }
                                     });
                                 }
                             });
@@ -157,13 +176,23 @@ app
                                 else {
                                     jimp.read(url).then(function (photo) {
                                         photo
-                                            .resize(320, 240)            // resize
+                                            .resize(800, 600)            // resize
                                             .quality(80)                 // set JPEG quality
-                                            .write('/assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg' ); // save
+                                            .write(url + '_'); // save
                                     }).catch(function (err) {
                                         console.error(err);
                                     });
-                                    send(result);
+
+                                    jimp.read(url).then(function (photo) {
+                                        photo
+                                            .resize(320, 240)            // resize
+                                            .quality(60)                 // set JPEG quality
+                                            .write('/assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg' ); // save
+                                        send(result);
+                                    }).catch(function (err) {
+                                        console.error(err);
+                                    });
+                                    //send(result);
                                 }
                             });
                         }

@@ -8,7 +8,8 @@
                 {
                     'background': contact.photo !== '' ? 'url(http://10.50.0.153:4444' + contact.photo +  ')' : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center',
                     'background-size': contact.photoZoom !== 0 ? contact.photoZoom + '%' : 'contain !important'
-                }">
+                }"
+             (click)="showContactInfo()">
 
 
             <div class="user-controls">
@@ -59,14 +60,14 @@
         </div>
     </div>
     <div class="contact-details">
-        <!--
-        <div class="surname">{{ contact.surname }}</div>
-        <div class="name">{{ contact.name + ' ' + contact.fname }}</div>
-        <div class="position" [text-overflow]="50">{{ contact.position }}</div>
-        <div class="separator"></div>
-        -->
         <div class="detail">
-            <i class="fa fa-phone"></i>
+            <i class="fa fa-phone">
+                <span class="badge"
+                      *ngIf="contact.phones.length > 2"
+                      title="Отображены не все телефоны абонента, для просмотра всех телефонов откройте карточку абонента">
+                    {{contact.phones.length}}
+                </span>
+            </i>
             <span class="detail-item" *ngFor="let phone of contact.visiblePhones; last as isLast">
                 {{ phone.title }}
                 <i class="separator fa fa-circle" *ngIf="!isLast"></i>

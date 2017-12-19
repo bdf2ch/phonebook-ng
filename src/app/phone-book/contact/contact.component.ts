@@ -169,4 +169,10 @@ export class ContactComponent implements  OnInit, OnChanges{
         this.phoneBook.selectedContact = contact;
         this.modals.get('delete-contact-modal').open();
     };
+
+
+    showContactInfo(): void {
+        this.phoneBook.selectedContact = this.contact;
+        this.modals.get('contact-info-modal').open();
+    };
 };
