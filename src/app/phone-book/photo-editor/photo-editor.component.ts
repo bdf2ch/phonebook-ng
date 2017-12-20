@@ -156,7 +156,8 @@ export class PhotoEditorComponent implements AfterViewInit, AfterViewChecked, On
 
 
     /**
-     * Отмена произведенных изменений, сброс позиции рамки до начального состояния.
+     * Отмена произведенных изменений.
+     * Сброс позиции рамки до начального состояния.
      */
     cancel(): void {
         this.isPositionChanged = false;

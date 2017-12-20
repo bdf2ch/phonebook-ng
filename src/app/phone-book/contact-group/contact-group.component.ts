@@ -2,6 +2,7 @@ import {
     Component, Input, ElementRef, OnChanges, SimpleChanges, ViewChild, AfterViewInit,
     ViewChildren
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { ContactGroup } from "../../models/contact-group.model";
 import {PhoneBookService} from "../phone-book.service";
 import {ContactComponent} from "../contact/contact.component";
@@ -27,7 +28,8 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
     //@ViewChildren(ContactComponent) contacts: ContactComponent[];
 
 
-    constructor(private element: ElementRef,
+    constructor(private router: Router,
+                private element: ElementRef,
                 private session: SessionService,
                 private phoneBook: PhoneBookService) {};
 
@@ -42,6 +44,7 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
 
 
     selectDivision(division: Division): void {
+        this.router.navigate(['/']);
         this.phoneBook.selectedDivision = division;
         this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
             .subscribe(() => {

@@ -692,7 +692,7 @@
                                     </div>
                                 </div>
                                 -->
-                            <<!--/form>-->
+                            <!--</form>-->
                         </div>
                     </tab>
                     <tab [id]="'contact-location'" [caption]="'местоположение'" [icon]="'fa fa-map-marker'" [width]="33.3">
@@ -983,7 +983,7 @@
 
 <modal [id]="'contact-info-modal'"
        [width]="480"
-       [height]="600"
+       [height]="590"
        [depth]="1"
        [header]="false">
     <div id="contact-info-modal" class="column width-100">
@@ -991,9 +991,9 @@
              [ngClass]="{'with-photo': phoneBook.selectedContact && phoneBook.selectedContact.photo}"
              [ngStyle]="{'background': phoneBook.selectedContact && phoneBook.selectedContact.photo !== '' ? 'url(http://10.50.0.153:4444' + phoneBook.selectedContact.photo : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center'}">
         </div>
-        <div class="details column vertical-around width-100" *ngIf="phoneBook.selectedContact">
+        <div class="details column vertical-around width-100 padding-top-20 padding-bottom-20" *ngIf="phoneBook.selectedContact">
             <!-- ФИО абонента -->
-            <div class="row width-100 padding-left-20 padding-right-20 margin-top-15 margin-bottom-15">
+            <div class="detail row width-100 padding-left-20 padding-right-20">
                 <div class="row-icon width-10">
                     <i class="fa fa-user"></i>
                 </div>
@@ -1003,18 +1003,18 @@
             </div>
 
             <!-- Должность абонента -->
-            <div class="row width-100 padding-left-20">
+            <div class="detail row width-100 padding-left-20 margin-bottom-10">
                 <div class="row-icon width-10">
                     <i class="fa fa-briefcase"></i>
                 </div>
-                <div class="row-content width-90 padding-right-20 padding-bottom-15 separated">
+                <div class="row-content width-90 padding-right-20 separated">
                     <span class="position" *ngIf="phoneBook.selectedContact.position !== ''">{{ phoneBook.selectedContact.position }}</span>
                     <span class="not-specified" *ngIf="phoneBook.selectedContact.position === ''"></span>
                 </div>
             </div>
 
             <!-- Контактные телефоны абонента -->
-            <div class="row width-100 padding-left-20 padding-right-20 margin-bottom-15">
+            <div class="detail row width-100 padding-left-20 padding-right-20">
                 <div class="row-icon width-10">
                     <i class="fa fa-phone"></i>
                 </div>
@@ -1023,11 +1023,13 @@
                         {{ phone.title }}
                         <i class="separator fa fa-circle" *ngIf="!isLast"></i>
                     </span>
+                    <span class="not-specified" *ngIf="phoneBook.selectedContact.phones.length === 0">Контактные телефоны отсутствуют</span>
+
                 </div>
             </div>
 
             <!-- Мобильный телефон абонента -->
-            <div class="row width-100 padding-left-20 padding-right-20 margin-bottom-15">
+            <div class="detail row width-100 padding-left-20 padding-right-20">
                 <div class="row-icon width-10">
                     <i class="fa fa-mobile"></i>
                 </div>
@@ -1038,24 +1040,24 @@
             </div>
 
             <!-- Электронная почта абонента -->
-            <div class="row width-100 padding-left-20 margin-bottom-15">
+            <div class="detail row width-100 padding-left-20 margin-bottom-10">
                 <div class="row-icon width-10">
                     <i class="fa fa-at"></i>
                 </div>
-                <div class="row-content width-90 padding-right-20 padding-bottom-15 separated">
-                    <span *ngIf="phoneBook.selectedContact.email !== ''">{{ phoneBook.selectedContact.email }}</span>
+                <div class="row-content width-90 padding-right-20 separated">
+                    <span *ngIf="phoneBook.selectedContact.email !== ''"><a href="{{ phoneBook.selectedContact.email }}">{{ phoneBook.selectedContact.email }}</a></span>
                     <span class="not-specified" *ngIf="phoneBook.selectedContact.email === ''">Электронная почта не указана</span>
                 </div>
             </div>
 
             <!-- Местоположение абонента -->
-            <div class="row width-100 padding-left-20 padding-right-20">
+            <div class="detail row width-100 padding-left-20 padding-right-20">
                 <div class="row-icon width-10">
                     <i class="fa fa-map-marker"></i>
                 </div>
                 <div class="row-content width-90">
                     <span *ngIf="phoneBook.selectedContact.officeId !== 0">ул. Кирова, д.1 - каб 233</span>
-                    <span class="not-specified" *ngIf="phoneBook.selectedContact.officeId === 0">Местоположение не задано</span>
+                    <span class="not-specified" *ngIf="phoneBook.selectedContact.officeId === 0">Местоположение не указано</span>
                 </div>
             </div>
         </div>

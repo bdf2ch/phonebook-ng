@@ -92,6 +92,9 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
+.contact .contact-info #photo:hover .expand {
+  display: flex;
+}
 .contact .contact-info #photo.no-photo {
   background-position: center center !important;
   background-size: contain !important;
@@ -110,12 +113,28 @@
 .contact .contact-info #photo .editor-controls {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-end;
-  flex-grow: 1;
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
+}
+.contact .contact-info #photo .expand {
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  width: 90px;
+  height: 90px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.contact .contact-info #photo .expand .fa {
+  font-size: 45px;
+  color: #FAFAFA;
 }
 .contact .contact-info #photo .control {
   display: flex;
