@@ -25,7 +25,7 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
 
 
     ngOnInit(): void {
-        if (!this.phoneBook.selectedDivision && this.phoneBook.favorites.contacts.length > 0) {
+        if (!this.phoneBook.selectedDivision && this.phoneBook.favorites.contacts.length > 0 && !this.phoneBook.isInSearchMode) {
             //this.phoneBook.isInFavoritesMode = true;
             this.router.navigate(['favorites'])
         }

@@ -22,6 +22,7 @@ import { isError } from "../models/error.model";
 import { CookieService } from '../utilities/cookies/cookie.services';
 import { Phone } from '../models/phone.model';
 import { NgForm } from '@angular/forms';
+import {Office} from "../models/office.model";
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -37,6 +38,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private newDivision: Division;
     private newContact: Contact;
     private newContactPhone: Phone;
+    private newOffice: Office;
     private users: User[] = [];
     private usersStream: Observable<User[]>;
     private searchTerms = new Subject<string>();
@@ -59,11 +61,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newDivision = new Division();
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
-        console.log('new division after construct', this.newDivision);
         this.newContact = new Contact();
         this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
         this.newContactPhone = new Phone();
         this.newContactPhone.setupBackup(['atsId', 'number']);
+        this.newOffice = new Office();
+        this.newOffice.setupBackup(['organizationId', 'address']);
     };
 
 
@@ -214,8 +217,9 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     searchContacts(value: string): void {
         console.log('search query = ', value);
         if (value.length >= 3) {
-
-            this.phoneBook.searchContacts(this.session.user ? this.session.user.id : 0).subscribe();
+            this.phoneBook.searchContacts(this.session.user ? this.session.user.id : 0).subscribe(() => {
+                this.router.navigate(['/']);
+            });
         }
     };
 
@@ -619,5 +623,22 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 });
             }
         });
+    };
+
+
+    /**
+     * Открытие модального окна управлениями офисами организации
+     */
+    openOfficesModal(): void {
+        this.modals.get('offices-modal').open();
+    };
+
+
+    openNewOfficeModal(): void {
+        this.modals.get('new-office-modal').open();
+    };
+
+    closeNewOfficeModal(): void {
+        this.newOffice.restoreBackup();
     };
 }

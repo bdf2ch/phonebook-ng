@@ -75,6 +75,13 @@
     </div>
     <div id="app-division-controls" *ngIf="session.user && session.user.isAdministrator">
         <button type="button"
+                class="btn blue outline medium round margin-right-10"
+                title="Управление офисами организации"
+                (click)="openOfficesModal()">
+            <i class="fa fa-building-o"></i>
+        </button>
+
+        <button type="button"
                 class="btn green outline medium round margin-right-10"
                 title="Добавить структурное подразделение"
                 [disabled]="phoneBook.loading"
@@ -1045,7 +1052,7 @@
                     <i class="fa fa-at"></i>
                 </div>
                 <div class="row-content width-90 padding-right-20 separated">
-                    <span *ngIf="phoneBook.selectedContact.email !== ''"><a href="{{ phoneBook.selectedContact.email }}">{{ phoneBook.selectedContact.email }}</a></span>
+                    <span *ngIf="phoneBook.selectedContact.email !== ''"><a href="mailto:{{ phoneBook.selectedContact.email }}">{{ phoneBook.selectedContact.email }}</a></span>
                     <span class="not-specified" *ngIf="phoneBook.selectedContact.email === ''">Электронная почта не указана</span>
                 </div>
             </div>
@@ -1062,6 +1069,91 @@
             </div>
         </div>
     </div>
+</modal>
+
+
+
+<modal [id]="'offices-modal'"
+       [width]="500"
+       [height]="600"
+       [depth]="1"
+       [caption]="'Офисы организации'"
+       [icon]="'fa fa-building'">
+    <div id="organization-offices">
+        <div class="content width-100 padding-20">
+            <div class="contact-phones-list width-100">
+                <div class="contact-phone-item width-100 margin-bottom-20"
+                     *ngFor="let office of phoneBook.offices | officesByOrganization:phoneBook.selectedOrganization.id">
+                    <div class="icon margin-right-10">
+                        <i class="fa fa-building"></i>
+                    </div>
+                    <div class="phone-details margin-right-15">
+                        <div class="number">{{ office.address }}</div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn medium blue round margin-right-5"
+                                title="Изменить офис"
+                                (click)="openEditContactPhoneModal(office)">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn medium red round"
+                                title="Удалить офис"
+                                (click)="openDeleteContactPhoneModal(office)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer width-100 padding-10">
+            <button type="button"
+                    class="btn blue medium width-100"
+                    (click)="openNewOfficeModal()">
+                Добавить офис
+            </button>
+        </div>
+    </div>
+</modal>
+
+
+
+<modal [id]="'new-office-modal'"
+       [width]="400"
+       [height]="220"
+       [depth]="2"
+       [caption]="'Новый офис'"
+       [icon]="'fa fa-building'">
+    <form class="form-layout" novalidate #newOfficeForm="ngForm">
+        <div class="content width-100 padding-20">
+            <!-- Адрес -->
+            <div class="column">
+                <label for="new-phone-number">
+                    Адрес
+                    <span class="form-error" *ngIf="address.dirty && address.invalid">
+                            Вы не указали адрес
+                        </span>
+                </label>
+                <input type="text"
+                       name="address"
+                       id="new-office-address"
+                       class="inp medium width-100"
+                       placeholder="Введите адрес"
+                       [(ngModel)]="newOffice.address"
+                       #address="ngModel"
+                       [ngClass]="{'red': address.dirty && address.invalid}"
+                       required>
+            </div>
+        </div>
+        <div class="footer row width-100 padding-10">
+            <button type="submit"
+                    class="btn green medium width-50 margin-left-5" [disabled]="newOfficeForm.invalid">
+                Добавить
+            </button>
+            <button class="btn red medium width-50 margin-left-5">
+                Отмена
+            </button>
+        </div>
+    </form>
 </modal>
 
 

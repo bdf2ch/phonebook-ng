@@ -8,6 +8,7 @@ import { API, appConfig } from '../app.config';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { IUser, User } from '../models/user.model';
+import {Office} from "../models/office.model";
 
 
 @Injectable()
@@ -320,6 +321,36 @@ export class PhoneBookManagerService {
         return this.http.post(appConfig.apiUrl, parameters, options)
             .map((response: Response) => {
                 return response.json();
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
+    /**
+     * Добавление офиса организации
+     * @param {Office} - Добавляемый офис
+     * @returns {Observable<Office>}
+     */
+    addOffice(office: Office): Observable<Office> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'addOffice',
+            data: {
+                organizationId: office.organizationId,
+                address: office.address
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, parameters, options)
+            .map((response: Response) => {
+                const body = response.json();
+                const office_ = new Office(body);
+                office_.setupBackup(['organizationId', 'address']);
+                return office_;
             })
             .take(1)
             .finally(() => { this.loading = false; })
