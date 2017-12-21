@@ -1122,7 +1122,8 @@
        [height]="220"
        [depth]="2"
        [caption]="'Новый офис'"
-       [icon]="'fa fa-building'">
+       [icon]="'fa fa-building'"
+       (onClose)="closeNewOfficeModal(newOfficeForm)">
     <form class="form-layout" novalidate #newOfficeForm="ngForm">
         <div class="content width-100 padding-20">
             <!-- Адрес -->
@@ -1146,10 +1147,12 @@
         </div>
         <div class="footer row width-100 padding-10">
             <button type="submit"
-                    class="btn green medium width-50 margin-left-5" [disabled]="newOfficeForm.invalid">
+                    class="btn green medium width-50 margin-left-5"
+                    [disabled]="newOfficeForm.invalid">
                 Добавить
             </button>
-            <button class="btn red medium width-50 margin-left-5">
+            <button class="btn red medium width-50 margin-left-5"
+                    (click)="closeNewOfficeModal(newOfficeForm)">
                 Отмена
             </button>
         </div>

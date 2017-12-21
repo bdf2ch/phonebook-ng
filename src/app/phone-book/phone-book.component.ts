@@ -638,7 +638,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.modals.get('new-office-modal').open();
     };
 
-    closeNewOfficeModal(): void {
+    closeNewOfficeModal(form: NgForm): void {
+        form.reset();
         this.newOffice.restoreBackup();
     };
 }
