@@ -1,9 +1,17 @@
 <div class="company-selector-component" [ngClass]="{'opened': opened}">
     <div class="selected-company" (click)="open()">
-        <div class="company-title" *ngIf="selected" [ngClass]="{'smaller': selected.title.length > 60}">{{ selected.title }}</div>
+        <div class="company-title"
+             *ngIf="selected"
+             [ngClass]="{'smaller': selected.title.length > 60}">
+            {{ selected.title }}
+        </div>
         <div class="arrow" *ngIf="divisions.length > 1"><i class="fa fa-caret-down"></i></div>
     </div>
     <div class="options" *ngIf="divisions.length > 0" [ngClass]="{'visible': visible}">
-        <div class="option" *ngFor="let division of divisions | exceptSelectedOrganization:selected.id" (click)="select(division)">{{ division.title }}</div>
+        <div class="option"
+             *ngFor="let division of divisions | exceptSelectedOrganization:selected.id"
+             (click)="select(division)">
+            {{ division.title }}
+        </div>
     </div>
 </div>

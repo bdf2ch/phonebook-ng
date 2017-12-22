@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { appConfig } from '../../app.config';
 import { Division } from '../../models/division.model';
 import { PhoneBookService } from '../phone-book.service';
@@ -13,6 +13,7 @@ import { SessionService } from '../session.service';
 })
 export class CompanySelectorComponent implements OnChanges {
     @Input() divisions: Division[] = [];
+    @Output() onSelectOrganization: EventEmitter<Division> = new EventEmitter();
     private opened: boolean = false;
     private selected: Division | null = null;
 
@@ -54,5 +55,6 @@ export class CompanySelectorComponent implements OnChanges {
             this.phoneBook.fetchContactsByDivisionId(division.id, appConfig.defaultSourceAtsId, this.session.session ? this.session.session.token : '').subscribe();
         }
         this.open();
+        this.onSelectOrganization.emit(division);
     };
 }

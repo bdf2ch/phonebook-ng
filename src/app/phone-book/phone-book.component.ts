@@ -67,6 +67,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newContactPhone.setupBackup(['atsId', 'number']);
         this.newOffice = new Office();
         this.newOffice.setupBackup(['organizationId', 'address']);
+        this.newOffice.organizationId = appConfig.defaultOrganizationId;
     };
 
 
@@ -187,6 +188,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      */
     closeAtsPanel(): void {
         this.isAtsPanelOpened = false;
+    };
+
+
+    selectOrganization(division: Division): void {
+        console.log('selected organization', division);
+        this.newOffice.organizationId = division.id;
     };
 
 
@@ -634,12 +641,31 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
+    /**
+     * Открытие модального окна добавления нового офиса организации
+     */
     openNewOfficeModal(): void {
         this.modals.get('new-office-modal').open();
     };
 
+
+    /**
+     * Закрытие модального окна добавлени нового офиса организации
+     * @param {NgForm} form - форма добавления нового офиса
+     */
     closeNewOfficeModal(form: NgForm): void {
         form.reset();
         this.newOffice.restoreBackup();
+    };
+
+
+    /**
+     * Добавление нового офиса орагнизации
+     */
+    addOffice(): void {
+        this.manager.addOffice(this.newOffice).subscribe((office: Office) => {
+            this.phoneBook.offices.push(office);
+            this.modals.get('new-office-modal').close();
+        });
     };
 }

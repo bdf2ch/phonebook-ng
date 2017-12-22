@@ -315,7 +315,7 @@ module.exports = {
 
     /**
      * Удаление структурного подразделения
-     * @param parameters
+     * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: *[], func: string}}
      */
     deleteDivision: function (parameters) {
@@ -323,6 +323,48 @@ module.exports = {
             text: 'SELECT delete_phonebook_division($1, $2)',
             values: [parameters.data.divisionId, parameters.data.token],
             func: 'delete_phonebook_division'
+        }
+    },
+
+
+    /**
+     * Добавление нового офиса организации
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: *[], func: string}}
+     */
+    addOffice: function (parameters) {
+        return {
+            text: 'SELECT add_office($1, $2)',
+            values: [parameters.data.organizationId, parameters.data.address],
+            func: 'add_organization'
+        }
+    },
+
+
+    /**
+     * Изменение офиса организации
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: *[], func: string}}
+     */
+    editOffice: function (parameters) {
+        return {
+            text: 'SELECT edit_office($1, $2)',
+            values: [parameters.data.officeId, parameters.data.address],
+            func: 'edit_office'
+        }
+    },
+
+
+    /**
+     * Удаление офиса организации
+     * @param parameters
+     * @returns {{text: string, values: *[], func: string}}
+     */
+    deleteOffice: function (parameters) {
+        return {
+            text: 'SELECT delete_office($1)',
+            values: [parameters.data.officeId],
+            func: 'delete_office'
         }
     },
 

@@ -50,14 +50,14 @@ app
     })
 
 
-    .use(express.static(path.resolve('../../static')))
-    .use(express.static('../../dist'))
+    .use(express.static(path.resolve('../static')))
+    .use(express.static('../dist'))
     .use(uploader())
     .use(parser.json())
     //.use(cookieParser())
-    .get('*', (req, res) => {
-        res.sendFile(path.resolve('../../dist/index.html'));
-    })
+    //.get('*', (req, res) => {
+    //    res.sendFile(path.resolve('../../dist/index.html'));
+    //})
     .post('/api', function (request, response, next) {
         console.dir(request.body);
         console.dir(request.cookies);
@@ -90,6 +90,9 @@ app
             case 'addDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addDivision)]; break;
             case 'editDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editDivision)]; break;
             case 'deleteDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteDivision)]; break;
+            case 'addOffice': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addOffice)]; break;
+            case 'editOffice': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.editOffice)]; break;
+            case 'deleteOffice': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.deleteOffice)]; break;
             case 'searchUsers': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.searchUsers)]; break;
             case 'logIn': queue = [async.asyncify(postgres.query), async.asyncify(ldap.logIn)]; break;
             case 'logOut': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.logOut), async.asyncify(session.remove)]; break;

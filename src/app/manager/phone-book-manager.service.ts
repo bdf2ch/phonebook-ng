@@ -359,6 +359,66 @@ export class PhoneBookManagerService {
 
 
     /**
+     * Изменение офиса организации
+     * @param {Office} office - изменяемый офис
+     * @returns {Observable<Office>}
+     */
+    editOffice(office: Office): Observable<Office> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'editOffice',
+            data: {
+                id: office.id,
+                address: office.address
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, parameters, options)
+            .map((response: Response) => {
+                const body = response.json();
+                if (body) {
+                    office.setupBackup(['organizationId', 'address']);
+                    return true;
+                }
+                return false;
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
+    /**
+     * Удаление офиса организации
+     * @param {number} officeId
+     * @param {string} token
+     * @returns {Observable<boolean>}
+     */
+    deleteOffice(officeId: number, token: string): Observable<boolean> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        const parameters = {
+            action: 'deleteOffice',
+            data: {
+                officeId: officeId,
+                token: token
+            }
+        };
+
+        this.loading = true;
+        return this.http.post(appConfig.apiUrl, parameters, options)
+            .map((response: Response) => {
+                return response.json();
+            })
+            .take(1)
+            .finally(() => { this.loading = false; })
+            .catch(this.handleError);
+    };
+
+
+    /**
      * Поиск пользователей
      * @param query {string}
      * @returns {Observable<R>}

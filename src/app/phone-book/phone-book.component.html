@@ -67,7 +67,7 @@
 <div id="app-divisions">
 
     <div id="app-divisions-header">
-        <company-selector [divisions]="phoneBook.organizations"></company-selector>
+        <company-selector [divisions]="phoneBook.organizations" (onSelectOrganization)="selectOrganization($event)"></company-selector>
     </div>
 
     <div id="app-divisions-content" class="padding-20" [ngClass]="{'with-controls': session.user && session.user.isAdministrator}">
@@ -1116,7 +1116,7 @@
 </modal>
 
 
-
+<!-- Модальное окно добавления нового офиса организации -->
 <modal [id]="'new-office-modal'"
        [width]="400"
        [height]="220"
@@ -1148,7 +1148,7 @@
         <div class="footer row width-100 padding-10">
             <button type="submit"
                     class="btn green medium width-50 margin-left-5"
-                    [disabled]="newOfficeForm.invalid">
+                    [disabled]="newOfficeForm.invalid" (click)="addOffice()">
                 Добавить
             </button>
             <button class="btn red medium width-50 margin-left-5"
