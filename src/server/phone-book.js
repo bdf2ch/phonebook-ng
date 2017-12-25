@@ -306,8 +306,8 @@ module.exports = {
      */
     editDivision: function (parameters) {
         return {
-            text: 'SELECT edit_phonebook_division($1, $2, $3)',
-            values: [parameters.data.id, parameters.data.parentId, parameters.data.title],
+            text: 'SELECT edit_phonebook_division($1, $2, $3, $4)',
+            values: [parameters.data.id, parameters.data.parentId, parameters.data.officeId, parameters.data.title],
             func: 'edit_phonebook_division'
         }
     },
@@ -336,7 +336,7 @@ module.exports = {
         return {
             text: 'SELECT add_office($1, $2)',
             values: [parameters.data.organizationId, parameters.data.address],
-            func: 'add_organization'
+            func: 'add_office'
         }
     },
 

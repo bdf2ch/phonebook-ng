@@ -3,7 +3,8 @@ import { Office } from "../models/office.model";
 
 
 @Pipe({
-    name: 'officesByOrganization'
+    name: 'officesByOrganization',
+    pure: true
 })
 export class OfficesByOrganizationPipe implements PipeTransform {
     transform(offices: Office[], organizationId: number): Office[] {
@@ -16,7 +17,7 @@ export class OfficesByOrganizationPipe implements PipeTransform {
             });
             return result;
         } else {
-            return offices
+            return offices;
         }
     }
-};
+}

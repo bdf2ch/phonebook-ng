@@ -64,7 +64,7 @@
     </div>
     <div class="contact-details">
         <div class="detail">
-            <i class="fa fa-phone">
+            <i class="fa fa-phone" title="Контактный телефон">
                 <span class="badge"
                       *ngIf="contact.phones.length > 2"
                       title="Отображены не все телефоны абонента, для просмотра всех телефонов откройте карточку абонента">
@@ -78,19 +78,19 @@
             <span class="not-specified" *ngIf="contact.phones.length === 0">Телефон не указан</span>
         </div>
         <div class="detail">
-            <i class="fa fa-mobile-phone"></i>
+            <i class="fa fa-mobile-phone" title="Мобильный телефон"></i>
             {{ contact._backupData.mobile }}
             <span class="not-specified" *ngIf="contact._backupData.mobile === ''">Моб. телефон не указан</span>
         </div>
         <div class="detail">
-            <i class="fa fa-at"></i>
+            <i class="fa fa-at" title="Электронная почта"></i>
             <a href="mailto:{{contact._backupData.email}}">{{ contact._backupData.email }}</a>
             <span class="not-specified" *ngIf="contact._backupData.email === ''">E-mail не указан</span>
         </div>
         <div class="detail">
-            <i class="fa fa-map-marker"></i>
-            ул. Кирова,  д.1 &mdash; каб. 233
-            <span class="not-specified" *ngIf="contact._backupData.location === ''">Местоположение не указано</span>
+            <i class="fa fa-map-marker" title="Метоположение"></i>
+            <span *ngIf="contact.room">Кабинет {{contact.room}}</span>
+            <span class="not-specified" *ngIf="!contact.room">Местоположение не указано</span>
         </div>
     </div>
 </div>

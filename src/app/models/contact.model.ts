@@ -2,6 +2,7 @@ import { Model } from "./model.model";
 import { IPhone, Phone} from "./phone.model";
 import { IContactPhotoPosition } from './user-photo-position.interface';
 import { IUser, User } from './user.model';
+import {Office} from "./office.model";
 
 export interface IContact {
   id: number;
@@ -49,12 +50,14 @@ export class Contact extends Model {
   fio: string = "";
   search: string = "";
   user: User | null = null;
+  //office: Office | null;
 
   constructor (config?: IContact) {
     super();
     this.organizationId = config && config.organization_id ? config.organization_id : 0;
     this.officeId = config && config.office_id ? config.office_id : 0;
     this.room = config && config.room ? config.room : null;
+    //this.office = null;
 
 
     if (config) {
@@ -83,10 +86,10 @@ export class Contact extends Model {
         this.user = new User(config.user);
       }
 
-      if (config.phones && config.phones.length > 0) {
+      if (config.phones) {
         config.phones.forEach((item: IPhone, index: number, array: IPhone[]) => {
           const phone = new Phone(item);
-          phone.setupBackup(['atsId', 'number']);
+          phone.setupBackup(['atsId', 'number', 'title']);
           this.phones.push(phone);
           if (index === 0 || index === 1) {
             this.visiblePhones.push(phone);

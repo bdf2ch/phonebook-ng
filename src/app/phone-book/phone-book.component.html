@@ -1083,7 +1083,7 @@
         <div class="content width-100 padding-20">
             <div class="contact-phones-list width-100">
                 <div class="contact-phone-item width-100 margin-bottom-20"
-                     *ngFor="let office of phoneBook.offices | officesByOrganization:phoneBook.selectedOrganization.id">
+                     *ngFor="let office of phoneBook.offices">
                     <div class="icon margin-right-10">
                         <i class="fa fa-building"></i>
                     </div>
@@ -1131,8 +1131,8 @@
                 <label for="new-phone-number">
                     Адрес
                     <span class="form-error" *ngIf="address.dirty && address.invalid">
-                            Вы не указали адрес
-                        </span>
+                        Вы не указали адрес
+                    </span>
                 </label>
                 <input type="text"
                        name="address"

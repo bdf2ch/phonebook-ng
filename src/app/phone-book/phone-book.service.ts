@@ -330,18 +330,31 @@ export class PhoneBookService {
   };
 
 
-  getAtsById(atsId: number): ATS | null {
-      let result: ATS | null = null;
-      this.innerAts.forEach((item: ATS, index: number, array: ATS[]) => {
-          if (item.id === atsId) {
-              result = item;
-              return result;
-          }
-      });
-      this.outerAts.forEach((item: ATS, index: number, array: ATS[]) => {
-          if (item.id === atsId) {
-              result = item;
-              return result;
+  getAtsById(atsId: number | null): ATS | null {
+      if (atsId && atsId !== 0) {
+          let result: ATS | null = null;
+          this.innerAts.forEach((item: ATS) => {
+              if (item.id === atsId) {
+                  result = item;
+                  return result;
+              }
+          });
+          this.outerAts.forEach((item: ATS) => {
+              if (item.id === atsId) {
+                  result = item;
+                  return result;
+              }
+          });
+          return result;
+      }
+  };
+
+
+  getOfficeById(officeId: number): Office | null {
+      let result: Office | null = null;
+      this.offices.forEach((office: Office) => {
+          if (office.id === officeId) {
+              result = office;
           }
       });
       return result;

@@ -66,8 +66,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newContactPhone = new Phone();
         this.newContactPhone.setupBackup(['atsId', 'number']);
         this.newOffice = new Office();
-        this.newOffice.setupBackup(['organizationId', 'address']);
         this.newOffice.organizationId = appConfig.defaultOrganizationId;
+        this.newOffice.setupBackup(['organizationId', 'address']);
     };
 
 
@@ -240,8 +240,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             //console.log(this.route);
 
             if (this.phoneBook.isInFavoritesMode) {
-                this.phoneBook.fetchFavoriteContacts(this.session.user !== null ? this.session.user.id : 0, this.phoneBook.selectedAts.id)
-                    .subscribe(() => {
+                this.phoneBook.fetchFavoriteContacts(
+                    this.session.user !== null ? this.session.user.id : 0,
+                    this.phoneBook.selectedAts.id
+                ).subscribe(() => {
 
                     });
             } else {
@@ -317,6 +319,17 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     editDivision(): void {
         this.manager.editDivision(this.phoneBook.selectedDivision).subscribe((result: boolean) => {
             if (result) {
+                this.phoneBook.contacts.forEach((group: ContactGroup) => {
+                    console.log('officeID', this.phoneBook.selectedDivision.officeId);
+                    const office = this.phoneBook.getOfficeById(this.phoneBook.selectedDivision.officeId);
+                    console.log('office', office);
+                    if (office) {
+                        group.contacts.forEach((contact: Contact) => {
+                            contact.officeId = this.phoneBook.selectedDivision.officeId;
+                            //contact.office = office;
+                        });
+                    }
+                });
                 this.modals.get('edit-division-modal').close();
             }
         });
@@ -660,10 +673,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     /**
-     * Добавление нового офиса орагнизации
+     * Добавление нового офиса организации
      */
     addOffice(): void {
         this.manager.addOffice(this.newOffice).subscribe((office: Office) => {
+            console.log(office);
             this.phoneBook.offices.push(office);
             this.modals.get('new-office-modal').close();
         });
