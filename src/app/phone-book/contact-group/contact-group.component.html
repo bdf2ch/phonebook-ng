@@ -1,14 +1,18 @@
 <div class="contact-group-component" *ngIf="group.contacts.length > 0">
     <div class="divisions" *ngIf="group.divisions.length > 0">
-        <div class="organization" *ngIf="phoneBook.isInSearchContactsMode">{{ group.divisions[0].title }}</div>
-        <span class="division"
-              [ngClass]="{'selected': phoneBook.selectedDivision && division.id === phoneBook.selectedDivision.id}"
-              *ngFor="let division of group.divisions | slice: 1; let isFirst = first; let isLast = last"
-              (click)="selectDivision(division)">
+        <div class="left-hr"></div>
+        <div class="content">
+            <div class="organization" *ngIf="phoneBook.isInSearchContactsMode">{{ group.divisions[0].title }}</div>
+            <span class="division"
+                  [ngClass]="{'selected': phoneBook.selectedDivision && division.id === phoneBook.selectedDivision.id}"
+                  *ngFor="let division of group.divisions | slice: 1; let isFirst = first; let isLast = last"
+                  (click)="selectDivision(division)">
             <span class="separator" *ngIf="!isFirst"><i class="fa fa-circle"></i></span>
             {{ division.title }}
 
         </span>
+        </div>
+        <div class="right-hr"></div>
     </div>
     <div class="contacts">
         <contact [contact]="contact"

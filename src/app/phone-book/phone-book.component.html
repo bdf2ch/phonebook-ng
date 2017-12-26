@@ -53,8 +53,8 @@
                  routerLink="/account"
                  routerLinkActive="active"
                  *ngIf="session.user !== null"
-                 [ngStyle]="{'background': session.user.photo !== null ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
-                <span class="initials" *ngIf="session.user.photo === null">{{ session.user.name[0] + session.user.surname[0] }}</span>
+                 [ngStyle]="{'background': session.user.photo !== '' ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
+                <span class="initials" *ngIf="session.user.photo === ''">{{ session.user.name[0] + session.user.surname[0] }}</span>
                 <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
             </div>
         </div>
@@ -990,7 +990,7 @@
 
 <modal [id]="'contact-info-modal'"
        [width]="480"
-       [height]="590"
+       [height]="605"
        [depth]="1"
        [header]="false">
     <div id="contact-info-modal" class="column width-100">

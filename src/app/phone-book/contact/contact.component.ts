@@ -26,12 +26,14 @@ export class ContactComponent implements  OnInit, OnChanges{
     @Output() onChangeDivision: EventEmitter<number> = new EventEmitter();
     @Output() onEditContactClick: EventEmitter<Contact> = new EventEmitter();
     @Output() onEditContactPhoto: EventEmitter<any> = new EventEmitter();
+    private isPhotoUploading: boolean;
 
     constructor(private phoneBook: PhoneBookService,
                 public element: ElementRef,
                 private renderer: Renderer2,
                 private session: SessionService,
                 private modals: ModalsService) {
+        this.isPhotoUploading = false;
 
         this.renderer.listen(this.element.nativeElement, 'dragstart', (event: any) => {
             console.log('drag started');
@@ -135,6 +137,7 @@ export class ContactComponent implements  OnInit, OnChanges{
 
 
     uploadPhoto(event: any): void {
+        this.isPhotoUploading = true;
         this.phoneBook.uploadContactPhoto(this.contact.id, event.target.files[0])
             .subscribe((url: string) => {
                 console.log('new photo url = ', url);
@@ -154,6 +157,7 @@ export class ContactComponent implements  OnInit, OnChanges{
                         }
                     });
                 }
+                this.isPhotoUploading = false;
             });
     };
 

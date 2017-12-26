@@ -3,7 +3,7 @@
     <div class="contact-info">
 
         <div id="photo"
-             [ngClass]="{'no-photo': contact.photo === ''}"
+             [ngClass]="{'no-photo': contact.photo === '', 'with-photo': contact.photo !== ''}"
              [ngStyle]="
                 {
                     'background': contact.photo !== '' ? 'url(http://10.50.0.153:4444' + contact.photo +  ')' : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center',
@@ -18,8 +18,12 @@
                 </i>
             </div>
 
-            <div class="expand" (click)="showContactInfo()">
+            <div class="expand" (click)="showContactInfo()" *ngIf="!isPhotoUploading">
                 <i class="fa fa-search-plus"></i>
+            </div>
+
+            <div class="loading" *ngIf="isPhotoUploading">
+                <i class="fa fa-spinner fa-spin"></i>
             </div>
 
 
@@ -31,7 +35,8 @@
                     <i class="fa fa-pencil"></i>
                 </button>
                 <label class="btn blue round file small"
-                       *ngIf="session.user && session.user.isAdministrator">
+                       title="Загрузить фотографию"
+                       *ngIf="session.user && session.user.isAdministrator && !isPhotoUploading">
                     <i class="fa fa-camera"></i>
                     <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
                 </label>

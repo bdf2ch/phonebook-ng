@@ -30,12 +30,35 @@
   .user-details {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    width: 600px;
+
+    &.with-photo {
+      #photo {
+        padding-right: 40px;
+      }
+
+      #controls {
+        padding-left:  40px;
+      }
+    }
+
+    &.no-photo {
+      #photo {
+        padding-right: 0px;
+      }
+
+      #controls {
+        padding-left: 0px;
+      }
+    }
+
     #photo {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-end;
-      padding-right: 40px;
+      //padding-right: 40px;
       //padding-top: 20px;
       //padding-bottom: 20px;
       box-sizing: border-box;

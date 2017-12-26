@@ -5,27 +5,54 @@
   box-sizing: border-box;
 }
 .contact-group-component .divisions {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-end;
-  flex-wrap: wrap;
+  align-items: center;
   margin-bottom: 15px;
-  padding: 5px 15px;
+  padding: 10px 0px;
   box-sizing: border-box;
   font-family: 'Open Sans Regular';
   font-size: 14px;
   color: #90A4AE;
-  border-bottom: 1px dotted #CFD8DC;
   vertical-align: bottom;
+}
+.contact-group-component .divisions .left-hr {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  min-width: 40px;
+  height: 60%;
+  box-sizing: border-box;
+  border-top: 1px solid #CFD8DC;
+  border-left: 1px solid #CFD8DC;
+}
+.contact-group-component .divisions .right-hr {
+  display: flex;
+  flex-shrink: 0;
+  min-width: 40px;
+  height: 50%;
+  border-top: 1px solid #CFD8DC;
+}
+.contact-group-component .divisions .content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  box-sizing: border-box;
   box-shadow: inset 0px 1px 1px #BDBDBD;
   background: #EEEEEE;
-  border-radius: 4px;
+  border-radius: 25px;
 }
 .contact-group-component .divisions .organization {
+  display: block;
   width: 100%;
   font-family: "Open Sans Semi Bold";
-  font-size: 18px;
+  font-size: 17px;
+  text-align: center;
   color: #006064;
 }
 .contact-group-component .divisions .division {

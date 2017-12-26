@@ -22,13 +22,26 @@
 #user-account .user-details {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  width: 600px;
+}
+#user-account .user-details.with-photo #photo {
+  padding-right: 40px;
+}
+#user-account .user-details.with-photo #controls {
+  padding-left: 40px;
+}
+#user-account .user-details.no-photo #photo {
+  padding-right: 0px;
+}
+#user-account .user-details.no-photo #controls {
+  padding-left: 0px;
 }
 #user-account .user-details #photo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  padding-right: 40px;
   box-sizing: border-box;
   border-right: 1px solid #ECEFF1;
 }

@@ -85,7 +85,7 @@
   flex-grow: 1;
   align-self: center;
   width: 100%;
-  height: 140px;
+  height: 173px;
   margin-bottom: 10px;
   box-sizing: border-box;
   background-repeat: no-repeat !important;
@@ -94,6 +94,9 @@
 }
 .contact .contact-info #photo:hover .expand {
   display: flex;
+}
+.contact .contact-info #photo.with-photo {
+  background-size: cover !important;
 }
 .contact .contact-info #photo.no-photo {
   background-position: center center !important;
@@ -126,13 +129,30 @@
   align-items: center;
   justify-self: center;
   align-self: center;
-  width: 90px;
-  height: 90px;
+  width: 115px;
+  height: 115px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   cursor: pointer;
 }
 .contact .contact-info #photo .expand .fa {
+  font-size: 45px;
+  color: #FAFAFA;
+}
+.contact .contact-info #photo .loading {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  width: 115px;
+  height: 115px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.contact .contact-info #photo .loading .fa {
   font-size: 45px;
   color: #FAFAFA;
 }

@@ -6,19 +6,20 @@
   box-sizing: border-box;
 
   .divisions {
-    display: inline-flex;
+    display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: flex-end;
-    flex-wrap: wrap;
+    align-items: center;
     margin-bottom: 15px;
-    padding: 5px 15px;
+    //margin-left: -10px;
+    //margin-right:  -10px;
+    padding: 10px 0px;
     box-sizing: border-box;
     font-family: 'Open Sans Regular';
     font-size: 14px;
     //text-transform: uppercase;
     color: #90A4AE;
-    border-bottom: 1px dotted #CFD8DC;
+    //border-bottom: 1px dotted #CFD8DC;
     //border-top: 1px dotted #CFD8DC;
     //border-top: 1px solid lightgray;
     //border-left: 1px solid lightgray;
@@ -29,17 +30,49 @@
     //box-shadow: inset 0px 1px 1px #BDBDBD;
     //border-radius: 30px;
     //box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-    box-shadow: inset 0px 1px 1px #BDBDBD;
-    background: #EEEEEE;
-    //border-radius: 25px;
-    border-radius: 4px;
 
+
+    .left-hr {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-shrink: 0;
+      min-width: 40px;
+      height: 60%;
+      //margin-top: -10%;
+      box-sizing: border-box;
+      border-top: 1px solid #CFD8DC;
+      border-left: 1px solid #CFD8DC;
+    }
+
+    .right-hr {
+      display: flex;
+      flex-shrink: 0;
+      min-width: 40px;
+      height: 50%;
+      border-top: 1px solid #CFD8DC;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-grow: 1;
+      flex-wrap: wrap;
+      padding: 10px 20px;
+      box-sizing: border-box;
+      box-shadow: inset 0px 1px 1px #BDBDBD;
+      background: #EEEEEE;
+      border-radius: 25px;
+    }
 
 
     .organization {
+      display: block;
       width: 100%;
       font-family: "Open Sans Semi Bold";
-      font-size: 18px;
+      font-size: 17px;
+      text-align: center;
       color: #006064;
     }
 

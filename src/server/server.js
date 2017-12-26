@@ -142,7 +142,7 @@ app
                                         else {
                                             jimp.read(url).then(function (photo) {
                                                 photo
-                                                    .resize(800, 600)            // resize
+                                                    .resize(480, 319)            // resize
                                                     .quality(80)                 // set JPEG quality
                                                     .write(photoPath); // save
                                             }).catch(function (err) {
@@ -153,7 +153,7 @@ app
                                                 photo
                                                     .resize(320, 240)            // resize
                                                     .quality(60)                 // set JPEG quality
-                                                    .write('../../assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg' ); // save
+                                                    .write('/assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg'); // save
                                                 send(result);
                                             }).catch(function (err) {
                                                 console.error(err);
@@ -179,7 +179,7 @@ app
                                 else {
                                     jimp.read(url).then(function (photo) {
                                         photo
-                                            .resize(800, 600)            // resize
+                                            .resize(480, 319)            // resize
                                             .quality(80)                 // set JPEG quality
                                             .write(url + '_'); // save
                                     }).catch(function (err) {
@@ -190,7 +190,7 @@ app
                                         photo
                                             .resize(320, 240)            // resize
                                             .quality(60)                 // set JPEG quality
-                                            .write('/assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg' ); // save
+                                            .write('/assets/images/users/' + request.body.contactId.toString() + '/thumbnail.jpg'); // save
                                         send(result);
                                     }).catch(function (err) {
                                         console.error(err);
