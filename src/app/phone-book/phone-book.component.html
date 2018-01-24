@@ -1161,3 +1161,22 @@
 
 
 
+<!-- Модальное окно добавления нового офиса организации -->
+<modal [id]="'contact-photo-uploaded-modal'"
+       [width]="300"
+       [height]="150"
+       [depth]="2"
+       [header]="false"
+       (onClose)="closeContactPhotoUploadedModal()">
+   <div class="row horizontal-center vertical-center">
+       <div class="padding-10">Ваше фото загружено и отрпавлено на проверку администратору</div>
+       <button class="btn blue medium">Закрыть</button>
+   </div>
+</modal>
+
+
+
+
+
+
+

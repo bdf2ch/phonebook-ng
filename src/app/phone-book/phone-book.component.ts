@@ -682,4 +682,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             this.modals.get('new-office-modal').close();
         });
     };
+
+
+    /**
+     * Закрытие модального окна оповещения о загрузке фото абонента
+     */
+    closeContactPhotoUploadedModal(): void {
+        this.modals.get('contact-photo-uploaded-modal').close();
+    };
 }

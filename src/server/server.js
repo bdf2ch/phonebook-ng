@@ -13,6 +13,8 @@ var path = require('path');
 var fs = require('fs');
 var process = require('process');
 var jimp = require('jimp');
+const mail = require('./mail');
+
 
 
 process.on('uncaughtException', function (err) {
@@ -238,6 +240,9 @@ app
             response.end(JSON.stringify(result));
         };
 
+
+    })
+    .post('/uploadPhotoForModeration', function (request, response, next) {
 
     })
     .listen(4444, function () {
