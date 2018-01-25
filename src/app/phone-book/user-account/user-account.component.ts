@@ -20,4 +20,13 @@ export class UserAccountComponent {
         this.phoneBook.isInFavoritesMode = false;
     };
 
+
+    uploadPhoto(event: any): void {
+        if (this.session.user) {
+            console.log('userId', this.session.user.id);
+            console.log('file', event.target.files[0]);
+            this.phoneBook.uploadContactPhotoForModeration(this.session.user.id, event.target.files[0]).subscribe();
+        }
+    };
+
 }

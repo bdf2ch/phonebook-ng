@@ -380,5 +380,18 @@ module.exports = {
             values: [parameters.data.query],
             func: 'search_users'
         }
+    },
+
+    /**
+     * Получение информации о пользователе
+     * @param parameters {Object} - параметры запроса
+     * @returns {{text: string, values: *[], func: string}}
+     */
+    getUserById: function (parameters) {
+        return {
+            text: 'SELECT get_user_by_id($1)',
+            values: [parameters.userId],
+            func: 'get_user_by_id'
+        }
     }
 };

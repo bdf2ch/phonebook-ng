@@ -12,6 +12,7 @@ export const appConfig = {
     apiUrl: 'http://10.50.0.153:4444/api',
     /* Url для загрузки фото пользователей */
     uploadPhotoUrl: 'http://10.50.0.153:4444/uploadPhoto',
-
+    uploadPhotoForModerationUrl: 'http://10.50.0.153:4444/uploadPhotoForModeration',
+    photoModeratorEmail: ['savoronov@kolenergo.ru'],
     isInTestMode: false
 };

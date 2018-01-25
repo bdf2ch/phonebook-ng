@@ -13,7 +13,7 @@ var path = require('path');
 var fs = require('fs');
 var process = require('process');
 var jimp = require('jimp');
-const mail = require('./mail');
+const nodemailer = require('nodemailer');
 
 
 
@@ -30,6 +30,13 @@ process.on('ETIMEDOUT', function (err) {
     console.error(err.stack);
     console.log("Node NOT Exiting...");
 });
+
+
+function send(response, result) {
+    response.statusCode = 200;
+    response.setHeader('Content-Type', 'application/json; charset=utf-8');
+    response.end(JSON.stringify(result));
+};
 
 
 app
@@ -65,11 +72,7 @@ app
         console.dir(request.cookies);
 
 
-        function send(result) {
-            response.statusCode = 200;
-            response.setHeader('Content-Type', 'application/json; charset=utf-8');
-            response.end(JSON.stringify(result));
-        };
+
 
 
         var queue = [];
@@ -111,9 +114,9 @@ app
             console.log('error', err);
             console.log('result', result);
             if (err)
-                send({ code: 1,  message: 'No such user' });
+                send(response, { code: 1,  message: 'No such user' });
             else
-                send(result);
+                send(response, result);
         });
 
     })
@@ -234,15 +237,85 @@ app
         */
 
 
+        /*
         function send(result) {
             response.statusCode = 200;
             response.setHeader('Content-Type', 'application/json; charset=utf-8');
             response.end(JSON.stringify(result));
         };
+        */
 
 
     })
     .post('/uploadPhotoForModeration', function (request, response, next) {
+        if (request.files.photo && request.body.userId) {
+            let folderPath = path.resolve('/var/wwwn/phonebook/static/assets/images/moderation/');
+            let photoPath = path.resolve(folderPath, request.files.photo.name);
+            let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getUserById)];
+            let process = async.compose(...queue);
+            console.log('path = ', folderPath);
+            console.log('rbody', request.body);
+            fs.exists(folderPath, () => {
+                request.files.photo.mv(photoPath, function (err) {
+                    if (err) {
+                        console.log(err);
+                        return response.status(500).send(err);
+                    } else {
+                        process({userId: request.body.userId}, function (err, result) {
+                            console.log('error', err);
+                            console.log('result', result);
+                            if (err)
+                                send({code: 1, message: 'Error uploading contact photo for moderation'});
+                            else {
+                                //console.log(result);
+
+                                let transporter = nodemailer.createTransport({
+                                    host: 'kolu-mail.nw.mrsksevzap.ru',
+                                    port: 25,
+                                    secure: false,
+                                    tls: {
+                                        rejectUnauthorized: false
+                                    }
+                                });
+
+                                let mailOptions = {
+                                    from: '"Телефонный справочник" <phonebook@kolenergo.ru>', // sender address
+                                    to: 'savoronov@kolenergo.ru, aepirogov@kolenergo.ru', // list of receivers
+                                    subject: 'Загружено фото абонента', // Subject line
+                                    text: 'Test phonebook message', // plain text body
+                                    html:
+                                        '<b>' +
+                                            result.surname + ' ' +
+                                            result.name + ' ' +
+                                            result.fname +
+                                        '</b> загрузил фото.<br>' +
+                                        '<small>' +
+                                            '<i>фото во вложении к письму</i>' +
+                                        '</small>', // html body,
+                                    attachments: [
+                                        {   // filename and content type is derived from path
+                                            path: photoPath
+                                        }
+                                    ]
+                                };
+
+
+                                transporter.sendMail(mailOptions, (error, info) => {
+                                    if (error) {
+                                        return console.log(error);
+                                    }
+                                    console.log('Message sent: %s', info.messageId);
+                                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                                    fs.unlinkSync(photoPath);
+                                });
+
+                                send(response, true);
+                            }
+                        });
+                    }
+                });
+            });
+        }
 
     })
     .listen(4444, function () {

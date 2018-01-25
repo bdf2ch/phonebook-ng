@@ -554,6 +554,29 @@ export class PhoneBookService {
     };
 
 
+
+    uploadContactPhotoForModeration(userId: number, photo: File): Observable<string> {
+        console.log('photo', photo);
+        let headers = new Headers({ 'Accept': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let formData = new FormData();
+        formData.append('photo', photo);
+        formData.append('userId', userId.toString());
+
+        this.loading = true;
+        return this.http.post(appConfig.uploadPhotoForModerationUrl, formData, options)
+            .map((response: Response) => {
+                this.loading = false;
+                let result = response.json();
+                console.log('photo upload success: ', result);
+                return result;
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
+
+
+
   setContactPhotoPosition(contactId: number, top: number, left: number, zoom: number): Observable<IContactPhotoPosition> {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
