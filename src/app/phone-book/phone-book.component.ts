@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterContentChecked } from '@angular/core';
-import { Router } from '@angular/router';
+import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 import { appConfig } from '../app.config';
 import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "./session.service";
@@ -57,7 +57,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private session: SessionService,
                 private cookies: CookieService,
                 private modals: ModalsService,
-                private router: Router) {
+                private router: Router,
+                private route: ActivatedRoute) {
         this.newDivision = new Division();
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
@@ -68,6 +69,16 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newOffice = new Office();
         this.newOffice.organizationId = appConfig.defaultOrganizationId;
         this.newOffice.setupBackup(['organizationId', 'address']);
+
+
+
+        this.route.queryParams.subscribe((params: ParamMap) => {
+            console.log('query params', params);
+            if (params['search']) {
+                this.phoneBook.searchQuery = params['search'];
+                this.phoneBook.searchContacts(this.session.user ? this.session.user.id : null).subscribe();
+            }
+        });
     };
 
 
