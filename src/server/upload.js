@@ -92,7 +92,7 @@ module.exports = {
                 console.log('folder path = ', folderPath);
                 console.log('rbody', request.body);
 
-                fs.exists(folderPath, (exists) => {
+                fs.exists(folderPath, async (exists) => {
                     if (exists) {
                         request.files.photo.mv(photoPath, function(err) {
                             if (err) {
@@ -102,14 +102,14 @@ module.exports = {
                                     console.log('error', err);
                                     console.log('result', result);
                                     if (err) {
-                                        sendFunc({code: 1, message: 'Error uploading contact photo', description: err});
+                                        sendFunc(response, {code: 1, message: 'Error uploading contact photo', description: err});
                                     } else {
-                                        jimp.read(url).then((photo) => {
+                                        jimp.read(photoPath).then((photo) => {
                                             photo
                                                 .resize(320, 240)
                                                 .quality(60)
-                                                .write(`/assets/images/users/${request.body.contactId.toString()}/thumbnail.jpg`);
-                                            sendFunc(result);
+                                                .write(`/var/wwwn/phonebook/static/assets/images/users/${request.body.contactId.toString()}/thumbnail.jpg`);
+                                            sendFunc(response, result);
                                         }).catch(function (err) {
                                             console.error(err);
                                         });
@@ -117,6 +117,33 @@ module.exports = {
                                 });
                             }
                         });
+                    } else {
+                        const isFolderCreated = await utilities.createFolder(folderPath);
+                        if (isFolderCreated) {
+                            request.files.photo.mv(photoPath, function(err) {
+                                if (err) {
+                                    return response.status(500).send(err);
+                                } else {
+                                    process({ contactId: request.body.contactId, url: url }, function (err, result) {
+                                        console.log('error', err);
+                                        console.log('result', result);
+                                        if (err) {
+                                            sendFunc(response, result, {code: 1, message: 'Error uploading contact photo', description: err});
+                                        } else {
+                                            jimp.read(photoPath).then((photo) => {
+                                                photo
+                                                    .resize(320, 240)
+                                                    .quality(60)
+                                                    .write(`/var/wwwn/phonebook/static/assets/images/users/${request.body.contactId.toString()}/thumbnail.jpg`);
+                                                sendFunc(response, result);
+                                            }).catch(function (err) {
+                                                console.error(err);
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
                 });
             }

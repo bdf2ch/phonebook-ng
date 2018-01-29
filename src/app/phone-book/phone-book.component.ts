@@ -75,7 +75,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.route.queryParams.subscribe((params: ParamMap) => {
             console.log('query params', params);
             if (params['search']) {
-                this.phoneBook.searchQuery = params['search'];
+                this.phoneBook.searchQuery = this.phoneBook.convertLatinToCyrillic(params['search']);
                 this.phoneBook.searchContacts(this.session.user ? this.session.user.id : null).subscribe();
             }
         });
@@ -234,6 +234,9 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     searchContacts(value: string): void {
         console.log('search query = ', value);
+        console.log('converted query', this.phoneBook.convertLatinToCyrillic(value));
+        this.phoneBook.searchQuery = this.phoneBook.convertLatinToCyrillic(value);
+
         if (value.length >= 3) {
             this.phoneBook.searchContacts(this.session.user ? this.session.user.id : 0).subscribe(() => {
                 this.router.navigate(['/']);

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SessionService } from '../session.service';
 import { PhoneBookService } from '../phone-book.service';
 
@@ -14,7 +15,8 @@ export class UserAccountComponent {
      * @param session {SessionService} - SessionService injector
      * @param phoneBook {PhoneBookService} - PhoneBookService injector
      */
-    constructor(private session: SessionService,
+    constructor(private router: Router,
+                private session: SessionService,
                 private phoneBook: PhoneBookService) {
         this.phoneBook.isInUserAccountMode = true;
         this.phoneBook.isInFavoritesMode = false;
@@ -27,6 +29,17 @@ export class UserAccountComponent {
             console.log('file', event.target.files[0]);
             this.phoneBook.uploadContactPhotoForModeration(this.session.user.id, event.target.files[0]).subscribe();
         }
+    };
+
+
+    /**
+     * Выход из учетной записи пользователя, завершение сессии
+     */
+    logOut(): void {
+        this.session.logOut().subscribe((result: any) => {
+            console.log('logOut result', result);
+            this.router.navigate(['/']);
+        });
     };
 
 }

@@ -227,7 +227,12 @@ export class SessionService {
     logOut(): Observable<boolean> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        let parameters = { action: 'logOut', data: { token: this.currentSession !== null ? this.currentSession.token : '' }};
+        let parameters = {
+            action: 'logOut',
+            data: {
+                token: this.currentSession !== null ? this.currentSession.token : ''
+            }
+        };
 
         this.loading = true;
         return this.http.post(API, parameters, options)
@@ -236,6 +241,7 @@ export class SessionService {
                 if (result === true) {
                     this.currentSession = null;
                     this.currentUser = null;
+                    this.phoneBook.favorites.clearContacts();
                     if (this.phoneBook.isInFavoritesMode) {
                         this.phoneBook.isInFavoritesMode = false;
                         this.phoneBook.contacts = [];

@@ -67,14 +67,14 @@ app.use(function(req, res, next) {
     })
 
 
-    .use(express.static(path.resolve('../static')))
-    .use(express.static('../dist'))
+    .use(express.static(path.resolve('/var/wwwn/phonebook/static/')))
+    .use(express.static('/var/wwwn/phonebook/dist/'))
     .use(uploader())
     .use(parser.json())
     //.use(cookieParser())
-    //.get('*', (req, res) => {
-    //    res.sendFile(path.resolve('../../dist/index.html'));
-    //})
+    .get('*', (req, res) => {
+        res.sendFile(path.resolve('/var/wwwn/phonebook/dist/index.html'));
+    })
     .post('/api', function (request, response, next) {
         console.dir(request.body);
         console.dir(request.cookies);

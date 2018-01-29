@@ -1,5 +1,15 @@
-<stub *ngIf="phoneBook.contacts.length === 0 && !phoneBook.loading && !phoneBook.isInFavoritesMode" [icon]="'fa-building'" [text]="'Выберите структурное подразделение'"></stub>
-<stub *ngIf="phoneBook.loading === true" [icon]="'fa-spinner fa-spin'" [text]="'Загрузка...'"></stub>
+<stub *ngIf="phoneBook.contacts.length === 0 && !phoneBook.loading && !phoneBook.isInFavoritesMode"
+      [icon]="'fa-building'"
+      [text]="'Выберите структурное подразделение'">
+</stub>
+
+
+<stub *ngIf="phoneBook.loading === true"
+      [icon]="'fa-spinner fa-spin'"
+      [text]="'Загрузка...'">
+</stub>
+
+
 <div id="app-contacts" *ngIf="phoneBook.contacts.length > 0 || phoneBook.loading === true">
     <div id="app-favorites-caption" *ngIf="phoneBook.isInFavoritesMode === true"><i class="fa fa-star"></i>Ваши избранные контакты</div>
     <contact-group [group]="group"

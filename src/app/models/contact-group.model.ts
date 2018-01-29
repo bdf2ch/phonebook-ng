@@ -46,4 +46,9 @@ export class ContactGroup {
             }
         });
     };
+
+
+    clearContacts(): void {
+        this.contacts = [];
+    };
 };

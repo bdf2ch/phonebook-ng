@@ -1,4 +1,5 @@
 import {Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { SessionService } from "../session.service";
 import { CookieService } from "../../utilities/cookies/cookie.services";
@@ -38,7 +39,8 @@ export class UserMenuComponent implements OnChanges {
     private opened: boolean = false;
 
 
-    constructor (private element: ElementRef,
+    constructor (private router: Router,
+                 private element: ElementRef,
                  private session: SessionService,
                  private cookies: CookieService,
                  private phoneBook: PhoneBookService) {};
