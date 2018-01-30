@@ -9,6 +9,7 @@ module.exports = {
             fs.stat(path, (error, stats) => {
                 if (error) {
                     console.error(`Error checking path '${path}'`);
+                    reject(`Error checking path ${path}`);
                 }
                 if (stats.isDirectory() === true) {
                     resolve(true);
@@ -17,7 +18,7 @@ module.exports = {
                 }
             })
         });
-    };
+    },
 
 
     isFolderExists: (path) => {
@@ -40,7 +41,7 @@ module.exports = {
                 if (err) {
                     console.error(`Error creating directory '${path}'`);
                     //reject({ message: 'Error creating directory', description: err });
-                    reject(false);
+                    resolve(false);
                 }
                 resolve(true);
             });
@@ -60,16 +61,15 @@ module.exports = {
         })
     },
 
-    getFolderContent: (path) => {
+    getFolderContent: function (path) {
         return new Promise((resolve, reject) => {
             fs.readdir(path, (error, files) => {
                 if (error) {
                     console.error(`Error getting content of directory '${path}'`);
                     reject({ message: 'Error getting directory content', description: error });
                 }
-                const result = [];
+                let result = [];
                 files.forEach((item) => {
-                    console.log(pt.resolve(path, item));
                     result.push(pt.resolve(path, item));
                 });
                 resolve(result);

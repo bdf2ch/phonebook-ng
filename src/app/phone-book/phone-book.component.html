@@ -44,7 +44,7 @@
             </button>
 
             <!-- Авторизация пользователя -->
-            <button type="button" class="btn medium round" (click)="openAuthModal()" title="Войти" *ngIf="session.user === null" title="Авторизация">
+            <button type="button" class="btn medium round" title="Авторизация" (click)="openAuthModal()" *ngIf="session.user === null" >
                 <i class="fa fa-sign-in"></i>
             </button>
 
@@ -52,7 +52,7 @@
             <div class="user-logged"
                  routerLink="/account"
                  routerLinkActive="active"
-                 *ngIf="session.user !== null"
+                 *ngIf="session.user"
                  [ngStyle]="{'background': session.user.photo !== '' ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
                 <span class="initials" *ngIf="session.user.photo === ''">{{ session.user.name[0] + session.user.surname[0] }}</span>
                 <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
@@ -723,7 +723,7 @@
                                 <select id="contact-office"
                                         name="office"
                                         class="inp medium width-100"
-                                        [(ngModel)]="phoneBook.selectedContact.organizationId"
+                                        [(ngModel)]="phoneBook.selectedContact.officeId"
                                         required>
                                     <option *ngFor="let office of phoneBook.offices | officesByOrganization: phoneBook.selectedOrganiation"
                                             [ngValue]="office.id">
@@ -987,7 +987,7 @@
 </modal>
 
 
-
+<!-- Модальное окно с карточкой абонента -->
 <modal [id]="'contact-info-modal'"
        [width]="480"
        [height]="605"
@@ -995,7 +995,7 @@
        [header]="false">
     <div id="contact-info-modal" class="column width-100">
         <div class="photo"
-             [ngClass]="{'with-photo': phoneBook.selectedContact && phoneBook.selectedContact.photo}"
+             [ngClass]="{'with-photo': phoneBook.selectedContact && phoneBook.selectedContact.photo !== ''}"
              [ngStyle]="{'background': phoneBook.selectedContact && phoneBook.selectedContact.photo !== '' ? 'url(http://10.50.0.153:4444' + phoneBook.selectedContact.photo : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center'}">
         </div>
         <div class="details column vertical-around width-100 padding-top-20 padding-bottom-20" *ngIf="phoneBook.selectedContact">
@@ -1063,8 +1063,11 @@
                     <i class="fa fa-map-marker"></i>
                 </div>
                 <div class="row-content width-90">
-                    <span *ngIf="phoneBook.selectedContact.officeId !== 0">ул. Кирова, д.1 - каб 233</span>
-                    <span class="not-specified" *ngIf="phoneBook.selectedContact.officeId === 0">Местоположение не указано</span>
+                    <div *ngIf="phoneBook.selectedContact.room !== ''">
+                        <span *ngIf="phoneBook.selectedContact.officeId !== 0">{{ phoneBook.getOfficeAddressById(phoneBook.selectedContact.officeId) }} &mdash; </span>
+                        <span *ngIf="phoneBook.selectedContact.room">кабинет {{ phoneBook.selectedContact.room }}</span>
+                    </div>
+                    <span class="not-specified" *ngIf="!phoneBook.selectedContact.room">Местоположение не указано</span>
                 </div>
             </div>
         </div>

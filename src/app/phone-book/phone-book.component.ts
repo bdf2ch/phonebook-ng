@@ -334,15 +334,15 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.manager.editDivision(this.phoneBook.selectedDivision).subscribe((result: boolean) => {
             if (result) {
                 this.phoneBook.contacts.forEach((group: ContactGroup) => {
-                    console.log('officeID', this.phoneBook.selectedDivision.officeId);
-                    const office = this.phoneBook.getOfficeById(this.phoneBook.selectedDivision.officeId);
-                    console.log('office', office);
-                    if (office) {
-                        group.contacts.forEach((contact: Contact) => {
-                            contact.officeId = this.phoneBook.selectedDivision.officeId;
+                    //console.log('officeID', this.phoneBook.selectedDivision.officeId);
+                    //const office = this.phoneBook.getOfficeById(this.phoneBook.selectedDivision.officeId);
+                    //console.log('office', office);
+                    //if (office) {
+                    //    group.contacts.forEach((contact: Contact) => {
+                    //        contact.officeId = this.phoneBook.selectedDivision.officeId;
                             //contact.office = office;
-                        });
-                    }
+                    //    });
+                    //}
                 });
                 this.modals.get('edit-division-modal').close();
             }

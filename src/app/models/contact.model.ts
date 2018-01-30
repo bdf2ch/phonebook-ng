@@ -40,7 +40,7 @@ export class Contact extends Model {
   phones: Phone[] = [];
   visiblePhones: Phone[] = [];
   mobile: string;
-  photo: string ;
+  photo: string;
   photoTop: number = 0;
   photoLeft: number = 0;
   photoZoom: number = 100;

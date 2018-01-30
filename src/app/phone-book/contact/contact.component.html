@@ -12,7 +12,7 @@
 
 
             <div class="user-controls">
-                <i class="control favorites fa fa-star" [ngClass]="{'in-favorites': contact.isInFavorites === true}"
+                <i class="control favorites fa fa-star" *ngIf="session.user" [ngClass]="{'in-favorites': contact.isInFavorites === true}"
                    title="{{ contact.isInFavorites ? 'Убрать абонента из избранных' : 'Добавить абонента в избранные' }}"
                    (click)="favorites()">
                 </i>
@@ -28,25 +28,27 @@
 
 
             <div class="editor-controls">
-                <button class="btn blue round small"
+                <button class="btn blue round"
                         *ngIf="session.user && session.user.isAdministrator"
                         (click)="editContact()"
                         title="Редактировать данные абонента">
                     <i class="fa fa-pencil"></i>
                 </button>
-                <label class="btn blue round file small"
+                <label class="btn blue round file"
                        title="Загрузить фотографию"
                        *ngIf="session.user && session.user.isAdministrator && !isPhotoUploading">
                     <i class="fa fa-camera"></i>
                     <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
                 </label>
+                <!--
                 <button class="btn blue round small"
                         *ngIf="session.user && session.user.isAdministrator && contact.photo !== ''"
                         (click)="editContactPhoto()"
                         title="Кадрировать фотографию абонента">
                     <i class="fa fa-sliders"></i>
                 </button>
-                <button class="btn red round small"
+                -->
+                <button class="btn red round"
                         *ngIf="session.user && session.user.isAdministrator"
                         (click)="deleteContact(contact)"
                         title="Удалить абонента">
@@ -89,12 +91,12 @@
         </div>
         <div class="detail">
             <i class="fa fa-at" title="Электронная почта"></i>
-            <a href="mailto:{{contact._backupData.email}}">{{ contact._backupData.email }}</a>
+            <a href="mailto:{{ contact._backupData.email}}">{{ contact._backupData.email }}</a>
             <span class="not-specified" *ngIf="contact._backupData.email === ''">E-mail не указан</span>
         </div>
         <div class="detail">
             <i class="fa fa-map-marker" title="Метоположение"></i>
-            <span *ngIf="contact.room">Кабинет {{contact.room}}</span>
+            <span *ngIf="contact.room">Кабинет {{ contact.room }}</span>
             <span class="not-specified" *ngIf="!contact.room">Местоположение не указано</span>
         </div>
     </div>

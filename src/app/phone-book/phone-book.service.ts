@@ -350,11 +350,11 @@ export class PhoneBookService {
   };
 
 
-  getOfficeById(officeId: number): Office | null {
-      let result: Office | null = null;
+  getOfficeAddressById(officeId: number): string | null {
+      let result: string = '';
       this.offices.forEach((office: Office) => {
           if (office.id === officeId) {
-              result = office;
+              result = office.address;
           }
       });
       return result;
