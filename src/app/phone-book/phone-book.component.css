@@ -139,6 +139,14 @@
   text-transform: uppercase;
   color: white;
 }
+#app-header #sidebar-icon {
+  display: none;
+  cursor: pointer;
+}
+#app-header #sidebar-icon .fa {
+  font-size: 30px;
+  color: white;
+}
 #app-header #search {
   display: flex;
   flex-direction: row;
@@ -200,7 +208,7 @@
   border-top: 10px solid transparent;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid white;
+  border-bottom: 10px solid #F5F5F5;
   visibility: hidden;
 }
 #app-header button .badge {
@@ -232,7 +240,7 @@
   height: 40px;
   box-sizing: border-box;
   font-family: 'Open Sans Semi Bold';
-  font-size: 20px;
+  font-size: 18px;
   line-height: 40px;
   text-align: center;
   color: white;
@@ -275,7 +283,7 @@
   border-top: 10px solid transparent;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid white;
+  border-bottom: 10px solid #F5F5F5;
   visibility: hidden;
 }
 #app-divisions {
@@ -291,7 +299,7 @@
   width: 350px;
   box-sizing: border-box;
   background: white;
-  transition: width 0.2s linear 0s;
+  transition: left 0.2s linear 0s;
 }
 #app-divisions #app-divisions-header {
   position: absolute;
@@ -350,7 +358,7 @@
   color: #80CBC4;
 }
 #app-divisions #app-divisions-header button.favorites {
-  overflow: visible;
+  overflow: visible !important;
   margin-right: 10px;
 }
 #app-divisions #app-divisions-header button.favorites .fa {
@@ -659,14 +667,30 @@
     padding-right: 10px;
   }
   #app-header input[type='text'] {
+    width: 35px;
     height: 25px;
+  }
+  #app-header button[type='button'] {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 35px !important;
+    height: 35px !important;
+  }
+  #app-header #title {
+    display: none;
+  }
+  #app-header #sidebar-icon {
+    display: flex;
+  }
+  #app-header #search #search-right {
+    display: none;
   }
   #app-content-wrapper {
     top: 50px;
     left: 0px;
   }
   #app-divisions {
-    width: 0px;
+    left: -350px;
   }
   #app-contacts {
     flex-direction: column !important;
@@ -696,13 +720,20 @@
 /* Target landscape tablets, desktops */
 @media screen and (min-width: 800px) and (max-width: 1280px) {
   #app-header {
-    height: 50px;
+    left: 0px;
+  }
+  #app-header #title {
+    display: none;
+  }
+  #app-header #sidebar-icon {
+    display: flex;
   }
   #app-content-wrapper {
-    top: 50px;
+    left: 0px;
+    top: 60px;
   }
   #app-divisions {
-    width: 0px;
+    left: -350px;
   }
   #app-contacts {
     margin-left: 0px !important;
@@ -717,4 +748,3 @@
     top: 60px;
   }
 }
-/* Target big displays */

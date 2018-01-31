@@ -11,13 +11,12 @@ const utilities = require('./utilities');
 
 module.exports = {
     phoneBook: {
-        uploadContactPhotoForModeration: (request, response, sendFunc) => {
-            return Promise(async (resolve, reject) => {
+        uploadContactPhotoForModeration: (request) => {
+            return new Promise(async (resolve, reject) => {
                 if (request.files.photo && request.body.userId) {
                     let folderPath = path.resolve('/var/wwwn/phonebook/static/assets/images/moderation/');
                     let photoPath = path.resolve(folderPath, request.files.photo.name);
                     let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getUserById)];
-                    let process = async.compose(...queue);
                     console.log('path = ', folderPath);
                     console.log('rbody', request.body);
                     let isFolderExists = await utilities.isFolderExists(folderPath);
@@ -33,7 +32,8 @@ module.exports = {
                                 process({userId: request.body.userId}, function (err, result) {
                                     console.log('result', result);
                                     if (err)
-                                        sendFunc({ message: 'Error uploading contact photo for moderation', description: err });
+                                        //sendFunc({ message: 'Error uploading contact photo for moderation', description: err });
+                                        reject({ message: 'Error uploading contact photo for moderation', description: err });
                                     else {
                                         let transporter = nodemailer.createTransport({
                                             host: 'kolu-mail.nw.mrsksevzap.ru',
@@ -64,6 +64,7 @@ module.exports = {
                                             }
                                             console.log('Message sent: %s', info.messageId);
                                             fs.unlinkSync(photoPath);
+                                            resolve(true);
                                         });
 
                                         //sendFunc(response, true);

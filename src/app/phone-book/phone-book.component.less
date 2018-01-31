@@ -74,9 +74,18 @@
       font-family: "Open Sans Semi Bold";
       font-size: 15px;
       line-height: 16px;
-      //text-transform: uppercase;
+      text-transform: uppercase;
       color: white;
       //border-right: 1px dotted #E9EBEC;
+    }
+  }
+
+  #sidebar-icon {
+    display: none;
+    cursor: pointer;
+    .fa {
+      font-size: 30px;
+      color: white;
     }
   }
 
@@ -150,7 +159,7 @@
         border-top: 10px solid transparent;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 10px solid white;
+        border-bottom: 10px solid @app-contacts-background-color;
         visibility: hidden;
       }
     }
@@ -197,7 +206,7 @@
   box-sizing: border-box;
   //margin-left: 10px;
   font-family: 'Open Sans Semi Bold';
-  font-size: 20px;
+  font-size: 18px;
   line-height: @app-header-height - 20px;
   text-align: center;
   color: white;
@@ -223,7 +232,7 @@
     display: inline-block;
     bottom: -14px;
     border: 10px solid transparent;
-    border-bottom-color: #F5F5F5;
+    border-bottom-color: @app-contacts-background-color;
     visibility: hidden;
     &.ats-panel-opened {
       background: @app-ats-background-color;
@@ -248,7 +257,7 @@
       border-top: 10px solid transparent;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-bottom: 10px solid white;
+      border-bottom: 10px solid @app-contacts-background-color;
       visibility: hidden;
     }
   }
@@ -269,7 +278,7 @@
   width: @app-divisions-width;
   box-sizing: border-box;
   background: @app-divisions-background-color;
-  transition: width 0.2s linear 0s;
+  transition: left 0.2s linear 0s;
   //border-top: 5px solid @app-header-background-color;
 
   #app-divisions-header {
@@ -343,7 +352,7 @@
       }
 
       &.favorites {
-        overflow: visible;
+        overflow: visible !important;
         margin-right: 10px;
         .fa {
           font-size: 20px;
@@ -723,15 +732,34 @@
 /* Target landscape smartphones, portrait tablets, narrow desktops */
 @media screen and (min-width: 320px) and (max-width: 800px) {
 #app-header {
-        left: 0px;
-        height: @app-header-height-mobile;
-        padding-left: 10px;
-        padding-right: 10px;
+  left: 0px;
+  height: @app-header-height-mobile;
+  padding-left: 10px;
+  padding-right: 10px;
+  input[type='text'] {
+    width: 35px;
+    height: @app-header-height - 35px;
+  }
 
-        input[type='text'] {
-            height: @app-header-height - 35px;
-        }
+  button[type='button'] {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 35px !important;
+    height: 35px !important;
+  }
+  #title {
+    display: none;
+  }
+  #sidebar-icon {
+    display: flex;
+  }
+  #search {
+    #search-right {
+      display: none;
     }
+  }
+
+}
 
   #app-content-wrapper {
         top: @app-header-height-mobile;
@@ -739,10 +767,11 @@
     }
 
   #app-divisions {
-        //display: none;
-        //float: none;
-        width: 0px;
-    }
+    //display: none;
+    //float: none;
+    //width: 0px;
+    left: @app-divisions-width * -1;
+  }
 
   #app-contacts {
         flex-direction: column !important;
@@ -779,19 +808,28 @@
 
 /* Target landscape tablets, desktops */
 @media screen and (min-width: 800px) and (max-width: 1280px) {
-    #app-header {
-      height: @app-header-height-mobile;
+  #app-header {
+    left: 0px;
+    //height: @app-header-height-mobile;
+    #title {
+      display: none;
     }
+    #sidebar-icon {
+      display: flex;
+    }
+  }
 
     #app-content-wrapper {
-      top: @app-header-height-mobile;
+      left: 0px;
+      top: @app-header-height;
     }
 
 #app-divisions {
-        //display: none;
-        //float: none;
-  width: 0px;
-    }
+  //display: none;
+  //float: none;
+  //width: 0px;
+  left: @app-divisions-width * -1;
+}
 
   #app-contacts {
         margin-left: 0px !important;
@@ -803,14 +841,11 @@
 /* Target big displays */
 @media screen and (min-width: 1400px) {
 #app-header {
-        height: @app-header-height;
-    }
+  height: @app-header-height;
+}
 
   #app-content-wrapper {
         top: @app-header-height;
     }
 }
 
-
-/* Target big displays */
-@media screen and (min-width: 1800px) {}

@@ -211,6 +211,7 @@
   line-height: 15px;
 }
 .contact .contact-info #name-and-position .position {
+  width: 100%;
   height: 28px;
   max-height: 28px;
   padding-left: 10px;

@@ -29,7 +29,7 @@ process.on('ETIMEDOUT', function (err) {
 });
 
 
-function send(response, result) {
+async function send(response, result) {
     response.statusCode = 200;
     response.setHeader('Content-Type', 'application/json; charset=utf-8');
     response.end(JSON.stringify(result));
@@ -38,12 +38,13 @@ function send(response, result) {
 
 async function sendAsync(response, apiFunc) {
     try {
-        let result = await apiFunc();
+        let result = await apiFunc;
         response.statusCode = 200;
         response.setHeader('Content-Type', 'application/json; charset=utf-8');
         response.end(JSON.stringify(result));
-    } catch (err) {
-        response.status(500).send(err);
+    } catch (error) {
+        console.log('error catched', error);
+        response.status(500).send(error);
     }
 };
 
@@ -133,7 +134,8 @@ app.use(function(req, res, next) {
     })
     .post('/uploadPhotoForModeration', (request, response) => {
         //upload.phoneBook.uploadContactPhotoForModeration(request, response)
-        sendAsync(response, upload.phoneBook.uploadContactPhotoForModeration(request, response));
+        sendAsync(response, upload.phoneBook.uploadContactPhotoForModeration(request));
+        //async send(response, await upload.phoneBook.uploadContactPhotoForModeration(request));
     })
     .listen(4444, function () {
         console.log('Server started at 4444');
