@@ -29,3 +29,6 @@
   font-size: 50px;
   color: #B0BEC5;
 }
+.stub-component .stub .stub-text {
+  width: 100%;
+}
