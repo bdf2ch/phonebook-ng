@@ -196,14 +196,26 @@
           align-items: center;
           justify-self: center;
           align-self: center;
-          width: 115px;
-          height: 115px;
+          width: 80px;
+          height: 80px;
           background: rgba(0, 0, 0, 0.2);
           border-radius: 50%;
           cursor: pointer;
+          transition-property: height, width;
+          transition-duration: 0.1s;
+          &:hover {
+            width: 115px;
+            height: 115px;
+            .fa {
+              font-size: 45px;
+              color: #FAFAFA;
+            }
+          }
           .fa {
-            font-size: 45px;
+            font-size: 30px;
             color: #FAFAFA;
+            transition-property: font-size;
+            transition-duration: 0.1s;
           }
         }
 
