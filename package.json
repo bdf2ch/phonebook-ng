@@ -41,7 +41,7 @@
     "@angular/router": "~4.2.0",
     "@angular/tsc-wrapped": "~4.2.0",
     "@angular/upgrade": "~4.2.0",
-    "@bdf2ch/angular-transistor": "0.0.34",
+    "@bdf2ch/angular-transistor": "0.0.36",
     "angular-in-memory-web-api": "~0.3.2",
     "async": "^2.5.0",
     "cookie-parser": "^1.4.3",
