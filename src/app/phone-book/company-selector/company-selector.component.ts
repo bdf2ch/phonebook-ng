@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ElementRef, Renderer2 } from '@angular/core';
 import { appConfig } from '../../app.config';
 import { Division } from '../../models/division.model';
 import { PhoneBookService } from '../phone-book.service';
 import { DivisionTreeService } from '../division-tree/division-tree.service';
 import { SessionService } from '../session.service';
+import {buildAnimationTimelines} from "@angular/animations/browser/src/dsl/animation_timeline_builder";
 
 
 @Component({
@@ -18,7 +19,9 @@ export class CompanySelectorComponent implements OnChanges {
     private selected: Division | null = null;
 
 
-    constructor(private session: SessionService,
+    constructor(private element: ElementRef,
+                private renderer: Renderer2,
+                private session: SessionService,
                 private phoneBook: PhoneBookService,
                 private divisionTrees: DivisionTreeService) {}
 
@@ -27,7 +30,7 @@ export class CompanySelectorComponent implements OnChanges {
         console.log(changes);
         if (changes['divisions']['firstChange']) {
             console.info('divisions first change');
-            changes['divisions']['currentValue'].forEach((item: Division, index: number, array: Division[]) => {
+            changes['divisions']['currentValue'].forEach((item: Division) => {
                 if (item.id === appConfig.defaultOrganizationId) {
                     this.selected = item;
                     this.phoneBook.selectedOrganization = item;
@@ -39,6 +42,20 @@ export class CompanySelectorComponent implements OnChanges {
 
     open(): void {
         this.opened = !this.opened;
+        if (this.element.nativeElement.children[0].children[1]) {
+            console.log('options height', this.element.nativeElement.children[0].children[1].clientHeight);
+            let height: number = 0;
+            for (let i: number = 0; i <  this.element.nativeElement.children[0].children[1].children.length; i++) {
+                console.log('option height', this.element.nativeElement.children[0].children[1].children[i].clientHeight);
+                height += this.element.nativeElement.children[0].children[1].children[i].clientHeight;
+            }
+
+            this.renderer.setStyle(
+                this.element.nativeElement.children[0].children[1],
+                'height',
+                height - 20 + 'px'
+            );
+        }
     };
 
 

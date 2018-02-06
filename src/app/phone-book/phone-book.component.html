@@ -35,13 +35,13 @@
                 <span class="corner"></span>
             </button>
 
-            <!-- Избранные контакты -->
+            <!-- Избранные абоненты -->
             <button type="button"
                     class="btn medium round favorites badged"
                     *ngIf="session.user && phoneBook.favorites.contacts.length > 0"
                     routerLink="/favorites"
                     routerLinkActive="active"
-                    title="Избранные контакты">
+                    title="Избранные абоненты">
                 <span class="badge">{{ phoneBook.favorites.contacts.length }}</span>
                 <i class="fa fa-star"></i>
                 <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
@@ -62,7 +62,7 @@
                  routerLink="/account"
                  routerLinkActive="active"
                  *ngIf="session.user"
-                 [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Меню пользователя">
+                 [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Личный кабинет">
                 <!--<span class="initials" *ngIf="session.user.photo === ''">{{ session.user.name[0] + session.user.surname[0] }}</span>-->
                 <span class="initials">{{ session.user.name[0] + session.user.surname[0] }}</span>
                 <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
@@ -164,7 +164,7 @@
        [caption]="'Авторизация'"
        [icon]="'fa fa-user'"
        [width]="400"
-       [height]="!authorization.userNotFound ? 290 : 350"
+       [height]="!authorization.userNotFound ? 285 : 350"
        (onClose)="closeAuthModal(authoriaztionForm)">
     <div class="column width-100">
         <form novalidate class="column width-100" #authoriaztionForm="ngForm">

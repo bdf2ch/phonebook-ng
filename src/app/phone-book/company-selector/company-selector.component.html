@@ -8,6 +8,7 @@
         <div class="arrow" *ngIf="divisions.length > 1"><i class="fa fa-caret-down"></i></div>
     </div>
     <div class="options" *ngIf="divisions.length > 0" [ngClass]="{'visible': visible}">
+        <div class="corner"></div>
         <div class="option"
              *ngFor="let division of divisions | exceptSelectedOrganization:selected.id"
              (click)="select(division)">
