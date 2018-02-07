@@ -20,3 +20,87 @@
         </div>
     </div>
 </div>
+
+
+
+<div id="user-account">
+    <div id="user-name-caption" *ngIf="session.user">
+        {{ session.user.name + ' ' + session.user.fname + ' ' + session.user.surname }}
+    </div>
+    <div id="user-photo-and-menu">
+        <div id="user-photo">
+            <div id="photo"></div>
+        </div>
+        <div id="user-menu">
+            <a href="http://10.50.0.153:4444/assets/images/users/3816/IMG_2128.jpg" class="btn medium blue width-100 margin-bottom-15">Скачать фотографию</a>
+            <label class="btn medium width-100 blue file margin-bottom-15">
+                Загрузить фотографию
+                <input type="file" name="photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
+            </label>
+            <button class="btn medium blue width-100 margin-bottom-15" (click)="feedback.open()">Отправить сообщение</button>
+            <button class="btn medium width-100 red" (click)="logOut()">Выйти из учетной записи</button>
+        </div>
+    </div>
+</div>
+
+
+<modal [id]="'photo-upload-success-modal'"
+       [header]="false"
+       [width]="420"
+       [height]="180">
+    <div class="padding-20">
+        <b>Фотография загружена!</b><br><br>
+        После проверки администратором Ваша фотография будет размещена в телефонном справочнике.<br>
+        <div class="row horizontal-center padding-top-20">
+            <button class="btn medium blue width-30" (click)="closeUploadPhotoSuccessModal()">Закрыть</button>
+        </div>
+    </div>
+</modal>
+
+
+
+<modal [id]="'feedback-modal'"
+       [caption]="'Обратная связь'"
+       [icon]="'fa fa-envelope'"
+       [width]="420"
+       [height]="410">
+    <div class="column width-100">
+        <form class="form-layout" novalidate #feedbackForm="ngForm">
+            <div class="content width-100 padding-20">
+                <div class="column margin-bottom-15">
+                    <label for="feedback-message-theme">Тема сообщения</label>
+                    <select name="theme" id="feedback-message-theme" class="inp outline" [(ngModel)]="feedback.message.themeId">
+                        <option *ngFor="let theme of feedback.themes" [value]="theme.id">{{ theme.title }}</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <label for="feedback-message-text">
+                        Текст сообщения
+                        <span class="form-error" *ngIf="message.dirty && message.invalid">Вы не написали сообщение</span>
+                    </label>
+                    <textarea name="message"
+                              id="feedback-message-text"
+                              cols="30"
+                              rows="11"
+                              placeholder="Опишите, пожалуйста, Вашу проблему или пожелание максимально развернуто"
+                              [(ngModel)]="feedback.message.message"
+                              #message="ngModel"
+                              required>
+                </textarea>
+                </div>
+            </div>
+            <div class="footer row width-100 padding-10">
+                <button type="submit"
+                        class="btn green medium width-50 margin-right-5"
+                        [disabled]="feedbackForm.invalid"
+                    (click)="feedback.send(feedbackForm)">
+                    Отправить
+                </button>
+                <button class="btn red medium width-50 margin-left-5"
+                        (click)="feedback.close(feedbackForm)">
+                    Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</modal>

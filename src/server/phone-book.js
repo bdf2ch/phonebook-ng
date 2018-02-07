@@ -393,5 +393,12 @@ module.exports = {
             values: [parameters.userId],
             func: 'get_user_by_id'
         }
+    },
+
+
+    feedback: function (parameters) {
+        return new Promise((resolve, reject) => {
+
+        });
     }
 };

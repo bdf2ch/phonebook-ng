@@ -17,6 +17,7 @@ import { ContactGroupComponent } from './contact-group/contact-group.component';
 import { API, uploadURL, appConfig } from '../app.config';
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 import {Office} from "../models/office.model";
+import {FeedbackMessage} from "../models/feedback-message.model";
 
 
 @Injectable()
@@ -478,6 +479,28 @@ export class PhoneBookService {
 
 
 
+  sendFeedbackMessage(userId: number, message: FeedbackMessage): Observable<boolean> {
+      let headers = new Headers({'Content-Type': 'application/json'});
+      let options = new RequestOptions({headers: headers});
+      let parameters = {
+          action: 'feedback',
+          data: {
+              userId: userId,
+              message: message
+          }
+      };
+      this.loading = true;
+
+      return this.http.post(appConfig.apiUrl, parameters, options)
+          .map((response: Response) => {
+              this.loading = false;
+              return response.json();
+          })
+          .take(1)
+          .catch(this.handleError);
+  };
+
+
 
     uploadUserPhoto(userId: number, photo: File): Observable<string> {
         console.log('photo', photo);
@@ -555,7 +578,7 @@ export class PhoneBookService {
 
 
 
-    uploadContactPhotoForModeration(userId: number, photo: File): Observable<string> {
+    uploadContactPhotoForModeration(userId: number, photo: File): Observable<boolean> {
         console.log('photo', photo);
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });

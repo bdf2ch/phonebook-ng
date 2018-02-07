@@ -11,6 +11,8 @@ var async = require('async');
 var path = require('path');
 var process = require('process');
 const upload = require('./upload');
+const feedback = require('./feedback');
+const users = require('./users');
 
 
 
@@ -36,9 +38,9 @@ async function send(response, result) {
 };
 
 
-async function sendAsync(response, apiFunc) {
+async function sendAsync(response, apiFunc, request) {
     try {
-        let result = await apiFunc;
+        let result = request ? await apiFunc(request.body) : await apiFunc;
         response.statusCode = 200;
         response.setHeader('Content-Type', 'application/json; charset=utf-8');
         response.end(JSON.stringify(result));
@@ -114,6 +116,7 @@ app.use(function(req, res, next) {
             case 'uploadPhoto': console.log(request.files); break;
             case 'setContactPhotoPosition': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.setContactPhotoPosition)]; break;
             case 'setContactDivision': queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.setContactDivision)]; break;
+            case 'feedback': sendAsync(response, feedback.phoneBook.send, request); break;//sendAsync(response, feedback.phoneBook.send, request); break;
         };
 
 
