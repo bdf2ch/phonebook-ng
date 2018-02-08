@@ -62,9 +62,10 @@
                  routerLink="/account"
                  routerLinkActive="active"
                  *ngIf="session.user"
-                 [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}" title="Личный кабинет">
+                 [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}"
+                 title="Личный кабинет">
                 <!--<span class="initials" *ngIf="session.user.photo === ''">{{ session.user.name[0] + session.user.surname[0] }}</span>-->
-                <span class="initials">{{ session.user.name[0] + session.user.surname[0] }}</span>
+                <span class="initials" *ngIf="!session.user.photo">{{ session.user.name[0] + session.user.surname[0] }}</span>
                 <span class="corner" [ngClass]="{'ats-panel-opened': phoneBook.isAtsPanelOpened === true }"></span>
             </div>
         </div>

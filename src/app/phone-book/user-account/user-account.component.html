@@ -1,38 +1,19 @@
-<div id="user-account" class="padding-20">
-    <div class="user-name" *ngIf="session.user">{{ session.user.name + ' ' + session.user.fname + ' ' + session.user.surname }}</div>
-    <div class="user-details" [ngClass]="{'with-photo': session.user.photo !== '', 'no-photo': session.user.photo === ''}">
-        <div id="photo" class="width-50" *ngIf="session.user && session.user.photo !== ''">
-            <div class="user-photo"
-                 [ngClass]="{'with-photo': session.user && session.user.photo !== '', 'no-photo': session.user.photo === ''}"
-                 [ngStyle]="{'background': session.user && session.user.photo !== '' ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : ''}">
-            </div>
-        </div>
-        <div id="controls" class="column width-50">
-
-            <label class="btn medium width-100 blue file margin-bottom-10">
-                Загрузить фотографию
-                <input type="file" name="photo" id="user-photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
-            </label>
-
-            <!--<button class="btn medium width-100 blue margin-bottom-10">Кадрировать фотографию</button>-->
-
-            <button class="btn medium width-100 red" (click)="logOut()">Выйти из учетной записи</button>
-        </div>
-    </div>
-</div>
-
-
-
-<div id="user-account">
+<div id="user-account" [ngClass]="{'no-photo': !session.user.photo}">
     <div id="user-name-caption" *ngIf="session.user">
         {{ session.user.name + ' ' + session.user.fname + ' ' + session.user.surname }}
     </div>
     <div id="user-photo-and-menu">
         <div id="user-photo">
-            <div id="photo"></div>
+            <div id="photo" [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : 'http://10.50.0.153:4444/assets/images/users/no_photo.png'}"></div>
         </div>
         <div id="user-menu">
-            <a href="http://10.50.0.153:4444/assets/images/users/3816/IMG_2128.jpg" class="btn medium blue width-100 margin-bottom-15">Скачать фотографию</a>
+            <!-- Кнопка скачивания фото пользователя -->
+            <a [href]="session.user.photo"
+               class="btn medium blue width-100 margin-bottom-15"
+               *ngIf="session.user.photo">
+                Скачать фотографию
+            </a>
+            <!-- Кнопка отправки фото абонента -->
             <label class="btn medium width-100 blue file margin-bottom-15">
                 Загрузить фотографию
                 <input type="file" name="photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
@@ -44,6 +25,7 @@
 </div>
 
 
+<!-- Модальное окно с уведомлением об успешной загрузке фото абонента -->
 <modal [id]="'photo-upload-success-modal'"
        [header]="false"
        [width]="420"
@@ -58,7 +40,7 @@
 </modal>
 
 
-
+<!-- Модальное окно отправки сообщения обратной связи -->
 <modal [id]="'feedback-modal'"
        [caption]="'Обратная связь'"
        [icon]="'fa fa-envelope'"

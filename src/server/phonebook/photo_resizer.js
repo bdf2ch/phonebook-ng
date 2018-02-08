@@ -2,7 +2,7 @@
 
 
 const jimp = require('jimp');
-const utilities = require('./utilities');
+const utilities = require('../common/utilities');
 
 
 const path = '/var/wwwn/phonebook/static/assets/images/users/';

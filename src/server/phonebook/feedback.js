@@ -1,24 +1,28 @@
 "use strict";
 const nodemailer = require('nodemailer');
-const users = require('./users');
+const users = require('../common/users');
 
 
 module.exports = {
-    phoneBook: {
-        send: (parameters) => {
-            console.log('paramz', parameters.data);
-            return new Promise(async (resolve, reject) => {
-                if (parameters.data.userId) {
-                    console.log('waiting for user');
-                    let user = await users.getUserById(parameters.data.userId);
-                    console.log('user', user);
+    send: (userId, message) => {
+        return new Promise(async (resolve, reject) => {
+            if (userId) {
+                try {
+                    let user = await users.getUserById(userId);
                     if (user) {
                         let theme = '';
-                        switch (parameters.data.message.themeId) {
-                            case 1: theme = 'ошибка в работе справочника'; break;
-                            case 2: theme = 'несоответствие данных в справочнике'; break;
-                            case 2: theme = 'замечания и пожелания'; break;
-                        };
+                        switch (parseInt(message['themeId'])) {
+                            case 1:
+                                theme = 'ошибка в работе справочника';
+                                break;
+                            case 2:
+                                theme = 'несоответствие данных в справочнике';
+                                break;
+                            case 3:
+                                theme = 'замечания и предложения';
+                                break;
+                        }
+                        ;
 
                         let transporter = nodemailer.createTransport({
                             host: 'kolu-mail.nw.mrsksevzap.ru',
@@ -32,10 +36,10 @@ module.exports = {
                         let mailOptions = {
                             from: '"Телефонный справочник" <phonebook@kolenergo.ru>',
                             to: 'savoronov@kolenergo.ru',
-                            subject: `Отправлено сообщение (${theme})`,
+                            subject: `Отправлено сообщение (${theme}).`,
                             html: `<b>${user.name} ${user.fname} ${user.surname}</b> отправил сообщение.<br>
-                           Тема сообщения: ${theme}<br>
-                           Текст сообщения: ${parameters.data.message.message}`
+                                       Тема сообщения: ${theme}<br>
+                                       Текст сообщения: ${message['message']}`
                         };
 
                         transporter.sendMail(mailOptions, (error, info) => {
@@ -50,11 +54,13 @@ module.exports = {
                     } else {
                         resolve(false);
                     }
-                } else {
-                    //resolve(false);
-                    reject({error: 'User id not specified', description: 'User id parameter not specified'});
+                } catch (err) {
+                    reject(err);
                 }
-            });
-        }
+            } else {
+                //resolve(false);
+                reject({error: 'User id not specified', description: 'User id parameter not specified'});
+            }
+        });
     }
 };

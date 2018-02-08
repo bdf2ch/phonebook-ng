@@ -79,7 +79,7 @@ export class UserAccountComponent {
         themes: [
             new FeedbackMessageTheme(1, 'Ошибка в работе справочника'),
             new FeedbackMessageTheme(2, 'Несоответствие данных в справочнике'),
-            new FeedbackMessageTheme(3, 'Замечания и пожелания')
+            new FeedbackMessageTheme(3, 'Замечания и предложения')
         ],
 
         /**
