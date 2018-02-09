@@ -1,14 +1,14 @@
 @chapters-width: 320px;
 
 
-#content {
+#help-content {
   overflow: auto;
   position: absolute;
   top: 0px;
   left: 0px;
   bottom: 0px;
   right: 0px;
-  padding-right: @chapters-width + 10px;
+  padding-right: @chapters-width + 40px;
   box-sizing: border-box;
   font-family: "Open Sans Regular";
   font-size: 14px;
@@ -52,19 +52,72 @@
   right: 15px;
   top: 20px;
   bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: @chapters-width;
   padding-right: 20px;
+  padding-top: 15px;
   box-sizing: border-box;
   border-left: 1px solid #CFD8DC;
 
-  a {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    line-height: 14px;
-    color: #2196F3;
-    &:hover {
-      color: #1565C0;
+  .chapter {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left:  -12.5px;
+    margin-bottom: 15px;
+    .fa {
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 0;
+      flex-shrink: 0;
+      text-align: center;
+      width: 25px;
+      height: 25px;
+      margin-right:  10px;
+      font-size: 13px;
+      color: white;
+      border-radius: 50%;
+      background: #64B5F6;
+    }
+    a {
+      display: inline-flex;
+      //margin-bottom: 5px;
+      padding-left: 12px;
+      font-size: 14px;
+      line-height: 14px;
+      color: #2196F3;
+      cursor: pointer;
+      &:hover {
+        color: #1565C0;
+      }
     }
   }
+
+  ul {
+    overflow: hidden;
+    display: block;
+    height: 100%;
+    //border-left: 1px solid red;
+    //margin: 0px;
+    margin-left:  20px;
+    padding: 0px;
+    //padding-left: 10px;
+    box-sizing: border-box;
+    li {
+      //margin-left: 10px;
+      margin-bottom: 5px;
+      //padding: 0px 0px 0px 12px;
+      color: #2196F3;
+      &:hover {
+        color: #1565C0;
+      }
+    }
+  }
+
+
 }

@@ -121,7 +121,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      */
     login(): void {
         this.session.logIn(this.authorization.login, this.authorization.password).subscribe((result: any) => {
-            if (!isError(result)) {
+            if (result !== null) {
                 console.log('result', result);
                 this.authorization.userNotFound = false;
                 this.cookies.set({

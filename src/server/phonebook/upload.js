@@ -10,25 +10,25 @@ const utilities = require('../common/utilities');
 
 
 module.exports = {
-    uploadContactPhotoForModeration: (request) => {
+    uploadContactPhotoForModeration: (userId, photo) => {
         return new Promise(async (resolve, reject) => {
-            if (request.files.photo && request.body.userId) {
+            if (userId && photo) {
                 let folderPath = path.resolve('/var/wwwn/phonebook/static/assets/images/moderation/');
-                let photoPath = path.resolve(folderPath, request.files.photo.name);
+                let photoPath = path.resolve(folderPath, photo.name);
                 let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.getUserById)];
                 console.log('path = ', folderPath);
-                console.log('rbody', request.body);
+                //console.log('rbody', request.body);
                 let isFolderExists = await utilities.isFolderExists(folderPath);
                 if (isFolderExists) {
                     console.log('temp folder exists');
-                    request.files.photo.mv(photoPath, (err) => {
+                    photo.mv(photoPath, (err) => {
                         if (err) {
                             console.log(err);
                             reject({message: 'Error uploading contact photo for moderation', description: err});
                             //return response.status(500).send(err);
                         } else {
                             var process = async.compose(...queue);
-                            process({userId: request.body.userId}, function (err, result) {
+                            process({userId: userId}, function (err, result) {
                                 console.log('result', result);
                                 if (err)
                                 //sendFunc({ message: 'Error uploading contact photo for moderation', description: err });
@@ -79,30 +79,30 @@ module.exports = {
     },
 
 
-    uploadContactPhoto: (request, response, sendFunc) => {
-        if (request.files.photo && request.body.contactId) {
-            let folderPath = path.resolve('/var/wwwn/phonebook/static/assets/images/users/', request.body.contactId.toString());
-            let photoPath = path.resolve(folderPath, request.files.photo.name);
-            let url = '/assets/images/users/' + request.body.contactId.toString() + '/' + request.files.photo.name;
-            let fileNameArray = request.files.photo.name.split('.');
+    uploadContactPhoto: (contactId, photo) => {
+        if (photo && contactId) {
+            let folderPath = path.resolve('/var/wwwn/phonebook/static/assets/images/users/', contactId.toString());
+            let photoPath = path.resolve(folderPath, photo.name);
+            let url = '/assets/images/users/' + contactId.toString() + '/' + photo.name;
+            let fileNameArray = photo.name.split('.');
             let extension = fileNameArray[fileNameArray.length - 1];
 
             let queue = [async.asyncify(postgres.query), async.asyncify(phoneBook.addContactPhoto)];
             let process = async.compose(...queue);
             console.log('folder path = ', folderPath);
-            console.log('rbody', request.body);
+            //console.log('rbody', request.body);
 
             fs.exists(folderPath, async (exists) => {
                 if (exists) {
-                    request.files.photo.mv(photoPath, function (err) {
+                    photo.mv(photoPath, function (err) {
                         if (err) {
                             return response.status(500).send(err);
                         } else {
-                            process({contactId: request.body.contactId, url: url}, function (err, result) {
+                            process({contactId: contactId, url: url}, function (err, result) {
                                 console.log('error', err);
                                 console.log('result', result);
                                 if (err) {
-                                    sendFunc(response, {
+                                    resolve( {
                                         code: 1,
                                         message: 'Error uploading contact photo',
                                         description: err
@@ -112,8 +112,8 @@ module.exports = {
                                         photo
                                             .resize(320, 240)
                                             .quality(60)
-                                            .write(`/var/wwwn/phonebook/static/assets/images/users/${request.body.contactId.toString()}/thumbnail.jpg`);
-                                        sendFunc(response, result);
+                                            .write(`/var/wwwn/phonebook/static/assets/images/users/${contactId.toString()}/thumbnail.jpg`);
+                                        resolve(result);
                                     }).catch(function (err) {
                                         console.error(err);
                                     });
@@ -124,15 +124,16 @@ module.exports = {
                 } else {
                     const isFolderCreated = await utilities.createFolder(folderPath);
                     if (isFolderCreated) {
-                        request.files.photo.mv(photoPath, function (err) {
+                        photo.mv(photoPath, function (err) {
                             if (err) {
-                                return response.status(500).send(err);
+                                //return response.status(500).send(err);
+                                resolve({code:1, description: 'error moving file'});
                             } else {
-                                process({contactId: request.body.contactId, url: url}, function (err, result) {
+                                process({contactId: contactId, url: url}, function (err, result) {
                                     console.log('error', err);
                                     console.log('result', result);
                                     if (err) {
-                                        sendFunc(response, result, {
+                                        resolve( {
                                             code: 1,
                                             message: 'Error uploading contact photo',
                                             description: err
@@ -142,8 +143,8 @@ module.exports = {
                                             photo
                                                 .resize(320, 240)
                                                 .quality(60)
-                                                .write(`/var/wwwn/phonebook/static/assets/images/users/${request.body.contactId.toString()}/thumbnail.jpg`);
-                                            sendFunc(response, result);
+                                                .write(`/var/wwwn/phonebook/static/assets/images/users/${contactId.toString()}/thumbnail.jpg`);
+                                            resolve(result);
                                         }).catch(function (err) {
                                             console.error(err);
                                         });

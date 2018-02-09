@@ -8,12 +8,12 @@ import 'rxjs/add/operator/take';
 import { isError, RuntimeError } from "../models/error.model";
 import { IContact, Contact } from "../models/contact.model";
 import { ContactGroup } from "../models/contact-group.model";
-import {IPermission, Permission} from "../models/permission.model";
+import { IPermission, Permission } from "../models/permission.model";
 import { appConfig, API } from '../app.config';
 import { ATS, IATS } from '../models/ats.model';
 import { PhoneBookService } from "./phone-book.service";
 import { Division, IDivision } from '../models/division.model';
-import {IOffice, Office} from "../models/office.model";
+import { IOffice, Office } from "../models/office.model";
 
 
 @Injectable()
@@ -168,10 +168,10 @@ export class SessionService {
         return this.http.post(API, parameters, options)
             .map((response: Response) => {
                 let body = response.json();
-                if (isError(body)) {
-                    let error = new RuntimeError(body);
-                    console.error(error);
-                    return error;
+                if (body === null) {
+                    //let error = new RuntimeError(body);
+                    console.error('No such user');
+                    return null;
                 } else {
                     /**
                      * Обрабатываем данные текущего пользователя и текущей сессии

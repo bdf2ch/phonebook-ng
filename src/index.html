@@ -2,11 +2,22 @@
 <html>
   <head>
     <base href="/">
-    <title>Angular With Webpack</title>
+    <title>Телефонный справочник</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <app>Loading...</app>
+    <app>
+      <span>Загрузка...<br></span>
+
+      <div *ngIf="window.navigator.userAgent === 'msie'">
+        <ul>Корректная работа приложения обеспечена в следующих браузерах
+          <li>Google Chrome</li>
+          <li>Mozilla Firefox</li>
+          <li>Internet Explorer v. 10+</li>
+        </ul>
+      </div>
+
+    </app>
   </body>
 </html>

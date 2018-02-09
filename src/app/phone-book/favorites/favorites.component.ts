@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, HostListener} from '@angular/core';
 import { PhoneBookService } from '../phone-book.service';
 
 
@@ -22,6 +22,14 @@ export class FavoritesComponent implements AfterViewChecked {
         let width = this.container.clientWidth - 40;
         this.row = Math.floor(width / 260);
         this.margin = (width - this.row * 260) / (this.row - 1);
+        this.detector.detectChanges();
+    };
+
+    @HostListener('window:resize', ['$event']) onResize(event: any) {
+        let width = this.container.clientWidth - 40;
+        this.row = Math.floor(width / 260);
+        this.margin = (width - this.row * 260) / (this.row - 1);
+        console.log('margin', this.margin);
         this.detector.detectChanges();
     };
 };

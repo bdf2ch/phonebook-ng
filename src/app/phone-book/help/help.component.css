@@ -1,37 +1,37 @@
-#content {
+#help-content {
   overflow: auto;
   position: absolute;
   top: 0px;
   left: 0px;
   bottom: 0px;
   right: 0px;
-  padding-right: 330px;
+  padding-right: 360px;
   box-sizing: border-box;
   font-family: "Open Sans Regular";
   font-size: 14px;
 }
-#content .caption {
+#help-content .caption {
   display: block;
   margin-bottom: 30px;
   font-family: "Open Sans Semi Bold";
   font-size: 18px;
   color: #263238;
 }
-#content .attention {
+#help-content .attention {
   margin-bottom: 10px;
   font-family: "Open Sans Italic";
 }
-#content img {
+#help-content img {
   display: block;
   margin-top: 20px;
   margin-bottom: 5px;
   margin-left: auto;
   margin-right: auto;
 }
-#content img.with-shadow {
+#help-content img.with-shadow {
   box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.15);
 }
-#content .image-caption {
+#help-content .image-caption {
   margin-bottom: 20px;
   font-family: "Open Sans Regular";
   font-size: 12px;
@@ -43,18 +43,62 @@
   right: 15px;
   top: 20px;
   bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 320px;
   padding-right: 20px;
+  padding-top: 15px;
   box-sizing: border-box;
   border-left: 1px solid #CFD8DC;
 }
-#chapters a {
-  display: block;
-  margin-bottom: 5px;
+#chapters .chapter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -12.5px;
+  margin-bottom: 15px;
+}
+#chapters .chapter .fa {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  font-size: 13px;
+  color: white;
+  border-radius: 50%;
+  background: #64B5F6;
+}
+#chapters .chapter a {
+  display: inline-flex;
+  padding-left: 12px;
   font-size: 14px;
   line-height: 14px;
   color: #2196F3;
+  cursor: pointer;
 }
-#chapters a:hover {
+#chapters .chapter a:hover {
+  color: #1565C0;
+}
+#chapters ul {
+  overflow: hidden;
+  display: block;
+  height: 100%;
+  margin-left: 20px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+#chapters ul li {
+  margin-bottom: 5px;
+  color: #2196F3;
+}
+#chapters ul li:hover {
   color: #1565C0;
 }

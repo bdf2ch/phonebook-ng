@@ -88,8 +88,6 @@ app.use(function(req, res, next) {
         console.dir(req.body);
         console.dir(req.cookies);
 
-
-
         let result = null;
         let p = req.body.data;
         try {
@@ -252,10 +250,19 @@ app.use(function(req, res, next) {
     .post('/uploadPhoto', function (request, response) {
         upload.uploadContactPhoto(request, response, send);
     })
-    .post('/uploadPhotoForModeration', (request, response) => {
+    .post('/uploadPhotoForModeration', async (req, res) => {
         //upload.phoneBook.uploadContactPhotoForModeration(request, response)
-        sendAsync(response, upload.uploadContactPhotoForModeration(request));
+        //sendAsync(response, upload.uploadContactPhotoForModeration(request));
         //async send(response, await upload.phoneBook.uploadContactPhotoForModeration(request));
+        try {
+            let result = await upload.uploadContactPhotoForModeration(req.body.userId, req.files.photo);
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
+        }
     })
     .listen(4444, function () {
         console.log('Server started at 4444');

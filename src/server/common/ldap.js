@@ -9,7 +9,8 @@ module.exports = {
             client.bind('NW\\' + account, password, function (error) {
                 if (error) {
                     console.log(error);
-                    bindReject(error);
+                    //bindReject(null);
+                    bindResolve(null);
                 } else {
                     var search = new Promise(function (searchResolve, searchReject) {
                         var opts = {

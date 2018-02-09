@@ -5,24 +5,24 @@ export enum ErrorTypes {
 
 
 export interface IRuntimeError {
-    code: ErrorTypes;
-    message: string;
+    code: number;
+    description: string;
 };
 
 
 export class RuntimeError {
     code: ErrorTypes = ErrorTypes.ENoErrorSpecified;
-    message: string = '';
+    description: string = '';
 
     constructor (config: IRuntimeError) {
         if (config) {
             this.code = config.code;
-            this.message = config.message;
+            this.description = config.description;
         }
     };
 };
 
 
 export function isError(obj: any): obj is IRuntimeError {
-    return obj.code !== undefined && obj.message !== undefined;
+    return obj.code !== undefined && obj.description !== undefined;
 }
