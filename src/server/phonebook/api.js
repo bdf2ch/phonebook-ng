@@ -4,22 +4,10 @@ const session = require('../common/session');
 
 
 module.exports = {
+
     /**
-     * Получение инициализационный данных
-     * @param parameters {Object} - параметры запроса
-     * @returns {{text: string, values: Array, func: string}}
+     * Получение данных для инициализации
      */
-    /*
-    getInitialData: function (parameters) {
-        return {
-            text: 'SELECT get_phonebook_initial_data()',
-            values: [],
-            func: 'get_phonebook_initial_data'
-        }
-    },
-    */
-
-
     getInitialData: () => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -35,23 +23,10 @@ module.exports = {
         });
     },
 
-
     /**
      * Получение информации о сессии
-     * @param parameters {Object} - параметры запроса
-     * @returns {{text: string, values: [*], func: string}}
+     * @param token {String} - токен сессии пользователя
      */
-    /*
-    getSession: function (parameters) {
-        return {
-            text: 'SELECT get_session_by_token($1)',
-            values: [parameters.data.token],
-            func: 'get_session_by_token'
-        }
-    },
-    */
-
-
     getSession: (token) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -67,23 +42,11 @@ module.exports = {
         });
     },
 
-
     /**
      * Завершение сессии текущего пользователя
-     * @param parameters {Object} - параметры запроса
-     * @returns {{text: string, values: [*], func: string}}
+     * @param token {String} - Токен сессии пользователя
+     * @param response {Object} - Ответ сервера
      */
-    /*
-    logOut: function (parameters) {
-        return {
-            text: 'SELECT log_out_user($1)',
-            values: [parameters.data.token],
-            func: 'log_out_user'
-        }
-    },
-    */
-
-
     logOut: (token, response) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -361,22 +324,12 @@ module.exports = {
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*], func: string}}
      */
-    /*
-    addContactToFavorites: function (parameters) {
-        return {
-            text: 'SELECT add_contact_to_favorites($1, $2)',
-            values: [parameters.data.contactId, parameters.data.token],
-            func: 'add_contact_to_favorites'
-        }
-    },
-    */
-
-    addContactToFavorites: (contactId, token) => {
+    addContactToFavorites: (contactId, sourceAtsId, token) => {
         return new Promise(async (resolve, reject) => {
             try {
                 let result = await postgres.query({
-                    text: 'SELECT add_contact_to_favorites($1, $2)',
-                    values: [contactId, token],
+                    text: 'SELECT add_contact_to_favorites($1, $2, $3)',
+                    values: [contactId, sourceAtsId, token],
                     func: 'add_contact_to_favorites'
                 });
                 resolve(result);
@@ -423,12 +376,30 @@ module.exports = {
      * @param parameters {Object} - параметры запроса
      * @returns {{text: string, values: [*,*], func: string}}
      */
+    /*
     addContactPhoto: function (parameters) {
         return {
             text: 'SELECT add_user_photo($1, $2)',
             values: [parameters.contactId, parameters.url],
             func: 'add_user_photo'
         }
+    },
+    */
+
+
+    addContactPhoto: (contactId, url) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let result = await postgres.query({
+                    text: 'SELECT add_user_photo($1, $2)',
+                    values: [contactId, url],
+                    func: 'add_user_photo'
+                });
+                resolve(result);
+            } catch (error) {
+                reject(error);
+            }
+        });
     },
 
 
@@ -698,22 +669,11 @@ module.exports = {
         });
     },
 
-
     /**
      * Изменение офиса организации
-     * @param parameters {Object} - параметры запроса
-     * @returns {{text: string, values: *[], func: string}}
+     * @param officeId {Number} - идентификатор офиса
+     * @param address {String} - адрес офиса
      */
-    /*
-    editOffice: function (parameters) {
-        return {
-            text: 'SELECT edit_office($1, $2)',
-            values: [parameters.data.officeId, parameters.data.address],
-            func: 'edit_office'
-        }
-    },
-    */
-
     editOffice: (officeId, address) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -729,23 +689,10 @@ module.exports = {
         });
     },
 
-
     /**
      * Удаление офиса организации
-     * @param parameters
-     * @returns {{text: string, values: *[], func: string}}
+     * @param officeId {Number} - идентификатор офиса
      */
-    /*
-    deleteOffice: function (parameters) {
-        return {
-            text: 'SELECT delete_office($1)',
-            values: [parameters.data.officeId],
-            func: 'delete_office'
-        }
-    },
-    */
-
-
     deleteOffice: (officeId) => {
         return new Promise(async (resolve, reject) => {
             try {

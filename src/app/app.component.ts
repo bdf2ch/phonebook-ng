@@ -25,9 +25,9 @@ export class AppComponent {
       secure: true
     });
 
-    console.log('test cookie', this.cookies.getByName('test'));
-    console.log('lolka cookie', this.cookies.getByName('lolka'));
-    console.log(window.navigator.userAgent);
+    //console.log('test cookie', this.cookies.getByName('test'));
+    //console.log('lolka cookie', this.cookies.getByName('lolka'));
+    //console.log(window.navigator.userAgent);
 
 
       function browser() {
@@ -46,7 +46,7 @@ export class AppComponent {
           return {name:M[0],version:M[1]};
       };
 
-      console.log(browser()); //Object { name: "Firefox", version: "42" }
+      //console.log(browser()); //Object { name: "Firefox", version: "42" }
 
       /*
       if (navigator.browserSpecs.name == 'Firefox') {

@@ -409,23 +409,25 @@ export class PhoneBookService {
    * @param contactId {number} - идентификатор контакта
    * @returns {Observable<R>}
    */
-  addContactToFavorites (contactId: number, token: string): Observable<Contact> {
+  addContactToFavorites (contactId: number, sourceAtsId: number, token: string): Observable<Contact> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let parameters = {
       action: 'addContactToFavorites',
       data: {
-        contactId: contactId,
-        token: token
+          contactId: contactId,
+          sourceAtsId: sourceAtsId,
+          token: token
       }
     };
-    this.loading = true;
+    //this.loading = true;
 
     return this.http.post(appConfig.apiUrl, parameters, options)
       .map((response: Response) => {
-        this.loading = false;
+        //this.loading = false;
         let body = response.json();
         let contact = new Contact(body);
+        contact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'positionTrimmed', 'email', 'mobile']);
         this.favorites.contacts.push(contact);
         return contact;
       })

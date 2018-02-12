@@ -117,7 +117,7 @@ export class ContactComponent implements  OnInit, OnChanges{
         if (!this.phoneBook.loading) {
             if (!this.contact.isInFavorites) {
                 this.phoneBook.addContactToFavorites(
-                    this.contact.id, this.session.session ? this.session.session.token : '').subscribe((res: any) => {
+                    this.contact.id, this.phoneBook.selectedAts.id,this.session.session ? this.session.session.token : '').subscribe((res: any) => {
                     this.contact.isInFavorites = true;
                 });
             } else {

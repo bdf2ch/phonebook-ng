@@ -2,6 +2,7 @@
   flex-direction: column;
   font-family: "Open Sans Regular";
   font-size: 14px;
+  max-width: 310px;
 }
 .division-tree-item-component .item-details {
   display: flex;

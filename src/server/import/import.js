@@ -2,7 +2,7 @@ var pg = require('pg');
 var async = require('async');
 
 if(typeof require !== 'undefined') XLSX = require('xlsx');
-var workbook = XLSX.readFile('ces_contacts.xls');
+var workbook = XLSX.readFile('import.xlsx');
 
 var first_sheet_name = workbook.SheetNames[0];
 var address_of_cell = 'A1';

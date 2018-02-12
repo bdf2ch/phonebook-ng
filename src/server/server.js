@@ -6,14 +6,11 @@ var app = express();
 var phoneBook = require('./phonebook/api');
 var session = require('./common/session');
 var ldap = require('./common/ldap');
-var postgres = require('./common/postgres');
-//var async = require('async');
 var path = require('path');
 var process = require('process');
 const upload = require('./phonebook/upload');
 const feedback = require('./phonebook/feedback');
 const users = require('./common/users');
-let responseSent = false;
 
 
 
@@ -96,79 +93,173 @@ app.use(function(req, res, next) {
                     result = await phoneBook.getInitialData();
                     break;
                 case 'getSession':
-                    result = await phoneBook.getSession(p.token);
+                    result = await phoneBook.getSession(
+                        p.token         // Токен сессии пользователя
+                    );
                     break;
                 case 'getContactGroupsByDivisionIdRecursive':
-                    result = await phoneBook.getContactsByDivisionId_(p.divisionId, p.sourceAtsId, p.token);
+                    result = await phoneBook.getContactsByDivisionId_(
+                        p.divisionId,   // Идентификатор структурного подразделения
+                        p.sourceAtsId,  // Идентификатор исходной АТС
+                        p.token         // Токен сессии пользователя
+                    );
                     break;
                 case 'getContactsByDivisionId':
-                    result = await phoneBook.getContactsByDivisionId(p.divisionId, p.sourceAtsId, p.token);
+                    result = await phoneBook.getContactsByDivisionId(
+                        p.divisionId,   // Идентификатор структурного подразделения
+                        p.sourceAtsId,  // Идентификатор исходнеой АТС
+                        p.token         // Токен сессии пользователя
+                    );
                     break;
                 case 'getFavoriteContacts':
-                    result = await phoneBook.getFavoriteContacts(p.userId, p.sourceAtsId);
+                    result = await phoneBook.getFavoriteContacts(
+                        p.userId,       // Идентификатор пользователя
+                        p.sourceAtsId   // Идентификатор исходнйо АТС
+                    );
                     break;
                 case 'searchContacts':
-                    result = await phoneBook.searchContacts(p.search, p.sourceAtsId, p.userId);
+                    result = await phoneBook.searchContacts(
+                        p.search,       // Строка поиска
+                        p.sourceAtsId,  // Идентификатор исходнйо АТС
+                        p.userId        // Идентификатор пользователя
+                    );
                     break;
                 case 'addContact':
-                    result = await phoneBook.addContact(p.userId, p.divisionId, p.surname, p.name, p.fname, p.position, p.email, p.mobile);
+                    result = await phoneBook.addContact(
+                        p.userId,       // Идентификатор пользователя
+                        p.divisionId,   // Идентификатор структурного подразделения
+                        p.surname,      // Фамилия абонента
+                        p.name,         // Имя абонента
+                        p.fname,        // Отчество абонента
+                        p.position,     // Должность абонента
+                        p.email,        // E-mail абонента
+                        p.mobile        // Мобильный телефон абонента
+                    );
                     break;
                 case 'editContact':
-                    result = await phoneBook.editContact(p.contactId, p.userId, p.surname, p.name, p.fname, p.position, p.email, p.mobile, p.officeId, p.room);
+                    result = await phoneBook.editContact(
+                        p.contactId,    // Идентификатор абонента
+                        p.userId,       // Идентификатор пользователя
+                        p.surname,      // Фамилия абонента
+                        p.name,         // Имя абонента
+                        p.fname,        // Отчечтво абонента
+                        p.position,     // Должность абонента
+                        p.email,        // E-mail абонента
+                        p.mobile,       // Мобильный телефон абонента
+                        p.officeId,     // Идентификатор офиса абонента
+                        p.room          // Кабинет абонента
+                    );
                     break;
                 case 'deleteContact':
-                    result = await phoneBook.deleteContact(p.contactId);
+                    result = await phoneBook.deleteContact(
+                        p.contactId     // Идентификатор абонента
+                    );
                     break;
                 case 'addContactToFavorites':
-                    result = await phoneBook.addContactToFavorites(p.contactId, p.token);
+                    result = await phoneBook.addContactToFavorites(
+                        p.contactId,    // Идентификатор абонента
+                        p.sourceAtsId,  // Идентификатор исходной АТС
+                        p.token         // Токен сессии пользователя
+                    );
                     break;
                 case 'removeContactFromFavorites':
-                    result = await phoneBook.removeContactFromFavorites(p.contactId, p.token);
+                    result = await phoneBook.removeContactFromFavorites(
+                        p.contactId,    // Идентификатор абонента
+                        p.token         // Токен сессии пользователя
+                    );
                     break;
                 case 'addContactPhone':
-                    result = await phoneBook.addContactPhone(p.contactId, p.atsId, p.number, p.sourceAtsId);
+                    result = await phoneBook.addContactPhone(
+                        p.contactId,    // Идентификатор абонента
+                        p.atsId,        // Идентификатор АТС
+                        p.number,       // Номер телефона
+                        p.sourceAtsId   // Идентификатор исходной АТС
+                    );
                     break;
                 case 'editContactPhone':
-                    result = await phoneBook.editContactPhone(p.phone, p.atsId, p.number);
+                    result = await phoneBook.editContactPhone(
+                        p.phoneId,      // Идентфикатор телефона
+                        p.atsId,        // Идентификатор АТС
+                        p.number        // Номер телефона
+                    );
                     break;
                 case 'deleteContactPhone':
-                    result = await phoneBook.deleteContactPhone(p.phoneId);
+                    result = await phoneBook.deleteContactPhone(
+                        p.phoneId           // Идентификатор телефона
+                    );
                     break;
                 case 'addDivision':
-                    result = await phoneBook.addDivision(p.parentId, p.title);
+                    result = await phoneBook.addDivision(
+                        p.parentId,         // Идентфикатор родительского структурного подразделения
+                        p.title             // Наименование структурного подразделения
+                    );
                     break;
                 case 'editDivision':
-                    result = await phoneBook.editDivision(p.id, p.parentId, p.officeId, p.title);
+                    result = await phoneBook.editDivision(
+                        p.id,               // Идентификатор структурного подразделения
+                        p.parentId,         // Идентификатор родительского струкктурного подразделения
+                        p.officeId,         // Идентификатор офиса
+                        p.title             // Наименование структкрного подразделения
+                    );
                     break;
                 case 'deleteDivision':
-                    result = await phoneBook.deleteDivision(p.divisionId, p.token);
+                    result = await phoneBook.deleteDivision(
+                        p.divisionId,       // Идентификатор структурного подразделения
+                        p.token             // Токен сессии пользователя
+                    );
                     break;
                 case 'addOffice':
-                    result = await phoneBook.addOffice(p.organizationId, p.address);
+                    result = await phoneBook.addOffice(
+                        p.organizationId,   // Идентификатор организации
+                        p.address           // Адрес офиса
+                    );
                     break;
                 case 'editOffice':
-                    result = await phoneBook.editOffice(p.officeId, p.address);
+                    result = await phoneBook.editOffice(
+                        p.officeId,         // Идентификатор офиса
+                        p.address           // Адрес офиса
+                    );
                     break;
                 case 'deleteOffice':
-                    result = await phoneBook.deleteOffice(p.officeId);
+                    result = await phoneBook.deleteOffice(
+                        p.officeId          // Идентфификатор офиса
+                    );
                     break;
                 case 'searchUsers':
-                    result = await users.searchUsers(p.query);
+                    result = await users.searchUsers(
+                        p.query             // Строка поиска
+                    );
                     break;
                 case 'logIn':
-                    result = await ldap.logIn(p.account, p.password);
+                    result = await ldap.logIn(
+                        p.account,          // Учетная запись пользователя
+                        p.password          // Пароль пользователя
+                    );
                     break;
                 case 'logOut':
-                    result = await phoneBook.logOut(p.token, res);
+                    result = await phoneBook.logOut(
+                        p.token,            // Токен сессии пользователя
+                        res                 // Ответ сервера
+                    );
                     break;
                 case 'LDAPAuth':
-                    result = await ldap.logInUser(p.account, p.password);
+                    result = await ldap.logInUser(
+                        p.account,          // Учетная запись пользователя
+                        p.password          // Пароль пользователя
+                    );
                     break;
                 case 'setContactDivision':
-                    result = await phoneBook.setContactDivision(p.contactId, p.divisionId, p.sourceAtsId);
+                    result = await phoneBook.setContactDivision(
+                        p.contactId,        // Идентификатор абонента
+                        p.divisionId,       // Идентификатор структурного подразделения
+                        p.sourceAtsId       // Идентификатор исходной АТС
+                    );
                     break;
                 case 'feedback':
-                    result = await feedback.send(p.userId, p.message);
+                    result = await feedback.send(
+                        p.userId,           // Идентфикатор пользователя
+                        p.message           // Сообщение
+                    );
                     break;
             }
 
@@ -247,13 +338,18 @@ app.use(function(req, res, next) {
         }
         */
     })
-    .post('/uploadPhoto', function (request, response) {
-        upload.uploadContactPhoto(request, response, send);
+    .post('/uploadPhoto', async (req, res) => {
+        try {
+            let result = await upload.uploadContactPhoto(req.body.contactId, req.files.photo);
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
+        }
     })
     .post('/uploadPhotoForModeration', async (req, res) => {
-        //upload.phoneBook.uploadContactPhotoForModeration(request, response)
-        //sendAsync(response, upload.uploadContactPhotoForModeration(request));
-        //async send(response, await upload.phoneBook.uploadContactPhotoForModeration(request));
         try {
             let result = await upload.uploadContactPhotoForModeration(req.body.userId, req.files.photo);
             res.statusCode = 200;

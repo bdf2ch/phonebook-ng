@@ -43,7 +43,7 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
         let width = this.container.clientWidth - 40;
         this.row = Math.floor(width / 260);
         this.margin = (width - this.row * 260) / (this.row - 1);
-        console.log('margin', this.margin);
+        //console.log('margin', this.margin);
         this.detector.detectChanges();
     };
 }

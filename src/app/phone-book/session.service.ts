@@ -1,5 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Router } from '@angular/router';
 import { ISessionData, Session } from "../models/session.model";
 import { User } from "../models/user.model";
 import { Observable } from "rxjs/Observable";
@@ -37,7 +38,8 @@ export class SessionService {
      * Конструктор
      * @param http {Http} - Http injector
      */
-    constructor(private http: Http,
+    constructor(private router: Router,
+                private http: Http,
                 private phoneBook: PhoneBookService) {};
 
 
@@ -203,6 +205,10 @@ export class SessionService {
                      */
                     if (this.phoneBook.favorites.contacts.length > 0) {
                         this.phoneBook.isInFavoritesMode = true;
+                    }
+
+                    if (this.phoneBook.favorites.contacts.length > 0) {
+                        this.router.navigate(['/favorites']);
                     }
 
                     return {
