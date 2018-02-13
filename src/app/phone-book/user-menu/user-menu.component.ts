@@ -92,7 +92,7 @@ export class UserMenuComponent implements OnChanges {
      */
     logOut(): void {
         this.session.logOut().subscribe((result: any) => {
-            console.log('logOut result', result);
+            console.log('end result', result);
             if (result === true) {
                 this.close();
             }

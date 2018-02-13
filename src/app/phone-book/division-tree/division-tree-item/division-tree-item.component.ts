@@ -49,7 +49,7 @@ export class DivisionTreeItemComponent implements OnInit {
 
             this.element.nativeElement.addEventListener('dragleave', (event: any) => {
                 //console.log('dragleave');
-                //this.element.nativeElement.classList.remove('drag-over');
+                //this.element.nativeElement.classList.removeCookie('drag-over');
                 this.renderer.removeClass(event.target, 'drag-over');
             });
 

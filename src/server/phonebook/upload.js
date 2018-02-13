@@ -4,6 +4,7 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 const jimp = require('jimp');
 const phoneBook = require('./api');
+const contacts = require('./contacts');
 const users = require('../common/users');
 const utilities = require('../common/utilities');
 
@@ -24,7 +25,7 @@ module.exports = {
                             console.log(err);
                             reject({message: 'Error uploading contact photo for moderation', description: err});
                         } else {
-                            let result = await users.getUserById(userId);
+                            let result = await users.getById(userId);
 
                             let transporter = nodemailer.createTransport({
                                 host: 'kolu-mail.nw.mrsksevzap.ru',
@@ -81,7 +82,7 @@ module.exports = {
                         if (err) {
                             reject({message: 'Error uploading contact photo', description: err});
                         } else {
-                            let result = await phoneBook.addContactPhoto(contactId, url);
+                            let result = await contacts.addPhoto(contactId, url);
                             jimp.read(photoPath).then((photo) => {
                                 photo
                                     .resize(320, 240)
@@ -100,7 +101,7 @@ module.exports = {
                             if (err) {
                                 reject({message: 'Error uploading contact photo', description: err});
                             } else {
-                                let result = await phoneBook.addContactPhoto(contactId, url);
+                                let result = await contacts.addPhoto(contactId, url);
                                 jimp.read(photoPath).then((photo) => {
                                     photo
                                         .resize(320, 240)

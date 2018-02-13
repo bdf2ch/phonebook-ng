@@ -5,7 +5,8 @@ const postgres = require('./postgres');
 
 
 module.exports = {
-    getUserById: (userId) => {
+
+    getById: (userId) => {
         return new Promise(async (resolve, reject) => {
             console.log('fetching user');
             try {
@@ -21,7 +22,12 @@ module.exports = {
         });
     },
 
-    searchUsers: (query) => {
+
+    /**
+     * Поиск пользователей
+     * @param query {String} - Строка поиска
+     */
+    search: (query) => {
         return new Promise(async (resolve, reject) => {
             try {
                 let result = await postgres.query({

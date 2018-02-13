@@ -37,7 +37,7 @@ export class PhoneBookManagerService {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
         let params = {
-            action: "addContact",
+            action: "add",
             data: {
                 userId: contact.userId,
                 divisionId: contact.divisionId,
@@ -50,7 +50,7 @@ export class PhoneBookManagerService {
             }
         };
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, params, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
             .map((res: Response) => {
                 this.loading = false;
                 const body = res.json();
@@ -73,7 +73,7 @@ export class PhoneBookManagerService {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
         let params = {
-            action: "editContact",
+            action: "edit",
             data: {
                 contactId: contact.id,
                 userId: contact.userId,
@@ -88,7 +88,7 @@ export class PhoneBookManagerService {
             }
         };
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, params, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
             .map((res: Response) => {
                 this.loading = false;
                 return new Contact(res.json());
@@ -107,13 +107,13 @@ export class PhoneBookManagerService {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
         let params = {
-            action: "deleteContact",
+            action: "delete",
             data: {
                 contactId: contact.id
             }
         };
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, params, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
             .map((res: Response) => {
                 this.loading = false;
                 return res.json();
@@ -135,7 +135,7 @@ export class PhoneBookManagerService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         let parameters = {
-            action: 'setContactDivision',
+            action: 'setDivision',
             data: {
                 contactId: contact.id,
                 divisionId: division.id,
@@ -143,7 +143,7 @@ export class PhoneBookManagerService {
             }
         };
 
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
             .map((response: Response) => {
                 let body = response.json();
                 let contact = new Contact(body);
@@ -169,7 +169,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'addContactPhone',
+            action: 'add',
             data: {
                 contactId: contactId,
                 atsId: atsId,
@@ -178,7 +178,7 @@ export class PhoneBookManagerService {
             }
         };
 
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/phones', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 const phone = new Phone(body);
@@ -199,7 +199,7 @@ export class PhoneBookManagerService {
     editContactPhone(phone: Phone): Observable<Phone> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        const parameters = { action: 'editContactPhone',
+        const parameters = { action: 'edit',
             data: {
                 phoneId: phone.id,
                 atsId: phone.atsId,
@@ -208,7 +208,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/phones', parameters, options)
             .map((response: Response) => {
                 phone.setupBackup(['atsId', 'number']);
                 console.log('phone', phone);
@@ -228,10 +228,15 @@ export class PhoneBookManagerService {
     deleteContactPhone(phone: Phone): Observable<boolean> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        const parameters = { action: 'deleteContactPhone', data: { phoneId: phone.id }};
+        const parameters = {
+            action: 'delete',
+            data: {
+                phoneId: phone.id
+            }
+        };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/phones', parameters, options)
             .map((response: Response) => {
                 return response.json();
             })
@@ -250,7 +255,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'addDivision',
+            action: 'add',
             data: {
                 parentId: division.parentId,
                 title: division.title
@@ -258,7 +263,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/divisions', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 const division_ = new Division(body);
@@ -280,7 +285,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'editDivision',
+            action: 'edit',
             data: {
                 id: division.id,
                 parentId: division.parentId,
@@ -290,7 +295,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/divisions', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 if (body) {
@@ -310,7 +315,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'deleteDivision',
+            action: 'delete',
             data: {
                 divisionId: divisionId,
                 token: token
@@ -318,7 +323,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/divisions', parameters, options)
             .map((response: Response) => {
                 return response.json();
             })
@@ -337,7 +342,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'addOffice',
+            action: 'add',
             data: {
                 organizationId: office.organizationId,
                 address: office.address
@@ -345,7 +350,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/offices', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 const office_ = new Office(body);
@@ -367,7 +372,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'editOffice',
+            action: 'edit',
             data: {
                 id: office.id,
                 address: office.address
@@ -375,7 +380,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/offices', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 if (body) {
@@ -400,7 +405,7 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'deleteOffice',
+            action: 'delete',
             data: {
                 officeId: officeId,
                 token: token
@@ -408,7 +413,7 @@ export class PhoneBookManagerService {
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/offices', parameters, options)
             .map((response: Response) => {
                 return response.json();
             })

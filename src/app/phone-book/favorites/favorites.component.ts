@@ -16,6 +16,7 @@ export class FavoritesComponent implements AfterViewChecked {
         this.container = document.getElementById('app-content');
         this.phoneBook.isInFavoritesMode = true;
         this.phoneBook.isInUserAccountMode = false;
+        this.phoneBook.allowToAddContacts = false;
     };
 
     ngAfterViewChecked(): void {

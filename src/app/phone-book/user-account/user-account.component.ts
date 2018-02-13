@@ -27,6 +27,7 @@ export class UserAccountComponent {
                 private modals: ModalsService) {
         this.phoneBook.isInUserAccountMode = true;
         this.phoneBook.isInFavoritesMode = false;
+        this.phoneBook.allowToAddContacts = false;
     };
 
 
@@ -61,7 +62,7 @@ export class UserAccountComponent {
      */
     logOut(): void {
         this.session.logOut().subscribe((result: any) => {
-            console.log('logOut result', result);
+            console.log('end result', result);
             this.router.navigate(['/']);
         });
     };

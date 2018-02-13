@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PhoneBookService } from "../phone-book.service";
 
 
 @Component({
@@ -8,8 +9,9 @@ import { Component } from '@angular/core';
 export class HelpComponent {
     private container: any;
 
-    constructor() {
+    constructor(private phoneBook: PhoneBookService) {
         this.container = document.getElementById('help-content');
+        this.phoneBook.allowToAddContacts = false;
     };
 
     scrollTo(id: string): void {

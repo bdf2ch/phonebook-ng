@@ -216,6 +216,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             console.log('selected division id = ', division.id);
             this.newDivision.parentId = division.id;
             this.phoneBook.isInFavoritesMode = false;
+            this.phoneBook.allowToAddContacts = this.session.user && this.session.user.isAdministrator ? true : false;
 
             this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
                 document.getElementById('app-content').scrollTop = 0;

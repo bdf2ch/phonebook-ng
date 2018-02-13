@@ -149,7 +149,7 @@
 
 <!-- Кнопка добавления нового абонента -->
 <div id="new-contact-button"
-    *ngIf="(session.user && session.user.isAdministrator) && (!phoneBook.isInFavoritesMode && !phoneBook.isInUserAccountMode && phoneBook.selectedDivision)"
+    *ngIf="phoneBook.allowToAddContacts"
      (click)="openNewContactModal()"
      title="Добавить нового абонента">
     <i class="fa fa-plus"></i>
@@ -294,9 +294,8 @@
        [icon]="'fa fa-building'"
        [width]="400"
        [height]="383"
-       (onClose)="closeEditDivisionModal(editDivisionForm)"
-       *ngIf="phoneBook.selectedDivision">
-    <div class="modal-content">
+       (onClose)="closeEditDivisionModal(editDivisionForm)">
+    <div class="modal-content" *ngIf="phoneBook.selectedDivision">
         <form novalidate class="column width-100" #editDivisionForm="ngForm">
             <div class="padding-top-20 padding-left-20 padding-right-20">
                 <label for="new-division-parent">Структурное подразделение верхнего уровня</label>

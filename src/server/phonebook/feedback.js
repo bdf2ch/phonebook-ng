@@ -8,7 +8,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             if (userId) {
                 try {
-                    let user = await users.getUserById(userId);
+                    let user = await users.getById(userId);
                     if (user) {
                         let theme = '';
                         switch (parseInt(message['themeId'])) {
@@ -21,8 +21,7 @@ module.exports = {
                             case 3:
                                 theme = 'замечания и предложения';
                                 break;
-                        }
-                        ;
+                        };
 
                         let transporter = nodemailer.createTransport({
                             host: 'kolu-mail.nw.mrsksevzap.ru',

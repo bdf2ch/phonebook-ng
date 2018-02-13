@@ -142,6 +142,9 @@ export class PhoneBookService {
   };
 
 
+  public allowToAddContacts: boolean = false;
+
+
   /**
    * Конструктор сервиса
    * @param $http {Http} - Http injector
@@ -226,7 +229,7 @@ export class PhoneBookService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       let parameters = {
-          action: 'getContactsByDivisionId',
+          action: 'getByDivisionId',
           data: {
               divisionId: divisionId,
               sourceAtsId: sourceAtsId,
@@ -238,7 +241,7 @@ export class PhoneBookService {
       this.contacts = [];
       this.isInFavoritesMode = false;
       this.isInSearchMode = false;
-      return this.http.post(appConfig.apiUrl, parameters, options)
+      return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
           .map((res: Response) => {
               const body = res.json();
               const group = new ContactGroup(body);
@@ -255,7 +258,7 @@ export class PhoneBookService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let parameters = {
-      action: 'getContactGroupsByDivisionIdRecursive',
+      action: 'getByDivisionIdRecursive',
       data: {
           divisionId: divisionId,
           sourceAtsId: sourceAtsId,
@@ -267,7 +270,7 @@ export class PhoneBookService {
     this.contacts = [];
     this.isInFavoritesMode = false;
     this.isInSearchMode = false;
-    return this.http.post(appConfig.apiUrl, parameters, options)
+    return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
       .map((res: Response) => {
         const body = res.json();
         body.forEach((item: IContactGroup) => {
@@ -286,7 +289,7 @@ export class PhoneBookService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       let parameters = {
-          action: 'getFavoriteContacts',
+          action: 'getFavorites',
           data: {
               userId: userId,
               sourceAtsId: sourceAtsId,
@@ -294,7 +297,7 @@ export class PhoneBookService {
       };
 
       this.loading = true;
-      return this.http.post(appConfig.apiUrl, parameters, options)
+      return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
           .map((res: Response) => {
               const body = res.json();
               //body.forEach((item: IContactGroup) => {
@@ -371,7 +374,7 @@ export class PhoneBookService {
     let headers = new Headers({ "Content-Type": "application/json" });
     let options = new RequestOptions({ headers: headers });
     let params = {
-        action: "searchContacts",
+        action: "search",
         data: {
             search: this.searchQuery,
             sourceAtsId: this.currentAts.id,
@@ -384,7 +387,7 @@ export class PhoneBookService {
     this.loading = true;
     this.contacts = [];
 
-    return this.http.post(appConfig.apiUrl, params, options)
+    return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
       .map((res: Response) => {
         this.loading = false;
         this.contacts = [];
@@ -413,7 +416,7 @@ export class PhoneBookService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let parameters = {
-      action: 'addContactToFavorites',
+      action: 'addToFavorites',
       data: {
           contactId: contactId,
           sourceAtsId: sourceAtsId,
@@ -422,7 +425,7 @@ export class PhoneBookService {
     };
     //this.loading = true;
 
-    return this.http.post(appConfig.apiUrl, parameters, options)
+    return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
       .map((response: Response) => {
         //this.loading = false;
         let body = response.json();
@@ -448,7 +451,7 @@ export class PhoneBookService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let parameters = {
-      action: 'removeContactFromFavorites',
+      action: 'removeFromFavorites',
       data: {
         contactId: contactId,
         token: token
@@ -456,7 +459,7 @@ export class PhoneBookService {
     };
     this.loading = true;
 
-    return this.http.post(appConfig.apiUrl, parameters, options)
+    return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
       .map((response: Response) => {
         this.loading = false;
         let body = response.json();
