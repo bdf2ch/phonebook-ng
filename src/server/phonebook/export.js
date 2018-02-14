@@ -1,6 +1,6 @@
 "use strict";
 const excel = require('excel4node');
-const phonebook = require('./api');
+const contacts = require('./contacts');
 
 
 async function exportPhonebook() {
@@ -9,7 +9,7 @@ async function exportPhonebook() {
     let ses = wb.addWorksheet('ПО "Северные электрические сети"');
     let ces = wb.addWorksheet('ПО "Центральные электрические сети"');
 
-    let ieContacts = await phonebook.getContactsByDivisionId_(16, 17, '');
+    let ieContacts = await contacts.getByDivisionIdRecursive(16, 17, '');
     let row = 1;
     //console.log(ieContacts);
 
@@ -50,7 +50,7 @@ async function exportPhonebook() {
     });
 
 
-    let sesContacts = await phonebook.getContactsByDivisionId_(14, 17, '');
+    let sesContacts = await contacts.getByDivisionIdRecursive(14, 17, '');
     row = 1;
     //console.log(ieContacts);
 
@@ -90,7 +90,7 @@ async function exportPhonebook() {
     });
 
 
-    let cesContacts = await phonebook.getContactsByDivisionId_(15, 17, '');
+    let cesContacts = await contacts.getByDivisionIdRecursive(15, 17, '');
     row = 1;
     //console.log(ieContacts);
 

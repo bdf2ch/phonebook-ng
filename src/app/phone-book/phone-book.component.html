@@ -755,7 +755,7 @@
                     <tab [id]="'contact-phones'" [caption]="'Телефоны'" [icon]="'fa fa-phone'" [width]="33.3">
                         <div class="width-100 padding-20">
                             <div class="contact-phones-list width-100">
-                                <div class="contact-phone-item width-100 margin-bottom-20"
+                                <div class="contact-phone-item width-100 margin-bottom-10"
                                      *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn">
                                     <div class="icon margin-right-10">
                                         <i class="fa fa-phone"></i>
@@ -778,7 +778,6 @@
                                     </div>
                                 </div>
                                 <div class="column width-100 horizontal-center">
-                                    <hr class="width-100">
                                     <button class="btn big green" (click)="openNewContactPhoneModal()">
                                         Добавить телефон
                                     </button>
@@ -1076,8 +1075,12 @@
                 </div>
                 <div class="row-content width-90">
                     <div *ngIf="phoneBook.selectedContact.room !== ''">
-                        <span *ngIf="phoneBook.selectedContact.officeId !== 0">{{ phoneBook.getOfficeAddressById(phoneBook.selectedContact.officeId) }} &mdash; </span>
-                        <span *ngIf="phoneBook.selectedContact.room">кабинет {{ phoneBook.selectedContact.room }}</span>
+                        <span *ngIf="phoneBook.selectedContact.officeId !== 0 && phoneBook.selectedContact.room">
+                            {{ phoneBook.getOfficeAddressById(phoneBook.selectedContact.officeId) }} &mdash; кабинет {{ phoneBook.selectedContact.room }}
+                        </span>
+                        <span *ngIf="phoneBook.selectedContact.officeId === 0 && phoneBook.selectedContact.room">
+                            Кабинет {{ phoneBook.selectedContact.room }}
+                        </span>
                     </div>
                     <span class="not-specified" *ngIf="!phoneBook.selectedContact.room">Местоположение не указано</span>
                 </div>
@@ -1095,10 +1098,10 @@
        [caption]="'Офисы организации'"
        [icon]="'fa fa-building'">
     <div id="organization-offices">
-        <div class="content width-100 padding-20">
+        <div class="content width-100 padding-10">
             <div class="contact-phones-list width-100">
-                <div class="contact-phone-item width-100 margin-bottom-20"
-                     *ngFor="let office of phoneBook.offices">
+                <div class="contact-phone-item width-100 margin-bottom-10"
+                     *ngFor="let office of phoneBook.offices | officesByOrganization:phoneBook.selectedOrganization ? phoneBook.selectedOrganization.id : 0">
                     <div class="icon margin-right-10">
                         <i class="fa fa-building"></i>
                     </div>
@@ -1137,6 +1140,50 @@
        [height]="220"
        [depth]="2"
        [caption]="'Новый офис'"
+       [icon]="'fa fa-building'"
+       (onClose)="closeNewOfficeModal(newOfficeForm)">
+    <form class="form-layout" novalidate #newOfficeForm="ngForm">
+        <div class="content width-100 padding-20">
+            <!-- Адрес -->
+            <div class="column">
+                <label for="new-phone-number">
+                    Адрес
+                    <span class="form-error" *ngIf="address.dirty && address.invalid">
+                        Вы не указали адрес
+                    </span>
+                </label>
+                <input type="text"
+                       name="address"
+                       id="new-office-address"
+                       class="inp medium width-100"
+                       placeholder="Введите адрес"
+                       [(ngModel)]="newOffice.address"
+                       #address="ngModel"
+                       [ngClass]="{'red': address.dirty && address.invalid}"
+                       required>
+            </div>
+        </div>
+        <div class="footer row width-100 padding-10">
+            <button type="submit"
+                    class="btn green medium width-50 margin-left-5"
+                    [disabled]="newOfficeForm.invalid" (click)="addOffice()">
+                Добавить
+            </button>
+            <button class="btn red medium width-50 margin-left-5"
+                    (click)="closeNewOfficeModal(newOfficeForm)">
+                Отмена
+            </button>
+        </div>
+    </form>
+</modal>
+
+
+<!-- Модальное окно изменения офиса организации -->
+<modal [id]="'edit-office-modal'"
+       [width]="400"
+       [height]="220"
+       [depth]="2"
+       [caption]="'Изменение офиса'"
        [icon]="'fa fa-building'"
        (onClose)="closeNewOfficeModal(newOfficeForm)">
     <form class="form-layout" novalidate #newOfficeForm="ngForm">

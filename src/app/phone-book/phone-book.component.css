@@ -576,7 +576,10 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  padding: 10px;
   box-sizing: border-box;
+  background: #FAFAFA;
+  border-radius: 4px;
 }
 .contact-phones-list .contact-phone-item .icon {
   display: flex;
@@ -620,6 +623,9 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border-left: 2px solid #EEEEEE;
 }
 .form-footer {
   background: #F5F5F5;

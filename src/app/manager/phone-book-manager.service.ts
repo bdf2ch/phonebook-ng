@@ -432,14 +432,14 @@ export class PhoneBookManagerService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         const parameters = {
-            action: 'searchUsers',
+            action: 'search',
             data: {
                 query: query
             }
         };
 
         this.loading = true;
-        return this.http.post(appConfig.apiUrl, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/users', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 const result: User[] = [];

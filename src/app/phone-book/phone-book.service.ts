@@ -158,7 +158,7 @@ export class PhoneBookService {
       let options = new RequestOptions({ headers: headers });
       let parameters = { action: 'getInitialData' };
 
-      return this.http.post(appConfig.apiUrl, parameters, options)
+      return this.http.post('http://10.50.0.153:4444/phonebook/session', parameters, options)
           .map((res: Response) => {
               let body = res.json();
               console.log(body);
@@ -197,25 +197,6 @@ export class PhoneBookService {
           .catch(this.handleError);
   };
 
-
-  fetchDivisionList(): Observable<Division[]> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    let parameters = { action: 'getDivisionList' };
-
-    return this.http.post(appConfig.apiUrl, parameters, options)
-        .map((res: Response) => {
-          let body = res.json();
-          body.forEach((item: IDivision) => {
-            let division = new Division(item);
-            this.divisions.push(division);
-          });
-          console.log(this.divisions);
-          return this.divisions;
-        })
-        .take(1)
-        .catch(this.handleError);
-  };
 
 
   /**
@@ -488,7 +469,7 @@ export class PhoneBookService {
       let headers = new Headers({'Content-Type': 'application/json'});
       let options = new RequestOptions({headers: headers});
       let parameters = {
-          action: 'feedback',
+          action: 'send',
           data: {
               userId: userId,
               message: message
@@ -496,7 +477,7 @@ export class PhoneBookService {
       };
       this.loading = true;
 
-      return this.http.post(appConfig.apiUrl, parameters, options)
+      return this.http.post('http://10.50.0.153:4444/phonebook/feedback', parameters, options)
           .map((response: Response) => {
               this.loading = false;
               return response.json();
@@ -512,11 +493,12 @@ export class PhoneBookService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         let formData = new FormData();
+        formData.append('action', 'uploadPhoto');
         formData.append('photo', photo);
         formData.append('userId', userId.toString());
 
         this.loading = true;
-        return this.http.post(appConfig.uploadPhotoUrl, formData, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/uploads', formData, options)
             .map((response: Response) => {
                 this.loading = false;
                 let result = response.json();
@@ -550,11 +532,12 @@ export class PhoneBookService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         let formData = new FormData();
+        formData.append('action', 'uploadPhoto');
         formData.append('photo', photo);
         formData.append('contactId', contactId.toString());
 
         this.loading = true;
-        return this.http.post(appConfig.uploadPhotoUrl, formData, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/uploads', formData, options)
             .map((response: Response) => {
                 this.loading = false;
                 let result = response.json();
@@ -588,11 +571,12 @@ export class PhoneBookService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         let formData = new FormData();
+        formData.append('action', 'uploadPhotoForModeration');
         formData.append('photo', photo);
         formData.append('userId', userId.toString());
 
         this.loading = true;
-        return this.http.post(appConfig.uploadPhotoForModerationUrl, formData, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/uploads', formData, options)
             .map((response: Response) => {
                 this.loading = false;
                 let result = response.json();

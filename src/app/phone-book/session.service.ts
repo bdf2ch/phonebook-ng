@@ -54,7 +54,7 @@ export class SessionService {
         let parameters = { action: 'getSession', data: { token: token }};
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/session', parameters, options)
             .map((response: Response) => {
                 const body = response.json();
                 if (body) {
@@ -167,7 +167,7 @@ export class SessionService {
         let parameters = { action: 'logIn', data: { account: account, password: password }};
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/session', parameters, options)
             .map((response: Response) => {
                 let body = response.json();
                 if (body === null) {
@@ -241,7 +241,7 @@ export class SessionService {
         };
 
         this.loading = true;
-        return this.http.post(API, parameters, options)
+        return this.http.post('http://10.50.0.153:4444/phonebook/session', parameters, options)
             .map((response: Response) => {
                 let result = response.json();
                 if (result === true) {
