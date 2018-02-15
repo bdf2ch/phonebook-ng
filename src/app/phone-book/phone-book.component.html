@@ -755,6 +755,12 @@
                     <tab [id]="'contact-phones'" [caption]="'Телефоны'" [icon]="'fa fa-phone'" [width]="33.3">
                         <div class="width-100 padding-20">
                             <div class="contact-phones-list width-100">
+                                <div class="list-caption width-100 margin-bottom-10">
+                                    Рабочие телефоны
+                                    <button class="btn small green right" (click)="openNewContactPhoneModal()">
+                                        Добавить телефон
+                                    </button>
+                                </div>
                                 <div class="contact-phone-item width-100 margin-bottom-10"
                                      *ngFor="let phone of phoneBook.selectedContact.phones; trackBy:trackByFn">
                                     <div class="icon margin-right-10">
@@ -776,11 +782,6 @@
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </div>
-                                </div>
-                                <div class="column width-100 horizontal-center">
-                                    <button class="btn big green" (click)="openNewContactPhoneModal()">
-                                        Добавить телефон
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1090,7 +1091,7 @@
 </modal>
 
 
-
+<!-- Модальноек окно управления офисами организации -->
 <modal [id]="'offices-modal'"
        [width]="500"
        [height]="600"
@@ -1235,6 +1236,8 @@
        <button class="btn blue medium">Закрыть</button>
    </div>
 </modal>
+
+
 
 
 

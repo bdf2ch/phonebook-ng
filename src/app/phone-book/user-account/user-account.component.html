@@ -18,6 +18,9 @@
                 Загрузить фотографию
                 <input type="file" name="photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
             </label>
+            <button class="btn medium blue width-100 margin-bottom-15" (click)="location.open()">
+                Указать местоположение
+            </button>
             <button class="btn medium blue width-100 margin-bottom-15" (click)="feedback.open()">Отправить сообщение</button>
             <button class="btn medium width-100 red" (click)="logOut()">Выйти из учетной записи</button>
         </div>
@@ -40,18 +43,71 @@
 </modal>
 
 
+<!-- Модальное окно установки местоположения пользователя -->
+<modal [id]="'user-location-modal'"
+       [caption]="'Укажите ваше местоположение'"
+       [icon]="'fa fa-map-marker'"
+       [width]="420"
+       [height]="290"
+       (onClose)="location.close(locationForm)">
+    <div class="column width-100">
+        <form class="form-layout" novalidate #locationForm="ngForm">
+            <div class="content width-100 padding-20">
+                <div class="column margin-bottom-15">
+                    <label for="user-location-office">Офис</label>
+                    <select name="office" id="user-location-office" class="inp medium outline blue" [(ngModel)]="session.user.officeId">
+                        <option *ngFor="let office of phoneBook.offices" [value]="office.id">{{ office.address }}</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <label for="user-location-room">
+                        Кабинет
+                        <span class="form-error" *ngIf="room.dirty && room.invalid">Вы не указали кабинет</span>
+                    </label>
+                    <input type="text"
+                           name="room"
+                           id="user-location-room"
+                           class="inp medium outline blue"
+                           placeholder="Введите номер кабинета"
+                           [(ngModel)]="session.user.room"
+                           [ngClass]="{'red': room.invalid && room.dirty}"
+                           #room="ngModel"
+                           required
+                    />
+                </div>
+            </div>
+            <div class="footer row width-100 padding-top-10 padding-bottom-10 padding-left-20 padding-right-20">
+                <button type="submit"
+                        class="btn green medium width-50 margin-right-5"
+                        [disabled]="locationForm.invalid || locationForm.pristine"
+                        (click)="location.send(locationForm)">
+                    <i class="fa fa-check margin-right-10"></i>
+                    Сохранить
+                </button>
+                <button class="btn red medium width-50 margin-left-5"
+                        (click)="modals.get('user-location-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
+                    Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</modal>
+
+
+
 <!-- Модальное окно отправки сообщения обратной связи -->
 <modal [id]="'feedback-modal'"
        [caption]="'Обратная связь'"
        [icon]="'fa fa-envelope'"
        [width]="420"
-       [height]="410">
+       [height]="420">
     <div class="column width-100">
         <form class="form-layout" novalidate #feedbackForm="ngForm">
             <div class="content width-100 padding-20">
                 <div class="column margin-bottom-15">
                     <label for="feedback-message-theme">Тема сообщения</label>
-                    <select name="theme" id="feedback-message-theme" class="inp outline" [(ngModel)]="feedback.message.themeId">
+                    <select name="theme" id="feedback-message-theme" class="inp medium outline blue" [(ngModel)]="feedback.message.themeId">
                         <option *ngFor="let theme of feedback.themes" [value]="theme.id">{{ theme.title }}</option>
                     </select>
                 </div>
@@ -62,6 +118,7 @@
                     </label>
                     <textarea name="message"
                               id="feedback-message-text"
+                              class="blue"
                               cols="30"
                               rows="11"
                               placeholder="Опишите, пожалуйста, Вашу проблему или пожелание максимально развернуто"
@@ -76,10 +133,12 @@
                         class="btn green medium width-50 margin-right-5"
                         [disabled]="feedbackForm.invalid"
                     (click)="feedback.send(feedbackForm)">
+                    <i class="fa fa-check margin-right-10"></i>
                     Отправить
                 </button>
                 <button class="btn red medium width-50 margin-left-5"
                         (click)="feedback.close(feedbackForm)">
+                    <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>
             </div>

@@ -35,8 +35,10 @@ export class SessionService {
 
 
     /**
-     * Конструктор
-     * @param http {Http} - Http injector
+     *
+     * @param {Router} router
+     * @param {Http} http
+     * @param {PhoneBookService} phoneBook
      */
     constructor(private router: Router,
                 private http: Http,
@@ -63,6 +65,9 @@ export class SessionService {
                      */
                     this.currentSession = body.session ? new Session(body.session) : null;
                     this.currentUser = body.user ? new User(body.user) : null;
+                    if (this.currentUser) {
+                        this.currentUser.setupBackup(['officeId', 'room']);
+                    }
 
                     /**
                      * Обрабатываем и устанавливаем позицию фотографии пользователя
@@ -77,7 +82,7 @@ export class SessionService {
                     /**
                      * Обрабатываем и добавляем права пользователя
                      */
-                    body.permissions.forEach((item: IPermission, index: number, array: IPermission[]) => {
+                    body.permissions.forEach((item: IPermission) => {
                         const permission = new Permission(item);
                         this.currentUser.permissions.push(permission);
                     });
@@ -89,7 +94,7 @@ export class SessionService {
                     /**
                      * Обработываем и добавляем избранные контакты пользователя
                      */
-                    body.favorites.forEach((value: IContact, index: number, array: IContact[]) => {
+                    body.favorites.forEach(() => {
                         this.phoneBook.favorites = new ContactGroup({ contacts: body.favorites, divisions: [] });
                     });
 
@@ -114,7 +119,7 @@ export class SessionService {
                     /**
                      * Обработываем и добавляем структурные подразделения
                      */
-                    body.divisions.forEach((value: IDivision, index: number, array: IDivision[]) => {
+                    body.divisions.forEach((value: IDivision) => {
                         const division = new Division(value);
                         division.setupBackup(['parentId', 'title']);
                         this.phoneBook.divisions.push(division);
@@ -124,7 +129,7 @@ export class SessionService {
                     /**
                      * Обработываем и добавляем внутренние АТС
                      */
-                    body.ats.inner.forEach((value: IATS, index: number, array: IATS[]) => {
+                    body.ats.inner.forEach((value: IATS) => {
                         const ats = new ATS(value);
                         ats.setupBackup(['parentId', 'type', 'title']);
                         this.phoneBook.innerAts.push(ats);
@@ -136,7 +141,7 @@ export class SessionService {
                     /**
                      * Обработываем и добавляем внешние АТС
                      */
-                    body.ats.outer.forEach((value: IATS, index: number, array: IATS[]) => {
+                    body.ats.outer.forEach((value: IATS) => {
                         const ats = new ATS(value);
                         ats.setupBackup(['parentId', 'type', 'title']);
                         this.phoneBook.outerAts.push(ats);
@@ -180,11 +185,14 @@ export class SessionService {
                      */
                     this.currentSession = body.session ? new Session(body.session) : null;
                     this.currentUser = body.user ? new User(body.user) : null;
+                    if (this.currentUser) {
+                        this.currentUser.setupBackup(['officeId', 'room']);
+                    }
 
                     /**
                      * Обрабатываем и добавляем права пользователя
                      */
-                    body.permissions.forEach((item: IPermission, index: number, array: IPermission[]) => {
+                    body.permissions.forEach((item: IPermission) => {
                         const permission = new Permission(item);
                         this.currentUser.permissions.push(permission);
                     });
@@ -196,7 +204,7 @@ export class SessionService {
                     /**
                      * Обработываем и добавляем избранные контакты пользователя
                      */
-                    body.favorites.forEach((value: IContact, index: number, array: IContact[]) => {
+                    body.favorites.forEach(() => {
                         this.phoneBook.favorites = new ContactGroup({ contacts: body.favorites, divisions: [] });
                     });
 
@@ -223,7 +231,7 @@ export class SessionService {
             })
             .take(1)
             .catch(this.handleError);
-    };
+    }
 
 
     /**
@@ -260,7 +268,7 @@ export class SessionService {
             })
             .take(1)
             .catch(this.handleError);
-    };
+    }
 
 
 

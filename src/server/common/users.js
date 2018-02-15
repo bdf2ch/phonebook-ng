@@ -44,6 +44,29 @@ function searchUsers(query) {
 }
 
 
+/**
+ * Изменение местоположения пользователя
+ * @param userId {Number} - Идентификатор пользователя
+ * @param officeId {Number} - Идентификатор офиса
+ * @param room {String} - Кабинет пользователя
+ * @param token {String} - Токен сессии пользователя
+ */
+function setUserLocation(userId, officeId, room, token) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let result = await postgres.query({
+                text: 'SELECT set_user_location($1, $2, $3, $4)',
+                values: [userId, officeId, room, token],
+                func: 'set_user_location'
+            });
+            resolve(result);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+
 let router = express.Router();
 router.post('/', async (req, res) => {
     let result = null;
@@ -51,12 +74,20 @@ router.post('/', async (req, res) => {
         switch (req.body.action) {
             case 'getById':
                 result = await getUserById(
-                    req.body.data.userId        // Идентификатор пользователя
+                    req.body.data.userId                  // Идентификатор пользователя
                 );
                 break;
             case 'search':
                 result = await searchUsers(
-                    req.body.data.query         // Строка поиска
+                    req.body.data.query                   // Строка поиска
+                );
+                break;
+            case 'setLocation':
+                result = await setUserLocation(
+                    req.body.data.userId,                 // Идентификатор пользователя
+                    req.body.data.officeId,     // Идентификатор офиса организации
+                    req.body.data.room,                   // Кабинет пользователя
+                    req.body.data.token                   // Токен сессии пользователя
                 );
                 break;
         }

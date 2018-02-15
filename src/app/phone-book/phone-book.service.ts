@@ -18,6 +18,7 @@ import { API, uploadURL, appConfig } from '../app.config';
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 import {Office} from "../models/office.model";
 import {FeedbackMessage} from "../models/feedback-message.model";
+import {IServerResponse} from "../models/server-response.interface";
 
 
 @Injectable()
@@ -606,6 +607,33 @@ export class PhoneBookService {
       return this.http.post(appConfig.apiUrl, parameters, options)
           .map((response: Response) => {
               let body = response.json();
+              return body;
+          })
+          .take(1)
+          .finally(() => { this.loading = false; })
+          .catch(this.handleError);
+  };
+
+
+  setUserLocation(userId: number, officeId: number, room: string, token: string): Observable<IServerResponse> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let parameters = {
+          action: 'setLocation',
+          data: {
+              userId: userId,
+              officeId: officeId,
+              room: room,
+              token: token
+          }
+      };
+      this.loading = true;
+      return this.http.post('http://10.50.0.153:4444/users', parameters, options)
+          .map((response: Response) => {
+              let body = response.json();
+              //if (!body['error']) {
+
+              //}
               return body;
           })
           .take(1)

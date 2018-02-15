@@ -8,12 +8,14 @@ export interface IUser {
   tab_id?: string;
   department_id?: number;
   division_id?: number;
+  office_id: number;
   surname: string;
   name: string;
   fname?: string;
   position?: string;
   email?: string;
   photo?: string;
+  room: string;
   active_directory_account?: string;
   is_administrator?: boolean;
 };
@@ -24,12 +26,14 @@ export class User extends Model {
   tabId: string = "";
   departmentId: number = 0;
   divisionId: number = 0;
+  officeId: number;
   surname: string = "";
   name: string = "";
   fname: string = "";
   position: string = "";
   email: string = "";
   photo: string | null = null;
+  room: string | null;
   photoTop: string = '0px';
   photoLeft: string = '0px';
   photoZoom: string = '100%';
@@ -46,12 +50,14 @@ export class User extends Model {
       this.tabId = config.tab_id !== undefined ? config.tab_id : '';
       this.departmentId = config.department_id !== undefined ? config.department_id : 0;
       this.divisionId = config.division_id !== undefined ? config.division_id : 0;
+      this.officeId = config.office_id ? config.office_id : 0;
       this.surname = config.surname;
       this.name = config.name;
       this.fname = config.fname !== undefined ? config.fname : '';
       this.position = config.position !== undefined ? config.position : '';
       this.email = config.email !== undefined ? config.email : '';
       this.photo = config.photo !== null ? config.photo : null;
+      this.room = config.room ? config.room : null;
       this.activeDirectoryAccount = config.active_directory_account !== undefined ? config.active_directory_account : '';
       //this.isAdministrator = config.is_administrator !== undefined ? config.is_administrator : false;
     }

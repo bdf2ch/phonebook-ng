@@ -119,4 +119,38 @@ export class UserAccountComponent {
             });
         }
     };
+
+
+    private location = {
+        open: () => {
+            this.modals.get('user-location-modal').open();
+        },
+        close: (form: NgForm) => {
+            this.session.user.restoreBackup();
+            form.reset({
+                office: this.session.user.officeId,
+                room: this.session.user.room
+            });
+        },
+        send: (form: NgForm) => {
+            this.phoneBook.setUserLocation(
+                this.session.user.id,
+                this.session.user.officeId,
+                this.session.user.room,
+                this.session.session.token).subscribe((result: any) => {
+                    console.log(result);
+                    this.session.user.setupBackup(['officeId', 'room']);
+                    //form.form.markAsPristine();
+                    //form.form.markAsUntouched();
+                    form.reset({
+                        office: this.session.user.officeId,
+                        room: this.session.user.room
+                    });
+
+                    this.modals.get('user-location-modal').close();
+            });
+        }
+    };
+
+
 }
