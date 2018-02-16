@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterContentChecked } from '@angular/core';
+import {Component, OnInit, ViewChild, AfterContentChecked, ChangeDetectorRef} from '@angular/core';
 import { ParamMap, Router, ActivatedRoute } from '@angular/router';
 import { appConfig } from '../app.config';
 import { PhoneBookService } from './phone-book.service';
@@ -23,6 +23,7 @@ import { CookieService } from '../utilities/cookies/cookie.services';
 import { Phone } from '../models/phone.model';
 import { NgForm } from '@angular/forms';
 import {Office} from "../models/office.model";
+import {OfficesService} from "./offices.service";
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -51,14 +52,16 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    constructor(private phoneBook: PhoneBookService,
+    constructor(private detector: ChangeDetectorRef,
+                private phoneBook: PhoneBookService,
                 private manager: PhoneBookManagerService,
                 private trees: DivisionTreeService,
                 private session: SessionService,
                 private cookies: CookieService,
                 private modals: ModalsService,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private offices: OfficesService) {
         this.newDivision = new Division();
         this.newDivision.parentId = appConfig.defaultOrganizationId;
         this.newDivision.setupBackup(['parentId', 'title']);
@@ -69,6 +72,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newOffice = new Office();
         this.newOffice.organizationId = appConfig.defaultOrganizationId;
         this.newOffice.setupBackup(['organizationId', 'address']);
+        this.offices.new.organizationId = appConfig.defaultOrganizationId;
 
 
 
@@ -683,7 +687,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      */
     closeNewOfficeModal(form: NgForm): void {
         form.reset();
-        this.newOffice.restoreBackup();
+        this.detector.detectChanges();
+        this.offices.new.restoreBackup();
     };
 
 
@@ -691,11 +696,83 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * Добавление нового офиса организации
      */
     addOffice(): void {
+        /*
         this.manager.addOffice(this.newOffice).subscribe((office: Office) => {
             console.log(office);
             this.phoneBook.offices.push(office);
             this.modals.get('new-office-modal').close();
         });
+        */
+
+        this.offices.add(this.offices.new, this.session.session ? this.session.session.token : '')
+            .subscribe((result: Office | boolean) => {
+                if (result !== false) {
+                    console.log(result);
+                    this.modals.get('new-office-modal').close();
+                }
+            });
+    };
+
+
+    openEditOfficeModal(office: Office): void {
+        this.offices.selected = office;
+        this.modals.get('edit-office-modal').open();
+    };
+
+
+    closeEditOfficeModal(form: NgForm): void {
+        this.offices.selected.restoreBackup();
+        form.reset({
+            address: this.offices.selected.address,
+            city: this.offices.selected.city
+        });
+        this.detector.detectChanges();
+        this.offices.selected = null;
+    };
+
+    editOffice(form: NgForm): void {
+        this.offices.edit(this.offices.selected, this.session.session ? this.session.session.token : '')
+            .subscribe((result: boolean) => {
+                if (result) {
+                    form.reset({
+                        address: this.offices.selected.address,
+                        city: this.offices.selected.city
+                    });
+                    this.detector.detectChanges();
+                    this.modals.get('edit-office-modal').close();
+                }
+            });
+    };
+
+
+    openDeleteOfficeModal(office: Office): void {
+        this.offices.selected = office;
+        this.modals.get('delete-office-modal').open();
+    };
+
+
+    deleteOffice(): void {
+        this.offices.delete(this.offices.selected, this.session.session ? this.session.session.token : '')
+            .subscribe((result: boolean) => {
+                if (result) {
+                    this.modals.get('delete-office-modal').close();
+                    /**
+                     * Если в избранных есть абоненты, относящиеся к удаленному офису - обнуляем у них данные об офисе
+                     */
+                    this.phoneBook.favoriteContacts.contacts.forEach((contact: Contact) => {
+                        if (contact.officeId === this.offices.selected.id) {
+                            contact.officeId = 0;
+                        }
+                    });
+                    /**
+                     * Если текущий пользователь относится к удаленному офису - обнуляем у него данные об офисе
+                     */
+                    if (this.session.user.officeId === this.offices.selected.id) {
+                        this.session.user.officeId = 0;
+                    }
+                    this.offices.selected = null;
+                }
+            });
     };
 
 

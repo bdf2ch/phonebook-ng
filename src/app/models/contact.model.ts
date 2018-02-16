@@ -18,6 +18,7 @@ export interface IContact {
   mobile?: string;
   photo?: string;
   room: string;
+  order_id: number | null;
   is_in_favorites: boolean;
   photo_position?: IContactPhotoPosition,
   user?: IUser;
@@ -45,7 +46,7 @@ export class Contact extends Model {
   photoLeft: number = 0;
   photoZoom: number = 100;
   room: string | null;
-  order: number = 0;
+  order: number;
   isInFavorites: boolean = false;
   fio: string = "";
   search: string = "";
@@ -57,6 +58,7 @@ export class Contact extends Model {
     this.organizationId = config && config.organization_id ? config.organization_id : 0;
     this.officeId = config && config.office_id ? config.office_id : 0;
     this.room = config && config.room ? config.room : null;
+    this.order = config && config.order_id ? config.order_id : 0;
     //this.office = null;
 
 

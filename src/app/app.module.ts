@@ -49,6 +49,11 @@ import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-optio
 import { UserAccountComponent } from './phone-book/user-account/user-account.component';
 import { FavoritesComponent } from './phone-book/favorites/favorites.component';
 import { HelpComponent } from './phone-book/help/help.component';
+
+/**
+ * Office management
+ */
+import { OfficesService } from "./phone-book/offices.service";
 import { OfficesByOrganizationPipe } from './phone-book/offices-by-organization.pipe';
 
 const routes: Routes = [
@@ -125,6 +130,7 @@ const routes: Routes = [
     CookieService,
     //ModalService,
     //TabsService
+      OfficesService
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

@@ -7,13 +7,15 @@ const postgres = require('../common/postgres');
  * Добавление офиса организации
  * @param organizationId {Number} - Идентификатор организации
  * @param address {String} - Адрес офиса
+ * @param city {String} - Населенный пункт
+ * @param token {String} - Токен сессии пользователя
  */
-function addOffice (organizationId, address) {
+function addOffice (organizationId, address, city, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT add_office($1, $2)',
-                values: [organizationId, address],
+                text: 'SELECT add_office($1, $2, $3, $4)',
+                values: [organizationId, address, city, token],
                 func: 'add_office'
             });
             resolve(result);
@@ -28,13 +30,15 @@ function addOffice (organizationId, address) {
  * Изменение офиса организации
  * @param officeId {Number} - Идентификатор офиса организации
  * @param address {String} - Адрес офиса организации
+ * @param city {String} - Наседенный пункт
+ * @param token {String} - Токен сессии пользователя
  */
-function editOffice (officeId, address) {
+function editOffice (officeId, address, city, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT edit_office($1, $2)',
-                values: [officeId, address],
+                text: 'SELECT edit_office($1, $2, $3, $4)',
+                values: [officeId, address, city, token],
                 func: 'edit_office'
             });
             resolve(result);
@@ -48,13 +52,14 @@ function editOffice (officeId, address) {
 /**
  * Удаление офиса организации
  * @param officeId {Number} - идентификатор офиса организации
+ * @param token {String} - Токен сессии пользователя
  */
-function deleteOffice (officeId) {
+function deleteOffice (officeId, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT delete_office($1)',
-                values: [officeId],
+                text: 'SELECT delete_office($1, $2)',
+                values: [officeId, token],
                 func: 'delete_office'
             });
             resolve(result);
@@ -73,18 +78,23 @@ router.post('/', async(req, res) => {
             case 'add':
                 result = await addOffice(
                     req.body.data.organizationId,   // Идентификатор организации
-                    req.body.data.address           // Адрес офиса
+                    req.body.data.address,          // Адрес офиса
+                    req.body.data.city,             // Населенный пункт
+                    req.body.data.token             // токен сессии пользователя
                 );
                 break;
             case 'edit':
                 result = await editOffice(
                     req.body.data.officeId,         // Идентификатор офиса
-                    req.body.data.address           // Адрес офиса
+                    req.body.data.address,          // Адрес офиса
+                    req.body.data.city,             // Населенный пункт
+                    req.body.data.token             // Токен сессии пользователя
                 );
                 break;
             case 'delete':
                 result = await deleteOffice(
-                    req.body.data.officeId          // Идентфификатор офиса
+                    req.body.data.officeId,         // Идентфификатор офиса
+                    req.body.data.token             // Токен сессии пользователя
                 );
                 break;
         }

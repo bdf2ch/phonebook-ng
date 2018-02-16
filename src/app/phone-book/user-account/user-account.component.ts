@@ -95,10 +95,9 @@ export class UserAccountComponent {
          * @param {NgForm} form - Форма обратной связи
          */
         close: (form: NgForm) => {
-            this.modals.get('feedback-modal').close();
             form.reset({
-                'theme': 2,
-                'message': ''
+                theme: 2,
+                message: ''
             });
         },
 

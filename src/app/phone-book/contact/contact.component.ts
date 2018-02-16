@@ -1,6 +1,6 @@
 import {
     Component, Input, Host, ElementRef, OnInit, OnChanges, SimpleChanges, Renderer2, HostListener,
-    ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy
+    ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy, NgZone
 } from '@angular/core';
 import { Contact } from "../../models/contact.model";
 import { PhoneBookService } from "../phone-book.service";
@@ -28,7 +28,8 @@ export class ContactComponent implements  OnInit, OnChanges{
     @Output() onEditContactPhoto: EventEmitter<any> = new EventEmitter();
     private isPhotoUploading: boolean;
 
-    constructor(private phoneBook: PhoneBookService,
+    constructor(private zone: NgZone,
+                private phoneBook: PhoneBookService,
                 public element: ElementRef,
                 private renderer: Renderer2,
                 private session: SessionService,
@@ -54,6 +55,49 @@ export class ContactComponent implements  OnInit, OnChanges{
             event.cancelBubble = true;
             event.stopPropagation();
             //this.phoneBook.nowDragging = null;
+        });
+
+
+        this.zone.runOutsideAngular(() => {
+            this.element.nativeElement.addEventListener('dragstart', (event: any) => {
+                console.log('contact drag started');
+            });
+
+            this.element.nativeElement.addEventListener('dragenter', (event: any) => {
+                console.log('dragenter contact');
+                this.renderer.addClass(event.target, 'drag-over');
+                //this.element.nativeElement.classList.add('drag-over');
+            });
+
+            this.element.nativeElement.addEventListener('dragover', (event: any) => {
+                console.log('dragover contact');
+                event.preventDefault();
+                //this.renderer.removeClass(event.target, 'drag-over');
+            });
+
+            this.element.nativeElement.addEventListener('dragleave', (event: any) => {
+                console.log('dragleave contact');
+                //this.element.nativeElement.classList.removeCookie('drag-over');
+                this.renderer.removeClass(event.target, 'drag-over');
+            });
+
+            this.element.nativeElement.addEventListener('drop', (event: any) => {
+                event.stopPropagation();
+                console.log(event);
+                //console.log('drop conatctId = ', event.dataTransfer.getData('contactId'), ', division id = ', this.division.id);
+                //console.log('now dragging', this.phoneBook.nowDragging);
+                let order = this.contact.order;
+                //this.contact.order = order - 1;
+                this.phoneBook.nowDragging.contact.order = order - 1;
+                console.log('new order = ', order);
+                console.log('placed order = ', this.phoneBook.nowDragging.contact.order);
+                this.phoneBook.nowDragging.group.contacts.forEach((contact: Contact, index: number, group: Contact[]) => {
+                    if (contact.id === event.dataTransfer.getData(parseInt('contactId'))) {
+                        group[index] = this.contact;
+                        this.contact = contact;
+                    }
+                });
+            });
         });
 
     };

@@ -2,6 +2,20 @@
     <div id="user-name-caption" *ngIf="session.user">
         {{ session.user.name + ' ' + session.user.fname + ' ' + session.user.surname }}
     </div>
+    <div class="notification row margin-bottom-20">
+        <i class="fa fa-bell"></i>
+        <span class="title">
+            Ваше местоположение не указано. Чтобы другие абоненты знали в каком кабинете Вы находитесь,
+            укажите, пожалуйста, Ваше местоположение.
+        </span>
+    </div>
+    <div class="notification row margin-bottom-20">
+        <i class="fa fa-bell"></i>
+        <span class="title">
+            Ваше местоположение не указано. Чтобы другие абоненты знали в каком кабинете Вы находитесь,
+            укажите, пожалуйста, Ваше местоположение.
+        </span>
+    </div>
     <div id="user-photo-and-menu">
         <div id="user-photo">
             <div id="photo" [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : 'http://10.50.0.153:4444/assets/images/users/no_photo.png'}"></div>
@@ -21,7 +35,7 @@
             <button class="btn medium blue width-100 margin-bottom-15" (click)="location.open()">
                 Указать местоположение
             </button>
-            <button class="btn medium blue width-100 margin-bottom-15" (click)="feedback.open()">Отправить сообщение</button>
+            <button class="btn medium blue badged width-100 margin-bottom-15" (click)="feedback.open()">Отправить сообщение</button>
             <button class="btn medium width-100 red" (click)="logOut()">Выйти из учетной записи</button>
         </div>
     </div>
@@ -95,13 +109,13 @@
 </modal>
 
 
-
 <!-- Модальное окно отправки сообщения обратной связи -->
 <modal [id]="'feedback-modal'"
        [caption]="'Обратная связь'"
        [icon]="'fa fa-envelope'"
        [width]="420"
-       [height]="420">
+       [height]="420"
+       (onClose)="feedback.close(feedbackForm)">
     <div class="column width-100">
         <form class="form-layout" novalidate #feedbackForm="ngForm">
             <div class="content width-100 padding-20">
@@ -137,7 +151,7 @@
                     Отправить
                 </button>
                 <button class="btn red medium width-50 margin-left-5"
-                        (click)="feedback.close(feedbackForm)">
+                        (click)="modals.get('feedback-modal').close()">
                     <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>

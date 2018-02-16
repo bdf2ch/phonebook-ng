@@ -4,7 +4,7 @@ import { Office } from "../models/office.model";
 
 @Pipe({
     name: 'officesByOrganization',
-    pure: true
+    pure: false
 })
 export class OfficesByOrganizationPipe implements PipeTransform {
     transform(offices: Office[], organizationId: number): Office[] {
