@@ -77,11 +77,6 @@
   font-size: 7px;
   vertical-align: middle;
 }
-.contact-group-component .contacts {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
 .contact-group-component .contacts .four-in-row .contact {
   margin-right: 0px;
   background: red !important;

@@ -15,7 +15,8 @@ import { ATS, IATS } from '../models/ats.model';
 import { PhoneBookService } from "./phone-book.service";
 import { Division, IDivision } from '../models/division.model';
 import { IOffice, Office } from "../models/office.model";
-import {OfficesService} from "./offices.service";
+import {OfficesService} from "../common/offices/offices.service";
+import {DivisionsService} from "../common/divisions/divisions.service";
 
 
 @Injectable()
@@ -44,7 +45,8 @@ export class SessionService {
     constructor(private router: Router,
                 private http: Http,
                 private phoneBook: PhoneBookService,
-                private offices: OfficesService) {};
+                private offices: OfficesService,
+                private divisions: DivisionsService) {};
 
 
     /**
@@ -127,6 +129,7 @@ export class SessionService {
                         division.setupBackup(['parentId', 'title']);
                         this.phoneBook.divisions.push(division);
                         this.phoneBook.ids.push(division.id);
+                        this.divisions.list().push(division);
                     });
 
                     /**

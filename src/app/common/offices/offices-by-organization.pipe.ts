@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Office } from "../models/office.model";
+import { Office } from "../../models/office.model";
 
 
 @Pipe({

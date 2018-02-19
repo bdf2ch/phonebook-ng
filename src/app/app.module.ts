@@ -16,7 +16,6 @@ import { ContactsOrderPipe } from './phone-book/contact-group/contacts-order.pip
 import { ContactComponent } from './phone-book/contact/contact.component';
 import { ContactGroupComponent } from './phone-book/contact-group/contact-group.component';
 import { TextOverflowDirective } from './phone-book/text-overflow.directive';
-import { DivisionsGuard } from './phone-book/divisions.guard';
 import { UserSessionGuard } from './phone-book/session.guard';
 import { PhoneBookService } from './phone-book/phone-book.service';
 import { DivisionTreeComponent } from './phone-book/division-tree/division-tree.component';
@@ -24,26 +23,11 @@ import { DivisionTreeItemComponent } from './phone-book/division-tree/division-t
 import { DivisionTreeService } from './phone-book/division-tree/division-tree.service';
 import { DivisionOrderPipe } from './phone-book/division-tree/division-order.pipe';
 import { StubComponent } from './phone-book/stub/stub.component';
-import { AuthComponent } from './phone-book/auth/auth.component';
-import { AuthService } from './phone-book/auth/auth.service';
-
-import { UserMenuComponent } from './phone-book/user-menu/user-menu.component';
-
 import { SessionService} from './phone-book/session.service';
 import { CookieService } from './utilities/cookies/cookie.services';
-//import { ModalComponent } from './utilities/modal/modal.component';
 
-import { UploadDirective }  from './utilities/upload/upload.directive';
-import { PhotoEditorComponent } from './phone-book/photo-editor/photo-editor.component';
-
-//import { ModalComponent } from './utilities/modal/modal.component';
-//import { ModalComponent } from '@bdf2ch/angular-transistor';
-//import { ModalService } from './utilities/modal/modal.service';
 import { CompanySelectorComponent } from './phone-book/company-selector/company-selector.component';
 import { ExceptSelectedOrganizationPipe } from './phone-book/company-selector/except-selected-organization.pipe';
-import { TabsComponent } from './utilities/tabs/tabs.component';
-import { TabComponent } from './utilities/tabs/tab/tab.component';
-import { TabsService } from './utilities/tabs/tabs.service';
 import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
 import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
 import { UserAccountComponent } from './phone-book/user-account/user-account.component';
@@ -51,10 +35,15 @@ import { FavoritesComponent } from './phone-book/favorites/favorites.component';
 import { HelpComponent } from './phone-book/help/help.component';
 
 /**
+ * Divisions management
+ */
+import { DivisionsService } from './common/divisions/divisions.service';
+
+/**
  * Office management
  */
-import { OfficesService } from "./phone-book/offices.service";
-import { OfficesByOrganizationPipe } from './phone-book/offices-by-organization.pipe';
+import { OfficesService } from "./common/offices/offices.service";
+import { OfficesByOrganizationPipe } from './common/offices/offices-by-organization.pipe';
 
 const routes: Routes = [
   {
@@ -104,33 +93,23 @@ const routes: Routes = [
     DivisionTreeItemComponent,
     DivisionOrderPipe,
     StubComponent,
-    AuthComponent,
-    UserMenuComponent,
-    //ModalComponent,
-    PhotoEditorComponent,
     CompanySelectorComponent,
     FavoritesComponent,
     HelpComponent,
     UserAccountComponent,
-    UploadDirective,
     ExceptSelectedOrganizationPipe,
-    //TabsComponent,
-    //TabComponent,
     TypeAheadComponent,
     TypeAheadOptionComponent,
       OfficesByOrganizationPipe
   ],
   providers: [
-    DivisionsGuard,
     UserSessionGuard,
     PhoneBookService,
     DivisionTreeService,
-    AuthService,
     SessionService,
     CookieService,
-    //ModalService,
-    //TabsService
-      OfficesService
+      OfficesService,
+      DivisionsService
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

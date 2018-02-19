@@ -7,13 +7,14 @@ const express = require('express');
  * Добавление нового структурного подразделения
  * @param parentId {Number} - Идентификатор родительског оструктурного подразделения
  * @param title {String} - Наименование структурного подразделения
+ * @param token {String} - Токен сессии пользователя
  */
-function addDivision(parentId, title) {
+function addDivision(parentId, title, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT add_phonebook_division($1, $2)',
-                values: [parentId, title],
+                text: 'SELECT add_phonebook_division($1, $2, $3)',
+                values: [parentId, title, token],
                 func: 'add_phonebook_division'
             });
             resolve(result);
@@ -30,13 +31,15 @@ function addDivision(parentId, title) {
  * @param parentId {Number} - Идентификатор родительского структурного подразделения
  * @param officeId {Number} - Идентификатор офиса организации
  * @param title {String} - Наименование структурного подразделения
+ * @param token {String} - Токен сессии пользователя
+ *
  */
-function editDivision(divisionId, parentId, officeId, title) {
+function editDivision(divisionId, parentId, officeId, title, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT edit_phonebook_division($1, $2, $3, $4)',
-                values: [divisionId, parentId, officeId, title],
+                text: 'SELECT edit_phonebook_division($1, $2, $3, $4, $5)',
+                values: [divisionId, parentId, officeId, title, token],
                 func: 'edit_phonebook_division'
             });
             resolve(result);
@@ -76,15 +79,17 @@ router.post('/', async (req, res) => {
             case 'add':
                 result = await addDivision(
                     req.body.data.parentId,         // Идентфикатор родительского структурного подразделения
-                    req.body.data.title             // Наименование структурного подразделения
+                    req.body.data.title,            // Наименование структурного подразделения
+                    req.body.data.token             // Токен сессии пользователя
                 );
                 break;
             case 'edit':
                 result = await editDivision(
-                    req.body.data.id,               // Идентификатор структурного подразделения
+                    req.body.data.divisionId,       // Идентификатор структурного подразделения
                     req.body.data.parentId,         // Идентификатор родительского струкктурного подразделения
                     req.body.data.officeId,         // Идентификатор офиса
-                    req.body.data.title             // Наименование структкрного подразделения
+                    req.body.data.title,            // Наименование структкрного подразделения
+                    req.body.data.token             // Токен сессии пользователя
                 );
                 break;
             case 'delete':

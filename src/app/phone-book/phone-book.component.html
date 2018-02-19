@@ -95,7 +95,7 @@
         <button type="button"
                 class="btn green outline medium round margin-right-10"
                 title="Добавить структурное подразделение"
-                [disabled]="phoneBook.loading"
+                [disabled]="divisions.isAdding"
                 (click)="openNewDivisionModal()">
             <i class="fa fa-plus"></i>
         </button>
@@ -103,8 +103,8 @@
         <button type="button"
                 class="btn blue outline medium round margin-right-10"
                 title="Редактировать структурное подразделение"
-                [disabled]="phoneBook.loading"
-                *ngIf="phoneBook.selectedDivision"
+                [disabled]="divisions.isEditing"
+                *ngIf="divisions.selected"
                 (click)="openEditDivisionModal()">
             <i class="fa fa-pencil"></i>
         </button>
@@ -112,8 +112,8 @@
         <button type="button"
                 class="btn red outline medium round"
                 title="Удалить структурное подразделение"
-                [disabled]="phoneBook.loading"
-                *ngIf="phoneBook.selectedDivision && phoneBook.selectedDivision.children.length === 0"
+                [disabled]="divisions.isDeleting"
+                *ngIf="divisions.selected && divisions.selected.children.length === 0"
                 (click)="openDeleteDivisionModal()">
             <i class="fa fa-times"></i>
         </button>
@@ -224,126 +224,133 @@
     </div>
 </modal>
 
-
 <!-- Модальное окно добавления нового структурного подразделения -->
 <modal [id]="'new-division-modal'"
        [caption]="'Новое структурное подразделение'"
        [icon]="'fa fa-building'"
        [width]="400"
-       [height]="phoneBook.selectedDivision ? 302 : 220"
+       [height]="divisions.selected ? 303 : 220"
        (onClose)="closeNewDivisionModal(newDivisionForm)">
     <div class="modal-content">
-        <form novalidate class="column width-100" #newDivisionForm="ngForm">
+        <form novalidate class="form-layout column width-100" #newDivisionForm="ngForm">
+            <div *ngIf="divisions.selected">
+                <div class="content">
+                    <!-- Структурное подразделение верхнего уровня -->
+                    <div class="padding-left-20 padding-right-20 padding-top-20">
+                        <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
+                        <input type="text"
+                               name="parent"
+                               id="new-division-parent"
+                               class="inp medium outline blue width-100 margin-top-5"
+                               placeholder="Структурное подразделение верхнего уровня"
+                               [value]="divisions.selected.title"
+                               disabled>
+                    </div>
 
-            <!-- Структурное подразделение верхнего уровня -->
-            <div class="padding-left-20 padding-right-20 padding-top-20" *ngIf="phoneBook.selectedDivision">
-                <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
-                <input type="text"
-                       name="parent"
-                       id="new-division-parent"
-                       class="inp medium width-100 margin-top-5"
-                       placeholder="Структурное подразделение верхнего уровня"
-                       [value]="phoneBook.selectedDivision.title"
-                       disabled>
+                    <!-- Наименование структурного подразделения -->
+                    <div class="column width-100 padding-left-20 padding-right-20 padding-top-20 margin-bottom-20">
+                        <label for="new-division-title" class="width-100">
+                            Наименование
+                            <span class="form-error" *ngIf="title.dirty && title.invalid">Вы не ввели наименование</span>
+                        </label>
+                        <input type="text"
+                               name="title"
+                               id="new-division-title"
+                               class="inp medium outline blue width-100 margin-top-5"
+                               placeholder="Введите наименование"
+                               [(ngModel)]="divisions.new.title"
+                               [ngClass]="{'red': title.dirty && title.invalid}"
+                               #title="ngModel"
+                               required>
+                    </div>
+                </div>
             </div>
-
-            <!-- Наименование структурного подразделения -->
-            <div class="column width-100 padding-left-20 padding-right-20 padding-top-20 margin-bottom-20">
-                <label for="new-division-title" class="width-100">
-                    Наименование
-                    <span class="form-error" *ngIf="title.dirty && title.invalid">Вы не ввели наименование</span>
-                </label>
-                <input type="text"
-                       name="title"
-                       id="new-division-title"
-                       class="inp medium width-100 margin-top-5"
-                       placeholder="Введите наименование"
-                       [(ngModel)]="newDivision.title"
-                       [ngClass]="{'red': title.dirty && title.invalid}"
-                       #title="ngModel"
-                       required>
-            </div>
-
             <!-- панель кнопок -->
-            <div class="row width-100 padding-left-20 padding-right-20 padding-top-10 padding-bottom-10 form-footer">
+            <div class="row footer width-100 padding-left-20 padding-right-20 padding-top-10 padding-bottom-10 form-footer">
                 <button type="submit"
                         class="btn medium green width-50 margin-right-5"
                         [disabled]="!newDivisionForm.valid"
                         (click)="addDivision()">
-                    Добавить
+                    <span *ngIf="divisions.isAdding">
+                        <i class="fa fa=spinner fa-spin margin-right-10"></i>
+                        Загурзка
+                    </span>
+                    <span *ngIf="!divisions.isAdding">
+                        <i class="fa fa-check margin-right-10"></i>
+                        Добавить
+                    </span>
                 </button>
                 <button type="button"
                         class="btn medium red width-50 margin-left-5"
                         (click)="this.modals.get('new-division-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>
             </div>
         </form>
     </div>
 </modal>
-
 
 <!-- Модальное окно изменения структурного подразделения -->
 <modal [id]="'edit-division-modal'"
        [caption]="'Изменение структ. подразделения'"
        [icon]="'fa fa-building'"
        [width]="400"
-       [height]="383"
+       [height]="305"
        (onClose)="closeEditDivisionModal(editDivisionForm)">
-    <div class="modal-content" *ngIf="phoneBook.selectedDivision">
-        <form novalidate class="column width-100" #editDivisionForm="ngForm">
-            <div class="padding-top-20 padding-left-20 padding-right-20">
-                <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
-                <input type="text"
-                       name="parent"
-                       id="selected-division-parent"
-                       class="inp medium width-100 margin-top-5"
-                       placeholder="Структурное подразделение верхнего уровня"
-                       [value]="phoneBook.getDivisionById(phoneBook.selectedDivision.parentId).title"
-                       disabled>
+    <form novalidate class="form-layout column width-100" #editDivisionForm="ngForm">
+        <div *ngIf="divisions.selected">
+            <div class="content">
+                <div class="padding-top-20 padding-left-20 padding-right-20">
+                    <label for="new-division-parent">Структурное подразделение верхнего уровня</label>
+                    <input type="text"
+                           name="parent"
+                           id="selected-division-parent"
+                           class="inp medium outline blue width-100 margin-top-5"
+                           placeholder="Структурное подразделение верхнего уровня"
+                           [value]="divisions.getById(divisions.selected.parentId) ? divisions.getById(divisions.selected.parentId).title : ''"
+                           disabled>
+                </div>
+                <div class="padding-top-20 padding-left-20 padding-right-20 margin-bottom-20">
+                    <label for="new-division-title">
+                        Наименование
+                        <span class="form-error" *ngIf="title.dirty && title.invalid">Вы не ввели наименование</span>
+                    </label>
+                    <input type="text"
+                           name="title"
+                           id="selected-division-title"
+                           class="inp medium outline blue width-100 margin-top-5"
+                           placeholder="Введите наименование"
+                           [ngClass]="{'red': title.dirty && title.invalid}"
+                           [(ngModel)]="divisions.selected.title"
+                           #title="ngModel"
+                           required>
+                </div>
             </div>
-            <div class="padding-top-20 padding-left-20 padding-right-20 margin-bottom-20">
-                <label for="new-division-title">
-                    Наименование
-                    <span class="form-error" *ngIf="title.dirty && title.invalid">Вы не ввели наименование</span>
-                </label>
-                <input type="text"
-                       name="title"
-                       id="selected-division-title"
-                       class="inp medium width-100 margin-top-5"
-                       placeholder="Введите наименование"
-                       [ngClass]="{'red': title.dirty && title.invalid}"
-                       [(ngModel)]="phoneBook.selectedDivision.title"
-                       #title="ngModel"
-                       required>
-            </div>
-            <div class="padding-left-20 padding-right-20 padding-bottom-20">
-                <label for="selected-division-office">Офис</label>
-                <select id="selected-division-office" name="ats" class="inp medium ats width-100" *ngIf="phoneBook.selectedOrganization"
-                        [(ngModel)]="phoneBook.selectedDivision.officeId">
-                    <option *ngFor="let office of phoneBook.offices | officesByOrganization:phoneBook.selectedOrganization.id"
-                            [ngValue]="office.id">
-                        {{ office.address }}
-                    </option>
-                </select>
-            </div>
-            <div class="row width-100 padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
+            <div class="row footer width-100 padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
                 <button type="submit"
                         class="btn medium green width-50 margin-right-5"
-                        [disabled]="!editDivisionForm.valid || !editDivisionForm.dirty"
-                        (click)="editDivision()">
-                    Сохранить изменения
+                        [disabled]="editDivisionForm.invalid || editDivisionForm.pristine || divisions.isEditing"
+                        (click)="editDivision(editDivisionForm)">
+                    <span *ngIf="!divisions.isEditing">
+                        <i class="fa fa-check margin-right-10"></i>
+                        Сохранить
+                    </span>
+                    <span *ngIf="divisions.isEditing">
+                        <i class="fa fa-spinner fa-spin margin-right-10"></i>
+                        Загрузка
+                    </span>
                 </button>
                 <button type="button"
                         class="btn medium red width-50 margin-left-5"
                         (click)="modals.get('edit-division-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </modal>
-
 
 <!-- Модальное окно удаления структурного подразделения -->
 <modal [id]="'delete-division-modal'"
@@ -351,9 +358,9 @@
        [icon]="'fa fa-building'"
        [width]="400"
        [height]="207">
-    <form class="column width-100" novalidate *ngIf="phoneBook.selectedDivision">
+    <form class="column width-100" novalidate *ngIf="divisions.selected">
         <div class="row padding-25 vertical-center horizontal-center">
-            <span>Структурное подразделение <b>"{{ phoneBook.selectedDivision.title }}"</b> будет удалено.</span>
+            <span>Структурное подразделение <b>"{{ divisions.selected.title }}"</b> будет удалено.</span>
         </div>
         <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
             <button type="submit"
@@ -369,31 +376,6 @@
         </div>
     </form>
 </modal>
-
-
-<!-- Модальное окно кадрирования фотографии абонента -->
-<modal [id]="'edit-contact-photo-modal'"
-       [caption]="'Кадрирование фотографии'"
-       [icon]="'fa fa-picture-o'"
-       [width]="516"
-       [height]="375">
-    <div>
-        <photo-editor
-                *ngIf="phoneBook.selectedContact"
-                [url]="phoneBook.selectedContact.photo"
-                [width]="516"
-                [height]="280"
-                [frameWidth]="258"
-                [frameHeight]="140"
-                [frameLeft]="phoneBook.selectedContact.photoLeft"
-                [frameTop]="phoneBook.selectedContact.photoTop"
-                [zoom]="phoneBook.selectedContact.photoZoom"
-                (onSaveChanges)="onChangeContactPhotoPosition($event)"
-                (onCancelChanges)="onCancelContactPosition($event)">
-        </photo-editor>
-    </div>
-</modal>
-
 
 <!-- Модальное окно добавления нового абонента -->
 <modal [id]="'new-contact-modal'"
@@ -552,7 +534,6 @@
         </div>
     </div>
 </modal>
-
 
 <!-- Модальное окно изменения данных абонента -->
 <modal [id]="'edit-contact-modal'"
@@ -801,7 +782,6 @@
     </div>
 </modal>
 
-
 <!-- Модальное окно добавления абоненту нового номера телефона -->
 <modal [id]="'new-contact-phone-modal'"
        [caption]="'Новый телефонный номер'"
@@ -869,7 +849,6 @@
     </form>
 </modal>
 
-
 <!-- Модальное окно изменения телефонного номера абонента -->
 <modal [id]="'edit-contact-phone-modal'"
        [caption]="'Изменение телефонного номера'"
@@ -936,7 +915,6 @@
     </form>
 </modal>
 
-
 <!-- Модальное окно удаления телефонного номера абонента -->
 <modal [id]="'delete-contact-phone-modal'"
        [caption]="'Удаление телефонного номера'"
@@ -964,7 +942,6 @@
     </form>
 </modal>
 
-
 <!-- Модальное окно удаления абонента -->
 <modal [id]="'delete-contact-modal'"
        [caption]="'Удаление абонента'"
@@ -991,7 +968,6 @@
         </div>
     </form>
 </modal>
-
 
 <!-- Модальное окно с карточкой абонента -->
 <modal [id]="'contact-info-modal'"
@@ -1085,7 +1061,6 @@
     </div>
 </modal>
 
-
 <!-- Модальноек окно управления офисами организации -->
 <modal [id]="'offices-modal'"
        [width]="500"
@@ -1129,7 +1104,6 @@
         </div>
     </div>
 </modal>
-
 
 <!-- Модальное окно добавления нового офиса организации -->
 <modal [id]="'new-office-modal'"
@@ -1196,7 +1170,6 @@
         </div>
     </form>
 </modal>
-
 
 <!-- Модальное окно изменения офиса организации -->
 <modal [id]="'edit-office-modal'"

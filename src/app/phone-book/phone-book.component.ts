@@ -23,7 +23,8 @@ import { CookieService } from '../utilities/cookies/cookie.services';
 import { Phone } from '../models/phone.model';
 import { NgForm } from '@angular/forms';
 import {Office} from "../models/office.model";
-import {OfficesService} from "./offices.service";
+import {OfficesService} from "../common/offices/offices.service";
+import {DivisionsService} from "../common/divisions/divisions.service";
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -36,10 +37,10 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     private isAtsPanelOpened: boolean = false;
     private sourceAtsId: number;
     //@ViewChild(ContactListComponent) list: ContactListComponent;
-    private newDivision: Division;
+    //private newDivision: Division;
     private newContact: Contact;
     private newContactPhone: Phone;
-    private newOffice: Office;
+    //private newOffice: Office;
     private users: User[] = [];
     private usersStream: Observable<User[]>;
     private searchTerms = new Subject<string>();
@@ -61,18 +62,19 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private modals: ModalsService,
                 private router: Router,
                 private route: ActivatedRoute,
-                private offices: OfficesService) {
-        this.newDivision = new Division();
-        this.newDivision.parentId = appConfig.defaultOrganizationId;
-        this.newDivision.setupBackup(['parentId', 'title']);
+                private offices: OfficesService,
+                private divisions: DivisionsService) {
+        //this.newDivision = new Division();
+        //this.newDivision.setupBackup(['parentId', 'title']);
         this.newContact = new Contact();
         this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
         this.newContactPhone = new Phone();
         this.newContactPhone.setupBackup(['atsId', 'number']);
-        this.newOffice = new Office();
-        this.newOffice.organizationId = appConfig.defaultOrganizationId;
-        this.newOffice.setupBackup(['organizationId', 'address']);
+        //this.newOffice = new Office();
+        //this.newOffice.organizationId = appConfig.defaultOrganizationId;
+        //this.newOffice.setupBackup(['organizationId', 'address']);
         this.offices.new.organizationId = appConfig.defaultOrganizationId;
+        this.divisions.new.parentId = appConfig.defaultOrganizationId;
 
 
 
@@ -208,17 +210,20 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     selectOrganization(division: Division): void {
         console.log('selected organization', division);
-        this.newOffice.organizationId = division.id;
+        //this.newOffice.organizationId = division.id;
+        this.offices.new.organizationId = division.id;
     };
 
 
     selectDivision(division: Division): void {
         this.router.navigate(['/']);
         //this.phoneBook.isInFavoritesMode = false;
+        this.divisions.selected = division;
         this.phoneBook.selectedDivision = division;
         if (division !== null) {
             console.log('selected division id = ', division.id);
-            this.newDivision.parentId = division.id;
+            //this.newDivision.parentId = division.id;
+            this.divisions.new.parentId = division.id;
             this.phoneBook.isInFavoritesMode = false;
             this.phoneBook.allowToAddContacts = this.session.user && this.session.user.isAdministrator ? true : false;
 
@@ -231,7 +236,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             })
         } else {
             //this.phoneBook.clearContactGroups();
-            this.newDivision.parentId = 0;
+            //this.newDivision.parentId = 0;
+            this.divisions.new.parentId = 0;
             this.phoneBook.contacts = [];
         };
     };
@@ -300,23 +306,36 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     openNewDivisionModal(): void {
-        this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
+        //this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
+        this.divisions.new.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
+
         this.modals.get('new-division-modal').open();
     };
 
 
-    closeNewDivisionModal(form?: any): void {
-        this.newDivision.restoreBackup();
-        if (form)
-            form.reset();
+    closeNewDivisionModal(form: any): void {
+        //this.newDivision.restoreBackup();
+        this.divisions.new.restoreBackup();
+        form.reset();
+        this.detector.detectChanges();
     };
 
 
     addDivision(): void {
-        this.manager.addDivision(this.newDivision).subscribe((division: Division) => {
+        /*
+        this.manager.addDivision(this.divisions.new).subscribe((division: Division) => {
             this.trees.addDivision('phone-book-divisions', division);
             this.modals.get('new-division-modal').close();
         });
+        */
+
+        this.divisions.add(this.divisions.new, this.session.session ? this.session.session.token : '')
+            .subscribe((result: Division | boolean) => {
+                if (result) {
+                    this.detector.detectChanges();
+                    this.modals.get('new-division-modal').close();
+                }
+            });
     };
 
 
@@ -325,17 +344,18 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    closeEditDivisionModal(form?: any): void {
-        this.phoneBook.selectedDivision.restoreBackup();
-        if (form) {
-            form.reset({
-                title: this.phoneBook.selectedDivision.title
-            });
-        }
+    closeEditDivisionModal(form: NgForm): void {
+        this.divisions.selected.restoreBackup();
+        form.reset({
+            title: this.divisions.selected.title
+        });
+        this.detector.detectChanges();
+
     };
 
 
-    editDivision(): void {
+    editDivision(form: NgForm): void {
+        /*
         this.manager.editDivision(this.phoneBook.selectedDivision).subscribe((result: boolean) => {
             if (result) {
                 this.phoneBook.contacts.forEach((group: ContactGroup) => {
@@ -352,6 +372,20 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 this.modals.get('edit-division-modal').close();
             }
         });
+        */
+
+
+        this.divisions.edit(this.divisions.selected, this.session.session ? this.session.session.token : '')
+            .subscribe((result: boolean) => {
+                console.log(result);
+                if (result) {
+                    form.reset({
+                        title: this.divisions.selected.title
+                    });
+                    this.detector.detectChanges();
+                    this.modals.get('edit-division-modal').close();
+                }
+            });
     };
 
 
@@ -361,6 +395,21 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     deleteDivision(): void {
+        this.divisions.delete(this.divisions.selected.id, this.session.session ? this.session.session.token : '')
+            .subscribe((result: boolean) => {
+                if (result) {
+                    const tree = this.trees.getById('phone-book-divisions');
+                    if (tree) {
+                        tree.deleteDivision(this.divisions.selected);
+                    }
+                    this.divisions.selected = null;
+                    //this.phoneBook.selectedDivision = null;
+                    this.phoneBook.contacts = [];
+                    this.modals.get('delete-division-modal').close();
+                }
+            });
+
+        /*
         this.manager.deleteDivision(
             this.phoneBook.selectedDivision.id,
             this.session.session ? this.session.session.token : ''
@@ -375,6 +424,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 this.modals.get('delete-division-modal').close();
             }
         });
+        */
     };
 
 

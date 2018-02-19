@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Office } from "../models/office.model";
+import { Office } from "../../models/office.model";
 import { Observable } from "rxjs/Observable";
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 
