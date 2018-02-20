@@ -27,12 +27,17 @@ import { SessionService} from './phone-book/session.service';
 import { CookieService } from './utilities/cookies/cookie.services';
 
 import { CompanySelectorComponent } from './phone-book/company-selector/company-selector.component';
-import { ExceptSelectedOrganizationPipe } from './phone-book/company-selector/except-selected-organization.pipe';
+import { ExceptSelectedOrganizationPipe } from './common/organizations/except-selected-organization.pipe';
 import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
 import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
 import { UserAccountComponent } from './phone-book/user-account/user-account.component';
 import { FavoritesComponent } from './phone-book/favorites/favorites.component';
 import { HelpComponent } from './phone-book/help/help.component';
+
+/**
+ * Organizations management
+ */
+import { OrganizationsService } from './common/organizations/organizations.service';
 
 /**
  * Divisions management
@@ -85,6 +90,7 @@ const routes: Routes = [
     AppComponent,
     PhoneBookComponent,
     ContactListComponent,
+
     ContactsOrderPipe,
     ContactComponent,
     ContactGroupComponent,
@@ -109,7 +115,8 @@ const routes: Routes = [
     SessionService,
     CookieService,
       OfficesService,
-      DivisionsService
+      DivisionsService,
+      OrganizationsService
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

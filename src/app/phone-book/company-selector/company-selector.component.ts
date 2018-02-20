@@ -4,7 +4,8 @@ import { Division } from '../../models/division.model';
 import { PhoneBookService } from '../phone-book.service';
 import { DivisionTreeService } from '../division-tree/division-tree.service';
 import { SessionService } from '../session.service';
-import {buildAnimationTimelines} from "@angular/animations/browser/src/dsl/animation_timeline_builder";
+import { DivisionsService } from "../../common/divisions/divisions.service";
+import { OrganizationsService } from "../../common/organizations/organizations.service";
 
 
 @Component({
@@ -12,9 +13,9 @@ import {buildAnimationTimelines} from "@angular/animations/browser/src/dsl/anima
     templateUrl: './company-selector.component.html',
     styleUrls: ['./company-selector.component.css']
 })
-export class CompanySelectorComponent implements OnChanges {
+export class CompanySelectorComponent {
     @Input() divisions: Division[] = [];
-    @Output() onSelectOrganization: EventEmitter<Division> = new EventEmitter();
+    //@Output() onSelectOrganization: EventEmitter<Division> = new EventEmitter();
     private opened: boolean = false;
     private selected: Division | null = null;
 
@@ -23,21 +24,25 @@ export class CompanySelectorComponent implements OnChanges {
                 private renderer: Renderer2,
                 private session: SessionService,
                 private phoneBook: PhoneBookService,
-                private divisionTrees: DivisionTreeService) {}
+                private divisionTrees: DivisionTreeService,
+                private divisions_: DivisionsService,
+                private organizations: OrganizationsService) {}
 
 
+                /*
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes);
         if (changes['divisions']['firstChange']) {
             console.info('divisions first change');
             changes['divisions']['currentValue'].forEach((item: Division) => {
-                if (item.id === appConfig.defaultOrganizationId) {
-                    this.selected = item;
-                    this.phoneBook.selectedOrganization = item;
-                }
+                //if (item.id === appConfig.defaultOrganizationId) {
+                    //this.selected = item;
+                    //this.phoneBook.selectedOrganization = item;
+                //}
             });
         }
     };
+    */
 
 
     open(): void {
@@ -63,15 +68,22 @@ export class CompanySelectorComponent implements OnChanges {
         console.log('org', division);
         this.selected = division;
         this.phoneBook.selectedOrganization = division;
+        this.organizations.selected = division;
+        this.divisions_.new.parentId = division.id;
+
         const tree = this.divisionTrees.getById('phone-book-divisions');
         //console.log('tree', tree);
         const root = tree.getDivisionById(division.id);
         //console.log('root', root);
         if (root) {
             tree.setRootDivision(root);
-            this.phoneBook.fetchContactsByDivisionId(division.id, appConfig.defaultSourceAtsId, this.session.session ? this.session.session.token : '').subscribe();
+            this.phoneBook.fetchContactsByDivisionId(
+                division.id,
+                appConfig.defaultSourceAtsId,
+                this.session.session ? this.session.session.token : ''
+            ).subscribe();
         }
         this.open();
-        this.onSelectOrganization.emit(division);
+        //this.onSelectOrganization.emit(division);
     };
 }

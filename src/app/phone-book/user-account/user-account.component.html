@@ -2,6 +2,7 @@
     <div id="user-name-caption" *ngIf="session.user">
         {{ session.user.name + ' ' + session.user.fname + ' ' + session.user.surname }}
     </div>
+    <!--
     <div class="notification row margin-bottom-20">
         <i class="fa fa-bell"></i>
         <span class="title">
@@ -16,6 +17,7 @@
             укажите, пожалуйста, Ваше местоположение.
         </span>
     </div>
+    -->
     <div id="user-photo-and-menu">
         <div id="user-photo">
             <div id="photo" [ngStyle]="{'background': session.user.photo ? 'url(http://10.50.0.153:4444' + session.user.photo + ')' : 'http://10.50.0.153:4444/assets/images/users/no_photo.png'}"></div>
@@ -32,8 +34,9 @@
                 Загрузить фотографию
                 <input type="file" name="photo" encType="multipart/form-data" (change)="uploadPhoto($event)">
             </label>
-            <button class="btn medium blue width-100 margin-bottom-15" (click)="location.open()">
+            <button class="btn medium blue badged width-100 margin-bottom-15" (click)="location.open()">
                 Указать местоположение
+                <!--<span class="badge"><i class="fa fa-bell"></i></span>-->
             </button>
             <button class="btn medium blue badged width-100 margin-bottom-15" (click)="feedback.open()">Отправить сообщение</button>
             <button class="btn medium width-100 red" (click)="logOut()">Выйти из учетной записи</button>

@@ -6,7 +6,7 @@ import { Division } from '../../models/division.model';
 export class ExceptSelectedOrganizationPipe implements PipeTransform {
     transform(value: Division[], organizationId: number): Division[] {
         const result: Division[] = [];
-        value.forEach((division: Division, index: number, array: Division[]) => {
+        value.forEach((division: Division) => {
             if (division.id !== organizationId) {
                 result.push(division)
             }

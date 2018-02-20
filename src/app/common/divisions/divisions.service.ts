@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Division } from "../../models/division.model";
 import { Observable } from "rxjs/Observable";
 import {Office} from "../../models/office.model";
+import { appConfig } from '../../app.config';
 
 
 @Injectable()
@@ -14,12 +15,14 @@ export class DivisionsService {
     public isAdding: boolean;
     public isEditing: boolean;
     public isDeleting: boolean;
+    public organizations: any;
 
 
     constructor(private http :Http) {
         this.divisions = [];
         this.selected = null;
         this.new = new Division();
+        this.new.parentId = appConfig.defaultOrganizationId;
         this.new.setupBackup(['parentId', 'title']);
         this.isAdding = false;
         this.isEditing = false;

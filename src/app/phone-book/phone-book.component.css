@@ -173,43 +173,25 @@
 }
 #app-header button {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   background: #0097A7;
   border: 0px solid transparent;
-  color: white;
 }
 #app-header button:hover {
   background: #00838F;
 }
-#app-header button .fa {
-  color: white;
+#app-header button.active {
+  background: #006064;
 }
-#app-header button.favorites {
-  margin-right: 10px;
+#app-header button.active .corner {
+  visibility: visible;
 }
 #app-header button.favorites .fa {
   font-size: 20px;
   color: #FFC107;
 }
-#app-header button.favorites.active {
-  background: #006064;
-}
-#app-header button.favorites.active .corner {
-  visibility: visible;
-}
-#app-header button.favorites .corner {
-  position: absolute;
-  display: inline-block;
-  bottom: -14px;
-  border-width: 10px;
-  border-top: 10px solid transparent;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #F5F5F5;
-  visibility: hidden;
+#app-header button.account {
+  background-size: cover !important;
+  background-position: top center !important;
 }
 #app-header button .badge {
   position: absolute;
@@ -228,37 +210,8 @@
   background: #E91E63;
   border-radius: 50%;
 }
-#app-header .user-logged {
-  position: relative;
-  overflow: visible;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  width: 40px !important;
-  height: 40px;
-  box-sizing: border-box;
-  font-family: 'Open Sans Semi Bold';
-  font-size: 18px;
-  line-height: 40px;
-  text-align: center;
-  color: white;
-  background: #0097A7;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-position: center top !important;
-  outline: none;
-  border-radius: 50%;
-  cursor: pointer;
-}
-#app-header .user-logged.active {
-  background: #006064;
-}
-#app-header .user-logged.active .corner {
-  visibility: visible;
-}
-#app-header .user-logged .corner {
+#app-header button .corner {
+  height: 10px;
   position: absolute;
   display: inline-block;
   bottom: -14px;
@@ -266,25 +219,8 @@
   border-bottom-color: #F5F5F5;
   visibility: hidden;
 }
-#app-header .user-logged .corner.ats-panel-opened {
+#app-header button .corner.ats-panel-opened {
   background: #F0F4C3;
-}
-#app-header #help-button.active {
-  background: #006064;
-}
-#app-header #help-button.active .corner {
-  visibility: visible;
-}
-#app-header #help-button .corner {
-  position: absolute;
-  display: inline-block;
-  bottom: -14px;
-  border-width: 10px;
-  border-top: 10px solid transparent;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #F5F5F5;
-  visibility: hidden;
 }
 #app-divisions {
   overflow: auto;

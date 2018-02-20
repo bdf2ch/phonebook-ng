@@ -10,13 +10,14 @@ import { isError, RuntimeError } from "../models/error.model";
 import { IContact, Contact } from "../models/contact.model";
 import { ContactGroup } from "../models/contact-group.model";
 import { IPermission, Permission } from "../models/permission.model";
-import { appConfig, API } from '../app.config';
+import { appConfig } from '../app.config';
 import { ATS, IATS } from '../models/ats.model';
 import { PhoneBookService } from "./phone-book.service";
 import { Division, IDivision } from '../models/division.model';
 import { IOffice, Office } from "../models/office.model";
-import {OfficesService} from "../common/offices/offices.service";
-import {DivisionsService} from "../common/divisions/divisions.service";
+import { OfficesService } from "../common/offices/offices.service";
+import { DivisionsService } from "../common/divisions/divisions.service";
+import { OrganizationsService } from "../common/organizations/organizations.service";
 
 
 @Injectable()
@@ -46,7 +47,8 @@ export class SessionService {
                 private http: Http,
                 private phoneBook: PhoneBookService,
                 private offices: OfficesService,
-                private divisions: DivisionsService) {};
+                private divisions: DivisionsService,
+                private organizations: OrganizationsService) {};
 
 
     /**
@@ -76,12 +78,14 @@ export class SessionService {
                     /**
                      * Обрабатываем и устанавливаем позицию фотографии пользователя
                      */
+                    /*
                     if (body.user_photo_position) {
                         this.currentUser.setPhotoPosition(
                             body.user_photo_position.photo_left,
                             body.user_photo_position.photo_top,
                             body.user_photo_position.zoom)
                     }
+                    */
 
                     /**
                      * Обрабатываем и добавляем права пользователя
@@ -108,7 +112,12 @@ export class SessionService {
                     body.organizations.forEach((item: IDivision) => {
                         let division = new Division(item);
                         division.setupBackup(['parentId', 'title']);
-                        this.phoneBook.organizations.push(division);
+                        //this.phoneBook.organizations.push(division);
+                        this.organizations.list().push(division);
+                        if (division.id === appConfig.defaultOrganizationId) {
+                            this.organizations.selected = division;
+                        }
+
                     });
 
                     /**

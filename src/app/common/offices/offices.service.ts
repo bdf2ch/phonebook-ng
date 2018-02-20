@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Office } from "../../models/office.model";
 import { Observable } from "rxjs/Observable";
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
+import { appConfig } from "../../app.config";
 
 
 @Injectable()
@@ -23,6 +24,7 @@ export class OfficesService {
         this.offices = [];
         this.selected = null;
         this.new = new Office();
+        this.new.organizationId = appConfig.defaultOrganizationId;
         this.addingOfficeIsInProgress = false;
         this.editingOfficeIsInProgress = false;
         this.deletingOfficeIsInProgress = false;

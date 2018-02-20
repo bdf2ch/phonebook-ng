@@ -4,7 +4,7 @@ import { Contact } from '../models/contact.model';
 import { Division } from '../models/division.model';
 import { Phone } from '../models/phone.model';
 import { ContactGroup } from '../models/contact-group.model';
-import { API, appConfig } from '../app.config';
+import { appConfig } from '../app.config';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { IUser, User } from '../models/user.model';
@@ -69,7 +69,7 @@ export class PhoneBookManagerService {
      * @param contact {Contact} - редактируемыцй абонент
      * @returns {Observable<Contact>}
      */
-    editContact(contact: Contact): Observable<Contact> {
+    editContact(contact: Contact, token: string): Observable<Contact> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
         let params = {
@@ -84,7 +84,9 @@ export class PhoneBookManagerService {
                 email: contact.email,
                 mobile: contact.mobile,
                 officeId: contact.officeId,
-                room: contact.room
+                room: contact.room,
+                order: contact.order,
+                token: token
             }
         };
         this.loading = true;

@@ -20,6 +20,6 @@
                  [marginRight]="margin"
                  [index]="ind"
                  [group]="group"
-                 *ngFor="let contact of group.contacts | contactsOrder:'fio'; trackBy: id; let ind = index"></contact>
+                 *ngFor="let contact of group.contacts; trackBy: id; let ind = index"></contact>
     </div>
 </div>

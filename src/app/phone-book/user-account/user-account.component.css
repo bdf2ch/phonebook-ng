@@ -89,6 +89,25 @@
 #user-photo-and-menu #user-menu label {
   text-transform: none;
 }
+#user-photo-and-menu #user-menu button {
+  position: relative;
+}
+#user-photo-and-menu #user-menu button .badge {
+  position: absolute;
+  right: 6px;
+  top: 9px;
+  width: 17px;
+  height: 17px;
+  margin-top: -15px;
+  margin-right: -14px;
+  font-family: 'Open Sans Semi Bold';
+  font-size: 10px;
+  line-height: 17px;
+  text-align: center;
+  color: white;
+  background: #E91E63;
+  border-radius: 50%;
+}
 .form-layout {
   display: flex;
   flex-direction: column;

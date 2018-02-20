@@ -14,11 +14,12 @@ import { IDraggableContact } from '../models/draggable-contact.interface';
 import { ContactGroupComponent } from './contact-group/contact-group.component';
 
 
-import { API, uploadURL, appConfig } from '../app.config';
+import { appConfig } from '../app.config';
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 import {Office} from "../models/office.model";
 import {FeedbackMessage} from "../models/feedback-message.model";
 import {IServerResponse} from "../models/server-response.interface";
+import {OrganizationsService} from "../common/organizations/organizations.service";
 
 
 @Injectable()
@@ -40,9 +41,9 @@ export class PhoneBookService {
   set cache(value: ContactGroup[]) { this.cachedContacts = value };
 
   /* Перечень организаций */
-  public organizationList: Division[] = [];
-  get organizations(): Division[] { return this.organizationList };
-  set organizations(value: Division[]) { this.organizationList = value; };
+  //public organizationList: Division[] = [];
+  //get organizations(): Division[] { return this.organizationList };
+  //set organizations(value: Division[]) { this.organizationList = value; };
 
     /* Перечень офисов организаций */
     public officeList: Office[] = [];
@@ -150,7 +151,8 @@ export class PhoneBookService {
    * Конструктор сервиса
    * @param $http {Http} - Http injector
    */
-  constructor(private http: Http) {};
+  constructor(private http: Http,
+              private organizations: OrganizationsService) {};
 
 
 
@@ -167,7 +169,8 @@ export class PhoneBookService {
               body.organizations.forEach((item: IDivision) => {
                   let division = new Division(item);
                   division.setupBackup(['parentId', 'title']);
-                  this.organizations.push(division);
+                  //this.organizations.push(division);
+                  this.organizations.list().push(division);
               });
 
               body.divisions.forEach((item: IDivision) => {
@@ -590,6 +593,7 @@ export class PhoneBookService {
 
 
 
+    /*
   setContactPhotoPosition(contactId: number, top: number, left: number, zoom: number): Observable<IContactPhotoPosition> {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
@@ -613,6 +617,7 @@ export class PhoneBookService {
           .finally(() => { this.loading = false; })
           .catch(this.handleError);
   };
+  */
 
 
   setUserLocation(userId: number, officeId: number, room: string, token: string): Observable<IServerResponse> {

@@ -129,13 +129,15 @@ function addContact(userId, divisionId, surname, name, fname, position, email, m
  * @param mobile {String} - Мобильный телефон абонента
  * @param officeId {Number} - Идентификатор офиса абонента
  * @param room {String} - Кабинет абонента
+ * @param order {Number} - Порядок следования абонента
+ * @param token {String} - Токен сессии пользователя
  */
-function editContact(contactId, userId, surname, name, fname, position, email, mobile, officeId, room) {
+function editContact(contactId, userId, surname, name, fname, position, email, mobile, officeId, room, order, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-                values: [contactId, userId, surname, name, fname, position, email, mobile, officeId, room],
+                text: 'SELECT edit_contact($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
+                values: [contactId, userId, surname, name, fname, position, email, mobile, officeId, room, order, token],
                 func: 'edit_contact'
             });
             resolve(result);
@@ -307,7 +309,9 @@ router.post('/', async (req, res) => {
                     req.body.data.email,        // E-mail абонента
                     req.body.data.mobile,       // Мобильный телефон абонента
                     req.body.data.officeId,     // Идентификатор офиса абонента
-                    req.body.data.room          // Кабинет абонента
+                    req.body.data.room,         // Кабинет абонента
+                    req.body.data.order,        // Порядок следования абоеннта
+                    req.body.data.token         // Токен сессии пользователя
                 );
                 break;
             case 'delete':

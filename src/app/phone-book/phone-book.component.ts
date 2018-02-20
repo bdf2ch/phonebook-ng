@@ -25,6 +25,7 @@ import { NgForm } from '@angular/forms';
 import {Office} from "../models/office.model";
 import {OfficesService} from "../common/offices/offices.service";
 import {DivisionsService} from "../common/divisions/divisions.service";
+import {OrganizationsService} from "../common/organizations/organizations.service";
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -63,7 +64,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private router: Router,
                 private route: ActivatedRoute,
                 private offices: OfficesService,
-                private divisions: DivisionsService) {
+                private divisions: DivisionsService,
+                private organizations: OrganizationsService) {
         //this.newDivision = new Division();
         //this.newDivision.setupBackup(['parentId', 'title']);
         this.newContact = new Contact();
@@ -73,8 +75,8 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         //this.newOffice = new Office();
         //this.newOffice.organizationId = appConfig.defaultOrganizationId;
         //this.newOffice.setupBackup(['organizationId', 'address']);
-        this.offices.new.organizationId = appConfig.defaultOrganizationId;
-        this.divisions.new.parentId = appConfig.defaultOrganizationId;
+        //this.offices.new.organizationId = appConfig.defaultOrganizationId;
+        //this.divisions.new.parentId = appConfig.defaultOrganizationId;
 
 
 
@@ -201,18 +203,22 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     /**
-     * PЗакрывает панель выбора АТС
+     * Закрывает панель выбора АТС
      */
     closeAtsPanel(): void {
         this.isAtsPanelOpened = false;
     };
 
 
+    /*
     selectOrganization(division: Division): void {
         console.log('selected organization', division);
         //this.newOffice.organizationId = division.id;
+        this.organizations.selected = division;
         this.offices.new.organizationId = division.id;
+        this.divisions.new.parentId = division.id;
     };
+    */
 
 
     selectDivision(division: Division): void {
@@ -305,9 +311,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
 
+
     openNewDivisionModal(): void {
         //this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
-        this.divisions.new.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
+        //this.divisions.new.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
+        this.divisions.new.parentId = this.divisions.selected ? this.divisions.selected.id : this.organizations.selected.id;
+        console.log('parentId', this.divisions.new.parentId);
 
         this.modals.get('new-division-modal').open();
     };
@@ -321,14 +330,9 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    addDivision(): void {
-        /*
-        this.manager.addDivision(this.divisions.new).subscribe((division: Division) => {
-            this.trees.addDivision('phone-book-divisions', division);
-            this.modals.get('new-division-modal').close();
-        });
-        */
 
+
+    addDivision(): void {
         this.divisions.add(this.divisions.new, this.session.session ? this.session.session.token : '')
             .subscribe((result: Division | boolean) => {
                 if (result) {
@@ -337,6 +341,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 }
             });
     };
+
 
 
     openEditDivisionModal(): void {
@@ -398,6 +403,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.divisions.delete(this.divisions.selected.id, this.session.session ? this.session.session.token : '')
             .subscribe((result: boolean) => {
                 if (result) {
+                    this.divisions.new.parentId = 0;
                     const tree = this.trees.getById('phone-book-divisions');
                     if (tree) {
                         tree.deleteDivision(this.divisions.selected);
@@ -497,7 +503,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     editContact(): void {
-        this.manager.editContact(this.phoneBook.selectedContact)
+        this.manager.editContact(this.phoneBook.selectedContact, this.session.session ? this.session.session.token : '')
             .subscribe(() => {
                 this.phoneBook.selectedContact.positionTrimmed =
                     this.phoneBook.selectedContact.position.length > 55

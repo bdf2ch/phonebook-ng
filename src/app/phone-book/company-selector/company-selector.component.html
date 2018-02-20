@@ -1,16 +1,16 @@
 <div class="company-selector-component" [ngClass]="{'opened': opened}">
     <div class="selected-company" (click)="open()">
         <div class="company-title"
-             *ngIf="selected"
-             [ngClass]="{'smaller': selected.title.length > 60}">
-            {{ selected.title }}
+             *ngIf="organizations.selected"
+             [ngClass]="{'smaller': organizations.selected.title.length > 60}">
+            {{ organizations.selected.title }}
         </div>
         <div class="arrow" *ngIf="divisions.length > 1"><i class="fa fa-caret-down"></i></div>
     </div>
     <div class="options" *ngIf="divisions.length > 0" [ngClass]="{'visible': visible}">
         <div class="corner"></div>
         <div class="option"
-             *ngFor="let division of divisions | exceptSelectedOrganization:selected.id"
+             *ngFor="let division of divisions | exceptSelectedOrganization:organizations.selected.id"
              (click)="select(division)">
             {{ division.title }}
         </div>
