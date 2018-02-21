@@ -17,7 +17,6 @@ export class UserSessionGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|boolean {
         let cookie = this.cookies.getByName('kolenergo');
-        console.log('session cookie', cookie);
         if (cookie) {
             console.log('user session guard');
             return this.session.fetchSessionData(cookie.value).map((res: any) => {
@@ -25,9 +24,13 @@ export class UserSessionGuard implements CanActivate {
                 return true;
             });
         } else {
-            return this.phoneBook.fetchInitialData().map((res: any) => {
+            if (!this.phoneBook.isInitialDataRecieved) {
+                return this.phoneBook.fetchInitialData().map((res: any) => {
+                    return true;
+                });
+            } else {
                 return true;
-            });
+            }
         }
     }
 

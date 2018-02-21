@@ -20,6 +20,7 @@ import {Office} from "../models/office.model";
 import {FeedbackMessage} from "../models/feedback-message.model";
 import {IServerResponse} from "../models/server-response.interface";
 import {OrganizationsService} from "../common/organizations/organizations.service";
+import {DivisionsService} from "../common/divisions/divisions.service";
 
 
 @Injectable()
@@ -51,9 +52,9 @@ export class PhoneBookService {
     set offices(value: Office[]) { this.officeList = value; };
 
   /* Перечень структурных подразделений */
-  public divisionsList: Division[] = [];
-  get divisions(): Division[] { return this.divisionsList };
-  set divisions(value: Division[]) { this.divisionsList = value };
+  //public divisionsList: Division[] = [];
+  //get divisions(): Division[] { return this.divisionsList };
+  //set divisions(value: Division[]) { this.divisionsList = value };
 
   /* Перечень внутренних АТС */
   public innerAtsList: ATS[] = [];
@@ -145,6 +146,7 @@ export class PhoneBookService {
 
 
   public allowToAddContacts: boolean = false;
+  public isInitialDataRecieved: boolean;
 
 
   /**
@@ -152,7 +154,10 @@ export class PhoneBookService {
    * @param $http {Http} - Http injector
    */
   constructor(private http: Http,
-              private organizations: OrganizationsService) {};
+              private organizations: OrganizationsService,
+              private divisions: DivisionsService) {
+      this.isInitialDataRecieved = false;
+  };
 
 
 
@@ -170,13 +175,18 @@ export class PhoneBookService {
                   let division = new Division(item);
                   division.setupBackup(['parentId', 'title']);
                   //this.organizations.push(division);
+                  if (division.id === appConfig.defaultOrganizationId) {
+                      this.organizations.selected = division;
+                      this.divisions.new.parentId = division.id;
+                  }
                   this.organizations.list().push(division);
+
               });
 
               body.divisions.forEach((item: IDivision) => {
                   let division = new Division(item);
                   division.setupBackup(['parentId', 'title']);
-                  this.divisions.push(division);
+                  this.divisions.list().push(division);
               });
 
               body.ats.inner.forEach((item: IATS) => {
@@ -194,6 +204,7 @@ export class PhoneBookService {
                   this.outerAts.push(ats);
               });
 
+              this.isInitialDataRecieved = true;
               console.log(this.divisions);
               return this.divisions;
           })
@@ -304,13 +315,13 @@ export class PhoneBookService {
 
   getDivisionById(id: number): Division|undefined {
     const divisionById = (item: Division, index: number, divisions: Division[]) => item.id === id;
-    return this.divisions.find(divisionById);
+    return this.divisions.list().find(divisionById);
   };
 
 
   getDivisionsByOrganization(organization: Division): Division[] {
       const result: Division[] = [];
-      this.divisions.forEach((division: Division) => {
+      this.divisions.list().forEach((division: Division) => {
           if (division.parentId === organization.id) {
 
           }

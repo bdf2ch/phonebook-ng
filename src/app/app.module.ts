@@ -50,6 +50,11 @@ import { DivisionsService } from './common/divisions/divisions.service';
 import { OfficesService } from "./common/offices/offices.service";
 import { OfficesByOrganizationPipe } from './common/offices/offices-by-organization.pipe';
 
+/**
+ * Contacts
+ */
+import { FavoriteContactsGuard } from './contacts/favorite-contacts.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -62,7 +67,8 @@ const routes: Routes = [
       },
       {
         path: 'favorites',
-        component: FavoritesComponent
+        component: FavoritesComponent,
+          canActivate: [FavoriteContactsGuard]
       },
       {
         path: 'account',
@@ -110,6 +116,7 @@ const routes: Routes = [
   ],
   providers: [
     UserSessionGuard,
+      FavoriteContactsGuard,
     PhoneBookService,
     DivisionTreeService,
     SessionService,

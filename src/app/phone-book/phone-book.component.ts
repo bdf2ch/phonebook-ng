@@ -156,6 +156,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             account: '',
             password: ''
         });
+        this.detector.detectChanges();
         this.modals.get('authorization-modal');
         //this.inAuthMode = false;
     };

@@ -136,7 +136,7 @@ export class SessionService {
                     body.divisions.forEach((value: IDivision) => {
                         const division = new Division(value);
                         division.setupBackup(['parentId', 'title']);
-                        this.phoneBook.divisions.push(division);
+                        //this.divisions.list().push(division);
                         this.phoneBook.ids.push(division.id);
                         this.divisions.list().push(division);
                     });

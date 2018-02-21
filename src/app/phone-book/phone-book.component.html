@@ -82,7 +82,7 @@
     </div>
 
     <div id="app-divisions-content" class="padding-20" [ngClass]="{'with-controls': session.user && session.user.isAdministrator}">
-        <division-tree [id]="'phone-book-divisions'" [divisions]="phoneBook.divisions" (onSelect)="selectDivision($event)"></division-tree>
+        <division-tree [id]="'phone-book-divisions'" [divisions]="divisions.list()" (onSelect)="selectDivision($event)"></division-tree>
     </div>
     <div id="app-division-controls" *ngIf="session.user && session.user.isAdministrator">
         <button type="button"
@@ -175,7 +175,7 @@
                 <input type="text"
                        name="account"
                        id="user-account"
-                       class="inp medium width-100"
+                       class="inp medium outline blue width-100"
                        placeholder="Введите учетную запись"
                        [(ngModel)]="authorization.login"
                        [ngClass]="{'red': account.dirty && account.invalid}"
@@ -192,7 +192,7 @@
                 <input type="password"
                        name="password"
                        id="user-password"
-                       class="inp medium width-100"
+                       class="inp medium outline blue width-100"
                        placeholder="Введите пароль"
                        [(ngModel)]="authorization.password"
                        #password="ngModel"
@@ -206,12 +206,19 @@
                         class="btn medium blue width-50 margin-right-5"
                         [disabled]="authorization.account === '' || authorization.password === '' || session.loading"
                         (click)="login()">
-                    <i class="fa fa-spinner fa-spin margin-right-15" *ngIf="session.loading"></i>
-                    Войти
+                    <span *ngIf="session.loading">
+                        <i class="fa fa-spinner fa-spin margin-right-10"></i>
+                        Загрузка
+                    </span>
+                    <span *ngIf="!session.loading">
+                        <i class="fa fa-check margin-right-10"></i>
+                        Войти
+                    </span>
                 </button>
                 <button type="button"
                         class="btn medium red width-50 margin-left-5"
                         (click)="modals.get('authorization-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>
             </div>
@@ -600,7 +607,7 @@
                                     <input type="text"
                                            name="surname"
                                            id="selected-contact-surname"
-                                           class="inp medium width-100"
+                                           class="inp medium outline blue width-100"
                                            placeholder="Введите фамилию"
                                            [(ngModel)]="phoneBook.selectedContact.surname"
                                            [ngClass]="{'red': surname.dirty && surname.invalid}"
@@ -616,7 +623,7 @@
                                     <input type="text"
                                            name="name"
                                            id="selected-contact-name"
-                                           class="inp medium width-100"
+                                           class="inp medium outline blue width-100"
                                            placeholder="Введите имя"
                                            [(ngModel)]="phoneBook.selectedContact.name"
                                            [ngClass]="{'red': name.dirty && name.invalid}"
@@ -632,7 +639,7 @@
                                     <input type="text"
                                            name="fname"
                                            id="selected-contact-fname"
-                                           class="inp medium width-100"
+                                           class="inp medium outline blue width-100"
                                            placeholder="Введите отчество"
                                            [(ngModel)]="phoneBook.selectedContact.fname"
                                            [ngClass]="{'red': fname.dirty && fname.invalid}"
@@ -645,7 +652,7 @@
                                     <input type="text"
                                            name="position"
                                            id="selected-contact-position"
-                                           class="inp medium width-100"
+                                           class="inp medium outline blue width-100"
                                            placeholder="Введите должность"
                                            [(ngModel)]="phoneBook.selectedContact.position">
                                 </div>
@@ -655,7 +662,7 @@
                                     <input type="text"
                                            name="email"
                                            id="selected-contact-email"
-                                           class="inp medium width-100"
+                                           class="inp medium outline blue width-100"
                                            placeholder="Введите e-mail"
                                            [(ngModel)]="phoneBook.selectedContact.email">
                                 </div>
@@ -665,7 +672,7 @@
                                     <input type="text"
                                            name="mobile"
                                            id="selected-contact-mobile"
-                                           class="inp medium width-100"
+                                           class="inp medium outline blue width-100"
                                            placeholder="Введите мобильный телефон"
                                            [(ngModel)]="phoneBook.selectedContact.mobile">
                                 </div>
@@ -807,7 +814,7 @@
                 <label for="new-contact-phone-ats">АТС</label>
                 <select id="new-contact-phone-ats"
                         name="ats"
-                        class="ats inp medium width-100"
+                        class="ats inp medium outline blue width-100"
                         [(ngModel)]="newContactPhone.atsId"
                         required>
                     <optgroup label="Внутренние АТС">
@@ -836,7 +843,7 @@
                 <input type="text"
                        name="number"
                        id="new-phone-number"
-                       class="inp medium width-100 margin-top-5"
+                       class="inp medium outline blue width-100 margin-top-5"
                        placeholder="Введите номер телефона"
                        [(ngModel)]="newContactPhone.number"
                        #number="ngModel"
@@ -846,13 +853,15 @@
             <div class="row width-100 padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
                 <button type="submit"
                         class="btn medium green width-50 margin-right-5"
-                        [disabled]="!newContactPhoneForm.valid && newContactPhone.atsId === 0"
+                        [disabled]="newContactPhoneForm.invalid || newContactPhone.atsId === 0"
                         (click)="addContactPhone()">
+                    <i class="fa fa-check margin-right-10"></i>
                     Добавить
                 </button>
                 <button type="button"
                         class="btn medium red width-50 margin-left-5"
                         (click)="this.modals.get('new-contact-phone-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>
             </div>
@@ -872,7 +881,9 @@
             <!-- АТС -->
             <div class="column padding-top-20 padding-bottom-20 padding-left-20 padding-right-20">
                 <label for="edit-contact-phone-ats">АТС</label>
-                <select id="edit-contact-phone-ats" name="ats" class="inp medium ats width-100"
+                <select id="edit-contact-phone-ats"
+                        name="ats"
+                        class="inp medium outline blue ats width-100"
                         [(ngModel)]="phoneBook.selectedContactPhone.atsId" required>
                     <optgroup label="Внутренние АТС">
                         <option *ngFor="let innerAts of phoneBook.innerAtsList"
@@ -900,7 +911,7 @@
                 <input type="text"
                        name="number"
                        id="edit-contact-phone-number"
-                       class="inp medium width-100 margin-top-5"
+                       class="inp medium outline blue width-100 margin-top-5"
                        placeholder="Введите номер телефона"
                        [(ngModel)]="phoneBook.selectedContactPhone.number"
                        [ngClass]="{'red': number.dirty && number.invalid}"
@@ -912,13 +923,15 @@
             <div class="row padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
                 <button type="submit"
                         class="btn medium green width-50 margin-right-5"
-                        [disabled]="(!editContactPhoneForm.valid && !editContactPhoneForm.dirty) || phoneBook.selectedContactPhone.atsId === 0"
+                        [disabled]="(editContactPhoneForm.invalid  && editContactPhoneForm.dirty) || phoneBook.selectedContactPhone.atsId === 0"
                         (click)="editContactPhone()">
+                    <i class="fa fa-check margin-right-10"></i>
                     Сохранить
                 </button>
                 <button type="button"
                         class="btn medium red width-50 margin-left-5"
                         (click)="modals.get('edit-contact-phone-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
                     Отмена
                 </button>
             </div>
@@ -1082,7 +1095,7 @@
             <div class="content width-100 padding-10">
                 <div class="contact-phones-list width-100">
                     <div class="contact-phone-item width-100 margin-bottom-10"
-                         *ngFor="let office of offices.list() | officesByOrganization:phoneBook.selectedOrganization ? phoneBook.selectedOrganization.id : 0">
+                         *ngFor="let office of offices.list() | officesByOrganization:organizations.selected ? organizations.selected.id : 0">
                         <div class="icon margin-right-10">
                             <i class="fa fa-building"></i>
                         </div>
@@ -1184,7 +1197,7 @@
     <!-- Модальное окно изменения офиса организации -->
     <modal [id]="'edit-office-modal'"
            [width]="400"
-           [height]="295"
+           [height]="290"
            [depth]="2"
            [caption]="'Изменение офиса'"
            [icon]="'fa fa-building'"
