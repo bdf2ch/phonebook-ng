@@ -1,5 +1,5 @@
 import {AfterViewChecked, ChangeDetectorRef, Component, HostListener} from '@angular/core';
-import { PhoneBookService } from '../phone-book.service';
+import { PhoneBookService } from '../../phone-book/phone-book.service';
 
 
 @Component({

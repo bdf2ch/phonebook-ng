@@ -992,98 +992,6 @@
         </form>
     </modal>
 
-    <!-- Модальное окно с карточкой абонента -->
-    <modal [id]="'contact-info-modal'"
-           [width]="480"
-           [height]="605"
-           [depth]="1"
-           [header]="false">
-        <div id="contact-info-modal" class="column width-100">
-            <div class="photo"
-                 [ngClass]="{'with-photo': phoneBook.selectedContact && phoneBook.selectedContact.photo !== ''}"
-                 [ngStyle]="{'background': (phoneBook.selectedContact && phoneBook.selectedContact.photo) ? 'url(http://10.50.0.153:4444' + phoneBook.selectedContact.photo + ')' : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center'}">
-            </div>
-            <div class="details column vertical-around width-100 padding-top-20 padding-bottom-20" *ngIf="phoneBook.selectedContact">
-
-                <!-- ФИО абонента -->
-                <div class="detail row width-100 padding-left-20 padding-right-20">
-                    <div class="row-icon width-10">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <div class="row-content width-90">
-                        <span class="fio">{{ phoneBook.selectedContact.fio }}</span>
-                    </div>
-                </div>
-
-                <!-- Должность абонента -->
-                <div class="detail row width-100 padding-left-20 margin-bottom-10">
-                    <div class="row-icon width-10">
-                        <i class="fa fa-briefcase"></i>
-                    </div>
-                    <div class="row-content width-90 padding-right-20 separated">
-                        <span class="position" *ngIf="phoneBook.selectedContact.position !== ''">{{ phoneBook.selectedContact.position }}</span>
-                        <span class="not-specified" *ngIf="phoneBook.selectedContact.position === ''"></span>
-                    </div>
-                </div>
-
-                <!-- Контактные телефоны абонента -->
-                <div class="detail row width-100 padding-left-20 padding-right-20">
-                    <div class="row-icon width-10">
-                        <i class="fa fa-phone"></i>
-                    </div>
-                    <div class="row-content width-90">
-                    <span class="phone" *ngFor="let phone of phoneBook.selectedContact.phones, last as isLast">
-                        {{ phone.title }}
-                        <i class="separator fa fa-circle" *ngIf="!isLast"></i>
-                    </span>
-                        <span class="not-specified" *ngIf="phoneBook.selectedContact.phones.length === 0">Контактные телефоны отсутствуют</span>
-
-                    </div>
-                </div>
-
-                <!-- Мобильный телефон абонента -->
-                <div class="detail row width-100 padding-left-20 padding-right-20">
-                    <div class="row-icon width-10">
-                        <i class="fa fa-mobile"></i>
-                    </div>
-                    <div class="row-content width-90">
-                        <span class="mobile" *ngIf="phoneBook.selectedContact.mobile !== ''">{{ phoneBook.selectedContact.mobile }}</span>
-                        <span class="not-specified" *ngIf="phoneBook.selectedContact.mobile === ''">Мобильный телефон не указан</span>
-                    </div>
-                </div>
-
-                <!-- Электронная почта абонента -->
-                <div class="detail row width-100 padding-left-20 margin-bottom-10">
-                    <div class="row-icon width-10">
-                        <i class="fa fa-at"></i>
-                    </div>
-                    <div class="row-content width-90 padding-right-20 separated">
-                        <span *ngIf="phoneBook.selectedContact.email !== ''"><a href="mailto:{{ phoneBook.selectedContact.email }}">{{ phoneBook.selectedContact.email }}</a></span>
-                        <span class="not-specified" *ngIf="phoneBook.selectedContact.email === ''">Электронная почта не указана</span>
-                    </div>
-                </div>
-
-                <!-- Местоположение абонента -->
-                <div class="detail row width-100 padding-left-20 padding-right-20">
-                    <div class="row-icon width-10">
-                        <i class="fa fa-map-marker"></i>
-                    </div>
-                    <div class="row-content width-90">
-                        <div *ngIf="phoneBook.selectedContact.room !== ''">
-                        <span *ngIf="phoneBook.selectedContact.officeId !== 0 && phoneBook.selectedContact.room">
-                            {{ phoneBook.getOfficeAddressById(phoneBook.selectedContact.officeId) }} &mdash; кабинет {{ phoneBook.selectedContact.room }}
-                        </span>
-                            <span *ngIf="phoneBook.selectedContact.officeId === 0 && phoneBook.selectedContact.room">
-                            Кабинет {{ phoneBook.selectedContact.room }}
-                        </span>
-                        </div>
-                        <span class="not-specified" *ngIf="!phoneBook.selectedContact.room">Местоположение не указано</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </modal>
-
     <!-- Модальноек окно управления офисами организации -->
     <modal [id]="'offices-modal'"
            [width]="500"
@@ -1299,6 +1207,98 @@
     </modal>
 </div>
 
+
+<!-- Модальное окно с карточкой абонента -->
+<modal [id]="'contact-info-modal'"
+       [width]="480"
+       [height]="605"
+       [depth]="1"
+       [header]="false">
+    <div id="contact-info-modal" class="column width-100">
+        <div class="photo"
+             [ngClass]="{'with-photo': phoneBook.selectedContact && phoneBook.selectedContact.photo !== ''}"
+             [ngStyle]="{'background': (phoneBook.selectedContact && phoneBook.selectedContact.photo) ? 'url(http://10.50.0.153:4444' + phoneBook.selectedContact.photo + ')' : 'url(http://10.50.0.153:4444/assets/images/users/no_photo.png) top center'}">
+        </div>
+        <div class="details column vertical-around width-100 padding-top-20 padding-bottom-20" *ngIf="phoneBook.selectedContact">
+
+            <!-- ФИО абонента -->
+            <div class="detail row width-100 padding-left-20 padding-right-20">
+                <div class="row-icon width-10">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="row-content width-90">
+                    <span class="fio">{{ phoneBook.selectedContact.fio }}</span>
+                </div>
+            </div>
+
+            <!-- Должность абонента -->
+            <div class="detail row width-100 padding-left-20 margin-bottom-10">
+                <div class="row-icon width-10">
+                    <i class="fa fa-briefcase"></i>
+                </div>
+                <div class="row-content width-90 padding-right-20 separated">
+                    <span class="position" *ngIf="phoneBook.selectedContact.position !== ''">{{ phoneBook.selectedContact.position }}</span>
+                    <span class="not-specified" *ngIf="phoneBook.selectedContact.position === ''"></span>
+                </div>
+            </div>
+
+            <!-- Контактные телефоны абонента -->
+            <div class="detail row width-100 padding-left-20 padding-right-20">
+                <div class="row-icon width-10">
+                    <i class="fa fa-phone"></i>
+                </div>
+                <div class="row-content width-90">
+                    <span class="phone" *ngFor="let phone of phoneBook.selectedContact.phones, last as isLast">
+                        {{ phone.title }}
+                        <i class="separator fa fa-circle" *ngIf="!isLast"></i>
+                    </span>
+                    <span class="not-specified" *ngIf="phoneBook.selectedContact.phones.length === 0">Контактные телефоны отсутствуют</span>
+
+                </div>
+            </div>
+
+            <!-- Мобильный телефон абонента -->
+            <div class="detail row width-100 padding-left-20 padding-right-20">
+                <div class="row-icon width-10">
+                    <i class="fa fa-mobile"></i>
+                </div>
+                <div class="row-content width-90">
+                    <span class="mobile" *ngIf="phoneBook.selectedContact.mobile !== ''">{{ phoneBook.selectedContact.mobile }}</span>
+                    <span class="not-specified" *ngIf="phoneBook.selectedContact.mobile === ''">Мобильный телефон не указан</span>
+                </div>
+            </div>
+
+            <!-- Электронная почта абонента -->
+            <div class="detail row width-100 padding-left-20 margin-bottom-10">
+                <div class="row-icon width-10">
+                    <i class="fa fa-at"></i>
+                </div>
+                <div class="row-content width-90 padding-right-20 separated">
+                    <span *ngIf="phoneBook.selectedContact.email !== ''"><a href="mailto:{{ phoneBook.selectedContact.email }}">{{ phoneBook.selectedContact.email }}</a></span>
+                    <span class="not-specified" *ngIf="phoneBook.selectedContact.email === ''">Электронная почта не указана</span>
+                </div>
+            </div>
+
+            <!-- Местоположение абонента -->
+            <div class="detail row width-100 padding-left-20 padding-right-20">
+                <div class="row-icon width-10">
+                    <i class="fa fa-map-marker"></i>
+                </div>
+                <div class="row-content width-90">
+                    <div *ngIf="phoneBook.selectedContact.room !== ''">
+                        <span *ngIf="phoneBook.selectedContact.officeId !== 0 && phoneBook.selectedContact.room">
+                            {{ phoneBook.getOfficeAddressById(phoneBook.selectedContact.officeId) }} &mdash; кабинет {{ phoneBook.selectedContact.room }}
+                        </span>
+                        <span *ngIf="phoneBook.selectedContact.officeId === 0 && phoneBook.selectedContact.room">
+                            Кабинет {{ phoneBook.selectedContact.room }}
+                        </span>
+                    </div>
+                    <span class="not-specified" *ngIf="!phoneBook.selectedContact.room">Местоположение не указано</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</modal>
 
 <!-- Модальное окно с уведомлением об успешной загрузке фото -->
 <modal [id]="'contact-photo-uploaded-modal'"

@@ -11,7 +11,7 @@ import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 import {ATS, IATS} from "../models/ats.model";
 import {Phone} from "../models/phone.model";
 import { IDraggableContact } from '../models/draggable-contact.interface';
-import { ContactGroupComponent } from './contact-group/contact-group.component';
+import { ContactGroupComponent } from '../contacts/contact-group/contact-group.component';
 
 
 import { appConfig } from '../app.config';
@@ -525,8 +525,8 @@ export class PhoneBookService {
                         this.session.user.photo = result;
                     }
                     // Если контакт находится в избранных - меняем фото
-                    if (this.session.user.favorites.contacts.length > 0) {
-                        this.session.user.favorites.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
+                    if (this.session.user.favorites-list.contacts.length > 0) {
+                        this.session.user.favorites-list.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
                             if (contact.userId === userId) {
                                 contact.photo = result;
                             }
@@ -564,8 +564,8 @@ export class PhoneBookService {
                         this.session.user.photo = result;
                     }
                     // Если контакт находится в избранных - меняем фото
-                    if (this.session.user.favorites.contacts.length > 0) {
-                        this.session.user.favorites.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
+                    if (this.session.user.favorites-list.contacts.length > 0) {
+                        this.session.user.favorites-list.contacts.forEach((contact: Contact, index: number, array: Contact[]) => {
                             if (contact.userId === userId) {
                                 contact.photo = result;
                             }

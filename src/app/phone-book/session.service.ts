@@ -231,7 +231,7 @@ export class SessionService {
                     }
 
                     if (this.phoneBook.favorites.contacts.length > 0) {
-                        this.router.navigate(['/favorites']);
+                        this.router.navigate(['/favorites-list']);
                     }
 
                     return {

@@ -4,7 +4,7 @@ import { appConfig } from '../app.config';
 import { PhoneBookService } from './phone-book.service';
 import { SessionService } from "./session.service";
 import { Division } from "../models/division.model";
-import { ContactListComponent } from "./contact-list/contact-list.component";
+import { ContactListComponent } from "../contacts/contact-list/contact-list.component";
 import {Contact} from "../models/contact.model";
 import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 //import { ModalService } from '../utilities/modal/modal.service';
@@ -95,9 +95,9 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * При наличии избранных контактов у текущего пользователя - показываем избранные контакты
      */
     ngOnInit(): void {
-        //if (this.phoneBook.favorites.contacts.length > 0) {
+        //if (this.phoneBook.favorites-list.contacts.length > 0) {
             //this.phoneBook.isInFavoritesMode = true;
-        //    this.router.navigate(['favorites'])
+        //    this.router.navigate(['favorites-list'])
         //}
         if (appConfig.isInTestMode) {
             let i = 0;
@@ -244,7 +244,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         } else {
             //this.phoneBook.clearContactGroups();
             //this.newDivision.parentId = 0;
-            this.divisions.new.parentId = 0;
+            this.divisions.new.parentId = this.organizations.selected ? this.organizations.selected.id : 0;
             this.phoneBook.contacts = [];
         };
     };
@@ -316,7 +316,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     openNewDivisionModal(): void {
         //this.newDivision.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
         //this.divisions.new.parentId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
-        this.divisions.new.parentId = this.divisions.selected ? this.divisions.selected.id : this.organizations.selected.id;
+        //this.divisions.new.parentId = this.divisions.selected ? this.divisions.selected.id : this.organizations.selected.id;
         console.log('parentId', this.divisions.new.parentId);
 
         this.modals.get('new-division-modal').open();
@@ -325,8 +325,11 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     closeNewDivisionModal(form: any): void {
         //this.newDivision.restoreBackup();
-        this.divisions.new.restoreBackup();
-        form.reset();
+        //this.divisions.new.restoreBackup();
+        form.reset({
+            parent: this.divisions.selected ? this.divisions.selected.id : this.organizations.selected.id,
+            title: ''
+        });
         this.detector.detectChanges();
     };
 
@@ -335,8 +338,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
     addDivision(): void {
         this.divisions.add(this.divisions.new, this.session.session ? this.session.session.token : '')
-            .subscribe((result: Division | boolean) => {
+            .subscribe((result: Division) => {
                 if (result) {
+                    const tree = this.trees.getById('phone-book-divisions');
+                    if (tree) {
+                        tree.addDivision(result);
+                    }
                     this.detector.detectChanges();
                     this.modals.get('new-division-modal').close();
                 }

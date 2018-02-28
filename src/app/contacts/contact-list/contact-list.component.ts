@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, AfterViewChecked, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { PhoneBookService } from "../phone-book.service";
+import { PhoneBookService } from "../../phone-book/phone-book.service";
 import { User } from '../../models/user.model';
 import { PhoneBookManagerService } from '../../manager/phone-book-manager.service';
 

@@ -10,11 +10,11 @@ import { AngularTransistorModule } from '@bdf2ch/angular-transistor';
 
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './phone-book/phone-book.component';
-import { ContactListComponent } from './phone-book/contact-list/contact-list.component';
-import { ContactsOrderPipe } from './phone-book/contact-group/contacts-order.pipe';
+import { ContactListComponent } from './contacts/contact-list/contact-list.component';
+import { ContactsOrderPipe } from './contacts/contact-group/contacts-order.pipe';
 
-import { ContactComponent } from './phone-book/contact/contact.component';
-import { ContactGroupComponent } from './phone-book/contact-group/contact-group.component';
+import { ContactComponent } from './contacts/contact/contact.component';
+import { ContactGroupComponent } from './contacts/contact-group/contact-group.component';
 import { TextOverflowDirective } from './phone-book/text-overflow.directive';
 import { UserSessionGuard } from './phone-book/session.guard';
 import { PhoneBookService } from './phone-book/phone-book.service';
@@ -31,7 +31,7 @@ import { ExceptSelectedOrganizationPipe } from './common/organizations/except-se
 import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
 import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
 import { UserAccountComponent } from './phone-book/user-account/user-account.component';
-import { FavoritesComponent } from './phone-book/favorites/favorites.component';
+import { FavoritesComponent } from './contacts/favorites-list/favorites.component';
 import { HelpComponent } from './phone-book/help/help.component';
 
 /**
@@ -53,7 +53,7 @@ import { OfficesByOrganizationPipe } from './common/offices/offices-by-organizat
 /**
  * Contacts
  */
-import { FavoriteContactsGuard } from './contacts/favorite-contacts.guard';
+import { FavoriteContactsGuard } from './contacts/favorites-list.guard';
 
 const routes: Routes = [
   {

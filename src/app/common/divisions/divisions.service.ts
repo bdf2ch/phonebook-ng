@@ -79,6 +79,7 @@ export class DivisionsService {
                 } else {
                     let newlyAddedDivision = new Division(answer.result);
                     newlyAddedDivision.setupBackup(['parentId', 'title']);
+                    console.info('id структурного подразделения: ', newlyAddedDivision.id);
                     this.divisions.push(newlyAddedDivision);
                     return newlyAddedDivision;
                 }

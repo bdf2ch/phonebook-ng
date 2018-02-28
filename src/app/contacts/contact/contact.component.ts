@@ -3,9 +3,9 @@ import {
     ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy, NgZone
 } from '@angular/core';
 import { Contact } from "../../models/contact.model";
-import { PhoneBookService } from "../phone-book.service";
+import { PhoneBookService } from "../../phone-book/phone-book.service";
 import { ContactGroupComponent } from "../contact-group/contact-group.component";
-import {SessionService} from "../session.service";
+import {SessionService} from "../../phone-book/session.service";
 import { ContactGroup } from '../../models/contact-group.model';
 import { ModalsService } from '@bdf2ch/angular-transistor';
 
