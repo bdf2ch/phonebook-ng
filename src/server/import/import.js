@@ -2,7 +2,7 @@ var pg = require('pg');
 var async = require('async');
 
 if(typeof require !== 'undefined') XLSX = require('xlsx');
-var workbook = XLSX.readFile('import.xlsx');
+var workbook = XLSX.readFile('tgk.xls');
 
 var first_sheet_name = workbook.SheetNames[0];
 var address_of_cell = 'A1';
@@ -29,19 +29,40 @@ pool.on('error', function (err, client) {
 var contacts = [];
 
 
-for (var i = 1; i < 472; i++) {
+for (var i = 2; i < 176; i++) {
   var contact = {
-    divisionId: parseInt(worksheet['C' + i].w),
+    divisionId: parseInt(worksheet['A' + i].w),
     surname: worksheet['B' + i].w.trim().split(' ')[0],
     name: worksheet['B' + i].w.trim().split(' ')[1] !== undefined ? worksheet['B' + i].w.trim().split(' ')[1] : '',
     fname: worksheet['B' + i].w.trim().split(' ')[2] !== undefined ? worksheet['B' + i].w.trim().split(' ')[2]: '',
-    position: worksheet['D' + i].w.trim()
-    //email: worksheet['D' + i] !== undefined ? worksheet['D' + i].w.trim() : '',
-    //phone: worksheet['C' + i] !== undefined ? worksheet['C' + i].w.trim() : '',
+    position: worksheet['C' + i].w.trim(),
+    email: worksheet['F' + i] !== undefined ? worksheet['F' + i].w.trim() : '',
+    phonesRaw: worksheet['D' + i] !== undefined ? worksheet['D' + i].w.trim().split(';') : '',
       //ats: parseInt(worksheet['G' + i].w),
-    //  phones: [],
-    //mobile: worksheet['B' + i] !== undefined ? worksheet['B' + i].w : ''
+    phones: [],
+    mobile: worksheet['E' + i] !== undefined ? worksheet['E' + i].w : ''
   };
+
+  contact.phonesRaw.forEach((raw) => {
+    if (raw) {
+      let phone = {
+        atsId: 0,
+          number: ''
+      };
+      if (raw.trim().indexOf('(525)') !== -1) {
+        phone.number = raw.substr(5, raw.length - 1);
+        phone.atsId = 61;
+        contact.phones.push(phone);
+      } else if (raw.trim().indexOf('525') !== -1) {
+        phone.number = raw.substr(3, raw.length - 1);
+        phone.atsId = 61;
+        contact.phones.push(phone);
+      }
+    }
+  });
+
+
+  console.log(contact.phones);
 
 
   /*
@@ -97,7 +118,7 @@ for (var i = 1; i < 472; i++) {
   });
   */
 }
-//console.log(contacts);
+//console.dir(contacts);
 
 
 
@@ -127,15 +148,8 @@ function addContact(userId, divisionId, surname, name, fname, position) {
 
 
 
+/*
 async.eachSeries(contacts, function(i, callback) {
-  //console.dir(i);
-  //query("SELECT EXTRACT('epoch' FROM alert_time)::integer alert_time, alert_id, alert_lat, alert_lon, alert_str, alert_cc, alert_distance FROM blitz_device_former_alerts WHERE alert_locid = $1", [first.device_locid], function(error_a,rows_a,result_a) {
-    //console.log(i+"!");
-  //  ret.push(i);
-    //callback(null);  // null -> no error
-  //});
-
-
   pool.connect(function(err, client, done) {
     if(err) {
       return console.error('error fetching client from pool', err);
@@ -156,27 +170,23 @@ async.eachSeries(contacts, function(i, callback) {
         console.log('contactId = ', contactId);
 
 
-          /*
-          async.eachSeries(i.phones, function(phone, callback) {
-              client.query(
-                  {
-                      text: 'insert into phones (contact_id, ats_id, number) VALUES ($1, $2, $3)',
-                      values: [contactId, 0, phone]
-                  },
-                  function(err, result) {
-                      done(err);
-                      if(err) {
-                          console.error('error running query', err);
-                          return;
-                      }
-                      //console.log(result.rows[0] + ' ADDED');
-                      //var contactId = result.rows[0]['id'];
-                      callback(null);  // null -> no error
-                  });
-          });
-          */
-
-
+          //async.eachSeries(i.phones, function(phone, callback) {
+          //    client.query(
+          //        {
+          //            text: 'insert into phones (contact_id, ats_id, number) VALUES ($1, $2, $3)',
+          //            values: [contactId, 0, phone]
+          //        },
+          //        function(err, result) {
+          //            done(err);
+          //            if(err) {
+          //                console.error('error running query', err);
+          //                return;
+          //            }
+          //            //console.log(result.rows[0] + ' ADDED');
+          //            //var contactId = result.rows[0]['id'];
+          //            callback(null);  // null -> no error
+          //        });
+          //});
 
 
         callback(null);  // null -> no error
@@ -188,4 +198,5 @@ async.eachSeries(contacts, function(i, callback) {
   //ret.push(first);
   //res.end(JSON.stringify(ret));
 });
+*/
 
