@@ -26,6 +26,7 @@ import {Office} from "../models/office.model";
 import {OfficesService} from "../common/offices/offices.service";
 import {DivisionsService} from "../common/divisions/divisions.service";
 import {OrganizationsService} from "../common/organizations/organizations.service";
+import {ContactsService} from "../contacts/contacts.service";
 
 @Component({
     templateUrl: './phone-book.component.html',
@@ -44,7 +45,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     //private newOffice: Office;
     private users: User[] = [];
     private usersStream: Observable<User[]>;
-    private searchTerms = new Subject<string>();
+    private searchTerms: Subject<string>;
     private usersSearchQuery: string = '';
     private selectedContactUserBackup: User | null = null;
     private authorization = {
@@ -65,13 +66,27 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                 private route: ActivatedRoute,
                 private offices: OfficesService,
                 private divisions: DivisionsService,
-                private organizations: OrganizationsService) {
+                private organizations: OrganizationsService,
+                private contacts: ContactsService) {
         //this.newDivision = new Division();
         //this.newDivision.setupBackup(['parentId', 'title']);
         this.newContact = new Contact();
         this.newContact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'email', 'mobile']);
         this.newContactPhone = new Phone();
         this.newContactPhone.setupBackup(['atsId', 'number']);
+        this.searchTerms = new Subject<string>();
+        this.searchTerms
+            .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+            .distinctUntilChanged()   // ignore if next search term is same as previous
+            .switchMap((term) => {
+                console.log('search term', term);
+                //this.router.navigate(['/']);
+                return term ? this.contacts.search(term, this.phoneBook.selectedAts.id, this.session.user ? this.session.user.id : 0) : Observable.of<ContactGroup[]>([])
+            })
+            .subscribe((res: any) => {
+                console.log('res', res);
+                this.router.navigate(['/']);
+            });
         //this.newOffice = new Office();
         //this.newOffice.organizationId = appConfig.defaultOrganizationId;
         //this.newOffice.setupBackup(['organizationId', 'address']);
@@ -90,15 +105,28 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
+    search(term: string): void {
+        this.contacts.searchQuery = this.phoneBook.convertLatinToCyrillic(term);
+        if (term.length > 2) {
+            console.log('term', term);
+            this.searchTerms.next(this.contacts.searchQuery);
+            //this.router.navigate(['/']);
+        }
+    }
+
+
     /**
      * Инициализация компонента.
      * При наличии избранных контактов у текущего пользователя - показываем избранные контакты
      */
     ngOnInit(): void {
-        //if (this.phoneBook.favorites-list.contacts.length > 0) {
-            //this.phoneBook.isInFavoritesMode = true;
-        //    this.router.navigate(['favorites-list'])
-        //}
+        if (this.phoneBook.favorites.contacts.length > 0) {
+            this.phoneBook.isInFavoritesMode = true;
+            this.router.navigate(['favorites']);
+        }
+
+
+
         if (appConfig.isInTestMode) {
             let i = 0;
             setInterval(() => {
@@ -540,12 +568,6 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         }
         this.phoneBook.selectedContact = null;
     };
-
-
-// Push a search term into the observable stream.
-    search(term: string): void {
-        this.searchTerms.next(term);
-    }
 
 
     onUserSearchChange(text: string): void {

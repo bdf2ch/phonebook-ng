@@ -53,6 +53,7 @@ import { OfficesByOrganizationPipe } from './common/offices/offices-by-organizat
 /**
  * Contacts
  */
+import { ContactsService } from './contacts/contacts.service';
 import { FavoriteContactsGuard } from './contacts/favorites-list.guard';
 
 const routes: Routes = [
@@ -123,7 +124,8 @@ const routes: Routes = [
     CookieService,
       OfficesService,
       DivisionsService,
-      OrganizationsService
+      OrganizationsService,
+      ContactsService
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

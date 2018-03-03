@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { PhoneBookService } from "../../phone-book/phone-book.service";
 import { User } from '../../models/user.model';
 import { PhoneBookManagerService } from '../../manager/phone-book-manager.service';
+import { ContactsService } from "../contacts.service";
+import {DivisionsService} from "../../common/divisions/divisions.service";
 
 
 @Component({
@@ -26,13 +28,15 @@ export class ContactListComponent implements OnInit, AfterViewChecked {
                 private element: ElementRef,
                 private phoneBook: PhoneBookService,
                 private manager: PhoneBookManagerService,
+                private divisions: DivisionsService,
+                private contacts: ContactsService,
                 private router: Router) {
         this.container = document.getElementById('app-content');
     };
 
 
     ngOnInit(): void {
-        if (!this.phoneBook.selectedDivision && this.phoneBook.favorites.contacts.length > 0 && !this.phoneBook.isInSearchMode) {
+        if (!this.divisions.selected && this.phoneBook.favorites.contacts.length > 0 && this.contacts.searchQuery === '') {
             //this.phoneBook.isInFavoritesMode = true;
             this.router.navigate(['favorites'])
         }

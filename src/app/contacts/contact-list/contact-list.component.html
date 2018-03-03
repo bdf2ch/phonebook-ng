@@ -4,17 +4,17 @@
 </stub>
 
 
-<stub *ngIf="phoneBook.loading === true"
+<stub *ngIf="contacts.isSearching"
       [icon]="'fa-spinner fa-spin'"
       [text]="'Загрузка...'">
 </stub>
 
 
-<div id="app-contacts" *ngIf="phoneBook.contacts.length > 0 || phoneBook.loading === true">
+<div id="app-contacts">
     <!--<div id="app-favorites-list-caption" *ngIf="phoneBook.isInFavoritesMode === true"><i class="fa fa-star"></i>Ваши избранные контакты</div>-->
     <contact-group [group]="group"
                    [margin]="margin"
                    [row]="row"
-                   *ngFor="let group of phoneBook.contacts; trackBy: index | async">
+                   *ngFor="let group of contacts.contacts | async">
     </contact-group>
 </div>

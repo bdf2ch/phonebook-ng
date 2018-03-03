@@ -37,6 +37,9 @@ export class PhoneBookService {
   set contacts(value: ContactGroup[]) { this.currentContacts = value };
 
 
+  public contactsOb: Observable<ContactGroup[]>;
+
+
   private cachedContacts: ContactGroup[] = [];
   get cache(): ContactGroup[] { return this.cachedContacts };
   set cache(value: ContactGroup[]) { this.cachedContacts = value };
@@ -367,37 +370,74 @@ export class PhoneBookService {
    * @returns {Observable<ContactGroup|null>}
    */
   searchContacts(userId?: number): Observable<ContactGroup[]>|null {
-    let headers = new Headers({ "Content-Type": "application/json" });
-    let options = new RequestOptions({ headers: headers });
-    let params = {
-        action: "search",
-        data: {
-            search: this.searchQuery,
-            sourceAtsId: this.currentAts.id,
-            userId: userId ? userId : 0
-        }
-    };
-    this.searchMode = true;
-    this.isInSearchMode = true;
-    this.isInFavoritesMode = false;
-    this.loading = true;
-    this.contacts = [];
-
-    return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
-      .map((res: Response) => {
-        this.loading = false;
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+        let params = {
+            action: "search",
+            data: {
+                search: this.searchQuery,
+                sourceAtsId: this.currentAts.id,
+                userId: userId ? userId : 0
+            }
+        };
+        this.searchMode = true;
+        this.isInSearchMode = true;
+        this.isInFavoritesMode = false;
+        this.loading = true;
         this.contacts = [];
-        let body = res.json();
-        body.forEach((item: IContactGroup) => {
-          let group = new ContactGroup(item);
-          this.contacts.push(group);
-          console.log(group);
-          return group;
-        });
-      })
-      .take(1)
-      .catch(this.handleError);
-  };
+
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
+            .map((res: Response) => {
+                this.loading = false;
+                this.contacts = [];
+                let body = res.json();
+                body.forEach((item: IContactGroup) => {
+                    let group = new ContactGroup(item);
+                    this.contacts.push(group);
+                    console.log(group);
+                    return group;
+                });
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
+
+
+
+
+    searchContactsOb(query: string, userId: number): Observable<ContactGroup[]> {
+        console.log('searchConatctsOb');
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+        let params = {
+            action: "search",
+            data: {
+                search: query,
+                sourceAtsId: this.currentAts.id,
+                userId: userId ? userId : 0
+            }
+        };
+        this.searchMode = true;
+        this.isInSearchMode = true;
+        this.isInFavoritesMode = false;
+        this.loading = true;
+        //this.contacts = [];
+
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', params, options)
+            .map((res: Response) => {
+                this.loading = false;
+                this.contacts = [];
+                let body = res.json();
+                body.forEach((item: IContactGroup) => {
+                    let group = new ContactGroup(item);
+                    this.contacts.push(group);
+                    console.log(group);
+                    return group;
+                });
+            })
+            .take(1)
+            .catch(this.handleError);
+    };
 
 
 

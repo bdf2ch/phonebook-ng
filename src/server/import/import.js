@@ -40,29 +40,86 @@ for (var i = 2; i < 176; i++) {
     phonesRaw: worksheet['D' + i] !== undefined ? worksheet['D' + i].w.trim().split(';') : '',
       //ats: parseInt(worksheet['G' + i].w),
     phones: [],
-    mobile: worksheet['E' + i] !== undefined ? worksheet['E' + i].w : ''
+    mobilesRaw: worksheet['E' + i] !== undefined ? worksheet['E' + i].w.trim().split(';') : '',
+      mobiles: []
   };
 
-  contact.phonesRaw.forEach((raw) => {
-    if (raw) {
-      let phone = {
-        atsId: 0,
-          number: ''
-      };
-      if (raw.trim().indexOf('(525)') !== -1) {
-        phone.number = raw.substr(5, raw.length - 1);
-        phone.atsId = 61;
-        contact.phones.push(phone);
-      } else if (raw.trim().indexOf('525') !== -1) {
-        phone.number = raw.substr(3, raw.length - 1);
-        phone.atsId = 61;
-        contact.phones.push(phone);
+  if (contact.mobilesRaw) {
+    contact.mobilesRaw.forEach((raw) => {
+      if (raw) {
+          //console.log(raw.trim());
+          contact.mobiles.push(raw.trim());
       }
-    }
-  });
+    });
+    contact.mobiles = contact.mobiles.join(',');
+  }
+
+  if (contact.phonesRaw) {
+      contact.phonesRaw.forEach((raw) => {
+          if (raw) {
+              let phone = {
+                  atsId: 0,
+                  number: ''
+              };
+
+              if (raw.trim().indexOf('(525)') !== -1) {
+                  phone.number = raw.trim().substr(5, raw.length - 1);
+                  phone.atsId = 61;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              } else if (raw.trim().indexOf('525') !== -1) {
+                  phone.number = raw.trim().substr(3, raw.length - 1);
+                  phone.atsId = 61;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              }
+
+              if (raw.trim().indexOf('(81553)') !== -1) {
+                  phone.number = raw.trim().substr(7, raw.length - 1);
+                  phone.number = phone.number.trim();
+                  phone.atsId = 12;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              }
+
+              if (raw.trim().indexOf('(8152)') !== -1) {
+                  phone.number = raw.trim().substr(6, raw.length - 1);
+                  phone.number = phone.number.trim();
+                  phone.atsId = 11;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              }
+
+              if (raw.trim().indexOf('(81533)') !== -1) {
+                  phone.number = raw.trim().substr(7, raw.length - 1);
+                  phone.number = phone.number.trim();
+                  phone.atsId = 20;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              }
+
+              if (raw.trim().indexOf('(81554)') !== -1) {
+                  phone.number = raw.trim().substr(7, raw.length - 1);
+                  phone.number = phone.number.trim();
+                  phone.atsId = 36;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              }
+
+              if (raw.trim().indexOf('6-') !== -1 && raw.trim().length < 10) {
+                  phone.number = raw.trim().substr(0, raw.length - 1);
+                  phone.number = phone.number.trim();
+                  phone.atsId = 12;
+                  //console.log(raw, phone);
+                  contact.phones.push(phone);
+              }
+          }
+      });
+  }
 
 
-  console.log(contact.phones);
+
+  //console.log(contact.phones);
 
 
   /*
@@ -148,7 +205,7 @@ function addContact(userId, divisionId, surname, name, fname, position) {
 
 
 
-/*
+
 async.eachSeries(contacts, function(i, callback) {
   pool.connect(function(err, client, done) {
     if(err) {
@@ -157,7 +214,7 @@ async.eachSeries(contacts, function(i, callback) {
     client.query(
       {
         text: 'select add_contact($1, $2, $3, $4, $5, $6, $7, $8)',
-        values: [0, i.divisionId, i.surname, i.name, i.fname, i.position, '', '']
+        values: [0, i.divisionId, i.surname, i.name, i.fname, i.position, i.email, i.mobiles]
       },
       function(err, result) {
         done(err);
@@ -170,23 +227,23 @@ async.eachSeries(contacts, function(i, callback) {
         console.log('contactId = ', contactId);
 
 
-          //async.eachSeries(i.phones, function(phone, callback) {
-          //    client.query(
-          //        {
-          //            text: 'insert into phones (contact_id, ats_id, number) VALUES ($1, $2, $3)',
-          //            values: [contactId, 0, phone]
-          //        },
-          //        function(err, result) {
-          //            done(err);
-          //            if(err) {
-          //                console.error('error running query', err);
-          //                return;
-          //            }
-          //            //console.log(result.rows[0] + ' ADDED');
-          //            //var contactId = result.rows[0]['id'];
-          //            callback(null);  // null -> no error
-          //        });
-          //});
+          async.eachSeries(i.phones, function(phone, callback) {
+              client.query(
+                  {
+                      text: 'INSERT INTO phones (contact_id, ats_id, number) VALUES ($1, $2, $3)',
+                      values: [contactId, phone.atsId, phone.number]
+                  },
+                  function(err, result) {
+                      done(err);
+                      if(err) {
+                          console.error('error running query', err);
+                          return;
+                      }
+                      //console.log(result.rows[0] + ' ADDED');
+                      //var contactId = result.rows[0]['id'];
+                      callback(null);  // null -> no error
+                  });
+          });
 
 
         callback(null);  // null -> no error
@@ -198,5 +255,5 @@ async.eachSeries(contacts, function(i, callback) {
   //ret.push(first);
   //res.end(JSON.stringify(ret));
 });
-*/
+
 
