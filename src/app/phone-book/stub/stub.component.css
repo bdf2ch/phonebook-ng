@@ -14,10 +14,12 @@
   align-items: center;
   width: 250px;
   height: 250px;
+  padding: 10px;
+  box-sizing: border-box;
   font-family: 'Open Sans Semi Bold';
   font-size: 14px;
   text-transform: uppercase;
-  line-height: 14px;
+  line-height: 16px;
   color: #90A4AE;
   text-align: center;
   background: #ECEFF1;

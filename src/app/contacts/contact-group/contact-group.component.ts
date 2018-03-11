@@ -9,6 +9,7 @@ import {ContactComponent} from "../contact/contact.component";
 import {Contact} from "../../models/contact.model";
 import {Division} from "../../models/division.model";
 import { SessionService } from '../../phone-book/session.service';
+import { ContactsService } from '../contacts.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
     constructor(private router: Router,
                 private element: ElementRef,
                 private session: SessionService,
+                private contacts: ContactsService,
                 private phoneBook: PhoneBookService) {};
 
 
@@ -46,7 +48,14 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
     selectDivision(division: Division): void {
         this.router.navigate(['/']);
         this.phoneBook.selectedDivision = division;
+        /*
         this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
+            .subscribe(() => {
+                this.phoneBook.searchQuery = '';
+            });
+            */
+
+        this.contacts.getByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
             .subscribe(() => {
                 this.phoneBook.searchQuery = '';
             });

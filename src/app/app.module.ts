@@ -51,6 +51,16 @@ import { OfficesService } from "./common/offices/offices.service";
 import { OfficesByOrganizationPipe } from './common/offices/offices-by-organization.pipe';
 
 /**
+ * ATS management
+ */
+import { AtsService } from './common/ats/ats.service';
+
+/**
+ * Phone management
+ */
+import { PhonesService } from './common/phones/phones.service';
+
+/**
  * Contacts
  */
 import { ContactsService } from './contacts/contacts.service';
@@ -125,7 +135,9 @@ const routes: Routes = [
       OfficesService,
       DivisionsService,
       OrganizationsService,
-      ContactsService
+      ContactsService,
+      AtsService,
+      PhonesService
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

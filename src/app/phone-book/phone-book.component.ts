@@ -75,12 +75,15 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
         this.newContactPhone = new Phone();
         this.newContactPhone.setupBackup(['atsId', 'number']);
         this.searchTerms = new Subject<string>();
+
         this.searchTerms
             .debounceTime(300)        // wait 300ms after each keystroke before considering the term
             .distinctUntilChanged()   // ignore if next search term is same as previous
             .switchMap((term) => {
                 console.log('search term', term);
-                //this.router.navigate(['/']);
+                this.divisions.selected = null;
+                this.phoneBook.allowToAddContacts = false;
+                this.trees.getById('phone-book-divisions').deselect();
                 return term ? this.contacts.search(term, this.phoneBook.selectedAts.id, this.session.user ? this.session.user.id : 0) : Observable.of<ContactGroup[]>([])
             })
             .subscribe((res: any) => {
@@ -96,7 +99,6 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
         this.route.queryParams.subscribe((params: ParamMap) => {
-            console.log('query params', params);
             if (params['search']) {
                 this.phoneBook.searchQuery = this.phoneBook.convertLatinToCyrillic(params['search']);
                 this.phoneBook.searchContacts(this.session.user ? this.session.user.id : null).subscribe();
@@ -250,44 +252,62 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     */
 
 
-    selectDivision(division: Division): void {
+    selectDivision(division: Division | null): void {
         this.router.navigate(['/']);
         //this.phoneBook.isInFavoritesMode = false;
         this.divisions.selected = division;
-        this.phoneBook.selectedDivision = division;
-        if (division !== null) {
+        //this.phoneBook.selectedDivision = division;
+        if (division) {
             console.log('selected division id = ', division.id);
+            this.contacts.searchQuery = '';
             //this.newDivision.parentId = division.id;
             this.divisions.new.parentId = division.id;
             this.phoneBook.isInFavoritesMode = false;
             this.phoneBook.allowToAddContacts = this.session.user && this.session.user.isAdministrator ? true : false;
 
+            /*
             this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '').subscribe(() => {
                 document.getElementById('app-content').scrollTop = 0;
                 this.phoneBook.searchQuery = '';
                 if (this.isAtsPanelOpened) {
                     this.isAtsPanelOpened = false;
                 }
-            })
+            });
+            */
+
+
+            this.contacts.getByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
+                .subscribe(() => {
+                    document.getElementById('app-content').scrollTop = 0;
+                    //this.phoneBook.searchQuery = '';
+                    if (this.isAtsPanelOpened) {
+                        this.isAtsPanelOpened = false;
+                    }
+                });
         } else {
             //this.phoneBook.clearContactGroups();
             //this.newDivision.parentId = 0;
             this.divisions.new.parentId = this.organizations.selected ? this.organizations.selected.id : 0;
             this.phoneBook.contacts = [];
+            this.contacts.contacts = Observable.of<ContactGroup[]>([]);
         };
     };
 
 
     searchContacts(value: string): void {
-        console.log('search query = ', value);
-        console.log('converted query', this.phoneBook.convertLatinToCyrillic(value));
         this.phoneBook.searchQuery = this.phoneBook.convertLatinToCyrillic(value);
-
         if (value.length >= 3) {
             this.phoneBook.searchContacts(this.session.user ? this.session.user.id : 0).subscribe(() => {
                 this.router.navigate(['/']);
             });
         }
+    };
+
+
+
+    clearSearch(): void {
+        this.contacts.clearSearch();
+        this.phoneBook.allowToAddContacts = this.session.user && this.session.user.isAdministrator ? true : false;
     };
 
 

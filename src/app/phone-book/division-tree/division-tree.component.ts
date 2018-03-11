@@ -95,6 +95,15 @@ export class DivisionTreeComponent implements OnInit {
     };
 
 
+    deselect(): void {
+        this.divisions.forEach((division: Division) => {
+            if (division.isSelected === true) {
+                division.isSelected = false;
+            }
+        });
+    };
+
+
     getDivisionById(divisionId: number): Division | null {
         let result: Division | null = null;
         this.divisions.forEach((division: Division, index: number, array: Division[]) => {

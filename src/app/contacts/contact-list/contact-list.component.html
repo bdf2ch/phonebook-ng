@@ -1,12 +1,18 @@
-<stub *ngIf="phoneBook.contacts.length === 0 && !phoneBook.loading && !phoneBook.isInFavoritesMode"
+<stub *ngIf="contacts.searchQuery === '' && !contacts.isLoading && !contacts.isSearching && !divisions.selected && contacts.total() === 0"
       [icon]="'fa-building'"
       [text]="'Выберите структурное подразделение'">
 </stub>
 
 
-<stub *ngIf="contacts.isSearching"
+<stub *ngIf="contacts.isSearching || contacts.isLoading"
       [icon]="'fa-spinner fa-spin'"
       [text]="'Загрузка...'">
+</stub>
+
+
+<stub *ngIf="contacts.searchQuery !== '' && !contacts.isSearching && !contacts.isLoading && contacts.total() === 0"
+      [icon]="'fa-search'"
+      [text]="'По Вашему запросу абоненты не найдены'">
 </stub>
 
 
