@@ -391,7 +391,7 @@
            [caption]="'Новый абонент'"
            [icon]="'fa fa-user'"
            [width]="550"
-           [height]="!newContact.user ? 600 : 630"
+           [height]="!contacts.new().user ? 600 : 630"
            [depth]="1"
            (onClose)="closeNewContactModal(newContactForm)">
         <div class="column width-100">
@@ -401,12 +401,12 @@
                     <!-- Пользователь -->
                     <div class="padding-top-20 padding-bottom-10 padding-left-20 padding-right-20">
                         <label for="new-contact-user">Пользователь</label>
-                        <div class="selected-contact-user" *ngIf="newContact.user">
-                            <div class="photo" [ngStyle]="{'background': 'url(http://10.50.0.153:4444' + newContact.user.photo + ')'}"></div>
-                            <div class="no-photo" *ngIf="!newContact.user.photo">{{ newContact.user.name[0] + newContact.user.surname[0] }}</div>
+                        <div class="selected-contact-user" *ngIf="contacts.new().user">
+                            <div class="photo" [ngStyle]="{'background': 'url(http://10.50.0.153:4444' + contacts.new().user.photo + ')'}"></div>
+                            <div class="no-photo" *ngIf="!contacts.new().user.photo">{{ contacts.new().user.name[0] + contacts.new().user.surname[0] }}</div>
                             <div class="details">
-                                <div class="name" [innerHTML]="newContact.user.fio"></div>
-                                <div class="position" [innerHTML]="newContact.user.position"></div>
+                                <div class="name" [innerHTML]="contacts.new().user.fio"></div>
+                                <div class="position" [innerHTML]="contacts.new().user.position"></div>
                             </div>
                             <div class="padding-left-10 padding-right-10">
                                 <button class="btn blue round" title="Отвязать пользователя" (click)="clearSelectedContactUser(newContactForm)">
@@ -425,7 +425,7 @@
                                    (onChange)="onUserSearchChange($event)"
                                    (onSelect)="onUserSearchSelect($event)"
                                    (onReset)="onResetUserSearch()"
-                                   *ngIf="!newContact.user">
+                                   *ngIf="!contacts.new().user">
                             <typeahead-option *ngFor="let user of users" [model]="user">
                                 <div class="user-search-option">
                                     <div class="user-photo">
@@ -452,7 +452,7 @@
                                id="new-contact-surname"
                                class="inp medium width-100"
                                placeholder="Введите фамилию"
-                               [(ngModel)]="newContact.surname"
+                               [(ngModel)]="contacts.new().surname"
                                [ngClass]="{'red': surname.dirty && surname.invalid}"
                                #surname="ngModel"
                                required>
@@ -469,7 +469,7 @@
                                id="new-contact-name"
                                class="inp medium width-100"
                                placeholder="Введите имя"
-                               [(ngModel)]="newContact.name"
+                               [(ngModel)]="contacts.new().name"
                                [ngClass]="{'red': name.dirty && name.invalid}"
                                #name="ngModel"
                                required>
@@ -486,7 +486,7 @@
                                id="new-contact-fname"
                                class="inp medium width-100"
                                placeholder="Введите отчество"
-                               [(ngModel)]="newContact.fname"
+                               [(ngModel)]="contacts.new().fname"
                                [ngClass]="{'red': fname.dirty && fname.invalid}"
                                #fname="ngModel"
                                required>
@@ -500,7 +500,7 @@
                                id="new-contact-position"
                                class="inp medium width-100"
                                placeholder="Введите должность"
-                               [(ngModel)]="newContact.position">
+                               [(ngModel)]="contacts.new().position">
                     </div>
 
                     <!-- Электронная почта -->
@@ -511,7 +511,7 @@
                                id="new-contact-email"
                                class="inp medium width-100"
                                placeholder="Введите e-mail"
-                               [(ngModel)]="newContact.email">
+                               [(ngModel)]="contacts.new().email">
                     </div>
 
                     <!-- Мобильный телефон -->
@@ -522,7 +522,7 @@
                                id="new-contact-mobile"
                                class="inp medium width-100"
                                placeholder="Введите мобильный телефон"
-                               [(ngModel)]="newContact.mobile">
+                               [(ngModel)]="contacts.new().mobile">
                     </div>
 
                     <!-- Панель кнопок -->

@@ -94,6 +94,7 @@ function searchContacts(query, sourceAtsId, userId) {
  * Добавление нового абонента
  * @param userId {Number} - Идентификатор пользователя
  * @param divisionId {Number} - Идентификатор структурного подразделения
+ * @param officeId {Number} - Идентификатор офиса организации
  * @param surname {String} - Фамилия абонента
  * @param name {String} - Имя абонента
  * @param fname {String} - Отчество абонента

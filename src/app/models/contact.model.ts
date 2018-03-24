@@ -1,8 +1,7 @@
 import { Model } from "./model.model";
 import { IPhone, Phone} from "./phone.model";
-import { IContactPhotoPosition } from './user-photo-position.interface';
 import { IUser, User } from './user.model';
-import {Office} from "./office.model";
+
 
 export interface IContact {
   id: number;
@@ -20,93 +19,65 @@ export interface IContact {
   room: string;
   order_id: number | null;
   is_in_favorites: boolean;
-  photo_position?: IContactPhotoPosition,
   user?: IUser;
-  phones: IPhone[]
-};
+  phones: IPhone[];
+}
 
 
 export class Contact extends Model {
-  readonly id: number = 0;
-  userId: number = 0;
-  organizationId: number = 0;
-  divisionId: number = 0;
+  readonly id: number;
+  userId: number;
+  organizationId: number;
+  divisionId: number;
   officeId: number;
-  surname: string = "";
-  name: string = "";
+  name: string;
   fname: string;
+  surname: string;
   position: string;
   positionTrimmed: string;
   email: string;
-  phones: Phone[] = [];
-  visiblePhones: Phone[] = [];
   mobile: string;
   photo: string;
-  photoTop: number = 0;
-  photoLeft: number = 0;
-  photoZoom: number = 100;
+  phones: Phone[];
+  visiblePhones: Phone[];
   room: string | null;
   order: number;
-  isInFavorites: boolean = false;
-  fio: string = "";
-  search: string = "";
-  user: User | null = null;
-  //office: Office | null;
+  isInFavorites: boolean;
+  fio: string;
+  user: User | null;
 
   constructor (config?: IContact) {
     super();
-    this.organizationId = config && config.organization_id ? config.organization_id : 0;
+    this.id = config && config.id ? config.id : 0;
+    this.userId = config && config.user_id ? config.user_id : 0;
+    this.organizationId = config && config && config.organization_id ? config.organization_id : 0;
+    this.divisionId = config && config.division_id ? config.division_id : 0;
     this.officeId = config && config.office_id ? config.office_id : 0;
+    this.name = config && config.name ? config.name : '';
+    this.fname = config && config.fname ? config.fname : '';
+    this.surname = config && config.surname ? config.surname : '';
+    this.position = config && config.position ? config.position : '';
+    this.positionTrimmed = this.position.length > 55 ? this.position.substr(0, 55) + '...' : this.position;
+    this.email = config && config.email ? config.email : '';
+    this.mobile = config && config.mobile ? config.mobile : '';
+    this.photo = config && config.photo ? config.photo : '';
+    this.phones = [];
+    this.visiblePhones = [];
     this.room = config && config.room ? config.room : null;
     this.order = config && config.order_id ? config.order_id : 0;
-    //this.office = null;
+    this.isInFavorites = config && config.is_in_favorites ? config.is_in_favorites : false;
+    this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
+    this.user = config && config.user ? new User(config.user) : null;
 
-
-    if (config) {
-      this.id = config.id;
-      this.userId = config.user_id;
-      this.divisionId = config.division_id;
-      this.surname = config.surname;
-      this.name = config.name;
-      this.fname = config.fname ? config.fname : '';
-      this.position = config.position ? config.position : '';
-      this.positionTrimmed = this.position.length > 55 ? this.position.substr(0, 55) + '...' : this.position;
-      this.email = config.email ? config.email : '';
-      this.mobile = config.mobile ? config.mobile : '';
-      this.photo = config.photo ? config.photo : '';
-      this.photoTop = config.photo_position ? config.photo_position.photo_top : 0;
-      this.photoLeft = config.photo_position ? config.photo_position.photo_left : 0;
-      this.photoZoom = config.photo_position ? config.photo_position.photo_zoom : 100;
-      this.isInFavorites = config.is_in_favorites;
-      this.fio = this.surname + ' ' + this.name + ' ' + this.fname;
-      //this.search = this.fio.toLowerCase();
-
-      /**
-       * Если есть информация о пользователе, к которому привязан абонент - собираем объект пользователя
-       */
-      if (config.user) {
-        this.user = new User(config.user);
-      }
-
-      if (config.phones) {
-        config.phones.forEach((item: IPhone, index: number, array: IPhone[]) => {
-          const phone = new Phone(item);
-          phone.setupBackup(['atsId', 'number', 'title']);
-          this.phones.push(phone);
-          if (index === 0 || index === 1) {
-            this.visiblePhones.push(phone);
-          }
-        });
-      }
+    if (config && config.phones) {
+      config.phones.forEach((item: IPhone, index: number) => {
+        const phone = new Phone(item);
+        phone.setupBackup(['atsId', 'number', 'title']);
+        this.phones.push(phone);
+        if (index === 0 || index === 1) {
+          this.visiblePhones.push(phone);
+        }
+      });
     }
   };
-
-
-
-  setPhotoPosition(position: IContactPhotoPosition): void {
-    console.log('canceled position', position);
-    this.photoLeft = position.photo_left;
-    this.photoTop = position.photo_top;
-    this.photoZoom = position.photo_zoom;
-  };
-};
+}

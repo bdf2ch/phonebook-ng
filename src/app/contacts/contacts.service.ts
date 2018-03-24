@@ -26,9 +26,8 @@ export class ContactsService {
         this.searchQuery = '';
         this.newContact = new Contact();
         this.newContact.setupBackup([
-            'userId', 'divisionId', 'officeId',
-            'name', 'fname', 'surname',
-            'position', 'email', 'mobile', 'photo', 'room', 'order'
+            'userId', 'divisionId', 'officeId', 'name', 'fname', 'surname', 'position', 'email', 'mobile', 'photo',
+            'room', 'order'
         ]);
         this.isLoading = false;
         this.isSearching = false;
@@ -193,7 +192,7 @@ export class ContactsService {
                 position: contact.position,
                 email: contact.email,
                 mobile: contact.mobile,
-                room: contact.room,
+                room: contact.room ? contact.room : '',
                 order: contact.order,
                 token: token
             }
@@ -209,9 +208,8 @@ export class ContactsService {
                 } else {
                     let newlyAddedContact = new Contact(answer.result);
                     newlyAddedContact.setupBackup([
-                        'userId', 'divisionId', 'officeId',
-                        'surname', 'name', 'fname',
-                        'position', 'email', 'mobile', 'photo', 'order', 'room'
+                        'userId', 'divisionId', 'officeId', 'surname', 'name', 'fname', 'position', 'email', 'mobile',
+                        'photo', 'order', 'room'
                     ]);
                     return newlyAddedContact;
                 }

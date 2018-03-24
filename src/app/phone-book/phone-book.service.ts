@@ -15,7 +15,6 @@ import { ContactGroupComponent } from '../contacts/contact-group/contact-group.c
 
 
 import { appConfig } from '../app.config';
-import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 import {Office} from "../models/office.model";
 import {FeedbackMessage} from "../models/feedback-message.model";
 import {IServerResponse} from "../models/server-response.interface";

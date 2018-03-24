@@ -6,7 +6,6 @@ import { SessionService } from "./session.service";
 import { Division } from "../models/division.model";
 import { ContactListComponent } from "../contacts/contact-list/contact-list.component";
 import {Contact} from "../models/contact.model";
-import { IContactPhotoPosition } from '../models/user-photo-position.interface';
 //import { ModalService } from '../utilities/modal/modal.service';
 import { ModalsService } from '@bdf2ch/angular-transistor';
 import { PhoneBookManagerService } from '../manager/phone-book-manager.service';
@@ -344,18 +343,18 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    onChangeContactPhotoPosition(position: IContactPhotoPosition): void {
+    onChangeContactPhotoPosition(position: any): void {
         console.log(position);
         //this.phoneBook.setContactPhotoPosition(this.phoneBook.selectedContact.id, position.photo_top, position.photo_left, position.photo_zoom)
         //    .subscribe((pos: IContactPhotoPosition) => {
-                this.phoneBook.selectedContact.setPhotoPosition(position);
+                //this.phoneBook.selectedContact.setPhotoPosition(position);
         //    });
     };
 
 
 
-    onCancelContactPosition(position: IContactPhotoPosition): void {
-        this.phoneBook.selectedContact.setPhotoPosition(position);
+    onCancelContactPosition(position: any): void {
+        //this.phoneBook.selectedContact.setPhotoPosition(position);
     };
 
 
