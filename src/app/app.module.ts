@@ -26,7 +26,7 @@ import { StubComponent } from './phone-book/stub/stub.component';
 import { SessionService} from './phone-book/session.service';
 import { CookieService } from './utilities/cookies/cookie.services';
 
-import { CompanySelectorComponent } from './phone-book/company-selector/company-selector.component';
+import { CompanySelectorComponent } from './common/organizations/organization-selector/organization-selector.component';
 import { ExceptSelectedOrganizationPipe } from './common/organizations/except-selected-organization.pipe';
 import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
 import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';

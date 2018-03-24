@@ -115,7 +115,7 @@ export class SessionService {
                         //this.phoneBook.organizations.push(division);
                         this.organizations.list().push(division);
                         if (division.id === appConfig.defaultOrganizationId) {
-                            this.organizations.selected = division;
+                            this.organizations.selected(division);
                         }
 
                     });

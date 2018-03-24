@@ -10,20 +10,23 @@ import { appConfig } from '../../app.config';
 export class DivisionsService {
     private url = 'http://10.50.0.153:4444/phonebook/divisions';
     private divisions: Division[];
-    public selected: Division | null;
-    public new: Division;
+    private selectedDivision: Division | null;
+    private newDivision: Division;
     public isAdding: boolean;
     public isEditing: boolean;
     public isDeleting: boolean;
-    public organizations: any;
 
 
     constructor(private http :Http) {
         this.divisions = [];
-        this.selected = null;
-        this.new = new Division();
-        this.new.parentId = appConfig.defaultOrganizationId;
-        this.new.setupBackup(['parentId', 'title']);
+        //this.selected = null;
+        this.selectedDivision = null;
+        //this.new = new Division();
+        //this.new.parentId = appConfig.defaultOrganizationId;
+        //this.new.setupBackup(['parentId', 'title']);
+        this.newDivision = new Division();
+        this.newDivision.parentId = appConfig.defaultOrganizationId;
+        this.newDivision.setupBackup(['parentId', 'title']);
         this.isAdding = false;
         this.isEditing = false;
         this.isDeleting = false;
@@ -36,6 +39,28 @@ export class DivisionsService {
      */
     list(): Division[] {
         return this.divisions;
+    };
+
+
+    /**
+     * Возвращает / устанавливает выбранное структурное подразделение
+     * @param {Division | null} division - Устанавливаемое выбранное структурное подразделение
+     * @returns {Division | null}
+     */
+    selected(division?: Division | null): Division | null {
+        if (division) {
+            this.selectedDivision = division;
+        }
+        return this.selectedDivision;
+    };
+
+
+    /**
+     * Возвращает новое тсруктурное подразделение
+     * @returns {Division}
+     */
+    new(): Division {
+        return this.newDivision;
     };
 
 
@@ -54,7 +79,7 @@ export class DivisionsService {
     /**
      * Добавление структурного подразделения
      * @param {Division} division - Добавляемое структурное подразделение
-     * @param {Ыtring} token - Токен сессии пользователя
+     * @param {String} token - Токен сессии пользователя
      * @returns {Observable<Division | boolean>}
      */
     add(division: Division, token: string): Observable<Division | boolean> {

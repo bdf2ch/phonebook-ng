@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
-import { ContactGroup, IContactGroup } from "../models/contact-group.model";
-import { Subject } from "rxjs/Subject";
-import 'rxjs/operator/debounceTime';
-import 'rxjs/operator/distinctUntilChanged';
 import { PhoneBookService } from "../phone-book/phone-book.service";
 import { SessionService } from "../phone-book/session.service";
+import { ContactGroup, IContactGroup } from "../models/contact-group.model";
+import { Contact } from "../models/contact.model";
 
 
 @Injectable()
 export class ContactsService {
     public contacts: Observable<ContactGroup[]>;
     private contactsCount: number;
+    private newContact: Contact;
     public searchQuery: string;
-    public searchStream: Subject<string>;
     public isLoading: boolean;
     public isSearching: boolean;
     public isAdding: boolean;
@@ -25,12 +23,26 @@ export class ContactsService {
                 private session: SessionService,
                 private phoneBook: PhoneBookService) {
         this.contactsCount = 0;
-        this.searchStream = new Subject<string>();
         this.searchQuery = '';
+        this.newContact = new Contact();
+        this.newContact.setupBackup([
+            'userId', 'divisionId', 'officeId',
+            'name', 'fname', 'surname',
+            'position', 'email', 'mobile', 'photo', 'room', 'order'
+        ]);
         this.isLoading = false;
         this.isSearching = false;
         this.isAdding = false;
         this.isEditing = false;
+    };
+
+
+    /**
+     * Возвращает нового абонента
+     * @returns {Contact}
+     */
+    new(): Contact {
+        return this.newContact;
     };
 
 
@@ -74,6 +86,9 @@ export class ContactsService {
     };
 
 
+    /**
+     * Очищает поиск
+     */
     clearSearch(): void {
         this.searchQuery = '';
         this.contactsCount = 0;
@@ -157,6 +172,60 @@ export class ContactsService {
     };
 
 
+    /**
+     * Добавление нового абонента
+     * @param {Contact} contact - Добавляемый абонент
+     * @param {string} token - Токен сессии пользователя
+     * @returns {Observable<Contact | boolean>}
+     */
+    add(contact: Contact, token: string): Observable<Contact | boolean> {
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const options = new RequestOptions({headers: headers});
+        const parameters = {
+            action: 'add',
+            data: {
+                userId: contact.userId,
+                divisionId: contact.divisionId,
+                officeId: contact.officeId,
+                name: contact.name,
+                fname: contact.fname,
+                surname: contact.surname,
+                position: contact.position,
+                email: contact.email,
+                mobile: contact.mobile,
+                room: contact.room,
+                order: contact.order,
+                token: token
+            }
+        };
+
+        this.isAdding = true;
+        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
+            .map((response: Response) => {
+                let answer = response.json();
+                if (answer.error !== null) {
+                    console.error(answer.error);
+                    return false;
+                } else {
+                    let newlyAddedContact = new Contact(answer.result);
+                    newlyAddedContact.setupBackup([
+                        'userId', 'divisionId', 'officeId',
+                        'surname', 'name', 'fname',
+                        'position', 'email', 'mobile', 'photo', 'order', 'room'
+                    ]);
+                    return newlyAddedContact;
+                }
+            })
+            .take(1)
+            .finally(() => {this.isAdding = false; })
+            .catch(this.handleError);
+    };
+
+
+    /**
+     * Возвращает текущее количество абонентов
+     * @returns {number}
+     */
     total(): number {
         return this.contactsCount;
     };

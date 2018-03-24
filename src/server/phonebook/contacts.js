@@ -100,13 +100,16 @@ function searchContacts(query, sourceAtsId, userId) {
  * @param position {String} - Должность абонента
  * @param email {String} - E-mail абонента
  * @param mobile {String} - Мобильный телефон абонента
+ * @param room {String} - Кабинет абоеннта
+ * @param order {Number} - Порядок следования абоеннта внутри структурного подразделения
+ * @param token {String} - Токен сессии пользователя
  */
-function addContact(userId, divisionId, surname, name, fname, position, email, mobile) {
+function addContact(userId, divisionId, officeId, name, fname, surname, position, email, mobile, room, order, token) {
     return new Promise(async (resolve, reject) => {
         try {
             let result = await postgres.query({
-                text: 'SELECT add_contact($1, $2, $3, $4, $5, $6, $7, $8)',
-                values: [userId, divisionId, surname, name, fname, position, email, mobile],
+                text: 'SELECT add_contact($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
+                values: [userId, divisionId, officeId, name, fname, surname, position, email, mobile, room, order, token],
                 func: 'add_contact'
             });
             resolve(result);
@@ -290,12 +293,16 @@ router.post('/', async (req, res) => {
                 result = await addContact(
                     req.body.data.userId,       // Идентификатор пользователя
                     req.body.data.divisionId,   // Идентификатор структурного подразделения
-                    req.body.data.surname,      // Фамилия абонента
+                    req.body.data.officeId,     // Идентификатор офиса организации
                     req.body.data.name,         // Имя абонента
                     req.body.data.fname,        // Отчество абонента
+                    req.body.data.surname,      // Фамилия абонента
                     req.body.data.position,     // Должность абонента
                     req.body.data.email,        // E-mail абонента
-                    req.body.data.mobile        // Мобильный телефон абонента
+                    req.body.data.mobile,       // Мобильный телефон абонента
+                    req.body.data.room,         // Кабинет абонента
+                    req.body.data.order,        // Порядок следования абонента в стрктурном подразделении
+                    req.body.data.token         // Токен сессии пользователя
                 );
                 break;
             case 'edit':

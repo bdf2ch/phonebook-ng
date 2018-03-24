@@ -1,4 +1,4 @@
-<stub *ngIf="contacts.searchQuery === '' && !contacts.isLoading && !contacts.isSearching && !divisions.selected && contacts.total() === 0"
+<stub *ngIf="contacts.searchQuery === '' && !contacts.isLoading && !contacts.isSearching && !divisions.selected() && contacts.total() === 0"
       [icon]="'fa-building'"
       [text]="'Выберите структурное подразделение'">
 </stub>

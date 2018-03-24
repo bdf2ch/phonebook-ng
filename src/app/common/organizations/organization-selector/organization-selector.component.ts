@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ElementRef, Renderer2 } from '@angular/core';
-import { appConfig } from '../../app.config';
-import { Division } from '../../models/division.model';
-import { PhoneBookService } from '../phone-book.service';
-import { DivisionTreeService } from '../division-tree/division-tree.service';
-import { SessionService } from '../session.service';
-import { DivisionsService } from "../../common/divisions/divisions.service";
-import { OrganizationsService } from "../../common/organizations/organizations.service";
+import { appConfig } from '../../../app.config';
+import { Division } from '../../../models/division.model';
+import { PhoneBookService } from '../../../phone-book/phone-book.service';
+import { DivisionTreeService } from '../../../phone-book/division-tree/division-tree.service';
+import { SessionService } from '../../../phone-book/session.service';
+import { DivisionsService } from "../../divisions/divisions.service";
+import { OrganizationsService } from "../organizations.service";
 
 
 @Component({
     selector: 'company-selector',
-    templateUrl: './company-selector.component.html',
-    styleUrls: ['./company-selector.component.css']
+    templateUrl: './organization-selector.component.html',
+    styleUrls: ['./organization-selector.component.css']
 })
 export class CompanySelectorComponent {
     @Input() divisions: Division[] = [];
@@ -67,9 +67,9 @@ export class CompanySelectorComponent {
     select(division: Division): void {
         console.log('org', division);
         this.selected = division;
-        this.phoneBook.selectedOrganization = division;
-        this.organizations.selected = division;
-        this.divisions_.new.parentId = division.id;
+        //this.phoneBook.selectedOrganization = division;
+        this.organizations.selected(division);
+        this.divisions_.new().parentId = division.id;
 
         const tree = this.divisionTrees.getById('phone-book-divisions');
         //console.log('tree', tree);

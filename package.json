@@ -55,6 +55,7 @@
     "ldapjs": "^1.0.1",
     "moment": "^2.19.4",
     "nodemailer": "^4.4.2",
+    "npm": "^5.7.1",
     "rxjs": "5.0.1",
     "systemjs": "0.19.39",
     "winston": "^2.4.0",

@@ -2,7 +2,7 @@
     <div class="divisions" *ngIf="group.divisions.length > 0">
         <div class="left-hr"></div>
         <div class="content">
-            <div class="organization" *ngIf="phoneBook.isInSearchContactsMode">{{ group.divisions[0].title }}</div>
+            <div class="organization" *ngIf="contacts.searchQuery !== ''">{{ group.divisions[0].title }}</div>
             <span class="division"
                   [ngClass]="{'selected': phoneBook.selectedDivision && division.id === phoneBook.selectedDivision.id}"
                   *ngFor="let division of group.divisions | slice: 1; let isFirst = first; let isLast = last"

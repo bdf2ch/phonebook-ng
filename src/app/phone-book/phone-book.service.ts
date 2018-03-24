@@ -179,8 +179,8 @@ export class PhoneBookService {
                   division.setupBackup(['parentId', 'title']);
                   //this.organizations.push(division);
                   if (division.id === appConfig.defaultOrganizationId) {
-                      this.organizations.selected = division;
-                      this.divisions.new.parentId = division.id;
+                      this.organizations.selected(division);
+                      this.divisions.new().parentId = division.id;
                   }
                   this.organizations.list().push(division);
 
