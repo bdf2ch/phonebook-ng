@@ -1,39 +1,42 @@
 import { Model } from "./model.model";
 
 
+/**
+ * Интерфейс, описывающий модель АТС в БД
+ */
 export interface IATS {
-    id: number;
-    parent_id: number;
-    type: number;
-    title: string;
-    level: number;
-    is_selectable: boolean;
+    id: number;                 // Идентификатор АТС
+    parent_id: number;          // Идентификатор АТС верхнего уровня
+    type: number;               // Тип АТС
+    title: string;              // Наименование АТС
+    level: number;              // Уровень вложенности АТС
+    is_selectable: boolean;     // Достуана ли АТС для выбора
 }
 
-export class ATS extends Model {
-    id: number;
-    parentId: number;
-    type: number;
-    title: string;
-    level: number;
-    isSelectable: boolean;
 
+/**
+ * Класс, описывающий модель АТС
+ */
+export class ATS extends Model {
+    id: number;                 // Идентификатор АТС
+    parentId: number;           // Идентиффикатор АТС верхнего уровня
+    type: number;               // Тип АТС
+    title: string;              // Наименование АТС
+    level: number;              // Уровень вложенности АТС
+    isSelectable: boolean;      // Доступна ли АТС для выбора
+
+
+    /**
+     * Конструктор
+     * @param {IATS} config - Параметры инициализации
+     */
     constructor(config?: IATS) {
         super();
-        if (config) {
-            this.id = config.id;
-            this.parentId = config.parent_id;
-            this.type = config.type;
-            this.title = config.title;
-            this.level = config.level;
-            this.isSelectable = config.is_selectable;
-        } else {
-            this.id = 0;
-            this.parentId = 0;
-            this.type = 0;
-            this.title = '';
-            this.level = 0;
-            this.isSelectable = true;
-        }
+        this.id = config ? config.id : 0;
+        this.parentId = config.parent_id ? config.parent_id : 0;
+        this.type = config.type ? config.type : 0;
+        this.title = config.title ? config.title : '';
+        this.level = config.level ? config.level : 0;
+        this.isSelectable = config.is_selectable ? config.is_selectable : true;
     };
-};
+}

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from "rxjs/Observable";
-import { PhoneBookService } from "../phone-book/phone-book.service";
-import { SessionService } from "../phone-book/session.service";
+import { PhoneBookService } from "../shared/phone-book/phone-book.service";
+import { SessionService } from "../shared/session/session.service";
 import { ContactGroup, IContactGroup } from "../models/contact-group.model";
 import { Contact } from "../models/contact.model";
 

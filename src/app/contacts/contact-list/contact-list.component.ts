@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, AfterViewChecked, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { PhoneBookService } from "../../phone-book/phone-book.service";
+import { PhoneBookService } from "../../shared/phone-book/phone-book.service";
 import { User } from '../../models/user.model';
 import { PhoneBookManagerService } from '../../manager/phone-book-manager.service';
 import { ContactsService } from "../contacts.service";
-import {DivisionsService} from "../../common/divisions/divisions.service";
+import {DivisionsService} from "../../shared/divisions/divisions.service";
 
 
 @Component({

@@ -1,0 +1,101 @@
+#offices {
+  flex-direction: column !important;
+  height: 100%;
+  box-sizing: border-box;
+}
+#new-office-button {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  color: white;
+  background: #D32F2F;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3);
+}
+#new-office-button:hover {
+  background: #B71C1C;
+}
+.office-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: content-box;
+}
+.office-list .list-caption {
+  display: flex;
+  height: 35px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  font-family: "Open Sans Regular";
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #BDBDBD;
+}
+.office-list .office-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 4px;
+  border-bottom: 1px solid lightgrey;
+}
+.office-list .office-item .icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  text-align: center;
+  color: #9575CD;
+  width: 40px;
+}
+.office-list .office-item .icon .fa {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: #EDE7F6;
+  border-radius: 4px;
+}
+.office-list .office-item .office-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Open Sans Regular";
+  font-size: 14px;
+  flex: 1;
+}
+.office-list .office-item .office-details,
+.office-list .office-item .office-details > * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.office-list .office-item .office-details .ats {
+  color: #607D8B;
+}
+.office-list .office-item .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border-left: 2px solid #EEEEEE;
+}

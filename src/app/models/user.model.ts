@@ -1,24 +1,26 @@
 import { Model } from './model.model';
-import { ContactGroup } from "./contact-group.model";
 import { Permission } from "./permission.model";
 
 
+/**
+ * Интерфейс, описывающтй модель пользователя в БД
+ */
 export interface IUser {
   readonly id: number;
   tab_id?: string;
   department_id?: number;
   division_id?: number;
   office_id: number;
-  surname: string;
   name: string;
   fname?: string;
+  surname: string;
   position?: string;
   email?: string;
   photo?: string;
   room: string;
   active_directory_account?: string;
   is_administrator?: boolean;
-};
+}
 
 
 export class User extends Model {
@@ -34,9 +36,6 @@ export class User extends Model {
   email: string = "";
   photo: string | null = null;
   room: string | null;
-  photoTop: string = '0px';
-  photoLeft: string = '0px';
-  photoZoom: string = '100%';
   activeDirectoryAccount: string = "";
   isAdministrator: boolean = false;
   permissions: Permission[] = [];
@@ -66,16 +65,9 @@ export class User extends Model {
 
 
   getPermissionByCode(code: string): Permission | null {
-    const findPermissionByCode = (permission: Permission, index: number, array: Permission[]) => permission.code === code;
+    const findPermissionByCode = (permission: Permission) => permission.code === code;
     const permission = this.permissions.find(findPermissionByCode);
     console.log('permission', permission);
     return permission ? permission : null;
   };
-
-
-  setPhotoPosition(left: number, top: number, zoom: number): void {
-    this.photoLeft = left + 'px';
-    this.photoTop = top + 'px';
-    this.photoZoom = zoom + '%';
-  };
-};
+}

@@ -4,11 +4,11 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContactGroup } from "../../models/contact-group.model";
-import {PhoneBookService} from "../../phone-book/phone-book.service";
+import {PhoneBookService} from "../../shared/phone-book/phone-book.service";
 import {ContactComponent} from "../contact/contact.component";
 import {Contact} from "../../models/contact.model";
 import {Division} from "../../models/division.model";
-import { SessionService } from '../../phone-book/session.service';
+import { SessionService } from '../../shared/session/session.service';
 import { ContactsService } from '../contacts.service';
 
 

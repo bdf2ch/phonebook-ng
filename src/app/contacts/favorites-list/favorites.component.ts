@@ -1,9 +1,9 @@
 import {AfterContentInit, AfterViewChecked, ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
-import { PhoneBookService } from '../../phone-book/phone-book.service';
+import { PhoneBookService } from '../../shared/phone-book/phone-book.service';
 import {ContactsService} from "../contacts.service";
 import {Observable} from "rxjs/Observable";
 import {ContactGroup} from "../../models/contact-group.model";
-import {SessionService} from "../../phone-book/session.service";
+import {SessionService} from "../../shared/session/session.service";
 
 
 @Component({

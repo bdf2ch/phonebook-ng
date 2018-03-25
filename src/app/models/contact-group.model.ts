@@ -4,23 +4,31 @@ import { Contact, IContact } from "./contact.model";
 
 /**
  * IContactGroup
- * Интерфейс модели абонента
+ * Интерфейс, описывающий модель группы абонентов, полученную с сервера
  */
 export interface IContactGroup {
-    divisions: IDivision[];
-    contacts: IContact[];
-};
+    divisions: IDivision[];         // Полный путь из структурных подразделений к группе абонентов
+    contacts: IContact[];           // Абоненты, входящие в группу
+}
 
 
 /**
  * ContactGroup
- * Группа контактов
+ * Класс, описывающий модель группы абонентов
  */
 export class ContactGroup {
-    divisions: Division[] = [];
-    contacts: Contact[] = [];
+    divisions: Division[];          // Полный путь из структурных подразделений к группе абонентов
+    contacts: Contact[];            // Абоненты, входящие в группу
 
+
+    /**
+     * Конструктор
+     * @param {IContactGroup} config - Параметры инициализации
+     */
     constructor (config?: IContactGroup) {
+        this.divisions = [];
+        this.contacts = [];
+
         if (config) {
             config.divisions.forEach((item: IDivision) => {
                 const division = new Division(item);
@@ -28,7 +36,7 @@ export class ContactGroup {
             });
             config.contacts.forEach((item: IContact) => {
                 const contact = new Contact(item);
-                contact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'positionTrimmed', 'email', 'mobile']);
+                contact.setupBackup(['userId', 'surname', 'name', 'fname', 'position', 'positionTrimmed', 'email', 'mobile', 'room', 'order']);
                 this.contacts.push(contact);
             });
         }
@@ -37,7 +45,7 @@ export class ContactGroup {
 
     /**
      * Удаление абонента
-     * @param contact {Contact} - удаляемый контакт
+     * @param contact {Contact} - Удаляемый абонентк
      */
     removeContact(contact: Contact): void {
         this.contacts.forEach((item: Contact, index: number, array: Contact[]) => {
@@ -48,7 +56,10 @@ export class ContactGroup {
     };
 
 
+    /**
+     * Удаление всех абонентов группы
+     */
     clearContacts(): void {
         this.contacts = [];
     };
-};
+}

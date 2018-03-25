@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import '../assets/css/styles.css';
 import '../../node_modules/font-awesome/css/font-awesome.min.css';
-import { CookieService } from "./utilities/cookies/cookie.services";
-import { PhoneBookService } from './phone-book/phone-book.service';
+import { CookieService } from "./shared/cookies/cookie.services";
+
 
 @Component({
   selector: 'app',
@@ -11,10 +10,7 @@ import { PhoneBookService } from './phone-book/phone-book.service';
 })
 export class AppComponent {
 
-  constructor(private cookies: CookieService,
-              private route: ActivatedRoute,
-              private phoneBook: PhoneBookService) {
-
+  constructor(private cookies: CookieService) {
     cookies.set({
       name: 'test',
       value: 'test',
@@ -23,8 +19,5 @@ export class AppComponent {
       domain: '',
       secure: true
     });
-
-    //console.log('test cookie', this.cookies.getByName('test'));
-    //console.log('lolka cookie', this.cookies.getByName('lolka'))
   };
 }

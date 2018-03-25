@@ -9,62 +9,65 @@ import { AngularTransistorModule } from '@bdf2ch/angular-transistor';
 
 
 import { AppComponent } from './app.component';
-import { PhoneBookComponent } from './phone-book/phone-book.component';
+import { PhoneBookComponent } from './shared/phone-book/phone-book.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 import { ContactsOrderPipe } from './contacts/contact-group/contacts-order.pipe';
 
 import { ContactComponent } from './contacts/contact/contact.component';
 import { ContactGroupComponent } from './contacts/contact-group/contact-group.component';
-import { TextOverflowDirective } from './phone-book/text-overflow.directive';
-import { UserSessionGuard } from './phone-book/session.guard';
-import { PhoneBookService } from './phone-book/phone-book.service';
-import { DivisionTreeComponent } from './phone-book/division-tree/division-tree.component';
-import { DivisionTreeItemComponent } from './phone-book/division-tree/division-tree-item/division-tree-item.component';
-import { DivisionTreeService } from './phone-book/division-tree/division-tree.service';
-import { DivisionOrderPipe } from './phone-book/division-tree/division-order.pipe';
-import { StubComponent } from './phone-book/stub/stub.component';
-import { SessionService} from './phone-book/session.service';
-import { CookieService } from './utilities/cookies/cookie.services';
+import { TextOverflowDirective } from './shared/phone-book/text-overflow.directive';
+import { UserSessionGuard } from './shared/session/session.guard';
+import { PhoneBookService } from './shared/phone-book/phone-book.service';
+import { DivisionTreeComponent } from './shared/divisions/division-tree/division-tree.component';
+import { DivisionTreeItemComponent } from './shared/divisions/division-tree/division-tree-item/division-tree-item.component';
+import { DivisionTreeService } from './shared/divisions/division-tree/division-tree.service';
+import { DivisionOrderPipe } from './shared/divisions/division-order.pipe';
+import { StubComponent } from './shared/stub/stub.component';
+import { SessionService} from './shared/session/session.service';
+import { CookieService } from './shared/cookies/cookie.services';
 
-import { CompanySelectorComponent } from './common/organizations/organization-selector/organization-selector.component';
-import { ExceptSelectedOrganizationPipe } from './common/organizations/except-selected-organization.pipe';
-import { TypeAheadComponent } from './phone-book/typeahead/typeahead.component';
-import { TypeAheadOptionComponent } from './phone-book/typeahead/typeahead-option/typeahead-option.component';
-import { UserAccountComponent } from './phone-book/user-account/user-account.component';
+import { CompanySelectorComponent } from './shared/organizations/organization-selector/organization-selector.component';
+import { ExceptSelectedOrganizationPipe } from './shared/organizations/except-selected-organization.pipe';
+import { TypeAheadComponent } from './shared/typeahead/typeahead.component';
+import { TypeAheadOptionComponent } from './shared/typeahead/typeahead-option/typeahead-option.component';
+import { UserAccountComponent } from './account/account.component';
 import { FavoritesComponent } from './contacts/favorites-list/favorites.component';
-import { HelpComponent } from './phone-book/help/help.component';
+import { HelpComponent } from './help/help.component';
 
 /**
  * Organizations management
  */
-import { OrganizationsService } from './common/organizations/organizations.service';
+import { OrganizationsService } from './shared/organizations/organizations.service';
 
 /**
  * Divisions management
  */
-import { DivisionsService } from './common/divisions/divisions.service';
+import { DivisionsService } from './shared/divisions/divisions.service';
 
 /**
  * Office management
  */
-import { OfficesService } from "./common/offices/offices.service";
-import { OfficesByOrganizationPipe } from './common/offices/offices-by-organization.pipe';
+import { OfficeListComponent } from './shared/offices/office-list/office-list.component';
+import { OfficeListCanActivateGuard } from './shared/offices/office-list/can-activate.guard';
+import { OfficesService } from "./shared/offices/offices.service";
+import { OfficesByOrganizationPipe } from './shared/offices/offices-by-organization.pipe';
 
 /**
  * ATS management
  */
-import { AtsService } from './common/ats/ats.service';
+import { AtsService } from './shared/ats/ats.service';
 
 /**
  * Phone management
  */
-import { PhonesService } from './common/phones/phones.service';
+import { PhonesService } from './shared/phones/phones.service';
 
 /**
  * Contacts
  */
 import { ContactsService } from './contacts/contacts.service';
 import { FavoriteContactsGuard } from './contacts/favorites-list.guard';
+
 
 const routes: Routes = [
   {
@@ -88,10 +91,16 @@ const routes: Routes = [
       {
         path: 'help',
         component: HelpComponent
-      }
+      },
+        {
+          path: 'offices',
+            component: OfficeListComponent,
+            canActivate: [OfficeListCanActivateGuard]
+        }
     ]
   }
 ];
+
 
 @NgModule({
   imports: [
@@ -123,21 +132,23 @@ const routes: Routes = [
     ExceptSelectedOrganizationPipe,
     TypeAheadComponent,
     TypeAheadOptionComponent,
-      OfficesByOrganizationPipe
+      OfficesByOrganizationPipe,
+      OfficeListComponent
   ],
   providers: [
-    UserSessionGuard,
+      UserSessionGuard,
       FavoriteContactsGuard,
-    PhoneBookService,
-    DivisionTreeService,
-    SessionService,
-    CookieService,
+      PhoneBookService,
+      DivisionTreeService,
+      SessionService,
+      CookieService,
       OfficesService,
       DivisionsService,
       OrganizationsService,
       ContactsService,
       AtsService,
-      PhonesService
+      PhonesService,
+      OfficeListCanActivateGuard
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

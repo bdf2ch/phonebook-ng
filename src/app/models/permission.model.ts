@@ -1,26 +1,35 @@
+/**
+ * Интерфейс, описывающтй правило доступа пользователя в БД
+ */
 export interface IPermission {
-    id: number;
-    user_id: number;
-    code: string;
-    title: string;
-    enabled: boolean;
-};
+    id: number;                 // Идентификатор правила
+    user_id: number;            // Идентификатор пользователя
+    code: string;               // Код правила доступа
+    title: string;              // Наименование правила доступа
+    enabled: boolean;           // Действует ли правило доступа
+}
 
 
+/**
+ * Класс, описывабщий модель правила доступа пользователя
+ */
 export class Permission {
-    id: number = 0;
-    userId: number = 0;
-    code: string = '';
-    title: string = '';
-    enabled: boolean = false;
+    id: number;                 // Идентификатор правила
+    userId: number;             // Идентификатор пользователя
+    code: string;               // Код правила доступа
+    title: string;              // Наименование правила доступа
+    enabled: boolean;           // Действует ли правило доступа
 
+
+    /**
+     * Конструктор
+     * @param {IPermission} config - Параметры инициализации
+     */
     constructor(config?: IPermission) {
-        if (config) {
-            this.id = config.id;
-            this.userId = config.user_id;
-            this.code = config.code;
-            this.title = config.title;
-            this.enabled = config.enabled;
-        }
+        this.id = config ? config.id : 0;
+        this.userId = config ? config.user_id : 0;
+        this.code = config ? config.code : '';
+        this.title = config ? config.title : '';
+        this.enabled = config ? config.enabled : false;
     };
-};
+}

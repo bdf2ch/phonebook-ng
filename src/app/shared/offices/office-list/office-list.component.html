@@ -1,0 +1,209 @@
+<div id="offices" *ngIf="(offices.list() | officesByOrganization:organizations.selected() ? organizations.selected().id : 0) as filteredOffices">
+    <!-- Список офисов выбранной организации -->
+    <div class="office-list width-100" *ngIf="filteredOffices.length > 0">
+        <div class="office-item width-100 margin-bottom-5"
+             *ngFor="let office of filteredOffices">
+            <div class="icon margin-right-10"><i class="fa fa-building"></i></div>
+            <div class="office-details margin-right-15">
+                <div class="number">{{ office._backupData.address }}</div>
+                <div class="ats" *ngIf="office._backupData.city">{{ office._backupData.city }}</div>
+            </div>
+            <div class="controls">
+                <button class="btn medium blue round margin-right-5"
+                        title="Изменить офис"
+                        (click)="openEditOfficeModal(office)">
+                    <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn medium red round"
+                        title="Удалить офис"
+                        (click)="openDeleteOfficeModal(office)">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Заглушка на случай отсутствия офисов у выбранной организации -->
+    <stub *ngIf="filteredOffices.length === 0"
+          [icon]="'fa-building'"
+          [text]="'Офисы отсутствуют'">
+    </stub>
+
+    <!-- Кнопка добавления нового офиса организации -->
+    <div id="new-office-button"
+         (click)="openNewOfficeModal()"
+         title="Добавить новый офис">
+        <i class="fa fa-plus"></i>
+    </div>
+</div>
+
+
+<!-- Модальное окно добавления нового офиса организации -->
+<modal [id]="'new-office-modal'"
+       [width]="400"
+       [height]="295"
+       [depth]="2"
+       [caption]="'Новый офис'"
+       [icon]="'fa fa-building'"
+       (onClose)="closeNewOfficeModal(newOfficeForm)">
+    <form class="form-layout width-100" novalidate #newOfficeForm="ngForm">
+        <div class="content width-100 padding-20">
+            <!-- Адрес -->
+            <div class="column margin-bottom-20">
+                <label for="new-office-address">
+                    Адрес
+                    <span class="form-error" *ngIf="address.dirty && address.invalid">Вы не указали адрес</span>
+                </label>
+                <input type="text"
+                       name="address"
+                       id="new-office-address"
+                       class="inp medium outline blue width-100"
+                       placeholder="Введите адрес"
+                       [(ngModel)]="offices.new.address"
+                       #address="ngModel"
+                       [ngClass]="{'red': address.dirty && address.invalid}"
+                       required>
+            </div>
+            <!-- Населенный пункт -->
+            <div class="column">
+                <label for="new-office-city">
+                    Населенный пункт
+                    <span class="form-error" *ngIf="city.dirty && city.invalid">Вы не указали населенный пункт</span>
+                </label>
+                <input type="text"
+                       name="city"
+                       id="new-office-city"
+                       class="inp medium outline blue width-100"
+                       placeholder="Введите населенный пункт"
+                       [(ngModel)]="offices.new.city"
+                       #city="ngModel"
+                       [ngClass]="{'red': city.dirty && city.invalid}"
+                       required>
+            </div>
+        </div>
+        <div class="footer row width-100 padding-10">
+            <button type="submit"
+                    class="btn green medium width-50 margin-left-5"
+                    [disabled]="newOfficeForm.invalid || offices.addingOfficeIsInProgress"
+                    (click)="addOffice()">
+                <span *ngIf="!offices.addingOfficeIsInProgress">
+                    <i class="fa fa-check margin-right-10"></i>
+                    Добавить
+                </span>
+                <span *ngIf="offices.addingOfficeIsInProgress">
+                    <i class="fa fa-spinner fa-spin margin-right-10"></i>
+                    Загрузка
+                </span>
+            </button>
+            <button class="btn red medium width-50 margin-left-5"
+                    (click)="modals.get('new-office-modal').close()">
+                <i class="fa fa-ban margin-right-10"></i>
+                Отмена
+            </button>
+        </div>
+    </form>
+</modal>
+
+<!-- Модальное окно изменения офиса организации -->
+<modal [id]="'edit-office-modal'"
+       [width]="400"
+       [height]="290"
+       [depth]="2"
+       [caption]="'Изменение офиса'"
+       [icon]="'fa fa-building'"
+       (onClose)="closeEditOfficeModal(editOfficeForm)">
+    <form class="form-layout width-100" novalidate #editOfficeForm="ngForm">
+        <div *ngIf="offices.selected">
+            <div class="content width-100 padding-20">
+                <!-- Адрес -->
+                <div class="column margin-bottom-20">
+                    <label for="edit-office-address">
+                        Адрес
+                        <span class="form-error" *ngIf="address.dirty && address.invalid">Вы не указали адрес</span>
+                    </label>
+                    <input type="text"
+                           name="address"
+                           id="edit-office-address"
+                           class="inp medium outline blue width-100"
+                           placeholder="Введите адрес"
+                           [(ngModel)]="offices.selected.address"
+                           #address="ngModel"
+                           [ngClass]="{'red': address.dirty && address.invalid}"
+                           required>
+                </div>
+                <!-- Населенный пункт -->
+                <div class="column">
+                    <label for="edit-office-city">
+                        Населенный пункт
+                        <span class="form-error" *ngIf="city.dirty && city.invalid">Вы не указали населенный пункт</span>
+                    </label>
+                    <input type="text"
+                           name="city"
+                           id="edit-office-city"
+                           class="inp medium outline blue width-100"
+                           placeholder="Введите населенный пункт"
+                           [(ngModel)]="offices.selected.city"
+                           #city="ngModel"
+                           [ngClass]="{'red': city.dirty && city.invalid}"
+                           required>
+                </div>
+            </div>
+            <div class="footer row width-100 padding-10">
+                <button type="submit"
+                        class="btn green medium width-50 margin-left-5"
+                        [disabled]="editOfficeForm.invalid || editOfficeForm.pristine || offices.editingOfficeIsInProgress"
+                        (click)="editOffice(editOfficeForm)">
+                    <span *ngIf="!offices.editingOfficeIsInProgress">
+                        <i class="fa fa-check margin-right-10"></i>
+                        Сохранить
+                    </span>
+                    <span *ngIf="offices.editingOfficeIsInProgress">
+                        <i class="fa fa-spinner fa-spin margin-right-10"></i>
+                        Загрузка
+                    </span>
+                </button>
+                <button class="btn red medium width-50 margin-left-5"
+                        (click)="modals.get('edit-office-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </form>
+</modal>
+
+<!-- Модальное окно удаления офиса организации -->
+<modal [id]="'delete-office-modal'"
+       [caption]="'Удаление офиса'"
+       [icon]="'fa fa-building'"
+       [width]="400"
+       [height]="187"
+       [depth]="2">
+    <form class="form-layout column width-100" novalidate>
+        <div *ngIf="offices.selected">
+            <div class="content padding-25 vertical-center horizontal-center text-center">
+                <span>Офис <b>{{ offices.selected.address }}</b><span *ngIf="offices.selected.city"> ({{offices.selected.city}})</span> будет удален.</span>
+            </div>
+            <div class="row footer padding-top-10 padding-bottom-10 padding-left-20 padding-right-20 form-footer">
+                <button type="submit"
+                        class="btn medium green width-50 margin-right-5"
+                        (click)="deleteOffice()">
+                    <span *ngIf="offices.deletingOfficeIsInProgress">
+                        <i class="fa fa-spinner fa-spin margin-right-10"></i>
+                        Загрузка
+                    </span>
+                    <span *ngIf="!offices.deletingOfficeIsInProgress">
+                        <i class="fa fa-check margin-right-10"></i>
+                        Удалить
+                    </span>
+                </button>
+                <button type="button"
+                        class="btn medium red width-50 margin-left-5"
+                        (click)="modals.get('delete-office-modal').close()">
+                    <i class="fa fa-ban margin-right-10"></i>
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </form>
+</modal>
