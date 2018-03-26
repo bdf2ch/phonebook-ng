@@ -1,4 +1,5 @@
 import { Component, Input, ElementRef, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import { appConfig } from '../../../app.config';
 import { Division } from '../../../models/division.model';
 import { PhoneBookService } from '../../phone-book/phone-book.service';
@@ -20,7 +21,8 @@ export class CompanySelectorComponent {
     private selected: Division | null = null;
 
 
-    constructor(private element: ElementRef,
+    constructor(private router: Router,
+                private element: ElementRef,
                 private renderer: Renderer2,
                 private session: SessionService,
                 private phoneBook: PhoneBookService,
@@ -69,19 +71,23 @@ export class CompanySelectorComponent {
         this.selected = division;
         //this.phoneBook.selectedOrganization = division;
         this.organizations.selected(division);
+        this.divisions_.selected(null);
         this.divisions_.new().parentId = division.id;
 
         const tree = this.divisionTrees.getById('phone-book-divisions');
         //console.log('tree', tree);
         const root = tree.getDivisionById(division.id);
-        //console.log('root', root);
+        console.log('root', root);
         if (root) {
             tree.setRootDivision(root);
+            this.router.navigate(['/division', division.id]);
+            /*
             this.phoneBook.fetchContactsByDivisionId(
                 division.id,
                 appConfig.defaultSourceAtsId,
                 this.session.session ? this.session.session.token : ''
             ).subscribe();
+            */
         }
         this.open();
         //this.onSelectOrganization.emit(division);

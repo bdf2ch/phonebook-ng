@@ -1,15 +1,12 @@
-import {
-    Component, Input, ElementRef, OnChanges, SimpleChanges, ViewChild, AfterViewInit,
-    ViewChildren
-} from '@angular/core';
+import { Component, Input, ElementRef, OnChanges, SimpleChanges,AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ContactGroup } from "../../models/contact-group.model";
-import {PhoneBookService} from "../../shared/phone-book/phone-book.service";
-import {ContactComponent} from "../contact/contact.component";
-import {Contact} from "../../models/contact.model";
-import {Division} from "../../models/division.model";
+import { PhoneBookService}  from "../../shared/phone-book/phone-book.service";
 import { SessionService } from '../../shared/session/session.service';
 import { ContactsService } from '../contacts.service';
+import { DivisionsService } from "../../shared/divisions/divisions.service";
+import { Contact } from "../../models/contact.model";
+import { Division } from "../../models/division.model";
+import { ContactGroup } from "../../models/contact-group.model";
 
 
 @Component({
@@ -33,6 +30,7 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
                 private element: ElementRef,
                 private session: SessionService,
                 private contacts: ContactsService,
+                private divisions: DivisionsService,
                 private phoneBook: PhoneBookService) {};
 
 
@@ -46,8 +44,9 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
 
 
     selectDivision(division: Division): void {
-        this.router.navigate(['/']);
-        this.phoneBook.selectedDivision = division;
+        this.router.navigate(['/division', division.id]);
+        //this.phoneBook.selectedDivision = division;
+        this.divisions.selected(division);
         /*
         this.phoneBook.fetchContactsByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
             .subscribe(() => {
@@ -55,10 +54,12 @@ export class ContactGroupComponent implements OnChanges, AfterViewInit {
             });
             */
 
+        /*
         this.contacts.getByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
             .subscribe(() => {
                 this.phoneBook.searchQuery = '';
             });
+            */
     };
 
 

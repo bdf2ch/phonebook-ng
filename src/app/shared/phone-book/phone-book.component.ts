@@ -121,10 +121,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
      * При наличии избранных контактов у текущего пользователя - показываем избранные контакты
      */
     ngOnInit(): void {
+        /*
         if (this.phoneBook.favorites.contacts.length > 0) {
             this.phoneBook.isInFavoritesMode = true;
             this.router.navigate(['favorites']);
         }
+        */
 
 
 
@@ -252,11 +254,12 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
 
 
     selectDivision(division: Division | null): void {
-        this.router.navigate(['/']);
+
         //this.phoneBook.isInFavoritesMode = false;
-        this.divisions.selected(division);
         //this.phoneBook.selectedDivision = division;
         if (division) {
+            this.divisions.selected(division);
+            this.router.navigate(['/division', division.id]);
             console.log('selected division id = ', division.id);
             this.contacts.searchQuery = '';
             //this.newDivision.parentId = division.id;
@@ -275,6 +278,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
             */
 
 
+            /*
             this.contacts.getByDivisionIdRecursive(division.id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
                 .subscribe(() => {
                     document.getElementById('app-content').scrollTop = 0;
@@ -283,11 +287,13 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
                         this.isAtsPanelOpened = false;
                     }
                 });
+                */
         } else {
+            this.divisions.selected(null);
             //this.phoneBook.clearContactGroups();
             //this.newDivision.parentId = 0;
-            this.divisions.new().parentId = this.organizations.selected ? this.organizations.selected().id : 0;
-            this.phoneBook.contacts = [];
+            this.divisions.new().parentId = this.organizations.selected() ? this.organizations.selected().id : 0;
+            //this.phoneBook.contacts = [];
             this.contacts.contacts = Observable.of<ContactGroup[]>([]);
         };
     };
@@ -489,63 +495,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    /**
-     * открытие модального окна добавления нового абонента
-     */
-    openNewContactModal(): void {
-        this.modals.get('new-contact-modal').open();
-    };
 
-
-    /**
-     * Закрытие модального окна добавления нового абонента, очистка формы.
-     * @param form {any} - форма добавления нового абонента
-     */
-    closeNewContactModal(form?: any): void {
-        this.newContact.restoreBackup();
-        this.newContact.user = null;
-        if (form) {
-            form.reset({
-                surname: this.newContact.surname,
-                name: this.newContact.name,
-                fname: this.newContact.fname,
-                position: this.newContact.position,
-                email: this.newContact.email,
-                mobile: this.newContact.mobile
-            });
-        }
-    };
-
-
-    /**
-     * Добавление нового абонента
-     */
-    addContact(): void {
-        /*
-        this.newContact.divisionId = this.phoneBook.selectedDivision ? this.phoneBook.selectedDivision.id : this.phoneBook.selectedOrganization.id;
-        this.manager.addContact(this.newContact).subscribe((contact: Contact) => {
-            console.log('new contact', contact);
-            this.phoneBook.contacts.forEach((item: ContactGroup, index: number, array: ContactGroup[]) => {
-                if (this.newContact.divisionId === item.divisions[item.divisions.length - 1].id) {
-                    item.contacts.push(contact);
-                }
-            });
-            this.modals.get('new-contact-modal').close();
-        });
-        */
-
-
-        this.contacts.new().divisionId = this.divisions.selected() ? this.divisions.selected().id : this.organizations.selected().id;
-        this.contacts.add(this.contacts.new(), this.session.session ? this.session.session.token : '')
-            .subscribe((result: Contact | boolean) => {
-                if (result !== false) {
-                   this.contacts.getByDivisionIdRecursive(this.divisions.selected().id, this.phoneBook.selectedAts.id, this.session.session ? this.session.session.token : '')
-                       .subscribe(() => {
-                           this.modals.get('new-contact-modal').close();
-                       });
-                }
-            });
-    };
 
 
     /**
@@ -603,40 +553,7 @@ export class PhoneBookComponent implements  OnInit, AfterContentChecked {
     };
 
 
-    onUserSearchChange(text: string): void {
-        console.log('text', text);
-        this.manager.searchUsers(text)
-            .subscribe((users: User[]) => {
-                console.log(users);
-                this.users = users;
-            });
-    };
 
-
-    onUserSearchSelect(user: User, form?: any): void {
-        this.users = [];
-        if (!this.phoneBook.selectedContact) {
-            this.newContact.user = user;
-            this.newContact.userId = user.id;
-            this.newContact.surname = user.surname;
-            this.newContact.name = user.name;
-            this.newContact.fname = user.fname;
-            this.newContact.position = user.position;
-            this.newContact.email = user.email;
-            this.newContact.photo = user.photo;
-        } else {
-            this.phoneBook.selectedContact.userId = user.id;
-            this.phoneBook.selectedContact.user = user;
-            form.form.markAsDirty();
-        }
-    };
-
-
-    onResetUserSearch(): void {
-        console.log('reset typeahead');
-        this.users = [];
-        this.newContact.restoreBackup();
-    };
 
 
     /**

@@ -11,7 +11,7 @@ export interface IDivision {
   office_id: number;          // Идентфиикатор офиса организации
   title: string;              // Наименование структурного подразделения
   order: number;              // Порядок следования структурного подразделения
-  is_department: boolean;     // Является ли структурное подразделение производственным отделением
+    organization: boolean;    // Является ли структурное подразделение организацией
 }
 
 
@@ -25,7 +25,7 @@ export class Division extends Model {
   officeId: number;           // Идентфиикатор офиса организации
   title: string;              // Наименование структурного подразделения
   order: number;              // Порядок следования структурного подразделения
-  isDepartment: boolean;      // Является ли структурное подразделение производственным отделением
+  isOrganization: boolean;    // Является ли структурное подразделение организацией
   isSelected: boolean;        // Выбрано ли струкутрное подразделение
   isOpened: boolean;          // Развернуто ли структурное подразделение
   children: Division[];       // Дочерние структруные подразделения
@@ -43,7 +43,7 @@ export class Division extends Model {
     this.officeId = config ? config.office_id : 0;
     this.title = config ? config.title : '';
     this.order = config ? config.order : 0;
-    this.isDepartment = config ? config.is_department : false;
+    this.isOrganization = config ? config.organization : false;
     this.isOpened = false;
     this.isSelected = false;
     this.children = [];

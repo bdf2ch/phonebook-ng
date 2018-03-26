@@ -10,7 +10,7 @@ import { AngularTransistorModule } from '@bdf2ch/angular-transistor';
 
 import { AppComponent } from './app.component';
 import { PhoneBookComponent } from './shared/phone-book/phone-book.component';
-import { ContactListComponent } from './contacts/contact-list/contact-list.component';
+
 import { ContactsOrderPipe } from './contacts/contact-group/contacts-order.pipe';
 
 import { ContactComponent } from './contacts/contact/contact.component';
@@ -66,6 +66,8 @@ import { PhonesService } from './shared/phones/phones.service';
  * Contacts
  */
 import { ContactsService } from './contacts/contacts.service';
+import { ContactListComponent } from './contacts/contact-list/contact-list.component';
+import { ContactListResolveGuard } from './contacts/contact-list/resolve.guard';
 import { FavoriteContactsGuard } from './contacts/favorites-list.guard';
 
 
@@ -79,6 +81,11 @@ const routes: Routes = [
         path: '',
         component: ContactListComponent
       },
+        {
+          path: 'division/:divisionId',
+          component: ContactListComponent,
+            resolve: [ContactListResolveGuard]
+        },
       {
         path: 'favorites',
         component: FavoritesComponent,
@@ -148,7 +155,8 @@ const routes: Routes = [
       ContactsService,
       AtsService,
       PhonesService,
-      OfficeListCanActivateGuard
+      OfficeListCanActivateGuard,
+      ContactListResolveGuard
   ],
   bootstrap: [ AppComponent ],
   exports: [AngularTransistorModule]

@@ -102,7 +102,7 @@ export class ContactsService {
      * @param {string} token - Токен сессии пользователя
      * @returns {Observable<ContactGroup[]>}
      */
-    getByDivisionId(divisionId: number, sourceAtsId: number, token: string): Observable<ContactGroup[]> {
+    getByDivisionId(divisionId: number, sourceAtsId: number, token: string): Observable<ContactGroup[] | boolean> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         let parameters = {
@@ -116,18 +116,24 @@ export class ContactsService {
 
         this.contactsCount = 0;
         this.isLoading = true;
-        return this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
-            .map((res: Response) => {
-                const body = res.json();
-                let result: ContactGroup[] = [];
-                const group = new ContactGroup(body);
-                result.push(group);
-                this.contactsCount = group.contacts.length;
-                return result;
+        let res =  this.http.post('http://10.50.0.153:4444/phonebook/contacts', parameters, options)
+            .map((response: Response) => {
+                //let answer = response.json();
+                //if (answer.error !== null) {
+                //    console.error(answer.error);
+                //    return false;
+                //} else {
+                    let result: ContactGroup[] = [];
+                    let group: ContactGroup = new ContactGroup(response.json());
+                    this.contactsCount = group.contacts.length;
+                    result.push(group);
+                //}
             })
             .take(1)
             .finally(() => {this.isLoading = false; })
             .catch(this.handleError);
+        this.contacts = res;
+        return res;
     };
 
 
@@ -164,7 +170,7 @@ export class ContactsService {
                 return result;
             })
             .take(1)
-            .finally(() => {this.isLoading = false; })
+            .finally(() => {this.isLoading = false; this.searchQuery = '';})
             .catch(this.handleError);
         this.contacts = res;
         return res;
